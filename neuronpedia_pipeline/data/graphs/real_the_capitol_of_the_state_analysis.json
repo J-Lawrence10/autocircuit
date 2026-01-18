@@ -1,0 +1,522 @@
+{
+  "metadata": {
+    "prompt": "<bos>The capitol of the state home to long island is",
+    "slug": "thecapitolofthes-1768712479777",
+    "model": "gemma-2-2b",
+    "node_threshold": 0.8,
+    "original_nodes": 1586,
+    "original_links": 66171,
+    "converted_nodes": 1419,
+    "converted_edges": 37114
+  },
+  "louvain_supernodes": {
+    "params_used": {
+      "resolution": 1.0,
+      "min_size": 9,
+      "max_size": 30
+    },
+    "num_supernodes": 0,
+    "supernodes": {},
+    "rankings": []
+  },
+  "layer_groups": {
+    "input": {
+      "layer_range": [
+        0,
+        5
+      ],
+      "num_nodes": 988,
+      "mean_activation": 5.112923843537265,
+      "max_activation": 39.88357162475586,
+      "mean_influence": 0.6697713818989302,
+      "max_influence": 0.7996776103973389,
+      "top_features": [
+        {
+          "node_id": "0_8444_7",
+          "label": "L0_F35663234",
+          "activation": 39.88357162475586,
+          "influence": 0.32286515831947327
+        },
+        {
+          "node_id": "0_2848_3",
+          "label": "L0_F4059824",
+          "activation": 35.31486892700195,
+          "influence": 0.31566816568374634
+        },
+        {
+          "node_id": "0_11375_10",
+          "label": "L0_F64712375",
+          "activation": 34.89809799194336,
+          "influence": 0.3359239101409912
+        },
+        {
+          "node_id": "4_12217_7",
+          "label": "L4_F74694748",
+          "activation": 31.833740234375,
+          "influence": 0.37545159459114075
+        },
+        {
+          "node_id": "5_3992_1",
+          "label": "L5_F7993995",
+          "activation": 29.11817741394043,
+          "influence": 0.36612221598625183
+        }
+      ],
+      "internal_edges": 12744,
+      "incoming_edges": 0,
+      "outgoing_edges": 13354
+    },
+    "early_proc": {
+      "layer_range": [
+        6,
+        10
+      ],
+      "num_nodes": 186,
+      "mean_activation": 10.299868215796767,
+      "max_activation": 56.81747055053711,
+      "mean_influence": 0.6880024014621653,
+      "max_influence": 0.7999090552330017,
+      "top_features": [
+        {
+          "node_id": "10_10933_1",
+          "label": "L10_F59891029",
+          "activation": 56.81747055053711,
+          "influence": 0.547532320022583
+        },
+        {
+          "node_id": "9_8770_1",
+          "label": "L9_F38548580",
+          "activation": 56.28359603881836,
+          "influence": 0.5130816698074341
+        },
+        {
+          "node_id": "10_14174_1",
+          "label": "L10_F100614194",
+          "activation": 51.37996292114258,
+          "influence": 0.4945688545703888
+        },
+        {
+          "node_id": "9_15819_1",
+          "label": "L9_F125286525",
+          "activation": 48.133541107177734,
+          "influence": 0.5172880291938782
+        },
+        {
+          "node_id": "10_12232_1",
+          "label": "L10_F74951635",
+          "activation": 41.03131103515625,
+          "influence": 0.6210172176361084
+        }
+      ],
+      "internal_edges": 901,
+      "incoming_edges": 4690,
+      "outgoing_edges": 3953
+    },
+    "middle_proc": {
+      "layer_range": [
+        11,
+        15
+      ],
+      "num_nodes": 67,
+      "mean_activation": 23.84727407569316,
+      "max_activation": 150.28956604003906,
+      "mean_influence": 0.6733241717317211,
+      "max_influence": 0.7997933030128479,
+      "top_features": [
+        {
+          "node_id": "15_851_1",
+          "label": "L15_F376262",
+          "activation": 150.28956604003906,
+          "influence": 0.7451687455177307
+        },
+        {
+          "node_id": "15_751_1",
+          "label": "L15_F294512",
+          "activation": 105.39839172363281,
+          "influence": 0.7997933030128479
+        },
+        {
+          "node_id": "13_8128_1",
+          "label": "L13_F33150139",
+          "activation": 101.25414276123047,
+          "influence": 0.6993024945259094
+        },
+        {
+          "node_id": "14_6940_1",
+          "label": "L14_F24189475",
+          "activation": 65.54720306396484,
+          "influence": 0.6879879832267761
+        },
+        {
+          "node_id": "11_11186_1",
+          "label": "L11_F62703189",
+          "activation": 64.49407196044922,
+          "influence": 0.6709412336349487
+        }
+      ],
+      "internal_edges": 229,
+      "incoming_edges": 2327,
+      "outgoing_edges": 1794
+    },
+    "late_proc": {
+      "layer_range": [
+        16,
+        20
+      ],
+      "num_nodes": 77,
+      "mean_activation": 22.164923791761524,
+      "max_activation": 129.15977478027344,
+      "mean_influence": 0.579139182706932,
+      "max_influence": 0.7941499352455139,
+      "top_features": [
+        {
+          "node_id": "18_14627_6",
+          "label": "L18_F107259962",
+          "activation": 129.15977478027344,
+          "influence": 0.728358805179596
+        },
+        {
+          "node_id": "17_7598_8",
+          "label": "L17_F29005518",
+          "activation": 93.88731384277344,
+          "influence": 0.7541406750679016
+        },
+        {
+          "node_id": "17_5808_6",
+          "label": "L17_F16974033",
+          "activation": 90.88040924072266,
+          "influence": 0.6861748695373535
+        },
+        {
+          "node_id": "19_2523_9",
+          "label": "L19_F3234676",
+          "activation": 67.8938980102539,
+          "influence": 0.4153335690498352
+        },
+        {
+          "node_id": "17_13250_5",
+          "label": "L17_F88026528",
+          "activation": 67.53175354003906,
+          "influence": 0.7471491694450378
+        }
+      ],
+      "internal_edges": 775,
+      "incoming_edges": 6541,
+      "outgoing_edges": 2075
+    },
+    "output": {
+      "layer_range": [
+        21,
+        25
+      ],
+      "num_nodes": 101,
+      "mean_activation": 19.390188018874365,
+      "max_activation": 120.34442901611328,
+      "mean_influence": 0.5651383329145979,
+      "max_influence": 0.8000247478485107,
+      "top_features": [
+        {
+          "node_id": "24_13277_10",
+          "label": "L24_F88478228",
+          "activation": 120.34442901611328,
+          "influence": 0.2851869761943817
+        },
+        {
+          "node_id": "22_12926_10",
+          "label": "L22_F83844752",
+          "activation": 88.53935241699219,
+          "influence": 0.29230037331581116
+        },
+        {
+          "node_id": "25_9975_10",
+          "label": "L25_F50014975",
+          "activation": 76.28215789794922,
+          "influence": 0.34330588579177856
+        },
+        {
+          "node_id": "23_2203_10",
+          "label": "L23_F2480854",
+          "activation": 58.18529510498047,
+          "influence": 0.36324119567871094
+        },
+        {
+          "node_id": "21_5943_10",
+          "label": "L21_F17793573",
+          "activation": 54.64651107788086,
+          "influence": 0.2716635763645172
+        }
+      ],
+      "internal_edges": 1273,
+      "incoming_edges": 7618,
+      "outgoing_edges": 0
+    }
+  },
+  "flow_analysis": {
+    "input_nodes": [
+      {
+        "node_id": "0_2848_3",
+        "label": "L0_F4059824",
+        "layer": 0,
+        "activation": 35.31486892700195,
+        "out_degree": 308,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_8444_7",
+        "label": "L0_F35663234",
+        "layer": 0,
+        "activation": 39.88357162475586,
+        "out_degree": 270,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_2_2",
+        "label": "L0_F5",
+        "layer": 0,
+        "activation": 2.8175463676452637,
+        "out_degree": 243,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_9026_2",
+        "label": "L0_F40747877",
+        "layer": 0,
+        "activation": 22.903003692626953,
+        "out_degree": 222,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_9054_9",
+        "label": "L0_F41001039",
+        "layer": 0,
+        "activation": 18.886701583862305,
+        "out_degree": 212,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_11375_10",
+        "label": "L0_F64712375",
+        "layer": 0,
+        "activation": 34.89809799194336,
+        "out_degree": 195,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_8781_9",
+        "label": "L0_F38566152",
+        "layer": 0,
+        "activation": 17.966060638427734,
+        "out_degree": 188,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "0_9466_9",
+        "label": "L0_F44816777",
+        "layer": 0,
+        "activation": 12.196358680725098,
+        "out_degree": 179,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "2_5514_9",
+        "label": "L2_F15221400",
+        "layer": 2,
+        "activation": 23.607534408569336,
+        "out_degree": 173,
+        "betweenness": 0.0052989648791294626
+      },
+      {
+        "node_id": "0_1903_1",
+        "label": "L0_F1813559",
+        "layer": 0,
+        "activation": 20.174415588378906,
+        "out_degree": 166,
+        "betweenness": 0.0
+      }
+    ],
+    "output_nodes": [
+      {
+        "node_id": "24_13277_10",
+        "label": "L24_F88478228",
+        "layer": 24,
+        "activation": 120.34442901611328,
+        "influence": 0.2851869761943817,
+        "in_degree": 719,
+        "betweenness": 0.0017348195940055746
+      },
+      {
+        "node_id": "22_12926_10",
+        "label": "L22_F83844752",
+        "layer": 22,
+        "activation": 88.53935241699219,
+        "influence": 0.29230037331581116,
+        "in_degree": 566,
+        "betweenness": 0.003207304981169037
+      },
+      {
+        "node_id": "25_9975_10",
+        "label": "L25_F50014975",
+        "layer": 25,
+        "activation": 76.28215789794922,
+        "influence": 0.34330588579177856,
+        "in_degree": 315,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "23_2203_10",
+        "label": "L23_F2480854",
+        "layer": 23,
+        "activation": 58.18529510498047,
+        "influence": 0.36324119567871094,
+        "in_degree": 256,
+        "betweenness": 0.0007347322728094387
+      },
+      {
+        "node_id": "21_5943_10",
+        "label": "L21_F17793573",
+        "layer": 21,
+        "activation": 54.64651107788086,
+        "influence": 0.2716635763645172,
+        "in_degree": 866,
+        "betweenness": 0.008444659604561694
+      },
+      {
+        "node_id": "25_14336_10",
+        "label": "L25_F103140677",
+        "layer": 25,
+        "activation": 41.09757614135742,
+        "influence": 0.6127766370773315,
+        "in_degree": 25,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "25_16302_10",
+        "label": "L25_F133309930",
+        "layer": 25,
+        "activation": 40.86479187011719,
+        "influence": 0.40391209721565247,
+        "in_degree": 136,
+        "betweenness": 0.0
+      },
+      {
+        "node_id": "23_14836_10",
+        "label": "L23_F110417206",
+        "layer": 23,
+        "activation": 40.438758850097656,
+        "influence": 0.3804371953010559,
+        "in_degree": 168,
+        "betweenness": 0.00035375540714079724
+      },
+      {
+        "node_id": "24_14329_10",
+        "label": "L24_F103025810",
+        "layer": 24,
+        "activation": 38.28430938720703,
+        "influence": 0.3296312689781189,
+        "in_degree": 332,
+        "betweenness": 0.00024220243394891614
+      },
+      {
+        "node_id": "24_10376_10",
+        "label": "L24_F54095576",
+        "layer": 24,
+        "activation": 36.926734924316406,
+        "influence": 0.5406124591827393,
+        "in_degree": 46,
+        "betweenness": 3.1484431614084194e-05
+      }
+    ],
+    "bottleneck_nodes": [
+      {
+        "node_id": "19_2523_10",
+        "label": "L19_F3234676",
+        "layer": 19,
+        "activation": 62.93939971923828,
+        "betweenness": 0.014285107806528306,
+        "in_degree": 963,
+        "out_degree": 93
+      },
+      {
+        "node_id": "4_10080_9",
+        "label": "L4_F50858650",
+        "layer": 4,
+        "activation": 17.363357543945312,
+        "betweenness": 0.0140513408273927,
+        "in_degree": 425,
+        "out_degree": 117
+      },
+      {
+        "node_id": "4_12217_7",
+        "label": "L4_F74694748",
+        "layer": 4,
+        "activation": 31.833740234375,
+        "betweenness": 0.010522857825370931,
+        "in_degree": 126,
+        "out_degree": 130
+      },
+      {
+        "node_id": "4_7671_3",
+        "label": "L4_F29464321",
+        "layer": 4,
+        "activation": 23.460973739624023,
+        "betweenness": 0.010431484442042716,
+        "in_degree": 164,
+        "out_degree": 161
+      },
+      {
+        "node_id": "21_5943_10",
+        "label": "L21_F17793573",
+        "layer": 21,
+        "activation": 54.64651107788086,
+        "betweenness": 0.008444659604561694,
+        "in_degree": 866,
+        "out_degree": 75
+      },
+      {
+        "node_id": "3_9559_3",
+        "label": "L3_F45730262",
+        "layer": 3,
+        "activation": 17.594390869140625,
+        "betweenness": 0.007401525064216609,
+        "in_degree": 127,
+        "out_degree": 141
+      },
+      {
+        "node_id": "7_8765_9",
+        "label": "L7_F38487143",
+        "layer": 7,
+        "activation": 14.542272567749023,
+        "betweenness": 0.0061085367536623915,
+        "in_degree": 355,
+        "out_degree": 73
+      },
+      {
+        "node_id": "17_7178_10",
+        "label": "L17_F25894788",
+        "layer": 17,
+        "activation": 31.406587600708008,
+        "betweenness": 0.005798309080745934,
+        "in_degree": 537,
+        "out_degree": 92
+      },
+      {
+        "node_id": "2_5514_9",
+        "label": "L2_F15221400",
+        "layer": 2,
+        "activation": 23.607534408569336,
+        "betweenness": 0.0052989648791294626,
+        "in_degree": 121,
+        "out_degree": 173
+      },
+      {
+        "node_id": "18_8959_10",
+        "label": "L18_F40306712",
+        "layer": 18,
+        "activation": 35.9939079284668,
+        "betweenness": 0.005175960807730295,
+        "in_degree": 584,
+        "out_degree": 90
+      }
+    ]
+  }
+}

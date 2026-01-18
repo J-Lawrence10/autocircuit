@@ -10,7 +10,8 @@ from pathlib import Path
 import sys
 import argparse
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'skills' / 'phase1_data_collection'))
+# Import from same directory
+sys.path.insert(0, str(Path(__file__).parent))
 
 from supernode_detector import SupernodeDetector
 
@@ -175,12 +176,238 @@ for node in G.nodes():
 print(f"\n  Layers present: {sorted(layer_counts.keys())}")
 print(f"  Layer range: {min(layer_counts.keys())} to {max(layer_counts.keys())}")
 
+# ============================================================================
+# HELPER FUNCTIONS FOR HYBRID ANALYSIS
+# ============================================================================
+
+def auto_tune_louvain_params(G, target_range=(3, 10)):
+    """
+    Auto-tune Louvain resolution based on graph density.
+
+    Dense graphs need higher resolution to split into multiple communities.
+    Returns optimal parameters for one-size-fits-all approach.
+    """
+    n_nodes = G.number_of_nodes()
+    density = nx.density(G)
+
+    print(f"\nAuto-tuning Louvain parameters...")
+    print(f"  Graph density: {density:.6f}")
+
+    # Density-based parameter selection
+    if density > 0.02:  # Very dense (>2%)
+        resolution = 1.5
+        min_size = max(10, n_nodes // 100)
+        max_size = max(50, n_nodes // 30)
+        print(f"  Strategy: VERY DENSE - using high resolution")
+    elif density > 0.01:  # Dense (1-2%)
+        resolution = 1.0
+        min_size = max(5, n_nodes // 150)
+        max_size = max(30, n_nodes // 50)
+        print(f"  Strategy: DENSE - using medium resolution")
+    else:  # Sparse (<1%)
+        resolution = 0.5
+        min_size = 3
+        max_size = max(20, n_nodes // 100)
+        print(f"  Strategy: SPARSE - using low resolution")
+
+    print(f"  Parameters: resolution={resolution}, min_size={min_size}, max_size={max_size}")
+
+    return {
+        'resolution': resolution,
+        'min_size': min_size,
+        'max_size': max_size
+    }
+
+def analyze_by_layer_groups(G):
+    """
+    Analyze graph using theory-driven layer groups.
+
+    Layer groups based on transformer computational stages:
+    - Input (0-5): Token embedding, early attention
+    - Early Processing (6-10): Syntax, basic semantics
+    - Middle Processing (11-15): Concept formation
+    - Late Processing (16-20): Knowledge retrieval, reasoning
+    - Output (21-25): Answer generation
+
+    Returns dict with statistics for each group.
+    """
+    layer_groups_def = {
+        'input': (0, 5),
+        'early_proc': (6, 10),
+        'middle_proc': (11, 15),
+        'late_proc': (16, 20),
+        'output': (21, 25)
+    }
+
+    layer_groups = {}
+
+    for group_name, (min_layer, max_layer) in layer_groups_def.items():
+        # Get nodes in this layer range
+        group_nodes = [
+            n for n in G.nodes()
+            if min_layer <= G.nodes[n]['layer'] <= max_layer
+        ]
+
+        if len(group_nodes) == 0:
+            continue
+
+        # Calculate statistics
+        activations = [G.nodes[n]['activation'] for n in group_nodes]
+        influences = [G.nodes[n].get('influence', 0.0) for n in group_nodes]
+
+        # Get top features
+        top_features = sorted(
+            group_nodes,
+            key=lambda n: G.nodes[n]['activation'],
+            reverse=True
+        )[:5]
+
+        top_features_list = [
+            {
+                'node_id': n,
+                'label': G.nodes[n]['label'],
+                'activation': G.nodes[n]['activation'],
+                'influence': G.nodes[n].get('influence', 0.0)
+            }
+            for n in top_features
+        ]
+
+        # Count edge flows
+        internal_edges = 0
+        incoming_edges = 0
+        outgoing_edges = 0
+
+        for u, v in G.edges():
+            u_in_group = u in group_nodes
+            v_in_group = v in group_nodes
+
+            if u_in_group and v_in_group:
+                internal_edges += 1
+            elif v_in_group and not u_in_group:
+                incoming_edges += 1
+            elif u_in_group and not v_in_group:
+                outgoing_edges += 1
+
+        layer_groups[group_name] = {
+            'layer_range': [min_layer, max_layer],
+            'nodes': group_nodes,
+            'num_nodes': len(group_nodes),
+            'mean_activation': sum(activations) / len(activations),
+            'max_activation': max(activations),
+            'mean_influence': sum(influences) / len(influences),
+            'max_influence': max(influences),
+            'top_features': top_features_list,
+            'internal_edges': internal_edges,
+            'incoming_edges': incoming_edges,
+            'outgoing_edges': outgoing_edges
+        }
+
+    return layer_groups
+
+def identify_flow_nodes(G, layer_groups):
+    """
+    Identify input/output/bottleneck nodes for steering interventions.
+
+    - Input nodes: Early layers (0-5) with high out-degree
+    - Output nodes: Late layers (21-25) with high activation
+    - Bottleneck nodes: High betweenness centrality across all layers
+
+    Returns dict with lists of candidate nodes for steering.
+    """
+    # Calculate betweenness centrality for all nodes
+    print("\n  Calculating betweenness centrality for bottleneck detection...")
+    node_betweenness = nx.betweenness_centrality(G, k=min(200, G.number_of_nodes()))
+
+    # Input nodes: Early layers with high out-degree
+    input_candidates = []
+    if 'input' in layer_groups:
+        input_nodes = layer_groups['input']['nodes']
+        for node in input_nodes:
+            out_deg = G.out_degree(node)
+            if out_deg > 5:  # Significant output connections
+                input_candidates.append({
+                    'node_id': node,
+                    'label': G.nodes[node]['label'],
+                    'layer': G.nodes[node]['layer'],
+                    'activation': G.nodes[node]['activation'],
+                    'out_degree': out_deg,
+                    'betweenness': node_betweenness.get(node, 0.0)
+                })
+
+    # Sort by out-degree
+    input_candidates.sort(key=lambda x: x['out_degree'], reverse=True)
+
+    # Output nodes: Late layers with high activation
+    output_candidates = []
+    if 'output' in layer_groups:
+        output_nodes = layer_groups['output']['nodes']
+        for node in output_nodes:
+            output_candidates.append({
+                'node_id': node,
+                'label': G.nodes[node]['label'],
+                'layer': G.nodes[node]['layer'],
+                'activation': G.nodes[node]['activation'],
+                'influence': G.nodes[node].get('influence', 0.0),
+                'in_degree': G.in_degree(node),
+                'betweenness': node_betweenness.get(node, 0.0)
+            })
+    elif 'late_proc' in layer_groups:
+        # Fallback to late processing if no output layer
+        late_nodes = layer_groups['late_proc']['nodes']
+        for node in late_nodes:
+            output_candidates.append({
+                'node_id': node,
+                'label': G.nodes[node]['label'],
+                'layer': G.nodes[node]['layer'],
+                'activation': G.nodes[node]['activation'],
+                'influence': G.nodes[node].get('influence', 0.0),
+                'in_degree': G.in_degree(node),
+                'betweenness': node_betweenness.get(node, 0.0)
+            })
+
+    # Sort by activation
+    output_candidates.sort(key=lambda x: x['activation'], reverse=True)
+
+    # Bottleneck nodes: High betweenness across all layers
+    bottleneck_candidates = []
+    for node in G.nodes():
+        betweenness = node_betweenness.get(node, 0.0)
+        if betweenness > 0.0001:  # Threshold for significance
+            bottleneck_candidates.append({
+                'node_id': node,
+                'label': G.nodes[node]['label'],
+                'layer': G.nodes[node]['layer'],
+                'activation': G.nodes[node]['activation'],
+                'betweenness': betweenness,
+                'in_degree': G.in_degree(node),
+                'out_degree': G.out_degree(node)
+            })
+
+    # Sort by betweenness
+    bottleneck_candidates.sort(key=lambda x: x['betweenness'], reverse=True)
+
+    return {
+        'input_nodes': input_candidates[:10],  # Top 10 input candidates
+        'output_nodes': output_candidates[:10],  # Top 10 output candidates
+        'bottleneck_nodes': bottleneck_candidates[:10]  # Top 10 bottlenecks
+    }
+
+# ============================================================================
+# STEP 3: HYBRID ANALYSIS (Louvain + Layer-based)
+# ============================================================================
+
 # Detect supernodes
 print("\n" + "="*60)
-print("STEP 3: Detect Supernodes (Louvain)")
+print("STEP 3A: Detect Supernodes (Auto-tuned Louvain)")
 print("="*60)
 
-detector = SupernodeDetector(min_supernode_size=3, max_supernode_size=100)
+# Auto-tune parameters based on graph density
+louvain_params = auto_tune_louvain_params(G, target_range=(3, 10))
+
+detector = SupernodeDetector(
+    min_supernode_size=louvain_params['min_size'],
+    max_supernode_size=louvain_params['max_size']
+)
 
 # Convert to undirected for community detection
 # Important: Use absolute values of weights for community detection
@@ -191,8 +418,11 @@ G_undirected = G.to_undirected()
 for u, v in G_undirected.edges():
     G_undirected[u][v]['weight'] = abs(G_undirected[u][v]['weight'])
 
-print(f"Graph prepared for community detection (using absolute weights)")
-supernodes = detector.detect_supernodes_louvain(G_undirected)
+print(f"\nGraph prepared for community detection (using absolute weights)")
+supernodes = detector.detect_supernodes_louvain(
+    G_undirected,
+    resolution=louvain_params['resolution']
+)
 
 print(f"\nSupernodes detected: {len(supernodes)}")
 
@@ -240,14 +470,121 @@ for rank, (supernode_id, score) in enumerate(ranked[:10], 1):
     print(f"{rank}. SN{supernode_id}: score={score:.3f}, size={len(nodes)}, " +
           f"layers={analysis['layers']}, act={analysis['mean_activation']:.3f}")
 
-# Save supernodes
+# ============================================================================
+# STEP 3B: Layer-based Analysis (Theory-driven)
+# ============================================================================
+
+print("\n" + "="*60)
+print("STEP 3B: Layer-based Analysis (Theory-driven)")
+print("="*60)
+
+layer_groups = analyze_by_layer_groups(G)
+
+print(f"\nLayer groups detected: {len(layer_groups)}")
+for group_name, group_data in layer_groups.items():
+    print(f"\n{group_name.upper()} (Layers {group_data['layer_range'][0]}-{group_data['layer_range'][1]}):")
+    print(f"  Nodes: {group_data['num_nodes']}")
+    print(f"  Mean activation: {group_data['mean_activation']:.3f}")
+    print(f"  Max activation: {group_data['max_activation']:.3f}")
+    print(f"  Edge flow: {group_data['incoming_edges']} in -> " +
+          f"{group_data['internal_edges']} internal -> {group_data['outgoing_edges']} out")
+    print(f"  Top feature: {group_data['top_features'][0]['label']} " +
+          f"(act={group_data['top_features'][0]['activation']:.3f})")
+
+# ============================================================================
+# STEP 3C: Identify Steering Targets
+# ============================================================================
+
+print("\n" + "="*60)
+print("STEP 3C: Identify Steering Targets")
+print("="*60)
+
+flow_analysis = identify_flow_nodes(G, layer_groups)
+
+print(f"\nInput nodes (early layers, high fan-out): {len(flow_analysis['input_nodes'])}")
+for i, node_data in enumerate(flow_analysis['input_nodes'][:5], 1):
+    print(f"  {i}. {node_data['label']}: out_degree={node_data['out_degree']}, " +
+          f"act={node_data['activation']:.3f}")
+
+print(f"\nOutput nodes (late layers, high activation): {len(flow_analysis['output_nodes'])}")
+for i, node_data in enumerate(flow_analysis['output_nodes'][:5], 1):
+    print(f"  {i}. {node_data['label']}: act={node_data['activation']:.3f}, " +
+          f"in_degree={node_data['in_degree']}")
+
+print(f"\nBottleneck nodes (high betweenness): {len(flow_analysis['bottleneck_nodes'])}")
+for i, node_data in enumerate(flow_analysis['bottleneck_nodes'][:5], 1):
+    print(f"  {i}. {node_data['label']}: betweenness={node_data['betweenness']:.6f}, " +
+          f"L{node_data['layer']}")
+
+# ============================================================================
+# SAVE COMPREHENSIVE ANALYSIS
+# ============================================================================
+
+print("\n" + "="*60)
+print("STEP 4: Save Comprehensive Analysis")
+print("="*60)
+
+# Prepare comprehensive output with both analyses
+comprehensive_analysis = {
+    'metadata': metadata,
+    'louvain_supernodes': {
+        'params_used': louvain_params,
+        'num_supernodes': len(supernodes),
+        'supernodes': {
+            str(sn_id): {
+                'size': supernode_analyses[sn_id]['size'],
+                'nodes': supernode_analyses[sn_id]['nodes'],
+                'mean_activation': supernode_analyses[sn_id]['mean_activation'],
+                'max_activation': supernode_analyses[sn_id]['max_activation'],
+                'mean_influence': supernode_analyses[sn_id]['mean_influence'],
+                'max_influence': supernode_analyses[sn_id]['max_influence'],
+                'layers': supernode_analyses[sn_id]['layers'],
+                'total_in_degree': supernode_analyses[sn_id]['total_in_degree'],
+                'total_out_degree': supernode_analyses[sn_id]['total_out_degree']
+            }
+            for sn_id in supernodes.keys()
+        },
+        'rankings': [
+            {'supernode_id': int(sn_id), 'score': float(score)}
+            for sn_id, score in ranked
+        ]
+    },
+    'layer_groups': {
+        group_name: {
+            'layer_range': group_data['layer_range'],
+            'num_nodes': group_data['num_nodes'],
+            'mean_activation': group_data['mean_activation'],
+            'max_activation': group_data['max_activation'],
+            'mean_influence': group_data['mean_influence'],
+            'max_influence': group_data['max_influence'],
+            'top_features': group_data['top_features'],
+            'internal_edges': group_data['internal_edges'],
+            'incoming_edges': group_data['incoming_edges'],
+            'outgoing_edges': group_data['outgoing_edges']
+        }
+        for group_name, group_data in layer_groups.items()
+    },
+    'flow_analysis': flow_analysis
+}
+
+# Save comprehensive analysis
+analysis_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_analysis.json"
+with open(analysis_file, 'w') as f:
+    json.dump(comprehensive_analysis, f, indent=2)
+
+print(f"[OK] Comprehensive analysis saved to: {analysis_file}")
+print(f"  - Louvain supernodes: {len(supernodes)}")
+print(f"  - Layer groups: {len(layer_groups)}")
+print(f"  - Steering targets: {len(flow_analysis['input_nodes']) + len(flow_analysis['output_nodes']) + len(flow_analysis['bottleneck_nodes'])} total")
+
+# Also save old format for backward compatibility
 supernode_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_supernodes.json"
 detector.save_supernodes(supernodes, supernode_file)
-print(f"\n[OK] Supernodes saved to: {supernode_file}")
+print(f"\n[OK] Legacy supernodes file saved to: {supernode_file}")
 
 # Analyze information flow
 print("\n" + "="*60)
-print("STEP 5: Analyze Information Flow")
+print("STEP 5: Additional Flow Statistics")
 print("="*60)
 
 # Identify early, middle, and late supernodes
@@ -334,11 +671,18 @@ for i, node in enumerate(top_nodes, 1):
     print(f"  {i}. {data['label']}: act={data['activation']:.3f}, inf={data['influence']:.3f}")
 
 print("\n" + "="*60)
-print("[SUCCESS] Circuit Analysis Complete!")
+print("[SUCCESS] Hybrid Circuit Analysis Complete!")
 print("="*60)
-print(f"Supernodes saved: {supernode_file.name}")
-print(f"Location: {supernode_file}")
-print(f"\nNext step: Run '/circuit-tracer-visualize' to create visualizations")
+print(f"\nComprehensive analysis saved: {analysis_file.name}")
+print(f"Legacy supernodes file: {supernode_file.name}")
+print(f"Location: {analysis_file.parent}")
+print(f"\nAnalysis includes:")
+print(f"  [+] Louvain community detection (auto-tuned, {len(supernodes)} communities)")
+print(f"  [+] Layer-based analysis ({len(layer_groups)} theory-driven groups)")
+print(f"  [+] Steering targets (input/output/bottleneck nodes)")
+print(f"\nNext step: Run '/circuit-tracer-visualize' to create 8 visualizations")
+print(f"  - 5 Louvain-based visualizations")
+print(f"  - 3 Layer-based visualizations")
 
 print("\n" + "="*60)
 print("PROCESS COMPLETE")

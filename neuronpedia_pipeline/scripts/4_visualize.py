@@ -121,12 +121,16 @@ else:
     graph_file = get_user_selection(available_graphs)
     print(f"\nSelected: {graph_file.name}")
 
-# Determine supernode file path
+# Determine analysis file path (comprehensive hybrid analysis)
+analysis_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_analysis.json"
 supernode_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_supernodes.json"
 
-if not supernode_file.exists():
-    print(f"\n[ERROR] Supernodes file not found: {supernode_file.name}")
-    print("Please run '/circuit-tracer-analyze' first to generate supernodes.")
+# Check for comprehensive analysis file first, fallback to legacy supernodes
+has_comprehensive_analysis = analysis_file.exists()
+
+if not has_comprehensive_analysis and not supernode_file.exists():
+    print(f"\n[ERROR] Analysis file not found: {analysis_file.name}")
+    print("Please run '/circuit-tracer-analyze' first to generate analysis.")
     sys.exit(1)
 
 # Load data
@@ -134,16 +138,30 @@ print("\n" + "=" * 60)
 print("LOADING DATA")
 print("=" * 60)
 print(f"Graph: {graph_file.name}")
-print(f"Supernodes: {supernode_file.name}")
 
 with open(graph_file) as f:
     graph_data = json.load(f)
 
-with open(supernode_file) as f:
-    supernodes = json.load(f)
+# Load comprehensive analysis or fallback to legacy supernodes
+layer_groups = None
+flow_analysis = None
 
-print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges")
-print(f"Loaded {len(supernodes)} supernodes")
+if has_comprehensive_analysis:
+    print(f"Analysis: {analysis_file.name} (comprehensive)")
+    with open(analysis_file) as f:
+        analysis_data = json.load(f)
+    supernodes = {k: v['nodes'] for k, v in analysis_data['louvain_supernodes']['supernodes'].items()}
+    layer_groups = analysis_data.get('layer_groups', None)
+    flow_analysis = analysis_data.get('flow_analysis', None)
+    print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges")
+    print(f"Loaded {len(supernodes)} supernodes, {len(layer_groups) if layer_groups else 0} layer groups")
+else:
+    print(f"Supernodes: {supernode_file.name} (legacy)")
+    with open(supernode_file) as f:
+        supernodes = json.load(f)
+    print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges")
+    print(f"Loaded {len(supernodes)} supernodes")
+    print("[WARNING] Legacy format detected. Run '/circuit-tracer-analyze' again for layer-based visualizations.")
 
 # Extract prompt for titles
 prompt_text = graph_data.get('metadata', {}).get('prompt', 'Unknown prompt')
@@ -497,17 +515,279 @@ plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
 
-print("\n" + "="*60)
-print("[SUCCESS] ALL VISUALIZATIONS COMPLETE!")
-print("="*60)
-print("\nGenerated files:")
-print(f"  1. {base_name}_supernodes_overview.png - Supernode-level circuit diagram")
-print(f"  2. {base_name}_layer_distribution.png - Nodes per layer per supernode")
-print(f"  3. {base_name}_activation_heatmap.png - Mean activation across layers")
-print(f"  4. {base_name}_top_features.png - Top 20 features by activation")
-print(f"  5. {base_name}_edge_weights.png - Edge weight distribution")
-print(f"\nAll saved to: {output_dir}")
-print(f"\nNext step: Run '/circuit-tracer-compare' to compare multiple graphs")
+# ============================================================================
+# LAYER-BASED VISUALIZATIONS (only if comprehensive analysis available)
+# ============================================================================
+
+if layer_groups and flow_analysis:
+    print("\n" + "="*60)
+    print("VISUALIZATION 6: Layer Group Flow Diagram")
+    print("="*60)
+
+    fig, ax = plt.subplots(figsize=(16, 8))
+
+    # Define layer group order and colors
+    group_order = ['input', 'early_proc', 'middle_proc', 'late_proc', 'output']
+    group_colors = {
+        'input': '#3498db',       # Blue
+        'early_proc': '#2ecc71',  # Green
+        'middle_proc': '#f39c12', # Orange
+        'late_proc': '#e74c3c',   # Red
+        'output': '#9b59b6'       # Purple
+    }
+    group_labels = {
+        'input': 'Input\n(L0-5)',
+        'early_proc': 'Early Proc\n(L6-10)',
+        'middle_proc': 'Middle Proc\n(L11-15)',
+        'late_proc': 'Late Proc\n(L16-20)',
+        'output': 'Output\n(L21-25)'
+    }
+
+    # Filter to only groups that exist
+    existing_groups = [g for g in group_order if g in layer_groups]
+
+    # Create nodes for each layer group
+    x_positions = np.linspace(0, 10, len(existing_groups))
+    node_positions = {}
+
+    for i, group_name in enumerate(existing_groups):
+        group_data = layer_groups[group_name]
+        x = x_positions[i]
+        y = 5  # Center vertically
+
+        # Node size based on number of nodes
+        size = group_data['num_nodes'] * 50
+
+        # Draw node
+        circle = plt.Circle((x, y), radius=0.8,
+                           color=group_colors.get(group_name, '#CCCCCC'),
+                           alpha=0.7, zorder=2)
+        ax.add_patch(circle)
+
+        # Add label
+        label = group_labels.get(group_name, group_name)
+        ax.text(x, y+0.1, label, ha='center', va='center',
+               fontsize=11, fontweight='bold', zorder=3)
+
+        # Add statistics
+        stats_text = f"{group_data['num_nodes']} nodes\n{group_data['max_activation']:.1f} max act"
+        ax.text(x, y-0.4, stats_text, ha='center', va='center',
+               fontsize=9, zorder=3)
+
+        node_positions[group_name] = (x, y)
+
+    # Draw edges between consecutive groups
+    for i in range(len(existing_groups) - 1):
+        group1 = existing_groups[i]
+        group2 = existing_groups[i+1]
+
+        x1, y1 = node_positions[group1]
+        x2, y2 = node_positions[group2]
+
+        # Edge count is the outgoing edges from group1
+        edge_count = layer_groups[group1]['outgoing_edges']
+
+        # Draw arrow
+        arrow = mpatches.FancyArrowPatch(
+            (x1+0.8, y1), (x2-0.8, y2),
+            arrowstyle='->', mutation_scale=30,
+            linewidth=2 + (edge_count / 1000),  # Width based on edge count
+            color='#34495e', alpha=0.6, zorder=1
+        )
+        ax.add_patch(arrow)
+
+        # Add edge count label
+        mid_x = (x1 + x2) / 2
+        mid_y = (y1 + y2) / 2 + 0.5
+        ax.text(mid_x, mid_y, f"{edge_count} edges",
+               ha='center', fontsize=9,
+               bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+
+    ax.set_xlim(-1, 11)
+    ax.set_ylim(2, 8)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    ax.set_title(f'Information Flow Through Layer Groups\n"{prompt_text}"',
+                fontsize=16, fontweight='bold', pad=20)
+
+    plt.tight_layout()
+    output_path = output_dir / f"{base_name}_layer_flow.png"
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {output_path.name}")
+    plt.close()
+
+    # ========================================================================
+    print("\n" + "="*60)
+    print("VISUALIZATION 7: Layer Group Comparison")
+    print("="*60)
+
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+
+    # Prepare data
+    groups = existing_groups
+    group_names_short = [g.replace('_', ' ').title() for g in groups]
+
+    # 1. Node count comparison
+    node_counts = [layer_groups[g]['num_nodes'] for g in groups]
+    colors_list = [group_colors.get(g, '#CCCCCC') for g in groups]
+
+    ax1.bar(group_names_short, node_counts, color=colors_list, alpha=0.8)
+    ax1.set_ylabel('Number of Nodes', fontsize=11, fontweight='bold')
+    ax1.set_title('Node Distribution', fontsize=12, fontweight='bold')
+    ax1.grid(axis='y', alpha=0.3)
+    ax1.tick_params(axis='x', rotation=15)
+
+    # 2. Activation comparison
+    mean_acts = [layer_groups[g]['mean_activation'] for g in groups]
+    max_acts = [layer_groups[g]['max_activation'] for g in groups]
+
+    x = np.arange(len(groups))
+    width = 0.35
+
+    ax2.bar(x - width/2, mean_acts, width, label='Mean', alpha=0.8, color='#3498db')
+    ax2.bar(x + width/2, max_acts, width, label='Max', alpha=0.8, color='#e74c3c')
+    ax2.set_ylabel('Activation', fontsize=11, fontweight='bold')
+    ax2.set_title('Activation Statistics', fontsize=12, fontweight='bold')
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(group_names_short, rotation=15)
+    ax2.legend()
+    ax2.grid(axis='y', alpha=0.3)
+
+    # 3. Edge flow comparison
+    incoming = [layer_groups[g]['incoming_edges'] for g in groups]
+    internal = [layer_groups[g]['internal_edges'] for g in groups]
+    outgoing = [layer_groups[g]['outgoing_edges'] for g in groups]
+
+    x = np.arange(len(groups))
+    width = 0.25
+
+    ax3.bar(x - width, incoming, width, label='Incoming', alpha=0.8, color='#2ecc71')
+    ax3.bar(x, internal, width, label='Internal', alpha=0.8, color='#f39c12')
+    ax3.bar(x + width, outgoing, width, label='Outgoing', alpha=0.8, color='#e74c3c')
+    ax3.set_ylabel('Edge Count', fontsize=11, fontweight='bold')
+    ax3.set_title('Edge Flow Patterns', fontsize=12, fontweight='bold')
+    ax3.set_xticks(x)
+    ax3.set_xticklabels(group_names_short, rotation=15)
+    ax3.legend()
+    ax3.grid(axis='y', alpha=0.3)
+
+    # 4. Influence comparison
+    mean_influences = [layer_groups[g]['mean_influence'] for g in groups]
+    max_influences = [layer_groups[g]['max_influence'] for g in groups]
+
+    ax4.bar(x - width/2, mean_influences, width, label='Mean', alpha=0.8, color='#9b59b6')
+    ax4.bar(x + width/2, max_influences, width, label='Max', alpha=0.8, color='#e67e22')
+    ax4.set_ylabel('Influence', fontsize=11, fontweight='bold')
+    ax4.set_title('Influence Statistics', fontsize=12, fontweight='bold')
+    ax4.set_xticks(x)
+    ax4.set_xticklabels(group_names_short, rotation=15)
+    ax4.legend()
+    ax4.grid(axis='y', alpha=0.3)
+
+    plt.suptitle(f'Layer Group Analysis\n"{prompt_text}"',
+                fontsize=16, fontweight='bold', y=0.995)
+    plt.tight_layout()
+    output_path = output_dir / f"{base_name}_layer_comparison.png"
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {output_path.name}")
+    plt.close()
+
+    # ========================================================================
+    print("\n" + "="*60)
+    print("VISUALIZATION 8: Steering Target Candidates")
+    print("="*60)
+
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 6))
+
+    # 1. Input nodes (high fan-out)
+    input_nodes = flow_analysis['input_nodes'][:10]
+    if input_nodes:
+        labels = [n['label'] for n in input_nodes]
+        values = [n['out_degree'] for n in input_nodes]
+        colors_gradient = plt.cm.Blues(np.linspace(0.4, 0.9, len(values)))
+
+        y_pos = np.arange(len(labels))
+        ax1.barh(y_pos, values, color=colors_gradient, alpha=0.8)
+        ax1.set_yticks(y_pos)
+        ax1.set_yticklabels(labels, fontsize=8)
+        ax1.invert_yaxis()
+        ax1.set_xlabel('Out-Degree', fontsize=10, fontweight='bold')
+        ax1.set_title('Input Nodes\n(Early amplification targets)',
+                     fontsize=11, fontweight='bold')
+        ax1.grid(axis='x', alpha=0.3)
+
+    # 2. Output nodes (high activation)
+    output_nodes = flow_analysis['output_nodes'][:10]
+    if output_nodes:
+        labels = [n['label'] for n in output_nodes]
+        values = [n['activation'] for n in output_nodes]
+        colors_gradient = plt.cm.Reds(np.linspace(0.4, 0.9, len(values)))
+
+        y_pos = np.arange(len(labels))
+        ax2.barh(y_pos, values, color=colors_gradient, alpha=0.8)
+        ax2.set_yticks(y_pos)
+        ax2.set_yticklabels(labels, fontsize=8)
+        ax2.invert_yaxis()
+        ax2.set_xlabel('Activation', fontsize=10, fontweight='bold')
+        ax2.set_title('Output Nodes\n(Late suppression targets)',
+                     fontsize=11, fontweight='bold')
+        ax2.grid(axis='x', alpha=0.3)
+
+    # 3. Bottleneck nodes (high betweenness)
+    bottleneck_nodes = flow_analysis['bottleneck_nodes'][:10]
+    if bottleneck_nodes:
+        labels = [f"{n['label']} (L{n['layer']})" for n in bottleneck_nodes]
+        values = [n['betweenness'] for n in bottleneck_nodes]
+        colors_gradient = plt.cm.Purples(np.linspace(0.4, 0.9, len(values)))
+
+        y_pos = np.arange(len(labels))
+        ax3.barh(y_pos, values, color=colors_gradient, alpha=0.8)
+        ax3.set_yticks(y_pos)
+        ax3.set_yticklabels(labels, fontsize=8)
+        ax3.invert_yaxis()
+        ax3.set_xlabel('Betweenness Centrality', fontsize=10, fontweight='bold')
+        ax3.set_title('Bottleneck Nodes\n(Critical pathway targets)',
+                     fontsize=11, fontweight='bold')
+        ax3.grid(axis='x', alpha=0.3)
+
+    plt.suptitle(f'Steering Intervention Candidates\n"{prompt_text}"',
+                fontsize=16, fontweight='bold', y=0.98)
+    plt.tight_layout()
+    output_path = output_dir / f"{base_name}_steering_targets.png"
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {output_path.name}")
+    plt.close()
+
+    print("\n" + "="*60)
+    print("[SUCCESS] ALL VISUALIZATIONS COMPLETE!")
+    print("="*60)
+    print("\nGenerated files (Louvain-based):")
+    print(f"  1. {base_name}_supernodes_overview.png - Supernode-level circuit diagram")
+    print(f"  2. {base_name}_layer_distribution.png - Nodes per layer per supernode")
+    print(f"  3. {base_name}_activation_heatmap.png - Mean activation across layers")
+    print(f"  4. {base_name}_top_features.png - Top 20 features by activation")
+    print(f"  5. {base_name}_edge_weights.png - Edge weight distribution")
+    print(f"\nGenerated files (Layer-based):")
+    print(f"  6. {base_name}_layer_flow.png - Information flow through layer groups")
+    print(f"  7. {base_name}_layer_comparison.png - Layer group statistics comparison")
+    print(f"  8. {base_name}_steering_targets.png - Steering intervention candidates")
+    print(f"\nAll saved to: {output_dir}")
+    print(f"\nNext step: Run '/circuit-tracer-compare' to compare multiple graphs")
+
+else:
+    print("\n" + "="*60)
+    print("[SUCCESS] LOUVAIN VISUALIZATIONS COMPLETE!")
+    print("="*60)
+    print("\nGenerated files (Louvain-based):")
+    print(f"  1. {base_name}_supernodes_overview.png - Supernode-level circuit diagram")
+    print(f"  2. {base_name}_layer_distribution.png - Nodes per layer per supernode")
+    print(f"  3. {base_name}_activation_heatmap.png - Mean activation across layers")
+    print(f"  4. {base_name}_top_features.png - Top 20 features by activation")
+    print(f"  5. {base_name}_edge_weights.png - Edge weight distribution")
+    print(f"\nAll saved to: {output_dir}")
+    print(f"\n[INFO] Layer-based visualizations not available (legacy format)")
+    print(f"Run '/circuit-tracer-analyze' again to enable 3 additional layer-based visualizations")
+    print(f"\nNext step: Run '/circuit-tracer-compare' to compare multiple graphs")
 
 print("\n" + "=" * 60)
 print("PROCESS COMPLETE")

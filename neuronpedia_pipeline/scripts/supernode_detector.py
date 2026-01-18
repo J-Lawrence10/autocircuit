@@ -26,12 +26,13 @@ class SupernodeDetector:
         self.min_size = min_supernode_size
         self.max_size = max_supernode_size
 
-    def detect_supernodes_louvain(self, graph: nx.Graph) -> Dict[int, List[str]]:
+    def detect_supernodes_louvain(self, graph: nx.Graph, resolution: float = 1.0) -> Dict[int, List[str]]:
         """
         Use Louvain algorithm to detect communities (supernodes)
 
         Args:
             graph: NetworkX graph (undirected for community detection)
+            resolution: Resolution parameter for Louvain (higher = more communities)
 
         Returns:
             Dictionary mapping community_id -> list of node IDs
@@ -44,8 +45,8 @@ class SupernodeDetector:
         if graph.is_directed():
             graph = graph.to_undirected()
 
-        # Run Louvain algorithm
-        partition = community_louvain.best_partition(graph)
+        # Run Louvain algorithm with resolution parameter
+        partition = community_louvain.best_partition(graph, resolution=resolution)
 
         # Group nodes by community
         communities = defaultdict(list)
@@ -59,6 +60,7 @@ class SupernodeDetector:
                 filtered[comm_id] = nodes
 
         print(f"Detected {len(filtered)} supernodes (filtered from {len(communities)} communities)")
+        print(f"  Resolution parameter: {resolution}")
         return filtered
 
     def detect_supernodes_layer_based(self, graph: nx.Graph) -> Dict[int, List[str]]:
