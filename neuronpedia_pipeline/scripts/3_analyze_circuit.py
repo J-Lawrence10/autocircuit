@@ -186,29 +186,32 @@ def auto_tune_louvain_params(G, target_range=(3, 10)):
 
     Dense graphs need higher resolution to split into multiple communities.
     Returns optimal parameters for one-size-fits-all approach.
+
+    UPDATED: More relaxed max_size constraints to handle dense graphs.
     """
     n_nodes = G.number_of_nodes()
     density = nx.density(G)
 
     print(f"\nAuto-tuning Louvain parameters...")
     print(f"  Graph density: {density:.6f}")
+    print(f"  Total nodes: {n_nodes}")
 
-    # Density-based parameter selection
+    # Density-based parameter selection with RELAXED max_size
     if density > 0.02:  # Very dense (>2%)
-        resolution = 1.5
-        min_size = max(10, n_nodes // 100)
-        max_size = max(50, n_nodes // 30)
-        print(f"  Strategy: VERY DENSE - using high resolution")
+        resolution = 2.0  # Higher resolution for more splits
+        min_size = max(5, n_nodes // 200)  # Lower min threshold
+        max_size = max(200, n_nodes // 5)  # Much higher max (was //30)
+        print(f"  Strategy: VERY DENSE - using very high resolution")
     elif density > 0.01:  # Dense (1-2%)
-        resolution = 1.0
-        min_size = max(5, n_nodes // 150)
-        max_size = max(30, n_nodes // 50)
-        print(f"  Strategy: DENSE - using medium resolution")
+        resolution = 1.5
+        min_size = max(3, n_nodes // 250)  # Lower min threshold
+        max_size = max(150, n_nodes // 8)  # Higher max (was //50)
+        print(f"  Strategy: DENSE - using high resolution")
     else:  # Sparse (<1%)
-        resolution = 0.5
+        resolution = 1.0
         min_size = 3
-        max_size = max(20, n_nodes // 100)
-        print(f"  Strategy: SPARSE - using low resolution")
+        max_size = max(100, n_nodes // 10)  # Higher max (was //100)
+        print(f"  Strategy: SPARSE - using medium resolution")
 
     print(f"  Parameters: resolution={resolution}, min_size={min_size}, max_size={max_size}")
 
@@ -425,6 +428,21 @@ supernodes = detector.detect_supernodes_louvain(
 )
 
 print(f"\nSupernodes detected: {len(supernodes)}")
+
+# FALLBACK: If Louvain found no supernodes, use layer groups instead
+if len(supernodes) == 0:
+    print("\n[WARNING] Louvain detected 0 supernodes!")
+    print("FALLBACK: Using layer groups as supernodes instead...")
+
+    # Convert layer groups to supernode format
+    # We'll compute layer groups early and use them as supernodes
+    temp_layer_groups = analyze_by_layer_groups(G)
+    supernodes = {}
+    for idx, (group_name, group_data) in enumerate(temp_layer_groups.items()):
+        supernodes[idx] = group_data['nodes']
+        print(f"  Layer-based SN{idx} ({group_name}): {len(group_data['nodes'])} nodes")
+
+    print(f"\nUsing {len(supernodes)} layer-based supernodes")
 
 # Analyze each supernode
 supernode_analyses = {}
