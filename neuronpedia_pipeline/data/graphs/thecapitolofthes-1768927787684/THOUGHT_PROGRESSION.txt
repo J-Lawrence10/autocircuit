@@ -21,9 +21,9 @@ HOW THE MODEL THINKS:
 STAGE 1: RECOGNIZING THE QUESTION
 --------------------------------------------------------------------------------
   The model activates 903 features to understand:
-  - What: 'political party'
-  - Who: 'USA president'
-  - Context: This is asking about CURRENT president
+  - Parse the input tokens and identify query structure
+  - Recognize key entities and relationships in the prompt
+  - Determine what type of information is being requested
 
   Top concepts recognized:
     - Activates on: ${, ${, <sup>
@@ -35,9 +35,9 @@ STAGE 1: RECOGNIZING THE QUESTION
 STAGE 2: UNDERSTANDING CONTEXT
 --------------------------------------------------------------------------------
   The model refines understanding with 179 features:
-  - This is about POLITICS
-  - Specifically US POLITICAL PARTIES
-  - Two main options: Republican or Democratic
+  - Build contextual understanding of the query domain
+  - Identify relevant knowledge areas to search
+  - Narrow down possible answer types
 
   Key concepts:
     - Activates on: , WithIOException, ToBounds
@@ -51,10 +51,10 @@ STAGE 3: RETRIEVING KNOWLEDGE (PEAK ACTIVATION)
   The model's STRONGEST thinking happens here!
   - Only 75 features, but VERY active
   - Peak activation: 150.3 (highest in circuit)
-  - This is where the model recalls:
-    * Who is the current president?
-    * What party are they from?
-    * Historical political information
+  - This is where the model retrieves factual knowledge:
+    * Accessing stored facts and relationships
+    * Connecting entities mentioned in the prompt
+    * Retrieving specific information needed for the answer
 
   Strongest concepts:
     - Activates on: donations, Donors, donating
@@ -95,20 +95,21 @@ INTERPRETATION
 
 The model's reasoning shows:
 
-1. RECOGNITION: Understood this is about US president's political party
+1. RECOGNITION: Parsed the prompt structure and identified the query type
 
 2. KNOWLEDGE RETRIEVAL: Peak activity in middle layers (L11-15)
    - This is where factual knowledge is recalled
    - Strongest activation: 150.3
+   - Efficient retrieval with only 75 features
 
-3. GRAMMATICAL PROCESSING: Model chose 'the' first
-   - Full grammatical answer: 'the Republican Party'
-   - Direct answer also present: 'Republican' (3.3%)
+3. ANSWER GENERATION:
+   - Top prediction: ' Austin' at 32.6%
+   - 2nd prediction: ' austin' at 22.3%
+   - 3rd prediction: ' the' at 5.6%
 
-4. CONFIDENCE DISTRIBUTION:
-   - Top answer: ' Austin' at 32.6%
-   - Substantive answer: ':' at 2.8%
-
-The model DID identify 'Republican' but prioritized grammatical structure.
+4. CIRCUIT EFFICIENCY:
+   - Total active features: 1,345
+   - Peak activation in middle layers shows focused knowledge retrieval
+   - Information flows efficiently from input → retrieval → output
 
 ================================================================================

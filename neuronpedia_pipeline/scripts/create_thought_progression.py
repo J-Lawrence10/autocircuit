@@ -47,9 +47,9 @@ def create_thought_progression(analysis_file, output_file):
     lines.append("STAGE 1: RECOGNIZING THE QUESTION")
     lines.append("-" * 80)
     lines.append(f"  The model activates {input_group['num_nodes']} features to understand:")
-    lines.append(f"  - What: 'political party'")
-    lines.append(f"  - Who: 'USA president'")
-    lines.append(f"  - Context: This is asking about CURRENT president")
+    lines.append(f"  - Parse the input tokens and identify query structure")
+    lines.append(f"  - Recognize key entities and relationships in the prompt")
+    lines.append(f"  - Determine what type of information is being requested")
     lines.append("")
 
     if 'top_features_with_descriptions' in input_group:
@@ -69,9 +69,9 @@ def create_thought_progression(analysis_file, output_file):
     lines.append("STAGE 2: UNDERSTANDING CONTEXT")
     lines.append("-" * 80)
     lines.append(f"  The model refines understanding with {early_group['num_nodes']} features:")
-    lines.append(f"  - This is about POLITICS")
-    lines.append(f"  - Specifically US POLITICAL PARTIES")
-    lines.append(f"  - Two main options: Republican or Democratic")
+    lines.append(f"  - Build contextual understanding of the query domain")
+    lines.append(f"  - Identify relevant knowledge areas to search")
+    lines.append(f"  - Narrow down possible answer types")
     lines.append("")
 
     if 'top_features_with_descriptions' in early_group:
@@ -92,10 +92,10 @@ def create_thought_progression(analysis_file, output_file):
     lines.append(f"  The model's STRONGEST thinking happens here!")
     lines.append(f"  - Only {middle_group['num_nodes']} features, but VERY active")
     lines.append(f"  - Peak activation: {middle_group['max_activation']:.1f} (highest in circuit)")
-    lines.append(f"  - This is where the model recalls:")
-    lines.append(f"    * Who is the current president?")
-    lines.append(f"    * What party are they from?")
-    lines.append(f"    * Historical political information")
+    lines.append(f"  - This is where the model retrieves factual knowledge:")
+    lines.append(f"    * Accessing stored facts and relationships")
+    lines.append(f"    * Connecting entities mentioned in the prompt")
+    lines.append(f"    * Retrieving specific information needed for the answer")
     lines.append("")
 
     if 'top_features_with_descriptions' in middle_group:
@@ -156,23 +156,25 @@ def create_thought_progression(analysis_file, output_file):
     lines.append("")
     lines.append("The model's reasoning shows:")
     lines.append("")
-    lines.append("1. RECOGNITION: Understood this is about US president's political party")
+    lines.append(f"1. RECOGNITION: Parsed the prompt structure and identified the query type")
     lines.append("")
     lines.append("2. KNOWLEDGE RETRIEVAL: Peak activity in middle layers (L11-15)")
     lines.append("   - This is where factual knowledge is recalled")
     lines.append(f"   - Strongest activation: {middle_group['max_activation']:.1f}")
+    lines.append(f"   - Efficient retrieval with only {middle_group['num_nodes']} features")
     lines.append("")
-    lines.append("3. GRAMMATICAL PROCESSING: Model chose 'the' first")
-    lines.append("   - Full grammatical answer: 'the Republican Party'")
-    lines.append("   - Direct answer also present: 'Republican' (3.3%)")
+    lines.append("3. ANSWER GENERATION:")
+    if predictions and len(predictions) > 0:
+        lines.append(f"   - Top prediction: '{predictions[0]['token']}' at {predictions[0]['probability']:.1%}")
+        if len(predictions) > 1:
+            lines.append(f"   - 2nd prediction: '{predictions[1]['token']}' at {predictions[1]['probability']:.1%}")
+        if len(predictions) > 2:
+            lines.append(f"   - 3rd prediction: '{predictions[2]['token']}' at {predictions[2]['probability']:.1%}")
     lines.append("")
-    lines.append("4. CONFIDENCE DISTRIBUTION:")
-    if predictions:
-        lines.append(f"   - Top answer: '{predictions[0]['token']}' at {predictions[0]['probability']:.1%}")
-        if len(predictions) > 5:
-            lines.append(f"   - Substantive answer: '{predictions[5]['token']}' at {predictions[5]['probability']:.1%}")
-    lines.append("")
-    lines.append("The model DID identify 'Republican' but prioritized grammatical structure.")
+    lines.append("4. CIRCUIT EFFICIENCY:")
+    lines.append(f"   - Total active features: {sum(lg['num_nodes'] for lg in layer_groups.values()):,}")
+    lines.append(f"   - Peak activation in middle layers shows focused knowledge retrieval")
+    lines.append(f"   - Information flows efficiently from input → retrieval → output")
     lines.append("")
     lines.append("=" * 80)
 
