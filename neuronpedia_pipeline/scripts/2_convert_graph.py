@@ -74,6 +74,43 @@ def convert_neuronpedia_graph(input_file, output_file=None):
         }
         converted_edges.append(converted_edge)
 
+    # Extract model output predictions from ALL logit nodes
+    import re
+    all_logit_nodes = [n for n in data['nodes'] if n.get('feature_type') == 'logit']
+    model_output = None
+    output_probability = None
+    top_predictions = []
+
+    if all_logit_nodes:
+        # Sort by probability
+        all_logit_nodes.sort(key=lambda x: x.get('token_prob', 0), reverse=True)
+
+        # Extract top predictions
+        for node in all_logit_nodes[:10]:
+            clerp = node.get('clerp', '')
+            prob = node.get('token_prob', 0)
+
+            # Extract token from clerp field
+            # Format: 'Output " token" (p=0.123)'
+            if 'Output' in clerp:
+                match = re.search(r'Output\s+"([^"]+)"', clerp)
+                if match:
+                    token = match.group(1)
+                    top_predictions.append({
+                        'token': token,
+                        'probability': prob,
+                        'is_target': node.get('is_target_logit', False)
+                    })
+
+        # Set top prediction as model_output
+        if top_predictions:
+            model_output = top_predictions[0]['token']
+            output_probability = top_predictions[0]['probability']
+            print(f"\n[MODEL OUTPUT] Top Prediction: '{model_output}' ({output_probability:.1%})")
+            if len(top_predictions) > 1:
+                other_preds = [f"'{p['token']}'({p['probability']:.1%})" for p in top_predictions[1:6]]
+                print(f"  Other predictions: {', '.join(other_preds)}")
+
     # Create converted graph
     converted_graph = {
         'metadata': {
@@ -84,7 +121,10 @@ def convert_neuronpedia_graph(input_file, output_file=None):
             'original_nodes': len(data['nodes']),
             'original_links': len(data['links']),
             'converted_nodes': len(converted_nodes),
-            'converted_edges': len(converted_edges)
+            'converted_edges': len(converted_edges),
+            'model_output': model_output,
+            'output_probability': output_probability,
+            'top_predictions': top_predictions
         },
         'nodes': converted_nodes,
         'edges': converted_edges
@@ -255,8 +295,20 @@ Examples:
         input_path = get_user_selection(available_graphs)
         print(f"\nSelected: {input_path.name}")
 
-    # Generate output path
-    output_path = input_path.parent / f"{input_path.stem}_converted.json"
+    # Load metadata to create subfolder based on slug
+    with open(input_path) as f:
+        raw_data = json.load(f)
+        metadata = raw_data.get('metadata', {})
+        prompt_slug = metadata.get('slug', raw_data.get('slug', 'unknown'))
+
+    # Create subfolder for this prompt's outputs
+    output_subdir = input_path.parent / prompt_slug
+    output_subdir.mkdir(parents=True, exist_ok=True)
+
+    # Generate output path in subfolder
+    output_path = output_subdir / f"{input_path.stem}_converted.json"
+
+    print(f"\nOrganizing outputs in subfolder: {prompt_slug}/")
 
     # Check if already converted
     if output_path.exists():

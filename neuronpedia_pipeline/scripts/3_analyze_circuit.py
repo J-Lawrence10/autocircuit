@@ -14,6 +14,7 @@ import argparse
 sys.path.insert(0, str(Path(__file__).parent))
 
 from supernode_detector import SupernodeDetector
+from feature_description_fetcher import FeatureDescriptionFetcher
 
 def find_available_converted_graphs():
     """Find all converted graphs in the data directory"""
@@ -535,6 +536,48 @@ for i, node_data in enumerate(flow_analysis['bottleneck_nodes'][:5], 1):
           f"L{node_data['layer']}")
 
 # ============================================================================
+# STEP 3D: Fetch Feature Descriptions (NEW!)
+# ============================================================================
+
+print("\n" + "="*60)
+print("STEP 3D: Fetch Feature Descriptions from Neuronpedia")
+print("="*60)
+
+# Initialize feature fetcher
+fetcher = FeatureDescriptionFetcher()
+
+# Get top features per layer group with descriptions
+layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
+
+print("\nTop features with interpretable descriptions:")
+for group_name, features in layer_group_descriptions.items():
+    print(f"\n{group_name.upper()}:")
+    for feature_id, activation, description in features:
+        layer, feature_num = fetcher.parse_feature_id(feature_id)
+        desc_str = description if description else "[No description available]"
+        # Handle Unicode safely
+        try:
+            print(f"  L{layer}_F{feature_num} (act={activation:.2f}): {desc_str}")
+        except UnicodeEncodeError:
+            # Fallback to ASCII-safe version
+            desc_safe = desc_str.encode('ascii', 'replace').decode('ascii')
+            print(f"  L{layer}_F{feature_num} (act={activation:.2f}): {desc_safe}")
+
+# Also fetch descriptions for top steering targets
+print("\nFetching descriptions for top steering targets...")
+steering_target_ids = []
+
+# Collect top input/output/bottleneck nodes
+for node_data in flow_analysis['input_nodes'][:5]:
+    steering_target_ids.append(node_data['node_id'])
+for node_data in flow_analysis['output_nodes'][:5]:
+    steering_target_ids.append(node_data['node_id'])
+for node_data in flow_analysis['bottleneck_nodes'][:5]:
+    steering_target_ids.append(node_data['node_id'])
+
+steering_descriptions = fetcher.fetch_descriptions_for_features(steering_target_ids, max_features=15)
+
+# ============================================================================
 # SAVE COMPREHENSIVE ANALYSIS
 # ============================================================================
 
@@ -578,15 +621,48 @@ comprehensive_analysis = {
             'top_features': group_data['top_features'],
             'internal_edges': group_data['internal_edges'],
             'incoming_edges': group_data['incoming_edges'],
-            'outgoing_edges': group_data['outgoing_edges']
+            'outgoing_edges': group_data['outgoing_edges'],
+            'top_features_with_descriptions': [
+                {
+                    'feature': fid,
+                    'activation': act,
+                    'description': desc
+                }
+                for fid, act, desc in layer_group_descriptions.get(group_name, [])
+            ]
         }
         for group_name, group_data in layer_groups.items()
     },
-    'flow_analysis': flow_analysis
+    'flow_analysis': flow_analysis,
+    'feature_descriptions': {
+        'layer_groups': {
+            group_name: [
+                {
+                    'feature': fid,
+                    'activation': act,
+                    'description': desc
+                }
+                for fid, act, desc in features
+            ]
+            for group_name, features in layer_group_descriptions.items()
+        },
+        'steering_targets': {
+            fid: desc
+            for fid, desc in steering_descriptions.items()
+        }
+    }
 }
 
+# Save analysis files in same directory as converted graph (already in slug subfolder)
+prompt_slug = metadata['slug']
+output_subdir = graph_file.parent  # Already in the slug subfolder from conversion step
+output_subdir.mkdir(parents=True, exist_ok=True)
+
+print(f"\nSaving analysis files in: {output_subdir.name}/")
+
 # Save comprehensive analysis
-analysis_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_analysis.json"
+base_filename = graph_file.stem.replace('_converted', '')
+analysis_file = output_subdir / f"{base_filename}_analysis.json"
 with open(analysis_file, 'w') as f:
     json.dump(comprehensive_analysis, f, indent=2)
 
@@ -596,7 +672,7 @@ print(f"  - Layer groups: {len(layer_groups)}")
 print(f"  - Steering targets: {len(flow_analysis['input_nodes']) + len(flow_analysis['output_nodes']) + len(flow_analysis['bottleneck_nodes'])} total")
 
 # Also save old format for backward compatibility
-supernode_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_supernodes.json"
+supernode_file = output_subdir / f"{base_filename}_supernodes.json"
 detector.save_supernodes(supernodes, supernode_file)
 print(f"\n[OK] Legacy supernodes file saved to: {supernode_file}")
 

@@ -15,9 +15,9 @@
       "min_size": 5,
       "max_size": 177
     },
-    "num_supernodes": 8,
+    "num_supernodes": 7,
     "supernodes": {
-      "1": {
+      "0": {
         "size": 116,
         "nodes": [
           "0_41_1",
@@ -163,7 +163,7 @@
         "total_in_degree": 1933,
         "total_out_degree": 2941
       },
-      "2": {
+      "1": {
         "size": 143,
         "nodes": [
           "0_2_2",
@@ -334,23 +334,70 @@
         "total_in_degree": 3051,
         "total_out_degree": 3919
       },
-      "10": {
-        "size": 41,
+      "4": {
+        "size": 90,
         "nodes": [
           "0_1927_2",
           "0_3204_2",
           "0_3553_2",
           "0_9507_2",
           "0_11221_2",
+          "0_8267_5",
+          "0_7121_6",
+          "0_8837_6",
           "0_9899_6",
           "0_11769_6",
           "0_13907_6",
           "0_14791_6",
+          "0_6963_8",
           "0_10508_8",
+          "0_11843_8",
+          "0_16347_8",
+          "0_3396_9",
           "0_7152_9",
+          "0_9022_9",
           "0_9369_9",
+          "0_9466_9",
+          "0_12662_9",
+          "0_13011_9",
+          "0_15571_9",
+          "4_10080_9",
+          "4_15552_9",
+          "5_3316_9",
+          "5_5518_9",
+          "5_16016_9",
+          "6_2232_9",
+          "6_2309_9",
+          "6_11939_9",
+          "6_15892_9",
+          "7_486_9",
+          "7_4458_9",
+          "7_6637_9",
+          "7_8084_9",
+          "7_8765_9",
+          "7_8765_10",
+          "8_2951_9",
+          "8_5550_9",
+          "8_11404_9",
+          "8_13348_9",
+          "8_14293_9",
+          "9_10763_9",
+          "10_447_9",
+          "14_3951_9",
+          "14_15898_9",
+          "15_11972_9",
+          "17_7598_9",
+          "18_11934_9",
+          "18_13330_9",
           "18_11934_10",
+          "18_13330_10",
+          "18_14116_10",
+          "19_2523_9",
+          "19_6881_9",
           "19_2523_10",
+          "20_10253_9",
+          "20_10824_9",
+          "20_7532_10",
           "20_10253_10",
           "20_10452_10",
           "20_10824_10",
@@ -363,6 +410,7 @@
           "23_3866_10",
           "23_7362_10",
           "23_7572_10",
+          "23_8449_10",
           "23_8533_10",
           "23_9943_10",
           "23_12007_10",
@@ -375,16 +423,27 @@
           "24_11789_10",
           "24_14329_10",
           "25_2457_10",
+          "25_5359_10",
           "25_7755_10",
           "25_14641_10",
           "25_16272_10"
         ],
-        "mean_activation": 16.722194450657543,
+        "mean_activation": 13.988828839196099,
         "max_activation": 88.53935241699219,
-        "mean_influence": 0.5904484943645757,
+        "mean_influence": 0.6060688058535258,
         "max_influence": 0.7995617985725403,
         "layers": [
           0,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          14,
+          15,
+          17,
           18,
           19,
           20,
@@ -394,11 +453,11 @@
           24,
           25
         ],
-        "total_in_degree": 4692,
-        "total_out_degree": 681
+        "total_in_degree": 8165,
+        "total_out_degree": 2330
       },
-      "7": {
-        "size": 139,
+      "5": {
+        "size": 138,
         "nodes": [
           "0_4609_2",
           "0_6056_2",
@@ -536,13 +595,12 @@
           "21_14975_10",
           "22_31_10",
           "24_16258_10",
-          "25_5359_10",
           "25_12713_10",
           "25_16128_10"
         ],
-        "mean_activation": 7.789248008522199,
+        "mean_activation": 7.796038387478262,
         "max_activation": 67.53175354003906,
-        "mean_influence": 0.6741166412830353,
+        "mean_influence": 0.6733552228281463,
         "max_influence": 0.7999090552330017,
         "layers": [
           0,
@@ -565,37 +623,20 @@
           24,
           25
         ],
-        "total_in_degree": 2361,
+        "total_in_degree": 2357,
         "total_out_degree": 2579
       },
-      "9": {
-        "size": 115,
+      "6": {
+        "size": 102,
         "nodes": [
           "0_6217_2",
           "0_10512_2",
           "0_14644_6",
-          "3_14835_10",
-          "4_7671_10",
-          "6_618_10",
-          "6_4662_10",
-          "7_691_10",
-          "7_1586_10",
-          "7_10547_10",
-          "7_14088_10",
-          "7_15515_10",
-          "8_3351_10",
-          "8_3745_10",
-          "8_4244_10",
-          "8_8625_10",
-          "8_12762_10",
-          "8_14360_10",
-          "9_185_10",
-          "9_4854_10",
+          "0_13004_10",
           "9_13139_10",
-          "10_1037_10",
+          "13_3610_10",
           "13_8341_10",
-          "13_15503_10",
-          "14_9327_10",
+          "13_14593_10",
           "15_10992_10",
           "16_4298_10",
           "16_5021_10",
@@ -626,9 +667,11 @@
           "20_15366_10",
           "20_16364_10",
           "21_5302_10",
+          "21_5807_10",
           "21_5943_10",
           "21_10336_10",
           "21_12918_10",
+          "21_16303_10",
           "22_4259_10",
           "22_4999_10",
           "22_7167_10",
@@ -637,12 +680,12 @@
           "22_13132_10",
           "22_15237_10",
           "23_57_10",
+          "23_1112_10",
           "23_2203_10",
           "23_3004_10",
           "23_4252_10",
           "23_5835_10",
           "23_7590_10",
-          "23_8449_10",
           "23_8564_10",
           "23_8967_10",
           "23_10812_10",
@@ -661,6 +704,7 @@
           "24_5668_10",
           "24_5999_10",
           "24_6394_10",
+          "24_8787_10",
           "24_9794_10",
           "24_12064_10",
           "24_13277_10",
@@ -678,6 +722,7 @@
           "25_5656_10",
           "25_7461_10",
           "25_8810_10",
+          "25_9975_10",
           "25_10152_10",
           "25_11658_10",
           "25_13416_10",
@@ -687,21 +732,14 @@
           "25_16302_10",
           "25_16326_10"
         ],
-        "mean_activation": 15.06166372091874,
+        "mean_activation": 17.348508299565783,
         "max_activation": 120.34442901611328,
-        "mean_influence": 0.5998989271081012,
+        "mean_influence": 0.5764725515071083,
         "max_influence": 0.8000247478485107,
         "layers": [
           0,
-          3,
-          4,
-          6,
-          7,
-          8,
           9,
-          10,
           13,
-          14,
           15,
           16,
           17,
@@ -714,11 +752,11 @@
           24,
           25
         ],
-        "total_in_degree": 8393,
-        "total_out_degree": 2803
+        "total_in_degree": 8592,
+        "total_out_degree": 2339
       },
-      "0": {
-        "size": 148,
+      "7": {
+        "size": 161,
         "nodes": [
           "0_14725_2",
           "0_3358_4",
@@ -732,7 +770,6 @@
           "0_8047_10",
           "0_11375_10",
           "0_12747_10",
-          "0_13004_10",
           "0_13523_10",
           "0_15944_10",
           "1_1321_10",
@@ -762,12 +799,14 @@
           "3_8131_10",
           "3_11734_10",
           "3_12873_10",
+          "3_14835_10",
           "3_15286_10",
           "4_1312_10",
           "4_2866_10",
           "4_3113_10",
           "4_5390_10",
           "4_6784_10",
+          "4_7671_10",
           "4_8677_10",
           "4_10453_10",
           "4_11350_10",
@@ -782,33 +821,50 @@
           "5_13917_10",
           "5_16128_10",
           "6_179_10",
+          "6_618_10",
           "6_1467_10",
           "6_2267_10",
           "6_2417_10",
           "6_3624_10",
           "6_3922_10",
+          "6_4662_10",
           "6_9082_10",
           "6_9865_10",
           "6_14137_10",
+          "7_691_10",
           "7_1045_10",
           "7_1460_10",
           "7_1720_10",
           "7_2318_10",
           "7_3099_10",
+          "7_3995_10",
+          "7_10547_10",
           "7_10727_10",
           "7_13436_10",
+          "7_14037_10",
+          "7_14088_10",
           "7_14809_10",
+          "7_15515_10",
+          "8_3351_10",
+          "8_3745_10",
+          "8_4244_10",
+          "8_8625_10",
           "8_9338_10",
           "8_11172_10",
+          "8_12762_10",
+          "8_14360_10",
           "8_14404_10",
+          "9_185_10",
           "9_1965_10",
           "9_2426_10",
           "9_3441_10",
+          "9_4854_10",
           "9_5432_10",
           "9_7209_10",
           "9_11066_10",
           "9_13520_10",
           "9_16050_10",
+          "10_1037_10",
           "10_3837_10",
           "10_3960_10",
           "10_12804_10",
@@ -822,16 +878,16 @@
           "12_8580_10",
           "12_10631_10",
           "12_16302_10",
-          "13_3610_10",
           "13_6129_10",
           "13_7058_10",
-          "13_14593_10",
           "13_15151_10",
+          "13_15503_10",
           "14_2654_10",
           "14_3704_10",
           "14_4758_10",
           "14_5214_10",
           "14_7841_10",
+          "14_9327_10",
           "14_10297_10",
           "14_10346_10",
           "14_11238_10",
@@ -859,19 +915,14 @@
           "20_1110_10",
           "20_10118_10",
           "21_3288_10",
-          "21_5807_10",
           "21_6186_10",
-          "21_16303_10",
           "21_16345_10",
-          "23_1112_10",
-          "24_8787_10",
           "24_9042_10",
-          "25_9975_10",
           "25_12025_10"
         ],
-        "mean_activation": 7.76386958360672,
-        "max_activation": 76.28215789794922,
-        "mean_influence": 0.6629116754676845,
+        "mean_activation": 6.91297751924266,
+        "max_activation": 34.89809799194336,
+        "mean_influence": 0.6723963133296611,
         "max_influence": 0.7987491488456726,
         "layers": [
           0,
@@ -896,15 +947,14 @@
           19,
           20,
           21,
-          23,
           24,
           25
         ],
-        "total_in_degree": 4174,
-        "total_out_degree": 4744
+        "total_in_degree": 3990,
+        "total_out_degree": 5248
       },
-      "5": {
-        "size": 148,
+      "8": {
+        "size": 149,
         "nodes": [
           "0_344_6",
           "0_507_6",
@@ -1050,14 +1100,15 @@
           "6_14808_7",
           "7_9551_7",
           "7_15544_7",
+          "7_1586_10",
           "8_5622_7",
           "9_16083_7",
           "17_5808_6",
           "18_14627_6"
         ],
-        "mean_activation": 7.372366397767453,
+        "mean_activation": 7.346228946775398,
         "max_activation": 129.15977478027344,
-        "mean_influence": 0.7061347639238512,
+        "mean_influence": 0.706175735732853,
         "max_influence": 0.7993300557136536,
         "layers": [
           0,
@@ -1073,66 +1124,38 @@
           17,
           18
         ],
-        "total_in_degree": 1195,
-        "total_out_degree": 2696
-      },
-      "8": {
-        "size": 6,
-        "nodes": [
-          "0_12392_8",
-          "0_14407_8",
-          "2_1896_8",
-          "3_9657_8",
-          "14_9527_8",
-          "17_7598_8"
-        ],
-        "mean_activation": 30.62840215365092,
-        "max_activation": 93.88731384277344,
-        "mean_influence": 0.6618367731571198,
-        "max_influence": 0.7696394324302673,
-        "layers": [
-          0,
-          2,
-          3,
-          14,
-          17
-        ],
-        "total_in_degree": 48,
-        "total_out_degree": 138
+        "total_in_degree": 1203,
+        "total_out_degree": 2707
       }
     },
     "rankings": [
       {
+        "supernode_id": 7,
+        "score": 15.53318479651694
+      },
+      {
         "supernode_id": 0,
-        "score": 14.275529079995366
-      },
-      {
-        "supernode_id": 8,
-        "score": 12.830027528127037
-      },
-      {
-        "supernode_id": 1,
         "score": 11.264619508960616
       },
       {
-        "supernode_id": 9,
-        "score": 10.522371056635995
+        "supernode_id": 4,
+        "score": 10.48337173542875
       },
       {
-        "supernode_id": 2,
+        "supernode_id": 1,
         "score": 10.293763963037133
       },
       {
+        "supernode_id": 6,
+        "score": 10.228989807886885
+      },
+      {
+        "supernode_id": 8,
+        "score": 9.635878482392364
+      },
+      {
         "supernode_id": 5,
-        "score": 9.60645198289812
-      },
-      {
-        "supernode_id": 7,
-        "score": 8.552450741308995
-      },
-      {
-        "supernode_id": 10,
-        "score": 8.551950950994724
+        "score": 8.559342468077098
       }
     ]
   },
@@ -1181,7 +1204,24 @@
       ],
       "internal_edges": 12744,
       "incoming_edges": 0,
-      "outgoing_edges": 13354
+      "outgoing_edges": 13354,
+      "top_features_with_descriptions": [
+        {
+          "feature": "0_8444_7",
+          "activation": 39.88357162475586,
+          "description": "references to music albums and production"
+        },
+        {
+          "feature": "0_2848_3",
+          "activation": 35.31486892700195,
+          "description": "instances of special characters and delimiters in code snippets"
+        },
+        {
+          "feature": "0_11375_10",
+          "activation": 34.89809799194336,
+          "description": " concepts and terminology related to computing"
+        }
+      ]
     },
     "early_proc": {
       "layer_range": [
@@ -1227,7 +1267,24 @@
       ],
       "internal_edges": 901,
       "incoming_edges": 4690,
-      "outgoing_edges": 3953
+      "outgoing_edges": 3953,
+      "top_features_with_descriptions": [
+        {
+          "feature": "10_10933_1",
+          "activation": 56.81747055053711,
+          "description": " file paths and directory structures"
+        },
+        {
+          "feature": "9_8770_1",
+          "activation": 56.28359603881836,
+          "description": "quantitative information and statistics related to people and finances"
+        },
+        {
+          "feature": "10_14174_1",
+          "activation": 51.37996292114258,
+          "description": "concepts related to ideas and their significance in various contexts"
+        }
+      ]
     },
     "middle_proc": {
       "layer_range": [
@@ -1273,7 +1330,24 @@
       ],
       "internal_edges": 229,
       "incoming_edges": 2327,
-      "outgoing_edges": 1794
+      "outgoing_edges": 1794,
+      "top_features_with_descriptions": [
+        {
+          "feature": "15_851_1",
+          "activation": 150.28956604003906,
+          "description": "references to donation and charitable giving"
+        },
+        {
+          "feature": "15_751_1",
+          "activation": 105.39839172363281,
+          "description": "programming concepts and syntax related to functions and methods in code"
+        },
+        {
+          "feature": "13_8128_1",
+          "activation": 101.25414276123047,
+          "description": " phrases related to resource management and allocation"
+        }
+      ]
     },
     "late_proc": {
       "layer_range": [
@@ -1319,7 +1393,24 @@
       ],
       "internal_edges": 775,
       "incoming_edges": 6541,
-      "outgoing_edges": 2075
+      "outgoing_edges": 2075,
+      "top_features_with_descriptions": [
+        {
+          "feature": "18_14627_6",
+          "activation": 129.15977478027344,
+          "description": "references to pharmaceutical compositions and preparations"
+        },
+        {
+          "feature": "17_7598_8",
+          "activation": 93.88731384277344,
+          "description": "technical vocabulary related to structures and guidelines"
+        },
+        {
+          "feature": "17_5808_6",
+          "activation": 90.88040924072266,
+          "description": "references to buttons in a programming context"
+        }
+      ]
     },
     "output": {
       "layer_range": [
@@ -1365,7 +1456,24 @@
       ],
       "internal_edges": 1273,
       "incoming_edges": 7618,
-      "outgoing_edges": 0
+      "outgoing_edges": 0,
+      "top_features_with_descriptions": [
+        {
+          "feature": "24_13277_10",
+          "activation": 120.34442901611328,
+          "description": "scientific terminology related to medical research and statistical significance"
+        },
+        {
+          "feature": "22_12926_10",
+          "activation": 88.53935241699219,
+          "description": "questions regarding authorship and accountability in creative works"
+        },
+        {
+          "feature": "25_9975_10",
+          "activation": 76.28215789794922,
+          "description": "references to familial relationships, particularly focusing on wives and daughters"
+        }
+      ]
     }
   },
   "flow_analysis": {
@@ -1440,7 +1548,7 @@
         "layer": 2,
         "activation": 23.607534408569336,
         "out_degree": 173,
-        "betweenness": 0.003464369746428282
+        "betweenness": 0.005875162753341253
       },
       {
         "node_id": "0_1903_1",
@@ -1459,7 +1567,7 @@
         "activation": 120.34442901611328,
         "influence": 0.2851869761943817,
         "in_degree": 719,
-        "betweenness": 0.0013892916719919338
+        "betweenness": 0.0017573172965362437
       },
       {
         "node_id": "22_12926_10",
@@ -1468,7 +1576,7 @@
         "activation": 88.53935241699219,
         "influence": 0.29230037331581116,
         "in_degree": 566,
-        "betweenness": 0.0032518885045274048
+        "betweenness": 0.0031422856040250846
       },
       {
         "node_id": "25_9975_10",
@@ -1486,7 +1594,7 @@
         "activation": 58.18529510498047,
         "influence": 0.36324119567871094,
         "in_degree": 256,
-        "betweenness": 0.000733846113111901
+        "betweenness": 0.0006114657340104384
       },
       {
         "node_id": "21_5943_10",
@@ -1495,7 +1603,7 @@
         "activation": 54.64651107788086,
         "influence": 0.2716635763645172,
         "in_degree": 866,
-        "betweenness": 0.008056729767889997
+        "betweenness": 0.007554689998918677
       },
       {
         "node_id": "25_14336_10",
@@ -1522,7 +1630,7 @@
         "activation": 40.438758850097656,
         "influence": 0.3804371953010559,
         "in_degree": 168,
-        "betweenness": 0.0003964805674170089
+        "betweenness": 0.000312661981268934
       },
       {
         "node_id": "24_14329_10",
@@ -1531,7 +1639,7 @@
         "activation": 38.28430938720703,
         "influence": 0.3296312689781189,
         "in_degree": 332,
-        "betweenness": 0.00032454367909680873
+        "betweenness": 0.00025022612498772816
       },
       {
         "node_id": "24_10376_10",
@@ -1540,34 +1648,34 @@
         "activation": 36.926734924316406,
         "influence": 0.5406124591827393,
         "in_degree": 46,
-        "betweenness": 4.324266025608635e-05
+        "betweenness": 3.3112135328716966e-05
       }
     ],
     "bottleneck_nodes": [
-      {
-        "node_id": "19_2523_10",
-        "label": "L19_F3234676",
-        "layer": 19,
-        "activation": 62.93939971923828,
-        "betweenness": 0.012947224910581473,
-        "in_degree": 963,
-        "out_degree": 93
-      },
       {
         "node_id": "4_10080_9",
         "label": "L4_F50858650",
         "layer": 4,
         "activation": 17.363357543945312,
-        "betweenness": 0.012798394359936953,
+        "betweenness": 0.015921320168412335,
         "in_degree": 425,
         "out_degree": 117
+      },
+      {
+        "node_id": "19_2523_10",
+        "label": "L19_F3234676",
+        "layer": 19,
+        "activation": 62.93939971923828,
+        "betweenness": 0.014283173798090004,
+        "in_degree": 963,
+        "out_degree": 93
       },
       {
         "node_id": "4_12217_7",
         "label": "L4_F74694748",
         "layer": 4,
         "activation": 31.833740234375,
-        "betweenness": 0.01079011484847367,
+        "betweenness": 0.012886553436895485,
         "in_degree": 126,
         "out_degree": 130
       },
@@ -1576,64 +1684,170 @@
         "label": "L4_F29464321",
         "layer": 4,
         "activation": 23.460973739624023,
-        "betweenness": 0.008579238589442487,
+        "betweenness": 0.011006408314131279,
         "in_degree": 164,
         "out_degree": 161
+      },
+      {
+        "node_id": "3_9559_3",
+        "label": "L3_F45730262",
+        "layer": 3,
+        "activation": 17.594390869140625,
+        "betweenness": 0.009217671734281655,
+        "in_degree": 127,
+        "out_degree": 141
       },
       {
         "node_id": "21_5943_10",
         "label": "L21_F17793573",
         "layer": 21,
         "activation": 54.64651107788086,
-        "betweenness": 0.008056729767889997,
+        "betweenness": 0.007554689998918677,
         "in_degree": 866,
         "out_degree": 75
-      },
-      {
-        "node_id": "18_8959_10",
-        "label": "L18_F40306712",
-        "layer": 18,
-        "activation": 35.9939079284668,
-        "betweenness": 0.006074677796506208,
-        "in_degree": 584,
-        "out_degree": 90
       },
       {
         "node_id": "14_3951_9",
         "label": "L14_F7866546",
         "layer": 14,
         "activation": 24.868371963500977,
-        "betweenness": 0.005751328063279058,
+        "betweenness": 0.005876406349131678,
         "in_degree": 458,
         "out_degree": 84
       },
       {
-        "node_id": "17_7178_10",
-        "label": "L17_F25894788",
-        "layer": 17,
-        "activation": 31.406587600708008,
-        "betweenness": 0.0056322781274748416,
-        "in_degree": 537,
-        "out_degree": 92
-      },
-      {
-        "node_id": "2_8734_2",
-        "label": "L2_F38171950",
+        "node_id": "2_5514_9",
+        "label": "L2_F15221400",
         "layer": 2,
-        "activation": 6.745765686035156,
-        "betweenness": 0.005119289530813592,
-        "in_degree": 100,
-        "out_degree": 88
+        "activation": 23.607534408569336,
+        "betweenness": 0.005875162753341253,
+        "in_degree": 121,
+        "out_degree": 173
       },
       {
-        "node_id": "7_8765_9",
-        "label": "L7_F38487143",
-        "layer": 7,
-        "activation": 14.542272567749023,
-        "betweenness": 0.004841938403299183,
-        "in_degree": 355,
-        "out_degree": 73
+        "node_id": "18_8959_10",
+        "label": "L18_F40306712",
+        "layer": 18,
+        "activation": 35.9939079284668,
+        "betweenness": 0.005575003505977274,
+        "in_degree": 584,
+        "out_degree": 90
+      },
+      {
+        "node_id": "1_6300_5",
+        "label": "L1_F19860751",
+        "layer": 1,
+        "activation": 16.95500373840332,
+        "betweenness": 0.005380178928707647,
+        "in_degree": 77,
+        "out_degree": 75
       }
     ]
+  },
+  "feature_descriptions": {
+    "layer_groups": {
+      "input": [
+        {
+          "feature": "0_8444_7",
+          "activation": 39.88357162475586,
+          "description": "references to music albums and production"
+        },
+        {
+          "feature": "0_2848_3",
+          "activation": 35.31486892700195,
+          "description": "instances of special characters and delimiters in code snippets"
+        },
+        {
+          "feature": "0_11375_10",
+          "activation": 34.89809799194336,
+          "description": " concepts and terminology related to computing"
+        }
+      ],
+      "early_proc": [
+        {
+          "feature": "10_10933_1",
+          "activation": 56.81747055053711,
+          "description": " file paths and directory structures"
+        },
+        {
+          "feature": "9_8770_1",
+          "activation": 56.28359603881836,
+          "description": "quantitative information and statistics related to people and finances"
+        },
+        {
+          "feature": "10_14174_1",
+          "activation": 51.37996292114258,
+          "description": "concepts related to ideas and their significance in various contexts"
+        }
+      ],
+      "middle_proc": [
+        {
+          "feature": "15_851_1",
+          "activation": 150.28956604003906,
+          "description": "references to donation and charitable giving"
+        },
+        {
+          "feature": "15_751_1",
+          "activation": 105.39839172363281,
+          "description": "programming concepts and syntax related to functions and methods in code"
+        },
+        {
+          "feature": "13_8128_1",
+          "activation": 101.25414276123047,
+          "description": " phrases related to resource management and allocation"
+        }
+      ],
+      "late_proc": [
+        {
+          "feature": "18_14627_6",
+          "activation": 129.15977478027344,
+          "description": "references to pharmaceutical compositions and preparations"
+        },
+        {
+          "feature": "17_7598_8",
+          "activation": 93.88731384277344,
+          "description": "technical vocabulary related to structures and guidelines"
+        },
+        {
+          "feature": "17_5808_6",
+          "activation": 90.88040924072266,
+          "description": "references to buttons in a programming context"
+        }
+      ],
+      "output": [
+        {
+          "feature": "24_13277_10",
+          "activation": 120.34442901611328,
+          "description": "scientific terminology related to medical research and statistical significance"
+        },
+        {
+          "feature": "22_12926_10",
+          "activation": 88.53935241699219,
+          "description": "questions regarding authorship and accountability in creative works"
+        },
+        {
+          "feature": "25_9975_10",
+          "activation": 76.28215789794922,
+          "description": "references to familial relationships, particularly focusing on wives and daughters"
+        }
+      ]
+    },
+    "steering_targets": {
+      "0_2848_3": "instances of special characters and delimiters in code snippets",
+      "0_8444_7": "references to music albums and production",
+      "0_2_2": "instances of the word \"being\" and its variations in various contexts",
+      "0_9026_2": "references to the term \"graduate\" in various contexts, primarily related to education",
+      "0_9054_9": "occurrences of conditional statements in programming languages",
+      "24_13277_10": "scientific terminology related to medical research and statistical significance",
+      "22_12926_10": "questions regarding authorship and accountability in creative works",
+      "25_9975_10": "references to familial relationships, particularly focusing on wives and daughters",
+      "23_2203_10": "references to academic institutions and publications",
+      "21_5943_10": "phrases and questions related to procedural instructions and inquiries",
+      "4_10080_9": "contextual markers related to authorship and production details",
+      "19_2523_10": "terms related to medical conditions and treatments",
+      "4_12217_7": "terms related to the concept of delivery and its associated processes",
+      "4_7671_3": "elements related to questionnaire or survey content",
+      "3_9559_3": " references to timelines and related concepts in a variety of contexts"
+    }
   }
 }

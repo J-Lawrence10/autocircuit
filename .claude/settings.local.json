@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(python -m json.tool:*)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(timeout 180 python 3_analyze_circuit.py:*)",
+      "Bash(find:*)"
+    ]
+  }
+}

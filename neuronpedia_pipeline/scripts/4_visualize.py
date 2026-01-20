@@ -121,9 +121,25 @@ else:
     graph_file = get_user_selection(available_graphs)
     print(f"\nSelected: {graph_file.name}")
 
-# Determine analysis file path (comprehensive hybrid analysis)
-analysis_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_analysis.json"
-supernode_file = graph_file.parent / f"{graph_file.stem.replace('_converted', '')}_supernodes.json"
+# Try to load metadata to determine subfolder structure
+with open(graph_file) as f:
+    graph_data_preview = json.load(f)
+    metadata = graph_data_preview.get('metadata', {})
+    prompt_slug = metadata.get('slug', 'unknown')
+
+# Check for analysis files in subfolder first, then fall back to root
+base_filename = graph_file.stem.replace('_converted', '')
+output_subdir = graph_file.parent / prompt_slug
+
+# Try subfolder first (new structure)
+analysis_file = output_subdir / f"{base_filename}_analysis.json"
+supernode_file = output_subdir / f"{base_filename}_supernodes.json"
+
+# Fall back to root directory (old structure)
+if not analysis_file.exists():
+    analysis_file = graph_file.parent / f"{base_filename}_analysis.json"
+if not supernode_file.exists():
+    supernode_file = graph_file.parent / f"{base_filename}_supernodes.json"
 
 # Check for comprehensive analysis file first, fallback to legacy supernodes
 has_comprehensive_analysis = analysis_file.exists()
@@ -288,13 +304,26 @@ nx.draw_networkx_edges(
     ax=ax
 )
 
-# Labels
+# Labels - highlight output supernodes (L21-25)
 labels = {}
 for sn_id in SG.nodes():
     stats = supernode_stats[sn_id]
-    labels[sn_id] = f"SN{sn_id}\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}"
+    max_layer = max(stats['layers'])
 
-nx.draw_networkx_labels(SG, pos, labels, font_size=9, font_weight='bold', ax=ax)
+    # Check if this is an output supernode
+    if max_layer >= 21:
+        # This is an output supernode - add OUTPUT label
+        model_output = graph_data['metadata'].get('model_output', '')
+        output_prob = graph_data['metadata'].get('output_probability', 0)
+
+        if model_output:
+            labels[sn_id] = f"SN{sn_id} [OUTPUT]\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}\n>>> \"{model_output}\" ({output_prob:.1%})"
+        else:
+            labels[sn_id] = f"SN{sn_id} [OUTPUT]\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}"
+    else:
+        labels[sn_id] = f"SN{sn_id}\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}"
+
+nx.draw_networkx_labels(SG, pos, labels, font_size=8, font_weight='bold', ax=ax)
 
 # Edge labels (connection counts)
 edge_labels = {(u, v): f"{SG[u][v]['weight']}" for u, v in SG.edges()}
@@ -317,9 +346,10 @@ if legend_elements:
     ax.legend(handles=legend_elements, loc='upper right', fontsize=9)
 
 plt.tight_layout()
-# Create output directory using the graph file stem
-output_dir = graph_file.parent.parent / "processed" / "visualizations"
+# Create output directory using subfolder structure (organized by prompt slug)
+output_dir = graph_file.parent.parent / "processed" / "visualizations" / prompt_slug
 output_dir.mkdir(parents=True, exist_ok=True)
+print(f"\nOrganizing visualizations in subfolder: {prompt_slug}/")
 base_name = graph_file.stem.replace('_converted', '')
 output_path = output_dir / f"{base_name}_supernodes_overview.png"
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
@@ -573,6 +603,29 @@ if layer_groups and flow_analysis:
         stats_text = f"{group_data['num_nodes']} nodes\n{group_data['max_activation']:.1f} max act"
         ax.text(x, y-0.4, stats_text, ha='center', va='center',
                fontsize=9, zorder=3)
+
+        # Add top feature description if available (NEW!)
+        if 'top_features_with_descriptions' in group_data and len(group_data['top_features_with_descriptions']) > 0:
+            top_feat = group_data['top_features_with_descriptions'][0]
+            description = top_feat.get('description', '')
+
+            if description and description != 'None':
+                # Truncate long descriptions
+                if len(description) > 50:
+                    description = description[:47] + '...'
+
+                # Extract layer and feature number from feature ID
+                feat_parts = top_feat['feature'].split('_')
+                if len(feat_parts) >= 2:
+                    layer_num, feat_num = feat_parts[0], feat_parts[1]
+                    desc_label = f"L{layer_num}_F{feat_num}:\n{description}"
+                else:
+                    desc_label = description
+
+                # Add description below the stats
+                ax.text(x, y-1.1, desc_label, ha='center', va='top',
+                       fontsize=7, style='italic', zorder=3,
+                       bbox=dict(boxstyle='round,pad=0.3', facecolor='lightyellow', alpha=0.7, edgecolor='gray'))
 
         node_positions[group_name] = (x, y)
 
