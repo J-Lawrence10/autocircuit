@@ -26,11 +26,19 @@ When the user wants to analyze a circuit:
    ```
    - Script will show available converted graphs
    - User selects which graph to analyze (or press Enter for latest)
-   - Choose analysis type: **comprehensive** (recommended) or basic
+   - **Choose fetch strategy**:
+     - **Option 3 (RECOMMENDED)**: Smart - Top per supernode (~90 features, 30-60 seconds)
+     - Option 1: Quick - Top features only (~15 features, 10 seconds)
+     - Option 2: Complete - ALL features (~900 features, 5-10 minutes)
 
-3. **Wait for completion** (30-60 seconds for comprehensive):
+3. **Wait for completion**:
+   - **Smart fetch (Option 3)**: 30-60 seconds - best balance of speed and quality
+   - **Quick fetch (Option 1)**: 10 seconds - minimal descriptions
+   - **Complete fetch (Option 2)**: 5-10 minutes - exhaustive coverage
+
+   During execution:
    - Louvain community detection runs
-   - Feature descriptions fetched from Neuronpedia
+   - Feature descriptions fetched from Neuronpedia (targeted to top features per supernode)
    - Layer groups analyzed
    - Steering targets identified
 
@@ -69,10 +77,30 @@ Files saved to: `neuronpedia_pipeline/data/prompts/{prompt-slug}/3_analysis/`
 - OUTPUT (L21-25)
 
 ### 3. Feature Descriptions
-- Fetched from Neuronpedia API
-- Cached for performance
-- Shows what tokens activate each feature
-- Format: "Activates on: token1, token2, token3"
+
+**Three fetch strategies available**:
+
+1. **Smart Fetch (Option 3 - RECOMMENDED)**:
+   - Fetches top 10 features per supernode by activation
+   - ~90 features total (for typical 8-9 supernodes)
+   - Takes 30-60 seconds
+   - Provides enough data for accurate theme inference
+   - Best balance of speed and quality
+
+2. **Quick Fetch (Option 1)**:
+   - Fetches top 3 features per layer group
+   - ~15 features total
+   - Takes 10 seconds
+   - Minimal descriptions for quick exploration
+
+3. **Complete Fetch (Option 2)**:
+   - Fetches ALL features in the graph
+   - ~900 features total
+   - Takes 5-10 minutes
+   - Exhaustive coverage (rarely needed)
+
+**Description format**: "Activates on: token1, token2, token3"
+**Caching**: Descriptions are cached for performance on subsequent runs
 
 ### 4. Steering Targets
 - Input amplification candidates
@@ -87,8 +115,8 @@ Files saved to: `neuronpedia_pipeline/data/prompts/{prompt-slug}/3_analysis/`
 ```bash
 cd neuronpedia_pipeline/scripts
 python 3_analyze_circuit.py
-# Select the prompt
-# Choose: 1 (comprehensive analysis)
+# Select the prompt: paris-is-the-capital-of
+# Choose: 3 (Smart fetch - RECOMMENDED)
 ```
 
 **Report**:
@@ -103,19 +131,23 @@ Supernodes: 9 communities detected
   SN5: 146 nodes | L0-L20
   SN6: 133 nodes | L0-L17
 
-Feature descriptions: 45 fetched and cached
+Feature descriptions: 80 fetched and cached (Smart fetch)
 
 Location: neuronpedia_pipeline/data/prompts/paris-is-the-capital-of/3_analysis/
 
 Next step: Run Script 4 to visualize the circuit
+
+Note: Smart fetch targeted top 10 features per supernode for optimal theme inference
 ```
 
 ## Important Notes
 
-- **Comprehensive analysis is recommended** - fetches feature descriptions needed for visualizations
+- **Smart fetch (Option 3) is recommended** - fetches top features per supernode for accurate themes
 - **Feature descriptions are cached** - subsequent runs are faster
-- **Supernode count varies** - depends on circuit complexity
+- **Supernode count varies** - depends on circuit complexity (typically 5-15)
 - **Analysis is deterministic** - same input always produces same supernodes
+- **Theme quality**: Smart fetch targets most activated features, which are most relevant for theme inference
+- **Performance**: Smart fetch is 10× faster than Complete fetch with similar theme quality
 
 ## Common Issues
 
