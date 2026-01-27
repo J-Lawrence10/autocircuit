@@ -1,0 +1,211 @@
+================================================================================
+SUPERNODE EVOLUTION ANALYSIS
+================================================================================
+
+Circuit: <bos>The capitol of the state containing dallas is
+Total Supernodes: 13
+
+================================================================================
+EVOLUTION SUMMARY
+================================================================================
+Total transformation points: 108
+
+================================================================================
+SUPERNODE-BY-SUPERNODE EVOLUTION
+================================================================================
+
+Supernode 0:
+  Layer Range: L0-L11 (11 layers)
+  Feature Progression: L0:58, L1:24, L2:14, L3:16, L4:24, ...
+  Transformation Points: 8
+    - L0->L1: -34 features (-58.6%) [contraction]
+    - L1->L2: -10 features (-41.7%) [contraction]
+    - L3->L4: +8 features (+50.0%) [expansion]
+    - L4->L5: -11 features (-45.8%) [contraction]
+    - L5->L6: -7 features (-53.8%) [contraction]
+    - L7->L8: +3 features (+50.0%) [expansion]
+    - L8->L9: -7 features (-77.8%) [contraction]
+    - L9->L11: -1 features (-50.0%) [contraction]
+
+Supernode 1:
+  Layer Range: L0-L17 (17 layers)
+  Feature Progression: L0:53, L1:8, L2:6, L3:7, L4:8, ...
+  Transformation Points: 9
+    - L0->L1: -45 features (-84.9%) [contraction]
+    - L1->L2: -2 features (-25.0%) [contraction]
+    - L4->L5: -5 features (-62.5%) [contraction]
+    - L7->L8: -1 features (-33.3%) [contraction]
+    - L8->L9: +5 features (+250.0%) [expansion]
+    - L9->L10: -2 features (-28.6%) [contraction]
+    - L11->L12: -3 features (-60.0%) [contraction]
+    - L12->L13: -1 features (-50.0%) [contraction]
+    - L13->L14: +1 features (+100.0%) [expansion]
+
+Supernode 2:
+  Layer Range: L0-L20 (21 layers)
+  Feature Progression: L0:67, L1:16, L2:26, L3:22, L4:17, ...
+  Transformation Points: 14
+    - L0->L1: -51 features (-76.1%) [contraction]
+    - L1->L2: +10 features (+62.5%) [expansion]
+    - L3->L4: -5 features (-22.7%) [contraction]
+    - L4->L5: -4 features (-23.5%) [contraction]
+    - L6->L7: -7 features (-53.8%) [contraction]
+    - L9->L10: -5 features (-83.3%) [contraction]
+    - L10->L11: +1 features (+100.0%) [expansion]
+    - L11->L12: +3 features (+150.0%) [expansion]
+    - L12->L13: -2 features (-40.0%) [contraction]
+    - L15->L16: -2 features (-66.7%) [contraction]
+    - L16->L17: +1 features (+100.0%) [expansion]
+    - L17->L18: -1 features (-50.0%) [contraction]
+    - L18->L19: +1 features (+100.0%) [expansion]
+    - L19->L20: -1 features (-50.0%) [contraction]
+
+Supernode 3:
+  Layer Range: L0-L25 (16 layers)
+  Feature Progression: L0:1, L7:1, L9:2, L10:1, L11:2, ...
+  Transformation Points: 11
+    - L7->L9: +1 features (+100.0%) [expansion]
+    - L9->L10: -1 features (-50.0%) [contraction]
+    - L10->L11: +1 features (+100.0%) [expansion]
+    - L12->L13: +5 features (+250.0%) [expansion]
+    - L14->L15: -5 features (-62.5%) [contraction]
+    - L15->L16: +1 features (+33.3%) [expansion]
+    - L16->L17: -2 features (-50.0%) [contraction]
+    - L17->L18: +1 features (+50.0%) [expansion]
+    - L18->L19: -2 features (-66.7%) [contraction]
+    - L19->L20: +1 features (+100.0%) [expansion]
+    - L20->L21: -1 features (-50.0%) [contraction]
+
+Supernode 4:
+  Layer Range: L14-L21 (8 layers)
+  Feature Progression: L14:1, L15:1, L16:4, L17:3, L18:1, ...
+  Transformation Points: 4
+    - L15->L16: +3 features (+300.0%) [expansion]
+    - L16->L17: -1 features (-25.0%) [contraction]
+    - L17->L18: -2 features (-66.7%) [contraction]
+    - L20->L21: +1 features (+100.0%) [expansion]
+
+Supernode 5:
+  Layer Range: L0-L16 (11 layers)
+  Feature Progression: L0:140, L1:38, L2:26, L3:4, L4:10, ...
+  Transformation Points: 8
+    - L0->L1: -102 features (-72.9%) [contraction]
+    - L1->L2: -12 features (-31.6%) [contraction]
+    - L2->L3: -22 features (-84.6%) [contraction]
+    - L3->L4: +6 features (+150.0%) [expansion]
+    - L4->L5: -9 features (-90.0%) [contraction]
+    - L5->L6: +5 features (+500.0%) [expansion]
+    - L6->L7: -4 features (-66.7%) [contraction]
+    - L7->L14: -1 features (-50.0%) [contraction]
+
+Supernode 6:
+  Layer Range: L0-L25 (20 layers)
+  Feature Progression: L0:21, L2:1, L4:3, L5:1, L6:1, ...
+  Transformation Points: 14
+    - L0->L2: -20 features (-95.2%) [contraction]
+    - L2->L4: +2 features (+200.0%) [expansion]
+    - L4->L5: -2 features (-66.7%) [contraction]
+    - L7->L8: +1 features (+100.0%) [expansion]
+    - L8->L9: -1 features (-50.0%) [contraction]
+    - L9->L14: +1 features (+100.0%) [expansion]
+    - L14->L15: -1 features (-50.0%) [contraction]
+    - L15->L16: +1 features (+100.0%) [expansion]
+    - L16->L17: -1 features (-50.0%) [contraction]
+    - L17->L18: +1 features (+100.0%) [expansion]
+    - L19->L20: +2 features (+100.0%) [expansion]
+    - L20->L21: -1 features (-25.0%) [contraction]
+    - L21->L22: +2 features (+66.7%) [expansion]
+    - L24->L25: -2 features (-40.0%) [contraction]
+
+Supernode 7:
+  Layer Range: L0-L25 (10 layers)
+  Feature Progression: L0:1, L17:2, L18:2, L19:3, L20:6, ...
+  Transformation Points: 7
+    - L0->L17: +1 features (+100.0%) [expansion]
+    - L18->L19: +1 features (+50.0%) [expansion]
+    - L19->L20: +3 features (+100.0%) [expansion]
+    - L21->L22: -4 features (-80.0%) [contraction]
+    - L22->L23: +3 features (+300.0%) [expansion]
+    - L23->L24: -3 features (-75.0%) [contraction]
+    - L24->L25: +1 features (+100.0%) [expansion]
+
+Supernode 8:
+  Layer Range: L0-L25 (7 layers)
+  Feature Progression: L0:1, L19:1, L21:3, L22:4, L23:11, ...
+  Transformation Points: 4
+    - L19->L21: +2 features (+200.0%) [expansion]
+    - L21->L22: +1 features (+33.3%) [expansion]
+    - L22->L23: +7 features (+175.0%) [expansion]
+    - L23->L24: +10 features (+90.9%) [expansion]
+
+Supernode 9:
+  Layer Range: L0-L23 (18 layers)
+  Feature Progression: L0:14, L1:8, L2:7, L3:10, L4:9, ...
+  Transformation Points: 9
+    - L0->L1: -6 features (-42.9%) [contraction]
+    - L2->L3: +3 features (+42.9%) [expansion]
+    - L5->L6: -4 features (-44.4%) [contraction]
+    - L6->L7: +9 features (+180.0%) [expansion]
+    - L9->L10: -7 features (-53.8%) [contraction]
+    - L10->L11: -2 features (-33.3%) [contraction]
+    - L11->L13: +1 features (+25.0%) [expansion]
+    - L13->L14: -2 features (-40.0%) [contraction]
+    - L14->L16: -2 features (-66.7%) [contraction]
+
+Supernode 10:
+  Layer Range: L0-L25 (9 layers)
+  Feature Progression: L0:2, L18:1, L19:3, L20:1, L21:2, ...
+  Transformation Points: 7
+    - L0->L18: -1 features (-50.0%) [contraction]
+    - L18->L19: +2 features (+200.0%) [expansion]
+    - L19->L20: -2 features (-66.7%) [contraction]
+    - L20->L21: +1 features (+100.0%) [expansion]
+    - L21->L22: +1 features (+50.0%) [expansion]
+    - L22->L23: +6 features (+200.0%) [expansion]
+    - L23->L24: -4 features (-44.4%) [contraction]
+
+Supernode 12:
+  Layer Range: L0-L15 (14 layers)
+  Feature Progression: L0:17, L1:8, L2:5, L3:21, L4:17, ...
+  Transformation Points: 8
+    - L0->L1: -9 features (-52.9%) [contraction]
+    - L1->L2: -3 features (-37.5%) [contraction]
+    - L2->L3: +16 features (+320.0%) [expansion]
+    - L5->L6: -4 features (-28.6%) [contraction]
+    - L6->L7: -7 features (-70.0%) [contraction]
+    - L7->L8: +3 features (+100.0%) [expansion]
+    - L8->L9: -2 features (-33.3%) [contraction]
+    - L9->L10: -3 features (-75.0%) [contraction]
+
+Supernode 13:
+  Layer Range: L0-L17 (13 layers)
+  Feature Progression: L0:68, L1:10, L2:12, L3:11, L4:10, ...
+  Transformation Points: 5
+    - L0->L1: -58 features (-85.3%) [contraction]
+    - L4->L5: -3 features (-30.0%) [contraction]
+    - L5->L6: -2 features (-28.6%) [contraction]
+    - L7->L8: -2 features (-40.0%) [contraction]
+    - L8->L12: -2 features (-66.7%) [contraction]
+
+================================================================================
+KEY INSIGHTS
+================================================================================
+
+1. WIDEST SPAN (most layers):
+   SN2: 21 layers (L0-L20)
+   SN6: 20 layers (L0-L25)
+   SN9: 18 layers (L0-L23)
+
+2. MOST DYNAMIC (most transformations):
+   SN6: 14 transformation points
+   SN2: 14 transformation points
+   SN3: 11 transformation points
+
+3. HOTSPOT LAYERS (most transformations across all supernodes):
+   Layer 0: 10 transformations
+   Layer 7: 7 transformations
+   Layer 9: 7 transformations
+   Layer 4: 6 transformations
+   Layer 19: 6 transformations
+
+================================================================================

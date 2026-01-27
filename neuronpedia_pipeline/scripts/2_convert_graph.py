@@ -10,7 +10,11 @@ from pathlib import Path
 import argparse
 import sys
 
-def convert_neuronpedia_graph(input_file, output_file=None):
+# Add scripts to path for imports
+sys.path.insert(0, str(Path(__file__).parent))
+from path_manager import PathManager
+
+def convert_neuronpedia_graph(input_file, output_file=None, prompt=None):
     """
     Convert real Neuronpedia graph JSON to our pipeline format
 
@@ -21,6 +25,11 @@ def convert_neuronpedia_graph(input_file, output_file=None):
     Pipeline format:
     - nodes: [{id, label, layer, activation}]
     - edges: [{source, target, weight}]
+
+    Args:
+        input_file: Path to raw graph JSON
+        output_file: Output path (optional, uses PathManager if prompt provided)
+        prompt: Prompt text for PathManager integration
     """
 
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -152,6 +161,23 @@ def convert_neuronpedia_graph(input_file, output_file=None):
 
     print(f"\n[OK] Converted graph saved to: {output_file}")
 
+    # Save conversion stats if prompt provided (PathManager integration)
+    if prompt:
+        pm = PathManager()
+        stats = {
+            'original_nodes': len(data['nodes']),
+            'original_links': len(data['links']),
+            'converted_nodes': len(converted_nodes),
+            'converted_edges': len(converted_edges),
+            'layer_distribution': layer_counts,
+            'model_output': model_output,
+            'output_probability': output_probability
+        }
+        stats_path = pm.conversion_stats_path(prompt)
+        with open(stats_path, 'w') as f:
+            json.dump(stats, f, indent=2)
+        print(f"[OK] Conversion stats saved to: {stats_path.name}")
+
     return converted_graph
 
 def create_networkx_graph(converted_graph):
@@ -186,15 +212,27 @@ def create_networkx_graph(converted_graph):
     return G
 
 def find_available_raw_graphs():
-    """Find all raw (non-converted) graphs in the data directory"""
-    graphs_dir = Path(__file__).parent.parent / "data" / "graphs"
+    """Find all raw graphs in the new PathManager structure"""
+    pm = PathManager()
 
-    if not graphs_dir.exists():
-        return []
+    raw_graphs = []
 
-    # Find all real_*.json files that are NOT converted
-    all_graphs = list(graphs_dir.glob("real_*.json"))
-    raw_graphs = [g for g in all_graphs if not g.name.endswith('_converted.json')]
+    # Look in new structure: data/prompts/*/1_generation/raw_graph.json
+    prompts_dir = pm.prompts_dir
+    if prompts_dir.exists():
+        for prompt_dir in prompts_dir.iterdir():
+            if prompt_dir.is_dir():
+                gen_dir = prompt_dir / '1_generation'
+                if gen_dir.exists():
+                    raw_graph = gen_dir / 'raw_graph.json'
+                    if raw_graph.exists():
+                        raw_graphs.append(raw_graph)
+
+    # Also check old location for backward compatibility
+    old_graphs_dir = pm.base_dir / "graphs"
+    if old_graphs_dir.exists():
+        old_raw = list(old_graphs_dir.glob("real_*.json"))
+        raw_graphs.extend([g for g in old_raw if not g.name.endswith('_converted.json')])
 
     # Sort by modification time (newest first)
     raw_graphs.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -295,20 +333,26 @@ Examples:
         input_path = get_user_selection(available_graphs)
         print(f"\nSelected: {input_path.name}")
 
-    # Load metadata to create subfolder based on slug
+    # Use PathManager for organized output
+    pm = PathManager()
+
+    # Load metadata to get prompt
     with open(input_path) as f:
         raw_data = json.load(f)
         metadata = raw_data.get('metadata', {})
-        prompt_slug = metadata.get('slug', raw_data.get('slug', 'unknown'))
+        prompt = metadata.get('prompt', '')
 
-    # Create subfolder for this prompt's outputs
-    output_subdir = input_path.parent / prompt_slug
-    output_subdir.mkdir(parents=True, exist_ok=True)
+        # If no prompt in metadata, try to extract from filename or slug
+        if not prompt:
+            slug = metadata.get('slug', raw_data.get('slug', ''))
+            print(f"[WARNING] No prompt found in metadata, using slug: {slug}")
+            prompt = slug.replace('-', ' ').title()
 
-    # Generate output path in subfolder
-    output_path = output_subdir / f"{input_path.stem}_converted.json"
+    # Get output path using PathManager
+    output_path = pm.converted_graph_path(prompt)
 
-    print(f"\nOrganizing outputs in subfolder: {prompt_slug}/")
+    print(f"\nPrompt: {prompt}")
+    print(f"Output directory: {pm.get_prompt_dir(prompt)}")
 
     # Check if already converted
     if output_path.exists():
@@ -322,8 +366,8 @@ Examples:
     print("CONVERTING GRAPH")
     print("=" * 60)
 
-    # Convert
-    converted = convert_neuronpedia_graph(input_path, output_path)
+    # Convert (pass prompt for PathManager integration)
+    converted = convert_neuronpedia_graph(input_path, output_path, prompt=prompt)
 
     # Create NetworkX graph to validate
     G = create_networkx_graph(converted)

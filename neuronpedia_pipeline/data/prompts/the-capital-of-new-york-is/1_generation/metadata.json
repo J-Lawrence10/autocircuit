@@ -1,0 +1,10 @@
+{
+  "prompt": "The capital of New York is",
+  "model": "gemma-2-2b",
+  "slug": "the-capital-of-new-york-is",
+  "num_nodes": 1150,
+  "num_links": 55183,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/thecapitalofnewy-1769294057383.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=thecapitalofnewy-1769294057383",
+  "generated_at": "2026-01-24T17:34:23.718611"
+}

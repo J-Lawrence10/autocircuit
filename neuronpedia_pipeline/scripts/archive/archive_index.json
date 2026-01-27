@@ -1,0 +1,334 @@
+{
+  "10_polysemanticity_analysis.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "10_polysemanticity_analysis_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 16885
+    },
+    {
+      "timestamp": "20260121_160421",
+      "archive_file": "10_polysemanticity_analysis_20260121_160421.py",
+      "reason": "PathManager integration - optional analysis scripts",
+      "original_size": 16885
+    },
+    {
+      "timestamp": "20260124_165916",
+      "archive_file": "10_polysemanticity_analysis_20260124_165916.py",
+      "reason": "Add interactive prompt selection",
+      "original_size": 17773
+    }
+  ],
+  "1_generate_graph.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "1_generate_graph_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 8985
+    },
+    {
+      "timestamp": "20260120_235040",
+      "archive_file": "1_generate_graph_20260120_235040.py",
+      "reason": "PathManager integration - updating to new directory structure",
+      "original_size": 8985
+    }
+  ],
+  "2_convert_graph.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "2_convert_graph_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 11901
+    },
+    {
+      "timestamp": "20260120_235133",
+      "archive_file": "2_convert_graph_20260120_235133.py",
+      "reason": "PathManager integration - core pipeline scripts",
+      "original_size": 11901
+    }
+  ],
+  "3_analyze_circuit.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "3_analyze_circuit_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 29864
+    },
+    {
+      "timestamp": "20260120_235133",
+      "archive_file": "3_analyze_circuit_20260120_235133.py",
+      "reason": "PathManager integration - core pipeline scripts",
+      "original_size": 29864
+    }
+  ],
+  "4_visualize.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "4_visualize_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 36302
+    },
+    {
+      "timestamp": "20260120_235133",
+      "archive_file": "4_visualize_20260120_235133.py",
+      "reason": "PathManager integration - core pipeline scripts",
+      "original_size": 36302
+    },
+    {
+      "timestamp": "20260123_122137",
+      "archive_file": "4_visualize_20260123_122137.py",
+      "reason": "Phase 1: Fix legend positioning - move to top-left to avoid blocking data",
+      "original_size": 37552
+    },
+    {
+      "timestamp": "20260123_122536",
+      "archive_file": "4_visualize_20260123_122536.py",
+      "reason": "Phase 4: Add action item boxes to visualizations",
+      "original_size": 40886
+    },
+    {
+      "timestamp": "20260123_124121",
+      "archive_file": "4_visualize_20260123_124121.py",
+      "reason": "Fix feature description display - only show features with actual descriptions",
+      "original_size": 43439
+    },
+    {
+      "timestamp": "20260123_162718",
+      "archive_file": "4_visualize_20260123_162718.py",
+      "reason": "Move legends and action items outside graphics",
+      "original_size": 44096
+    },
+    {
+      "timestamp": "20260123_164106",
+      "archive_file": "4_visualize_20260123_164106.py",
+      "reason": "Fix label truncation and show output tokens with probabilities",
+      "original_size": 44700
+    },
+    {
+      "timestamp": "20260124_162150",
+      "archive_file": "4_visualize_20260124_162150.py",
+      "reason": "Fix legend positioning to not block data",
+      "original_size": 45912
+    },
+    {
+      "timestamp": "20260124_164646",
+      "archive_file": "4_visualize_20260124_164646.py",
+      "reason": "Fix matplotlib special character escaping in labels",
+      "original_size": 45912
+    },
+    {
+      "timestamp": "20260124_170729",
+      "archive_file": "4_visualize_20260124_170729.py",
+      "reason": "Add comprehensive matplotlib special character escaping",
+      "original_size": 46346
+    }
+  ],
+  "5_compare_prompts.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "5_compare_prompts_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 16960
+    }
+  ],
+  "5_cross_prompt_analysis.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "5_cross_prompt_analysis_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 20542
+    },
+    {
+      "timestamp": "20260120_235133",
+      "archive_file": "5_cross_prompt_analysis_20260120_235133.py",
+      "reason": "PathManager integration - core pipeline scripts",
+      "original_size": 20542
+    }
+  ],
+  "6_identify_targets.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "6_identify_targets_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 10965
+    }
+  ],
+  "7_extract_minimal_pathways.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "7_extract_minimal_pathways_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 16956
+    },
+    {
+      "timestamp": "20260121_160421",
+      "archive_file": "7_extract_minimal_pathways_20260121_160421.py",
+      "reason": "PathManager integration - optional analysis scripts",
+      "original_size": 16956
+    },
+    {
+      "timestamp": "20260123_122353",
+      "archive_file": "7_extract_minimal_pathways_20260123_122353.py",
+      "reason": "Phase 3: Add minimal pathway graph structure visualization",
+      "original_size": 18153
+    },
+    {
+      "timestamp": "20260123_122637",
+      "archive_file": "7_extract_minimal_pathways_20260123_122637.py",
+      "reason": "Phase 4: Add action items to minimal pathway visualizations",
+      "original_size": 23989
+    },
+    {
+      "timestamp": "20260123_124818",
+      "archive_file": "7_extract_minimal_pathways_20260123_124818.py",
+      "reason": "Add Neuronpedia descriptions to minimal pathway node labels",
+      "original_size": 26363
+    },
+    {
+      "timestamp": "20260123_162847",
+      "archive_file": "7_extract_minimal_pathways_20260123_162847.py",
+      "reason": "Move legends and action items outside graphics",
+      "original_size": 28263
+    },
+    {
+      "timestamp": "20260123_164156",
+      "archive_file": "7_extract_minimal_pathways_20260123_164156.py",
+      "reason": "Fix label token extraction to show clean readable tokens",
+      "original_size": 28509
+    },
+    {
+      "timestamp": "20260124_162220",
+      "archive_file": "7_extract_minimal_pathways_20260124_162220.py",
+      "reason": "Add minimal pathway network structure visualization",
+      "original_size": 28754
+    },
+    {
+      "timestamp": "20260124_165843",
+      "archive_file": "7_extract_minimal_pathways_20260124_165843.py",
+      "reason": "Add interactive prompt selection",
+      "original_size": 28754
+    },
+    {
+      "timestamp": "20260124_171132",
+      "archive_file": "7_extract_minimal_pathways_20260124_171132.py",
+      "reason": "Disable matplotlib math parsing",
+      "original_size": 29835
+    }
+  ],
+  "8_supernode_evolution.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "8_supernode_evolution_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 15076
+    },
+    {
+      "timestamp": "20260121_160421",
+      "archive_file": "8_supernode_evolution_20260121_160421.py",
+      "reason": "PathManager integration - optional analysis scripts",
+      "original_size": 15076
+    },
+    {
+      "timestamp": "20260124_165916",
+      "archive_file": "8_supernode_evolution_20260124_165916.py",
+      "reason": "Add interactive prompt selection",
+      "original_size": 16012
+    }
+  ],
+  "9_steering_analysis.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "9_steering_analysis_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 15147
+    },
+    {
+      "timestamp": "20260121_160421",
+      "archive_file": "9_steering_analysis_20260121_160421.py",
+      "reason": "PathManager integration - optional analysis scripts",
+      "original_size": 15147
+    },
+    {
+      "timestamp": "20260123_122729",
+      "archive_file": "9_steering_analysis_20260123_122729.py",
+      "reason": "Phase 5: Add confidence metrics to replace hardcoded values",
+      "original_size": 16027
+    },
+    {
+      "timestamp": "20260124_165916",
+      "archive_file": "9_steering_analysis_20260124_165916.py",
+      "reason": "Add interactive prompt selection",
+      "original_size": 18576
+    }
+  ],
+  "create_reasoning_chain.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "create_reasoning_chain_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 5804
+    }
+  ],
+  "create_summary_dashboard.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "create_summary_dashboard_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 11813
+    }
+  ],
+  "create_thought_progression.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "create_thought_progression_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 8979
+    }
+  ],
+  "feature_description_fetcher.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "feature_description_fetcher_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 8135
+    }
+  ],
+  "get_model_output.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "get_model_output_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 3141
+    }
+  ],
+  "path_manager.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "path_manager_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 11985
+    },
+    {
+      "timestamp": "20260124_162220",
+      "archive_file": "path_manager_20260124_162220.py",
+      "reason": "Add minimal pathway network structure visualization",
+      "original_size": 13072
+    }
+  ],
+  "supernode_detector.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "supernode_detector_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 9016
+    }
+  ],
+  "validate_real_data.py": [
+    {
+      "timestamp": "20260120_233638",
+      "archive_file": "validate_real_data_20260120_233638.py",
+      "reason": "Initial backup - baseline before PathManager integration",
+      "original_size": 3378
+    }
+  ]
+}

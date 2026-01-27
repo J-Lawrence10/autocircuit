@@ -15,16 +15,30 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from supernode_detector import SupernodeDetector
 from feature_description_fetcher import FeatureDescriptionFetcher
+from path_manager import PathManager
 
 def find_available_converted_graphs():
-    """Find all converted graphs in the data directory"""
-    graphs_dir = Path(__file__).parent.parent / "data" / "graphs"
+    """Find all converted graphs in the new PathManager structure"""
+    pm = PathManager()
 
-    if not graphs_dir.exists():
-        return []
+    converted_graphs = []
 
-    # Find all *_converted.json files
-    converted_graphs = list(graphs_dir.glob("*_converted.json"))
+    # Look in new structure: data/prompts/*/2_conversion/converted_graph.json
+    prompts_dir = pm.prompts_dir
+    if prompts_dir.exists():
+        for prompt_dir in prompts_dir.iterdir():
+            if prompt_dir.is_dir():
+                conv_dir = prompt_dir / '2_conversion'
+                if conv_dir.exists():
+                    conv_graph = conv_dir / 'converted_graph.json'
+                    if conv_graph.exists():
+                        converted_graphs.append(conv_graph)
+
+    # Also check old location for backward compatibility
+    old_graphs_dir = pm.base_dir / "graphs"
+    if old_graphs_dir.exists():
+        old_converted = list(old_graphs_dir.glob("*_converted.json"))
+        converted_graphs.extend(old_converted)
 
     # Sort by modification time (newest first)
     converted_graphs.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -546,8 +560,35 @@ print("="*60)
 # Initialize feature fetcher
 fetcher = FeatureDescriptionFetcher()
 
-# Get top features per layer group with descriptions
-layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
+# Ask user if they want to fetch ALL descriptions (takes longer but more accurate)
+print("\nFetch feature descriptions:")
+print("1. Quick - Top features only (~15 features, 10 seconds)")
+print("2. Complete - ALL features (~900 features, 5-10 minutes)")
+print()
+
+# Temporarily hardcoded to option 2 for comprehensive fetch
+fetch_choice = "2"
+print(f"[AUTO-SELECTED] Option 2 - Comprehensive fetch")
+
+if fetch_choice == "2":
+    print("\n[INFO] Fetching descriptions for ALL features...")
+    print("[INFO] This will take 5-10 minutes due to API rate limits...")
+    print("[INFO] Progress will be shown as features are fetched...")
+
+    # Collect all node IDs from the graph
+    all_node_ids = [node['id'] for node in graph_data['nodes']]
+    print(f"[INFO] Found {len(all_node_ids)} features to fetch")
+
+    # Fetch descriptions for all features (with progress tracking)
+    all_descriptions = fetcher.fetch_descriptions_for_features(all_node_ids, max_features=len(all_node_ids))
+
+    # Still get top features for display
+    layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
+else:
+    print("\n[INFO] Fetching descriptions for top features only...")
+    # Get top features per layer group with descriptions
+    layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
+    all_descriptions = {}
 
 print("\nTop features with interpretable descriptions:")
 for group_name, features in layer_group_descriptions.items():
@@ -649,32 +690,44 @@ comprehensive_analysis = {
         'steering_targets': {
             fid: desc
             for fid, desc in steering_descriptions.items()
-        }
+        },
+        'all_features': all_descriptions if all_descriptions else {}
     }
 }
 
-# Save analysis files in same directory as converted graph (already in slug subfolder)
-prompt_slug = metadata['slug']
-output_subdir = graph_file.parent  # Already in the slug subfolder from conversion step
-output_subdir.mkdir(parents=True, exist_ok=True)
+# Use PathManager for organized output
+pm = PathManager()
+prompt = metadata.get('prompt', '')
 
-print(f"\nSaving analysis files in: {output_subdir.name}/")
+# If no prompt in metadata, try to extract from slug
+if not prompt:
+    prompt_slug = metadata.get('slug', '')
+    print(f"[WARNING] No prompt found in metadata, using slug: {prompt_slug}")
+    prompt = prompt_slug.replace('-', ' ').title()
+
+print(f"\nPrompt: {prompt}")
+print(f"Output directory: {pm.analysis_dir(prompt)}")
 
 # Save comprehensive analysis
-base_filename = graph_file.stem.replace('_converted', '')
-analysis_file = output_subdir / f"{base_filename}_analysis.json"
+analysis_file = pm.circuit_analysis_path(prompt)
 with open(analysis_file, 'w') as f:
     json.dump(comprehensive_analysis, f, indent=2)
 
-print(f"[OK] Comprehensive analysis saved to: {analysis_file}")
+print(f"[OK] Comprehensive analysis saved to: {analysis_file.name}")
 print(f"  - Louvain supernodes: {len(supernodes)}")
 print(f"  - Layer groups: {len(layer_groups)}")
 print(f"  - Steering targets: {len(flow_analysis['input_nodes']) + len(flow_analysis['output_nodes']) + len(flow_analysis['bottleneck_nodes'])} total")
 
 # Also save old format for backward compatibility
-supernode_file = output_subdir / f"{base_filename}_supernodes.json"
+supernode_file = pm.supernodes_path(prompt)
 detector.save_supernodes(supernodes, supernode_file)
-print(f"\n[OK] Legacy supernodes file saved to: {supernode_file}")
+print(f"\n[OK] Legacy supernodes file saved to: {supernode_file.name}")
+
+# Save layer groups
+layer_groups_file = pm.layer_groups_path(prompt)
+with open(layer_groups_file, 'w') as f:
+    json.dump(layer_groups, f, indent=2)
+print(f"[OK] Layer groups saved to: {layer_groups_file.name}")
 
 # Analyze information flow
 print("\n" + "="*60)

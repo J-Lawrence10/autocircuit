@@ -1,0 +1,10 @@
+{
+  "prompt": "The capital of France is",
+  "model": "gemma-2-2b",
+  "slug": "the-capital-of-france-is",
+  "num_nodes": 1088,
+  "num_links": 54382,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/thecapitaloffran-1769289842141.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=thecapitaloffran-1769289842141",
+  "generated_at": "2026-01-24T16:24:08.473989"
+}

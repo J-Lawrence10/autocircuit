@@ -1,0 +1,142 @@
+================================================================================
+CROSS-PROMPT CIRCUIT ANALYSIS
+================================================================================
+
+Analyzed 5 prompts:
+  1. <bos>The capitol of the state containing dallas is
+  2. <bos>The capitol of Texas is
+  3. <bos>Dallas is located in the state of
+  4. <bos>Houston is a city in
+  5. <bos>The governor of Texas lives in
+
+================================================================================
+FEATURE OVERLAP ANALYSIS
+================================================================================
+
+Prompt 1: 1344 features
+
+Prompt 2: 794 features
+
+Prompt 3: 857 features
+
+Prompt 4: 671 features
+
+Prompt 5: 1095 features
+
+Pairwise Jaccard Similarity:
+  Prompt 1 ↔ Prompt 2: 12.23%
+  Prompt 1 ↔ Prompt 3: 3.04%
+  Prompt 1 ↔ Prompt 4: 1.97%
+  Prompt 1 ↔ Prompt 5: 8.54%
+  Prompt 2 ↔ Prompt 3: 4.56%
+  Prompt 2 ↔ Prompt 4: 6.70%
+  Prompt 2 ↔ Prompt 5: 17.11%
+  Prompt 3 ↔ Prompt 4: 7.38%
+  Prompt 3 ↔ Prompt 5: 3.01%
+  Prompt 4 ↔ Prompt 5: 2.73%
+
+================================================================================
+SHARED FEATURES (appearing in ≥50% of prompts)
+================================================================================
+Found 574 shared features
+
+  7_5741_1: appears in 5/5 prompts
+  3_3205_3: appears in 5/5 prompts
+  4_14857_3: appears in 5/5 prompts
+  11_10933_1: appears in 5/5 prompts
+  11_16322_1: appears in 5/5 prompts
+  9_3569_1: appears in 5/5 prompts
+  10_7106_1: appears in 5/5 prompts
+  10_14174_1: appears in 5/5 prompts
+  11_389_1: appears in 5/5 prompts
+  10_10933_1: appears in 5/5 prompts
+  10_6804_1: appears in 5/5 prompts
+  12_3684_1: appears in 5/5 prompts
+  11_11186_1: appears in 5/5 prompts
+  15_851_1: appears in 5/5 prompts
+  6_2267_3: appears in 5/5 prompts
+  10_12232_1: appears in 5/5 prompts
+  9_2762_1: appears in 5/5 prompts
+  17_8783_1: appears in 5/5 prompts
+  11_9183_1: appears in 5/5 prompts
+  13_8128_1: appears in 5/5 prompts
+
+================================================================================
+SUPERNODE REUSE (Jaccard > 0.3)
+================================================================================
+Found 9 supernode matches across prompts
+
+Prompt 1 SN1 ↔ Prompt 5 SN1
+  Jaccard: 85.83%, 103 shared features
+Prompt 1 SN12 ↔ Prompt 2 SN12
+  Jaccard: 73.50%, 86 shared features
+Prompt 1 SN1 ↔ Prompt 2 SN0
+  Jaccard: 64.75%, 79 shared features
+Prompt 3 SN22 ↔ Prompt 4 SN10
+  Jaccard: 62.86%, 44 shared features
+Prompt 2 SN0 ↔ Prompt 5 SN1
+  Jaccard: 60.34%, 70 shared features
+Prompt 2 SN1 ↔ Prompt 4 SN10
+  Jaccard: 43.75%, 28 shared features
+Prompt 2 SN3 ↔ Prompt 5 SN12
+  Jaccard: 41.53%, 76 shared features
+Prompt 2 SN2 ↔ Prompt 5 SN13
+  Jaccard: 39.53%, 17 shared features
+Prompt 2 SN1 ↔ Prompt 3 SN22
+  Jaccard: 36.59%, 30 shared features
+
+================================================================================
+CONSENSUS SUPERNODES (appearing in ≥50% of prompts)
+================================================================================
+Found 2 consensus supernode clusters
+
+These are prompt-invariant cognitive modules:
+
+  Consensus Cluster 1:
+    Coverage: 60% (3/5 prompts)
+    Members: 3 supernodes
+      - Prompt 1 SN1
+      - Prompt 2 SN0
+      - Prompt 5 SN1
+
+  Consensus Cluster 2:
+    Coverage: 60% (3/5 prompts)
+    Members: 3 supernodes
+      - Prompt 2 SN1
+      - Prompt 3 SN22
+      - Prompt 4 SN10
+
+================================================================================
+LAYER USAGE COMPARISON
+================================================================================
+
+Middle Layer Efficiency (fewer features = more efficient):
+    59 features @  150.3 peak: <bos>The capitol of Texas is
+    60 features @  150.3 peak: <bos>The governor of Texas lives in
+    70 features @  126.1 peak: <bos>Dallas is located in the state of
+    73 features @  127.9 peak: <bos>Houston is a city in
+    75 features @  150.3 peak: <bos>The capitol of the state containing dallas is
+
+Total Circuit Size:
+    873 features: <bos>Dallas is located in the state of
+    885 features: <bos>Houston is a city in
+   1025 features: <bos>The capitol of Texas is
+   1097 features: <bos>The governor of Texas lives in
+   1345 features: <bos>The capitol of the state containing dallas is
+
+================================================================================
+KEY FINDINGS
+================================================================================
+
+1. Average feature overlap: 6.73%
+
+2. Core shared features: 574 features appear in ≥50% of prompts
+   These represent prompt-invariant processing modules
+
+3. Supernode reuse: 9 cross-prompt supernode matches found
+   Suggests functional modules are reused for similar reasoning
+
+4. Circuit complexity range: 873 to 1,345 features
+   1.5x difference in circuit size
+
+================================================================================

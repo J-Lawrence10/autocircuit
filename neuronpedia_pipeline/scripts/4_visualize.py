@@ -6,22 +6,343 @@ Supports interactive selection or command-line file specification
 
 import json
 import networkx as nx
+import matplotlib
+matplotlib.rcParams['text.usetex'] = False  # Disable LaTeX rendering
+matplotlib.rcParams['text.parse_math'] = False  # Disable math parsing entirely
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from pathlib import Path
 import numpy as np
 import argparse
 import sys
+from collections import Counter, defaultdict
+import re
 
-def find_available_converted_graphs():
-    """Find all converted graphs in the data directory"""
-    graphs_dir = Path(__file__).parent.parent / "data" / "graphs"
+# Add scripts to path for imports
+sys.path.insert(0, str(Path(__file__).parent))
+from path_manager import PathManager
 
-    if not graphs_dir.exists():
+def escape_matplotlib_text(text):
+    r"""
+    Remove special characters that matplotlib interprets as LaTeX math mode.
+    Removes: $ { } _ ^ # % & \ to prevent math mode parsing errors
+    """
+    if not isinstance(text, str):
+        return str(text)
+
+    # Just remove problematic characters entirely
+    return (text
+            .replace('$', '')
+            .replace('{', '(')
+            .replace('}', ')')
+            .replace('_', '-')
+            .replace('^', '')
+            .replace('#', '')
+            .replace('%', 'pct')
+            .replace('&', 'and')
+            .replace('\\', ''))
+
+def infer_supernode_theme(supernode_nodes, G, top_n=10):
+    """
+    Infer the semantic theme of a supernode based on its feature descriptions
+
+    Args:
+        supernode_nodes: List of node IDs in this supernode
+        G: NetworkX graph with node attributes
+        top_n: Number of top features to analyze
+
+    Returns:
+        String describing the supernode's theme
+    """
+    # Collect descriptions from nodes in this supernode
+    descriptions = []
+    activations = []
+
+    for node in supernode_nodes:
+        if node in G.nodes():
+            desc = G.nodes[node].get('description', '')
+            act = G.nodes[node].get('activation', 0)
+            if desc and isinstance(desc, str) and len(desc) > 5:
+                descriptions.append(desc)
+                activations.append(act)
+
+    if not descriptions:
+        return "Unknown"
+
+    # Sort by activation and take top features
+    sorted_pairs = sorted(zip(descriptions, activations), key=lambda x: x[1], reverse=True)
+    top_descriptions = [desc for desc, _ in sorted_pairs[:top_n]]
+
+    # Extract keywords from descriptions
+    all_text = ' '.join(top_descriptions).lower()
+
+    # Remove common prefixes like "Activates on:"
+    all_text = all_text.replace('activates on:', '').replace('activates on', '')
+
+    # Define theme keywords
+    theme_patterns = {
+        'Geographic': ['city', 'cities', 'state', 'states', 'country', 'countries', 'capitol', 'capital',
+                       'located', 'location', 'place', 'region', 'area', 'territory', 'geographic'],
+        'Political': ['president', 'political', 'party', 'republican', 'democratic', 'election',
+                      'government', 'congress', 'senator', 'politics', 'administration'],
+        'Numerical': ['number', 'numbers', 'digit', 'digits', 'count', 'quantity', 'amount',
+                      'calculate', 'math', 'numeric', 'integer'],
+        'Temporal': ['time', 'date', 'year', 'years', 'month', 'day', 'when', 'period',
+                     'century', 'decade', 'era', 'season', 'temporal'],
+        'Entity': ['name', 'names', 'person', 'people', 'entity', 'entities', 'who',
+                   'individual', 'character'],
+        'Syntactic': ['token', 'tokens', 'word', 'words', 'syntax', 'grammar', 'parsing',
+                      'structure', 'sentence', 'phrase'],
+        'Semantic': ['meaning', 'concept', 'idea', 'semantic', 'understanding', 'interpretation',
+                     'context', 'relation', 'relationship']
+    }
+
+    # Count theme matches
+    theme_scores = {}
+    for theme, keywords in theme_patterns.items():
+        score = sum(1 for keyword in keywords if keyword in all_text)
+        if score > 0:
+            theme_scores[theme] = score
+
+    # Return top theme or generic description
+    if theme_scores:
+        top_theme = max(theme_scores, key=theme_scores.get)
+        return top_theme
+
+    # Fallback: try to extract most common meaningful words
+    words = re.findall(r'\b[a-z]{4,}\b', all_text)
+    word_counts = Counter(words)
+    # Filter out very common words
+    stop_words = {'this', 'that', 'with', 'from', 'have', 'they', 'been', 'were', 'their',
+                  'would', 'there', 'could', 'which', 'these', 'those', 'about', 'after'}
+    meaningful_words = [(w, c) for w, c in word_counts.most_common(5) if w not in stop_words]
+
+    if meaningful_words and meaningful_words[0][1] >= 2:
+        return meaningful_words[0][0].capitalize()
+
+    return "Processing"
+
+
+def load_feature_descriptions_from_analysis(analysis):
+    """
+    Extract all feature descriptions from analysis JSON
+
+    Args:
+        analysis: Dict containing analysis results
+
+    Returns:
+        Dict mapping feature IDs to descriptions
+    """
+    descriptions = {}
+
+    # First, check if we have ALL features descriptions (from comprehensive fetch)
+    all_features = analysis.get('feature_descriptions', {}).get('all_features', {})
+    if all_features:
+        print(f"[INFO] Loading comprehensive feature descriptions ({len(all_features)} features)")
+        descriptions.update(all_features)
+
+    # From layer groups (top features with descriptions)
+    for group_name, group_data in analysis.get('layer_groups', {}).items():
+        for feat in group_data.get('top_features_with_descriptions', []):
+            feature_id = feat.get('feature', '')
+            desc = feat.get('description', '')
+            if feature_id and desc:
+                descriptions[feature_id] = desc
+
+    # From steering targets
+    for target_id, target_data in analysis.get('steering_targets', {}).items():
+        if 'description' in target_data:
+            feature_id = target_data.get('feature', target_id)
+            descriptions[feature_id] = target_data['description']
+
+    return descriptions
+
+
+def get_neuronpedia_url(node_id):
+    """
+    Generate Neuronpedia URL for a feature node
+
+    Args:
+        node_id: Feature ID in format "L{layer}_F{feature}"
+
+    Returns:
+        URL string to Neuronpedia page for this feature
+    """
+    # Extract layer and feature from node_id
+    # Format: L12_F1234 -> layer=12, feature=1234
+    try:
+        parts = node_id.split('_')
+        layer = parts[0][1:]  # Remove 'L' prefix
+        feature = parts[1][1:]  # Remove 'F' prefix
+        # Neuronpedia URL format: https://neuronpedia.org/gemma-2-2b/{layer}-gemmascope-res-16k/{feature}
+        return f"https://neuronpedia.org/gemma-2-2b/{layer}-gemmascope-res-16k/{feature}"
+    except (IndexError, ValueError):
+        return None
+
+
+def extract_clean_tokens(description, max_tokens=3):
+    """
+    Extract clean, readable tokens from Neuronpedia description
+
+    Args:
+        description: Feature description from Neuronpedia
+        max_tokens: Maximum number of tokens to extract
+
+    Returns:
+        Clean comma-separated tokens or shortened description
+    """
+    if not description:
+        return "No description"
+
+    # Extract tokens from "Activates on: token1, token2, token3" format
+    if "Activates on:" in description:
+        tokens_part = description.split("Activates on:")[1].strip()
+        # Split by comma and clean up
+        tokens = [t.strip().strip('"').strip("'") for t in tokens_part.split(",")]
+        # Filter out empty and very long tokens
+        tokens = [t for t in tokens if t and len(t) < 30]
+        # Take first N tokens
+        if tokens:
+            return ", ".join(tokens[:max_tokens])
+
+    # Fallback: return first 50 chars at word boundary
+    if len(description) > 50:
+        # Find last space before char 50
+        truncated = description[:50]
+        last_space = truncated.rfind(' ')
+        if last_space > 20:  # Only truncate at space if it's not too early
+            return truncated[:last_space] + "..."
+        return truncated + "..."
+
+    return description
+
+
+def infer_theme_from_descriptions(feature_descriptions_list, min_descriptions=5):
+    """
+    Infer semantic theme from a list of feature descriptions
+
+    Args:
+        feature_descriptions_list: List of description strings
+        min_descriptions: Minimum number of descriptions required for inference
+
+    Returns:
+        Inferred theme string (e.g., "Geographic", "Syntax", "Names") or "Insufficient Data"
+    """
+    if not feature_descriptions_list:
+        return "Insufficient Data"
+
+    # If we have too few descriptions, don't try to infer
+    if len(feature_descriptions_list) < min_descriptions:
+        return "Insufficient Data"
+
+    # Extract all tokens from descriptions
+    all_tokens = []
+    for desc in feature_descriptions_list[:10]:  # Look at top 10 features
+        if "Activates on:" in desc:
+            tokens_part = desc.split("Activates on:")[1].strip()
+            tokens = [t.strip().strip('"').strip("'").lower() for t in tokens_part.split(",")[:5]]
+            all_tokens.extend(tokens)
+
+    if not all_tokens:
+        return "Insufficient Data"
+
+    # Theme detection patterns
+    geographic_keywords = ['paris', 'france', 'london', 'city', 'capital', 'country', 'state', 'york', 'albany']
+    syntax_keywords = ['the', 'of', 'is', 'in', 'on', 'at', 'to', 'and', 'or', 'a', 'an']
+    punctuation_keywords = ['.', ',', ';', ':', '!', '?', '"', "'"]
+    number_keywords = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'zero', 'one', 'two']
+
+    # Count matches
+    geo_count = sum(1 for t in all_tokens if any(kw in t for kw in geographic_keywords))
+    syntax_count = sum(1 for t in all_tokens if t in syntax_keywords)
+    punct_count = sum(1 for t in all_tokens if t in punctuation_keywords)
+    number_count = sum(1 for t in all_tokens if any(kw in t for kw in number_keywords))
+
+    # Determine theme based on highest count
+    counts = [
+        (geo_count, "Geographic"),
+        (syntax_count, "Syntax"),
+        (punct_count, "Punctuation"),
+        (number_count, "Numbers")
+    ]
+
+    max_count, theme = max(counts, key=lambda x: x[0])
+
+    if max_count > 0:
+        return theme
+
+    # Fallback: use first few tokens as theme
+    unique_tokens = list(dict.fromkeys(all_tokens))[:3]  # Remove duplicates, keep order
+    if unique_tokens:
+        return ", ".join(unique_tokens).title()
+
+    return "Insufficient Data"
+
+
+def get_top_features_for_supernode(sn_id, analysis, feature_descriptions, n=3):
+    """
+    Get top N features from a supernode with their descriptions
+
+    Args:
+        sn_id: Supernode ID (as string)
+        analysis: Analysis dictionary
+        feature_descriptions: Dict of feature ID -> description
+        n: Number of top features to return
+
+    Returns:
+        List of (feature_id, activation, description) tuples
+    """
+    supernodes = analysis.get('louvain_supernodes', {}).get('supernodes', {})
+    sn_data = supernodes.get(str(sn_id), {})
+
+    # Get node list with activations
+    nodes = sn_data.get('nodes', [])
+    if not nodes:
         return []
 
-    # Find all *_converted.json files
-    converted_graphs = list(graphs_dir.glob("*_converted.json"))
+    # Sort by activation (stored in analysis)
+    # Feature activations are in layer_groups
+    feature_acts = {}
+    for group_name, group_data in analysis.get('layer_groups', {}).items():
+        for feat in group_data.get('features', []):
+            feature_acts[feat['feature']] = feat['activation']
+
+    # Get top N features by activation that HAVE descriptions
+    top_features = []
+    for node_id in nodes:
+        # Only include features that have descriptions
+        if node_id in feature_descriptions:
+            activation = feature_acts.get(node_id, 0)
+            description = feature_descriptions[node_id]
+            top_features.append((node_id, activation, description))
+
+    # Sort by activation and take top N
+    top_features.sort(key=lambda x: x[1], reverse=True)
+    return top_features[:n]
+
+
+def find_available_converted_graphs():
+    """Find all converted graphs in the new PathManager structure"""
+    pm = PathManager()
+
+    converted_graphs = []
+
+    # Look in new structure: data/prompts/*/2_conversion/converted_graph.json
+    prompts_dir = pm.prompts_dir
+    if prompts_dir.exists():
+        for prompt_dir in prompts_dir.iterdir():
+            if prompt_dir.is_dir():
+                conv_dir = prompt_dir / '2_conversion'
+                if conv_dir.exists():
+                    conv_graph = conv_dir / 'converted_graph.json'
+                    if conv_graph.exists():
+                        converted_graphs.append(conv_graph)
+
+    # Also check old location for backward compatibility
+    old_graphs_dir = pm.base_dir / "graphs"
+    if old_graphs_dir.exists():
+        old_converted = list(old_graphs_dir.glob("*_converted.json"))
+        converted_graphs.extend(old_converted)
 
     # Sort by modification time (newest first)
     converted_graphs.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -127,19 +448,32 @@ with open(graph_file) as f:
     metadata = graph_data_preview.get('metadata', {})
     prompt_slug = metadata.get('slug', 'unknown')
 
-# Check for analysis files in subfolder first, then fall back to root
-base_filename = graph_file.stem.replace('_converted', '')
-output_subdir = graph_file.parent / prompt_slug
+# Use PathManager to find analysis files
+pm = PathManager()
+prompt = metadata.get('prompt', '')
 
-# Try subfolder first (new structure)
-analysis_file = output_subdir / f"{base_filename}_analysis.json"
-supernode_file = output_subdir / f"{base_filename}_supernodes.json"
+# If no prompt in metadata, try to extract from slug
+if not prompt:
+    prompt = prompt_slug.replace('-', ' ').title()
 
-# Fall back to root directory (old structure)
+# Get analysis file paths using PathManager
+analysis_file = pm.circuit_analysis_path(prompt)
+supernode_file = pm.supernodes_path(prompt)
+
+# Fall back to old structure if not found
 if not analysis_file.exists():
-    analysis_file = graph_file.parent / f"{base_filename}_analysis.json"
+    base_filename = graph_file.stem.replace('_converted', '')
+    output_subdir = graph_file.parent / prompt_slug
+    analysis_file = output_subdir / f"{base_filename}_analysis.json"
+    if not analysis_file.exists():
+        analysis_file = graph_file.parent / f"{base_filename}_analysis.json"
+
 if not supernode_file.exists():
-    supernode_file = graph_file.parent / f"{base_filename}_supernodes.json"
+    base_filename = graph_file.stem.replace('_converted', '')
+    output_subdir = graph_file.parent / prompt_slug
+    supernode_file = output_subdir / f"{base_filename}_supernodes.json"
+    if not supernode_file.exists():
+        supernode_file = graph_file.parent / f"{base_filename}_supernodes.json"
 
 # Check for comprehensive analysis file first, fallback to legacy supernodes
 has_comprehensive_analysis = analysis_file.exists()
@@ -169,12 +503,17 @@ if has_comprehensive_analysis:
     supernodes = {k: v['nodes'] for k, v in analysis_data['louvain_supernodes']['supernodes'].items()}
     layer_groups = analysis_data.get('layer_groups', None)
     flow_analysis = analysis_data.get('flow_analysis', None)
-    print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges")
+
+    # Load feature descriptions from analysis
+    feature_descriptions = load_feature_descriptions_from_analysis(analysis_data)
+    print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges, {len(feature_descriptions)} feature descriptions")
     print(f"Loaded {len(supernodes)} supernodes, {len(layer_groups) if layer_groups else 0} layer groups")
 else:
     print(f"Supernodes: {supernode_file.name} (legacy)")
     with open(supernode_file) as f:
         supernodes = json.load(f)
+    feature_descriptions = {}  # No descriptions in legacy mode
+    analysis_data = {}  # Empty for legacy mode
     print(f"Loaded {len(graph_data['nodes'])} nodes, {len(graph_data['edges'])} edges")
     print(f"Loaded {len(supernodes)} supernodes")
     print("[WARNING] Legacy format detected. Run '/circuit-tracer-analyze' again for layer-based visualizations.")
@@ -249,12 +588,16 @@ for sn_id, nodes in supernodes.items():
     mean_layer = np.mean(layers) if layers else 0
     mean_activation = np.mean(activations) if activations else 0
 
+    # Infer theme for this supernode
+    theme = infer_supernode_theme(nodes, G, top_n=15)
+
     supernode_stats[sn_id_int] = {
         'size': len(nodes),
         'mean_layer': mean_layer,
         'mean_activation': mean_activation,
         'mean_influence': np.mean(influences) if influences else 0,
-        'layers': sorted(set(layers))
+        'layers': sorted(set(layers)),
+        'theme': theme
     }
 
     SG.add_node(sn_id_int, **supernode_stats[sn_id_int])
@@ -272,12 +615,26 @@ for u, v in G.edges():
 for (sn_u, sn_v), count in supernode_edges.items():
     SG.add_edge(sn_u, sn_v, weight=count)
 
-# Layout: position by mean layer
+# Layout: position by mean layer with better vertical spacing
 pos = {}
+# Group supernodes by layer range for better spacing
+layer_bins = defaultdict(list)
 for sn_id in SG.nodes():
     mean_layer = supernode_stats[sn_id]['mean_layer']
-    # x = layer, y = spread vertically
-    y_offset = (sn_id - 7) * 2  # Spread out vertically
+    layer_bin = int(mean_layer / 5)  # Group into bins of 5 layers
+    layer_bins[layer_bin].append((sn_id, mean_layer))
+
+# Position nodes with spacing
+for sn_id in SG.nodes():
+    mean_layer = supernode_stats[sn_id]['mean_layer']
+    layer_bin = int(mean_layer / 5)
+
+    # Find index within bin for vertical offset
+    bin_nodes = sorted(layer_bins[layer_bin], key=lambda x: x[1])
+    idx = next(i for i, (sid, _) in enumerate(bin_nodes) if sid == sn_id)
+
+    # Spread vertically with more space
+    y_offset = (idx - len(bin_nodes)/2) * 4  # Increased spacing
     pos[sn_id] = (mean_layer, y_offset)
 
 # Draw supernodes
@@ -304,54 +661,256 @@ nx.draw_networkx_edges(
     ax=ax
 )
 
-# Labels - highlight output supernodes (L21-25)
+# Infer themes for all supernodes based on their feature descriptions
+supernode_themes = {}
+for sn_id in SG.nodes():
+    if has_comprehensive_analysis and feature_descriptions:
+        top_features = get_top_features_for_supernode(sn_id, analysis_data, feature_descriptions, n=10)
+        descriptions = [desc for _, _, desc in top_features]
+        theme = infer_theme_from_descriptions(descriptions)
+        supernode_themes[sn_id] = theme
+    else:
+        supernode_themes[sn_id] = "Unknown"
+
+# Labels - highlight output supernodes (L21-25) and include theme and feature descriptions
 labels = {}
 for sn_id in SG.nodes():
     stats = supernode_stats[sn_id]
     max_layer = max(stats['layers'])
+    theme = supernode_themes.get(sn_id, 'Unknown')
+
+    # Get top features for this supernode (with descriptions)
+    if has_comprehensive_analysis and feature_descriptions:
+        top_features = get_top_features_for_supernode(sn_id, analysis_data, feature_descriptions, n=2)
+    else:
+        top_features = []
+
+    # Build label with feature descriptions
+    # Escape matplotlib special characters in theme
+    safe_theme = escape_matplotlib_text(theme)
+    label = f"SN{sn_id}: {safe_theme}\n"
+
+    # Add feature descriptions if available
+    if top_features:
+        for node_id, _, desc in top_features[:2]:  # Top 2 features
+            # Extract clean tokens using new function
+            clean_tokens = extract_clean_tokens(desc, max_tokens=2)
+            # Escape matplotlib special characters
+            clean_tokens = escape_matplotlib_text(clean_tokens)
+            label += f"• {clean_tokens}\n"
+    else:
+        # No feature descriptions available - add note
+        label += f"({stats['size']} features)\n"
 
     # Check if this is an output supernode
     if max_layer >= 21:
-        # This is an output supernode - add OUTPUT label
-        model_output = graph_data['metadata'].get('model_output', '')
-        output_prob = graph_data['metadata'].get('output_probability', 0)
+        # This is an output supernode - find the target logit token
+        target_token = None
+        target_prob = None
 
-        if model_output:
-            labels[sn_id] = f"SN{sn_id} [OUTPUT]\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}\n>>> \"{model_output}\" ({output_prob:.1%})"
-        else:
-            labels[sn_id] = f"SN{sn_id} [OUTPUT]\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}"
+        # Look for target logit node in the graph
+        for node in graph_data.get('nodes', []):
+            if node.get('is_target_logit') and node.get('clerp'):
+                # Extract token and prob from clerp: 'Output " the" (p=0.335)'
+                clerp = node['clerp']
+                if 'Output' in clerp and '(p=' in clerp:
+                    # Extract token between quotes
+                    start = clerp.find('"') + 1
+                    end = clerp.find('"', start)
+                    target_token = clerp[start:end]
+                    # Extract probability
+                    target_prob = node.get('token_prob', 0)
+                break
+
+        label += f"[OUTPUT] {stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])} | Influence: {stats['mean_activation']:.1f}"
+        if target_token:
+            # Escape matplotlib special characters in output token
+            safe_token = escape_matplotlib_text(target_token)
+            label += f"\n>>> \"{safe_token}\" (p={target_prob:.1%})"
     else:
-        labels[sn_id] = f"SN{sn_id}\n{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])}\nAct: {stats['mean_activation']:.1f}"
+        label += f"{stats['size']} nodes\nL{min(stats['layers'])}-{max(stats['layers'])} | Act: {stats['mean_activation']:.1f}"
 
-nx.draw_networkx_labels(SG, pos, labels, font_size=8, font_weight='bold', ax=ax)
+    labels[sn_id] = label
 
-# Edge labels (connection counts)
-edge_labels = {(u, v): f"{SG[u][v]['weight']}" for u, v in SG.edges()}
-nx.draw_networkx_edge_labels(SG, pos, edge_labels, font_size=7, ax=ax)
+nx.draw_networkx_labels(SG, pos, labels, font_size=7, font_weight='bold', ax=ax)
 
 ax.set_title(f'Supernode-Level Circuit\n"{prompt_text}"',
              fontsize=16, fontweight='bold', pad=20)
 ax.set_xlabel('Mean Layer', fontsize=12)
 ax.axis('off')
 
-# Legend - dynamically generate based on actual supernodes
+# Add Model Predictions Box in upper left
+if has_comprehensive_analysis and 'metadata' in analysis_data:
+    metadata = analysis_data['metadata']
+    model_output = metadata.get('model_output', 'Unknown')
+    output_prob = metadata.get('output_probability', 0)
+    top_preds = metadata.get('top_predictions', [])
+
+    # Build predictions text
+    pred_text = "MODEL PREDICTIONS:\n\n"
+    pred_text += f"Prompt: {prompt_text}\n\n"
+
+    if top_preds:
+        pred_text += "Top 5 Outputs:\n"
+        for i, pred in enumerate(top_preds[:5], 1):
+            token = pred.get('token', '?')
+            prob = pred.get('probability', 0)
+            # Highlight the actual output
+            if token == model_output:
+                marker = ">>> "
+            else:
+                marker = f" {i}. "
+            # Color code by confidence
+            pred_text += f"{marker}\"{token}\" ({prob:.1%})\n"
+    else:
+        # Fallback if no top_predictions
+        pred_text += f"Output: \"{model_output}\" ({output_prob:.1%})\n"
+
+    # Determine box color based on output probability
+    if output_prob > 0.5:
+        box_color = 'lightgreen'
+    elif output_prob > 0.2:
+        box_color = 'lightyellow'
+    else:
+        box_color = 'lightcoral'
+
+    # Place box in upper left of plot area
+    ax.text(0.02, 0.98, pred_text, transform=ax.transAxes,
+            fontsize=8, verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor=box_color, alpha=0.9, edgecolor='black'),
+            family='monospace')
+
+# Legend - dynamically generate based on actual supernodes with inferred themes
 legend_elements = []
 for sn_id in sorted(supernode_stats.keys())[:10]:  # Show up to 10 supernodes
     stats = supernode_stats[sn_id]
     color = supernode_colors.get(sn_id, '#CCCCCC')
-    label = f"SN{sn_id}: {stats['size']} nodes (L{min(stats['layers'])}-{max(stats['layers'])})"
+    theme = supernode_themes.get(sn_id, 'Unknown')
+    label = f"SN{sn_id} [{theme}]: {stats['size']} nodes (L{min(stats['layers'])}-{max(stats['layers'])})"
     legend_elements.append(mpatches.Patch(color=color, label=label))
 
 if legend_elements:
-    ax.legend(handles=legend_elements, loc='upper right', fontsize=9)
+    # Place legend OUTSIDE plot area on the right
+    ax.legend(handles=legend_elements, bbox_to_anchor=(1.02, 1), loc='upper left',
+              fontsize=8, framealpha=0.9, edgecolor='black', borderaxespad=0)
 
-plt.tight_layout()
+# Add action items box with semantic meaning
+# Find output supernodes (L21+)
+output_supernodes = [sn_id for sn_id in supernode_stats.keys()
+                     if max(supernode_stats[sn_id]['layers']) >= 21]
+
+# Find most connected supernodes (highest degree)
+most_connected = sorted(SG.nodes(), key=lambda n: SG.degree(n), reverse=True)[:3]
+
+action_text = "NEXT STEPS:\n\n"
+
+# Action 1: Output supernodes with semantic info
+action_text += f"1. Investigate Output Supernodes:\n"
+if output_supernodes:
+    out_sn = output_supernodes[0]
+    out_theme = supernode_themes.get(out_sn, 'Unknown')
+    out_layers = f"L{min(supernode_stats[out_sn]['layers'])}-{max(supernode_stats[out_sn]['layers'])}"
+
+    # Get top features for output supernode
+    if has_comprehensive_analysis and feature_descriptions:
+        out_features = get_top_features_for_supernode(out_sn, analysis_data, feature_descriptions, n=2)
+        if out_features:
+            out_tokens = extract_clean_tokens(out_features[0][2], max_tokens=2)
+            action_text += f"   • SN{out_sn} ({out_theme}): \"{out_tokens}\" - drives final token\n"
+        else:
+            action_text += f"   • SN{out_sn} ({out_theme}) - drives final token\n"
+    else:
+        action_text += f"   • SN{out_sn} - drives final token\n"
+
+    action_text += f"   • Test ablation to measure impact on output\n"
+    if has_comprehensive_analysis and feature_descriptions and out_features:
+        top_node = out_features[0][0]
+        url = get_neuronpedia_url(top_node)
+        if url:
+            action_text += f"   • Inspect: {url}\n\n"
+        else:
+            action_text += "\n"
+    else:
+        action_text += "\n"
+else:
+    action_text += f"   • No output-layer supernodes detected\n\n"
+
+# Action 2: Hub supernodes with semantic info
+action_text += f"2. Test Hub Supernodes:\n"
+for sn_id in most_connected[:2]:
+    hub_theme = supernode_themes.get(sn_id, 'Unknown')
+    hub_layers = f"L{min(supernode_stats[sn_id]['layers'])}-{max(supernode_stats[sn_id]['layers'])}"
+
+    # Get semantic description
+    if has_comprehensive_analysis and feature_descriptions:
+        hub_features = get_top_features_for_supernode(sn_id, analysis_data, feature_descriptions, n=1)
+        if hub_features:
+            hub_tokens = extract_clean_tokens(hub_features[0][2], max_tokens=2)
+            action_text += f"   • SN{sn_id} ({hub_theme}): \"{hub_tokens}\" - {SG.degree(sn_id)} connections\n"
+        else:
+            action_text += f"   • SN{sn_id} ({hub_theme}) - {SG.degree(sn_id)} connections\n"
+    else:
+        action_text += f"   • SN{sn_id} - {SG.degree(sn_id)} connections\n"
+action_text += f"   • Critical bottleneck in information flow\n\n"
+
+# Action 3: Specific pathway tracing
+action_text += f"3. Trace Information Flow:\n"
+action_text += f"   • Run Script 7 to extract minimal pathways\n"
+action_text += f"   • Identify which supernodes are essential\n"
+action_text += f"   • Compare with Script 8 for layer evolution"
+
+# Add interpretation guide
+interpret_text = "HOW TO INTERPRET:\n\n"
+interpret_text += "• Node size = number of features in supernode\n"
+interpret_text += "• Node color = supernode theme (see legend)\n"
+interpret_text += "• X-axis = mean layer position (L0-L25)\n"
+interpret_text += "• Edge width = connection strength\n"
+interpret_text += "• Green box = high confidence output\n"
+interpret_text += "• Yellow/Red box = low confidence (potential failure)\n\n"
+interpret_text += "WHY THIS MATTERS:\n\n"
+if has_comprehensive_analysis and 'metadata' in analysis_data:
+    metadata = analysis_data['metadata']
+    output_prob = metadata.get('output_probability', 0)
+    if output_prob > 0.5:
+        interpret_text += f"✓ Model is confident ({output_prob:.1%}) - circuit is working\n"
+        interpret_text += "  Use this to understand how correct reasoning works\n"
+    elif output_prob > 0.2:
+        interpret_text += f"⚠ Model is uncertain ({output_prob:.1%}) - mixed signals\n"
+        interpret_text += "  Circuit shows competing pathways\n"
+    else:
+        interpret_text += f"✗ Model is failing ({output_prob:.1%}) - circuit broken\n"
+        interpret_text += "  Compare with working circuit to find failure mode\n"
+else:
+    interpret_text += "Visualizes feature circuits through network layers\n"
+
+# Place action items and interpretation guide BELOW the plot area
+fig.text(0.3, -0.05, action_text, ha='center', fontsize=8,
+         verticalalignment='top',
+         bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.9, edgecolor='black'),
+         family='monospace', transform=fig.transFigure)
+
+fig.text(0.7, -0.05, interpret_text, ha='center', fontsize=8,
+         verticalalignment='top',
+         bbox=dict(boxstyle='round', facecolor='lightcyan', alpha=0.9, edgecolor='black'),
+         family='monospace', transform=fig.transFigure)
+
+# plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+plt.subplots_adjust(bottom=0.15, right=0.85)  # Make room for legend on right and action items below
 # Create output directory using subfolder structure (organized by prompt slug)
-output_dir = graph_file.parent.parent / "processed" / "visualizations" / prompt_slug
-output_dir.mkdir(parents=True, exist_ok=True)
-print(f"\nOrganizing visualizations in subfolder: {prompt_slug}/")
-base_name = graph_file.stem.replace('_converted', '')
-output_path = output_dir / f"{base_name}_supernodes_overview.png"
+# Use PathManager for organized output
+pm = PathManager()
+prompt = metadata.get('prompt', '')
+
+# If no prompt in metadata, try to extract from slug
+if not prompt:
+    print(f"[WARNING] No prompt found in metadata, using slug: {prompt_slug}")
+    prompt = prompt_slug.replace('-', ' ').title()
+
+output_dir = pm.visualizations_dir(prompt)
+print(f"\nPrompt: {prompt}")
+print(f"Organizing visualizations in: {output_dir}")
+
+output_path = pm.visualization_path(prompt, 'supernode_overview')
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
@@ -396,11 +955,13 @@ ax.set_title(f'Supernode Distribution Across Layers\n"{prompt_text}"',
              fontsize=14, fontweight='bold', pad=20)
 ax.set_xticks(x[::2])  # Show every 2nd layer
 ax.set_xticklabels(layers[::2])
-ax.legend(fontsize=10)
+# Place legend OUTSIDE plot area on the right
+ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left', fontsize=9,
+          framealpha=0.9, edgecolor='black', borderaxespad=0)
 ax.grid(axis='y', alpha=0.3)
 
-plt.tight_layout()
-output_path = output_dir / f"{base_name}_layer_distribution.png"
+# plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+output_path = pm.visualization_path(prompt, 'layer_distribution')
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
@@ -448,11 +1009,13 @@ ax.set_title(f'Mean Activation by Layer and Supernode\n"{prompt_text}"',
              fontsize=14, fontweight='bold', pad=20)
 ax.set_xticks(x[::2])
 ax.set_xticklabels(layers[::2])
-ax.legend(fontsize=10)
+# Place legend OUTSIDE plot area on the right
+ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left', fontsize=10,
+          framealpha=0.9, edgecolor='black', borderaxespad=0)
 ax.grid(True, alpha=0.3)
 
-plt.tight_layout()
-output_path = output_dir / f"{base_name}_activation_heatmap.png"
+# plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+output_path = pm.visualization_path(prompt, 'activation_heatmap')
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
@@ -500,10 +1063,12 @@ for sn_id in supernode_ids:
     legend_elements.append(mpatches.Patch(color=color, label=f'SN{sn_id}'))
 
 if legend_elements:
-    ax.legend(handles=legend_elements, loc='lower right', fontsize=10)
+    # Place legend OUTSIDE plot area on the right
+    ax.legend(handles=legend_elements, bbox_to_anchor=(1.02, 1), loc='upper left',
+              fontsize=8, framealpha=0.9, edgecolor='black', borderaxespad=0)
 
-plt.tight_layout()
-output_path = output_dir / f"{base_name}_top_features.png"
+# plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+output_path = pm.visualization_path(prompt, 'feature_importance')
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
@@ -539,8 +1104,8 @@ ax2.pie(sizes, explode=explode, labels=labels, colors=colors_pie,
         autopct='%1.1f%%', shadow=True, startangle=90, textprops={'fontsize': 11})
 ax2.set_title('Excitatory vs Inhibitory Connections', fontsize=12, fontweight='bold')
 
-plt.tight_layout()
-output_path = output_dir / f"{base_name}_edge_weights.png"
+# plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+output_path = pm.visualization_path(prompt, 'information_flow')
 plt.savefig(output_path, dpi=300, bbox_inches='tight')
 print(f"[OK] Saved: {output_path.name}")
 plt.close()
@@ -663,8 +1228,8 @@ if layer_groups and flow_analysis:
     ax.set_title(f'Information Flow Through Layer Groups\n"{prompt_text}"',
                 fontsize=16, fontweight='bold', pad=20)
 
-    plt.tight_layout()
-    output_path = output_dir / f"{base_name}_layer_flow.png"
+    # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+    output_path = pm.visualization_path(prompt, 'thought_progression')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -739,8 +1304,8 @@ if layer_groups and flow_analysis:
 
     plt.suptitle(f'Layer Group Analysis\n"{prompt_text}"',
                 fontsize=16, fontweight='bold', y=0.995)
-    plt.tight_layout()
-    output_path = output_dir / f"{base_name}_layer_comparison.png"
+    # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+    output_path = pm.visualization_path(prompt, 'supernode_connections')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -805,8 +1370,31 @@ if layer_groups and flow_analysis:
 
     plt.suptitle(f'Steering Intervention Candidates\n"{prompt_text}"',
                 fontsize=16, fontweight='bold', y=0.98)
-    plt.tight_layout()
-    output_path = output_dir / f"{base_name}_steering_targets.png"
+
+    # Add action items below the plots
+    action_text = "INTERVENTION STRATEGY:\n\n"
+    action_text += "1. Test Input Amplification:\n"
+    if input_nodes:
+        action_text += f"   • Amplify {input_nodes[0]['label']} (highest fan-out)\n"
+        action_text += f"   • Expected: Strengthen early signal propagation\n\n"
+
+    action_text += "2. Test Output Ablation:\n"
+    if output_nodes:
+        action_text += f"   • Ablate {output_nodes[0]['label']} (highest fan-in)\n"
+        action_text += f"   • Expected: Block final output formation\n\n"
+
+    action_text += "3. Test Bottleneck Manipulation:\n"
+    if bottleneck_nodes:
+        action_text += f"   • Modify {bottleneck_nodes[0]['label']} (highest betweenness)\n"
+        action_text += f"   • Expected: Redirect information flow"
+
+    fig.text(0.5, -0.05, action_text, ha='center', fontsize=9,
+             bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.9, edgecolor='black'),
+             family='monospace', transform=fig.transFigure)
+
+    # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
+    plt.subplots_adjust(bottom=0.15)  # Make room for action items
+    output_path = pm.visualization_path(prompt, 'summary_dashboard')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -815,32 +1403,32 @@ if layer_groups and flow_analysis:
     print("[SUCCESS] ALL VISUALIZATIONS COMPLETE!")
     print("="*60)
     print("\nGenerated files (Louvain-based):")
-    print(f"  1. {base_name}_supernodes_overview.png - Supernode-level circuit diagram")
-    print(f"  2. {base_name}_layer_distribution.png - Nodes per layer per supernode")
-    print(f"  3. {base_name}_activation_heatmap.png - Mean activation across layers")
-    print(f"  4. {base_name}_top_features.png - Top 20 features by activation")
-    print(f"  5. {base_name}_edge_weights.png - Edge weight distribution")
+    print(f"  1. supernode_overview.png - Supernode-level circuit diagram")
+    print(f"  2. layer_distribution.png - Nodes per layer per supernode")
+    print(f"  3. activation_heatmap.png - Mean activation across layers")
+    print(f"  4. feature_importance.png - Top 20 features by activation")
+    print(f"  5. information_flow.png - Edge weight distribution")
     print(f"\nGenerated files (Layer-based):")
-    print(f"  6. {base_name}_layer_flow.png - Information flow through layer groups")
-    print(f"  7. {base_name}_layer_comparison.png - Layer group statistics comparison")
-    print(f"  8. {base_name}_steering_targets.png - Steering intervention candidates")
+    print(f"  6. thought_progression.png - Information flow through layer groups")
+    print(f"  7. supernode_connections.png - Layer group statistics comparison")
+    print(f"  8. summary_dashboard.png - Steering intervention candidates")
     print(f"\nAll saved to: {output_dir}")
-    print(f"\nNext step: Run '/circuit-tracer-compare' to compare multiple graphs")
+    print(f"\nNext step: Run cross-prompt analysis to compare multiple graphs")
 
 else:
     print("\n" + "="*60)
     print("[SUCCESS] LOUVAIN VISUALIZATIONS COMPLETE!")
     print("="*60)
     print("\nGenerated files (Louvain-based):")
-    print(f"  1. {base_name}_supernodes_overview.png - Supernode-level circuit diagram")
-    print(f"  2. {base_name}_layer_distribution.png - Nodes per layer per supernode")
-    print(f"  3. {base_name}_activation_heatmap.png - Mean activation across layers")
-    print(f"  4. {base_name}_top_features.png - Top 20 features by activation")
-    print(f"  5. {base_name}_edge_weights.png - Edge weight distribution")
+    print(f"  1. supernode_overview.png - Supernode-level circuit diagram")
+    print(f"  2. layer_distribution.png - Nodes per layer per supernode")
+    print(f"  3. activation_heatmap.png - Mean activation across layers")
+    print(f"  4. feature_importance.png - Top 20 features by activation")
+    print(f"  5. information_flow.png - Edge weight distribution")
     print(f"\nAll saved to: {output_dir}")
     print(f"\n[INFO] Layer-based visualizations not available (legacy format)")
-    print(f"Run '/circuit-tracer-analyze' again to enable 3 additional layer-based visualizations")
-    print(f"\nNext step: Run '/circuit-tracer-compare' to compare multiple graphs")
+    print(f"Run circuit analysis again to enable 3 additional layer-based visualizations")
+    print(f"\nNext step: Run cross-prompt analysis to compare multiple graphs")
 
 print("\n" + "=" * 60)
 print("PROCESS COMPLETE")

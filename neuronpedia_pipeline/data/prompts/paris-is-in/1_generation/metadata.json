@@ -1,0 +1,10 @@
+{
+  "prompt": "Paris is in",
+  "model": "gemma-2-2b",
+  "slug": "paris-is-in",
+  "num_nodes": 622,
+  "num_links": 20352,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/parisisin-1769194591105.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=parisisin-1769194591105",
+  "generated_at": "2026-01-23T13:56:35.984389"
+}

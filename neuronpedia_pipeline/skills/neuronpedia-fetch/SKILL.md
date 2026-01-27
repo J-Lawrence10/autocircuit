@@ -2,82 +2,97 @@
 
 Generate attribution graphs from Neuronpedia Circuit Tracer API for circuit analysis.
 
+## Overview
+
+This skill runs **Script 1** (`1_generate_graph.py`) which:
+- Connects to Neuronpedia API
+- Generates circuit graphs for any prompt
+- Downloads results from S3
+- Organizes files using PathManager
+
 ## Instructions
 
 When the user wants to fetch or generate an attribution graph:
 
-1. **Extract the prompt** from the user's request
-   - Look for quoted text or the actual prompt they want to analyze
-   - If not provided, ask the user for the specific prompt
-
-2. **Navigate to the pipeline directory**:
+1. **Navigate to scripts directory**:
    ```bash
-   cd neuronpedia_pipeline
+   cd neuronpedia_pipeline/scripts
    ```
 
-3. **Check if API key is configured**:
-   - Verify `config/neuronpedia_config.yaml` has an API key
-   - If missing, inform the user to add their Neuronpedia API key
-
-4. **Run the generation script**:
+2. **Run the generation script**:
    ```bash
-   python scripts/1_generate_graph.py
+   python 1_generate_graph.py
    ```
-   - Note: The script currently has the prompt hardcoded at line 107
-   - If the user's prompt differs, you may need to temporarily edit that line or ask them to edit it
+   - The script will prompt for the text to analyze
+   - Or provide via command line: `python 1_generate_graph.py --prompt "Your text here"`
 
-5. **Wait for completion** (typically 10-15 seconds)
-   - The script will connect to Neuronpedia API
-   - Submit the prompt for Circuit Tracer analysis
-   - Download the resulting graph from S3
+3. **Wait for completion** (typically 10-20 seconds):
+   - Script connects to Neuronpedia API
+   - Submits prompt for Circuit Tracer analysis
+   - Downloads resulting graph from S3
+   - Saves to organized directory structure
 
-6. **Report the results to the user**:
-   - Graph file location (e.g., `data/graphs/real_japan_currency.json`)
-   - Number of nodes (typically 500-1500)
-   - Number of edges (typically 10K-60K)
-   - Layers covered (usually 26 layers: L0-L25)
+4. **Report results to user**:
+   - Prompt used
+   - Output location (organized by prompt slug)
+   - Number of nodes (typically 900-1100)
+   - Number of edges (typically 20K-55K)
    - File size (typically 2-6 MB)
+   - **Model output prediction** and probability
 
-## Output
+## Output Structure
 
-- **File created**: `data/graphs/real_{prompt_slug}.json`
-- **File size**: 4-6 MB
-- **Content**: Raw Circuit Tracer attribution graph in JSON format
-- **Metadata**: Includes Circuit Tracer version, timestamp, model info
+Files are saved to: `neuronpedia_pipeline/data/prompts/{prompt-slug}/1_generation/`
 
-## Example interaction
+- **raw_graph.json** - Complete Circuit Tracer graph
+- **metadata.json** - Prompt info, model, timestamps
 
-**User**: "Fetch a graph for 'The currency in Japan is'"
+## Example Interaction
+
+**User**: "Fetch a graph for 'The capital of France is'"
 
 **You should**:
-1. Navigate to neuronpedia_pipeline
-2. Run the generation script
-3. Report: "✓ Graph generated successfully:
-   - File: data/graphs/real_japan_currency.json
-   - Nodes: 962
-   - Edges: 35,561
-   - Layers: 26 (L0-L25)
-   - Size: 4.3 MB
+```bash
+cd neuronpedia_pipeline/scripts
+echo "The capital of France is" | python 1_generate_graph.py
+```
 
-   Next step: Run `/neuronpedia-convert` to prepare for analysis"
+**Report**:
+```
+✓ Graph generated successfully!
 
-## Common issues
+Prompt: <bos>The capital of France is
+Output: " a" (p=20.7%)
+Location: neuronpedia_pipeline/data/prompts/the-capital-of-france-is/1_generation/
+Nodes: 1088
+Edges: 54382
+Size: 6.15 MB
 
-- **"API key not found"**: User needs to add API key to `config/neuronpedia_config.yaml`
-- **"Graph generation failed"**: Check internet connection, verify API is accessible
-- **"Timeout"**: API may be busy, suggest retry in a few moments
-- **Connection errors**: Verify Neuronpedia API status
+Next step: Run Script 2 to convert the graph
+```
 
-## When to use this skill
+## Important Notes
+
+- **Model predictions vary by prompt wording** - "The capital of X is" vs "X is the capital of" can produce different results
+- **No target token override** - Neuronpedia always uses the model's top prediction
+- **API is public** - No authentication required for graph generation
+- **Files are organized by prompt** - Each prompt gets its own directory
+
+## Common Issues
+
+- **"Connection timeout"**: Neuronpedia API may be busy, retry
+- **"Graph generation failed"**: Check internet connection
+- **Large graphs**: Some prompts generate 1000+ nodes, this is normal
+
+## When to Use This Skill
 
 - User asks to "fetch a graph" or "generate a graph"
 - User wants to analyze a specific prompt
-- User says "get attribution data for [prompt]"
 - Starting a new circuit analysis
-- User asks "what features activate for [text]"
+- Testing how a model processes text
 
-## Next steps after this skill
+## Next Steps
 
-After fetching, the user typically wants to:
-1. Run `/neuronpedia-convert` - Convert the raw graph to pipeline format
-2. Run `/neuronpedia-validate` - Verify the data is genuine
+After fetching, run:
+1. **Script 2** (`/neuronpedia-convert`) - Convert to standard format
+2. **Script 3** (`/neuronpedia-analyze`) - Detect supernodes and analyze

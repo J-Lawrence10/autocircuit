@@ -9,6 +9,11 @@ import json
 import argparse
 import re
 from pathlib import Path
+import sys
+
+# Add scripts to path for imports
+sys.path.insert(0, str(Path(__file__).parent))
+from path_manager import PathManager
 
 # Load configuration
 config_path = Path(__file__).parent.parent.parent / "config" / "neuronpedia_config.yaml"
@@ -224,25 +229,37 @@ Examples:
             s3_success, graph_json = fetch_s3_graph_json(s3_location)
 
             if s3_success and graph_json:
-                # Generate filename from prompt
-                filename = create_filename_from_prompt(test_prompt)
+                # Use PathManager for consistent file organization
+                pm = PathManager()
 
-                # Save the graph data
-                output_path = Path(__file__).parent.parent / "data" / "graphs" / filename
-                output_path.parent.mkdir(parents=True, exist_ok=True)
+                # Save raw graph JSON
+                output_path = pm.raw_graph_path(test_prompt)
 
                 with open(output_path, 'w', encoding='utf-8') as f:
                     json.dump(graph_json, f, indent=2)
+
+                # Save metadata
+                metadata = {
+                    'prompt': test_prompt,
+                    'model': args.model,
+                    'slug': slug,
+                    'num_nodes': len(graph_json.get('nodes', [])),
+                    'num_links': len(graph_json.get('links', [])),
+                    's3_url': s3_location,
+                    'neuronpedia_url': graph_data.get('url', '')
+                }
+                pm.save_metadata(test_prompt, metadata)
 
                 print(f"\n{'=' * 60}")
                 print("[SUCCESS] Graph saved successfully!")
                 print(f"{'=' * 60}")
                 print(f"File: {output_path.name}")
                 print(f"Location: {output_path}")
+                print(f"Prompt directory: {pm.get_prompt_dir(test_prompt)}")
                 print(f"Nodes: {len(graph_json.get('nodes', []))}")
                 print(f"Links: {len(graph_json.get('links', []))}")
                 print(f"Size: {output_path.stat().st_size / (1024*1024):.2f} MB")
-                print(f"\nNext step: Run '/circuit-tracer-convert' to prepare for analysis")
+                print(f"\nNext step: Run script 2 to convert the graph")
         else:
             print("\n[ERROR] No S3 location returned. Graph may not have been generated.")
     else:

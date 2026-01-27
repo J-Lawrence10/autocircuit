@@ -1,0 +1,10 @@
+{
+  "prompt": "Paris is the capital of",
+  "model": "gemma-2-2b",
+  "slug": "paris-is-the-capital-of",
+  "num_nodes": 1014,
+  "num_links": 33582,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/parisisthecapita-1769292197013.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=parisisthecapita-1769292197013",
+  "generated_at": "2026-01-24T17:03:22.969364"
+}

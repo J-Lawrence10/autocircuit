@@ -1,0 +1,10 @@
+{
+  "prompt": "Test PathManager integration",
+  "model": "gemma-2-2b",
+  "slug": "test-pathmanager-integration",
+  "num_nodes": 1110,
+  "num_links": 36918,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/testpathmanageri-1768974845559.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=testpathmanageri-1768974845559",
+  "generated_at": "2026-01-21T00:54:13.074664"
+}

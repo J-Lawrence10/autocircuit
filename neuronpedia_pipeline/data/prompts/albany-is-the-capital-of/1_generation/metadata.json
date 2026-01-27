@@ -1,0 +1,10 @@
+{
+  "prompt": "Albany is the capital of",
+  "model": "gemma-2-2b",
+  "slug": "albany-is-the-capital-of",
+  "num_nodes": 1090,
+  "num_links": 42688,
+  "s3_url": "https://neuronpedia-attrib.s3.us-east-1.amazonaws.com/user-graphs/anonymous/albanyisthecapit-1769294032533.json",
+  "neuronpedia_url": "https://www.neuronpedia.org/gemma-2-2b/graph?slug=albanyisthecapit-1769294032533",
+  "generated_at": "2026-01-24T17:33:58.542372"
+}

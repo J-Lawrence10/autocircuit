@@ -1,0 +1,2890 @@
+{
+  "1": {
+    "layer_features": {
+      "0": 53,
+      "1": 8,
+      "2": 6,
+      "3": 7,
+      "4": 8,
+      "5": 3,
+      "6": 3,
+      "7": 3,
+      "8": 2,
+      "9": 7,
+      "10": 5,
+      "11": 5,
+      "12": 2,
+      "13": 1,
+      "14": 2,
+      "15": 2,
+      "17": 2
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 53,
+        "entry_count": 53,
+        "exit_count": 53,
+        "features": [
+          "0_5203_1",
+          "0_12163_1",
+          "0_13905_1",
+          "0_14457_1",
+          "0_15622_1"
+        ]
+      },
+      "1": {
+        "num_features": 8,
+        "entry_count": 8,
+        "exit_count": 8,
+        "features": [
+          "1_14267_1",
+          "1_1251_1",
+          "1_14137_1",
+          "1_961_1",
+          "1_3041_1"
+        ]
+      },
+      "2": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "2_11080_1",
+          "2_1852_1",
+          "2_1751_1",
+          "2_15681_1",
+          "2_8816_1"
+        ]
+      },
+      "3": {
+        "num_features": 7,
+        "entry_count": 7,
+        "exit_count": 7,
+        "features": [
+          "3_12908_1",
+          "3_10197_1",
+          "3_5507_1",
+          "3_373_1",
+          "3_12564_1"
+        ]
+      },
+      "4": {
+        "num_features": 8,
+        "entry_count": 8,
+        "exit_count": 8,
+        "features": [
+          "4_8952_1",
+          "4_9555_1",
+          "4_14857_1",
+          "4_4104_1",
+          "4_9757_1"
+        ]
+      },
+      "5": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "5_7489_1",
+          "5_14514_1",
+          "5_3992_1"
+        ]
+      },
+      "6": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "6_14531_1",
+          "6_14585_1",
+          "6_4516_1"
+        ]
+      },
+      "7": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "7_462_1",
+          "7_8770_1",
+          "7_5741_1"
+        ]
+      },
+      "8": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "8_3815_1",
+          "8_8406_1"
+        ]
+      },
+      "9": {
+        "num_features": 7,
+        "entry_count": 7,
+        "exit_count": 7,
+        "features": [
+          "9_3569_1",
+          "9_14174_1",
+          "9_8770_1",
+          "9_3056_1",
+          "9_15819_1"
+        ]
+      },
+      "10": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "10_10933_1",
+          "10_6804_1",
+          "10_7106_1",
+          "10_12232_1",
+          "10_14174_1"
+        ]
+      },
+      "11": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "11_11186_1",
+          "11_389_1",
+          "11_9183_1",
+          "11_16322_1",
+          "11_10933_1"
+        ]
+      },
+      "12": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "12_3684_1",
+          "12_12493_1"
+        ]
+      },
+      "13": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "13_8128_1"
+        ]
+      },
+      "14": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "14_10327_1",
+          "14_15964_1"
+        ]
+      },
+      "15": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "15_751_1",
+          "15_851_1"
+        ]
+      },
+      "17": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "17_12449_1",
+          "17_8783_1"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -45,
+        "pct_change": -84.90566037735849,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 1,
+        "to_layer": 2,
+        "change": -2,
+        "pct_change": -25.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -5,
+        "pct_change": -62.5,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 8,
+        "change": -1,
+        "pct_change": -33.33333333333333,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 8,
+        "to_layer": 9,
+        "change": 5,
+        "pct_change": 250.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 10,
+        "change": -2,
+        "pct_change": -28.57142857142857,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 11,
+        "to_layer": 12,
+        "change": -3,
+        "pct_change": -60.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 12,
+        "to_layer": 13,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 13,
+        "to_layer": 14,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      }
+    ],
+    "layer_range": [
+      0,
+      17
+    ],
+    "total_layers": 17
+  },
+  "12": {
+    "layer_features": {
+      "0": 17,
+      "1": 8,
+      "2": 5,
+      "3": 21,
+      "4": 17,
+      "5": 14,
+      "6": 10,
+      "7": 3,
+      "8": 6,
+      "9": 4,
+      "10": 1,
+      "11": 1,
+      "14": 1,
+      "15": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 17,
+        "entry_count": 17,
+        "exit_count": 17,
+        "features": [
+          "0_11612_2",
+          "0_2848_3",
+          "0_3718_3",
+          "0_52_3",
+          "0_15669_2"
+        ]
+      },
+      "1": {
+        "num_features": 8,
+        "entry_count": 8,
+        "exit_count": 8,
+        "features": [
+          "1_6248_3",
+          "1_13040_3",
+          "1_1412_3",
+          "1_14215_3",
+          "1_5369_3"
+        ]
+      },
+      "2": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "2_287_3",
+          "2_8254_3",
+          "2_10295_3",
+          "2_6292_3",
+          "2_2051_3"
+        ]
+      },
+      "3": {
+        "num_features": 21,
+        "entry_count": 21,
+        "exit_count": 21,
+        "features": [
+          "3_3488_3",
+          "3_7053_3",
+          "3_12873_3",
+          "3_7805_3",
+          "3_11712_3"
+        ]
+      },
+      "4": {
+        "num_features": 17,
+        "entry_count": 17,
+        "exit_count": 17,
+        "features": [
+          "4_850_3",
+          "4_10533_3",
+          "4_7671_3",
+          "4_2354_3",
+          "4_10300_3"
+        ]
+      },
+      "5": {
+        "num_features": 14,
+        "entry_count": 14,
+        "exit_count": 14,
+        "features": [
+          "5_13894_3",
+          "5_15929_3",
+          "5_14616_3",
+          "5_8294_3",
+          "5_3822_3"
+        ]
+      },
+      "6": {
+        "num_features": 10,
+        "entry_count": 10,
+        "exit_count": 10,
+        "features": [
+          "6_2267_3",
+          "6_15393_3",
+          "6_1920_3",
+          "6_3978_3",
+          "6_7108_3"
+        ]
+      },
+      "7": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "7_15031_3",
+          "7_691_3",
+          "7_6884_3"
+        ]
+      },
+      "8": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "8_6462_3",
+          "8_11172_3",
+          "8_1355_3",
+          "8_7780_3",
+          "8_3351_3"
+        ]
+      },
+      "9": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "9_3256_3",
+          "9_3886_3",
+          "9_10363_3",
+          "9_3441_3"
+        ]
+      },
+      "10": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "10_14836_3"
+        ]
+      },
+      "11": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "11_15109_3"
+        ]
+      },
+      "14": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "14_3709_3"
+        ]
+      },
+      "15": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "15_4494_3"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -9,
+        "pct_change": -52.94117647058824,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 1,
+        "to_layer": 2,
+        "change": -3,
+        "pct_change": -37.5,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 2,
+        "to_layer": 3,
+        "change": 16,
+        "pct_change": 320.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 5,
+        "to_layer": 6,
+        "change": -4,
+        "pct_change": -28.57142857142857,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 6,
+        "to_layer": 7,
+        "change": -7,
+        "pct_change": -70.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 8,
+        "change": 3,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 8,
+        "to_layer": 9,
+        "change": -2,
+        "pct_change": -33.33333333333333,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 10,
+        "change": -3,
+        "pct_change": -75.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      15
+    ],
+    "total_layers": 14
+  },
+  "5": {
+    "layer_features": {
+      "0": 140,
+      "1": 38,
+      "2": 26,
+      "3": 4,
+      "4": 10,
+      "5": 1,
+      "6": 6,
+      "7": 2,
+      "14": 1,
+      "15": 1,
+      "16": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 140,
+        "entry_count": 140,
+        "exit_count": 140,
+        "features": [
+          "0_5550_2",
+          "0_15115_2",
+          "0_4089_2",
+          "0_688_2",
+          "0_14426_2"
+        ]
+      },
+      "1": {
+        "num_features": 38,
+        "entry_count": 38,
+        "exit_count": 38,
+        "features": [
+          "1_1000_2",
+          "1_13667_2",
+          "1_12901_2",
+          "1_5981_2",
+          "1_15944_2"
+        ]
+      },
+      "2": {
+        "num_features": 26,
+        "entry_count": 26,
+        "exit_count": 26,
+        "features": [
+          "2_15380_2",
+          "2_12801_2",
+          "2_11778_2",
+          "2_8734_2",
+          "2_3658_2"
+        ]
+      },
+      "3": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "3_13984_2",
+          "3_8580_2",
+          "3_8085_3",
+          "3_3205_2"
+        ]
+      },
+      "4": {
+        "num_features": 10,
+        "entry_count": 10,
+        "exit_count": 10,
+        "features": [
+          "4_3824_2",
+          "4_3716_2",
+          "4_6713_2",
+          "4_5323_2",
+          "4_15035_2"
+        ]
+      },
+      "5": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "5_3333_2"
+        ]
+      },
+      "6": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "6_2025_2",
+          "6_11399_2",
+          "6_4662_2",
+          "6_2267_2",
+          "6_14368_2"
+        ]
+      },
+      "7": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "7_3099_2",
+          "7_4999_2"
+        ]
+      },
+      "14": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "14_2051_2"
+        ]
+      },
+      "15": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "15_4494_2"
+        ]
+      },
+      "16": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "16_3460_2"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -102,
+        "pct_change": -72.85714285714285,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 1,
+        "to_layer": 2,
+        "change": -12,
+        "pct_change": -31.57894736842105,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 2,
+        "to_layer": 3,
+        "change": -22,
+        "pct_change": -84.61538461538461,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 3,
+        "to_layer": 4,
+        "change": 6,
+        "pct_change": 150.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -9,
+        "pct_change": -90.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 5,
+        "to_layer": 6,
+        "change": 5,
+        "pct_change": 500.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 6,
+        "to_layer": 7,
+        "change": -4,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 14,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      16
+    ],
+    "total_layers": 11
+  },
+  "7": {
+    "layer_features": {
+      "0": 1,
+      "17": 2,
+      "18": 2,
+      "19": 3,
+      "20": 6,
+      "21": 5,
+      "22": 1,
+      "23": 4,
+      "24": 1,
+      "25": 2
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "0_538_2"
+        ]
+      },
+      "17": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "17_7178_9",
+          "17_2711_9"
+        ]
+      },
+      "18": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "18_8780_9",
+          "18_8959_9"
+        ]
+      },
+      "19": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "19_15657_9",
+          "19_13890_9",
+          "19_2439_9"
+        ]
+      },
+      "20": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "20_5916_9",
+          "20_9329_9",
+          "20_5433_9",
+          "20_5236_9",
+          "20_15133_9"
+        ]
+      },
+      "21": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "21_14975_9",
+          "21_15366_9",
+          "21_16345_9",
+          "21_6316_9",
+          "21_11784_9"
+        ]
+      },
+      "22": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "22_31_9"
+        ]
+      },
+      "23": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "23_14828_9",
+          "23_5764_9",
+          "23_9621_9",
+          "23_7342_9"
+        ]
+      },
+      "24": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "24_16258_9"
+        ]
+      },
+      "25": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "25_12858_9",
+          "25_7680_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 17,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 18,
+        "to_layer": 19,
+        "change": 1,
+        "pct_change": 50.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 19,
+        "to_layer": 20,
+        "change": 3,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 21,
+        "to_layer": 22,
+        "change": -4,
+        "pct_change": -80.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 22,
+        "to_layer": 23,
+        "change": 3,
+        "pct_change": 300.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 23,
+        "to_layer": 24,
+        "change": -3,
+        "pct_change": -75.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 24,
+        "to_layer": 25,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      }
+    ],
+    "layer_range": [
+      0,
+      25
+    ],
+    "total_layers": 10
+  },
+  "6": {
+    "layer_features": {
+      "0": 21,
+      "2": 1,
+      "4": 3,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 2,
+      "9": 1,
+      "14": 2,
+      "15": 1,
+      "16": 2,
+      "17": 1,
+      "18": 2,
+      "19": 2,
+      "20": 4,
+      "21": 3,
+      "22": 5,
+      "23": 6,
+      "24": 5,
+      "25": 3
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 21,
+        "entry_count": 21,
+        "exit_count": 21,
+        "features": [
+          "0_9103_5",
+          "0_2716_2",
+          "0_10046_2",
+          "0_2536_2",
+          "0_2115_6"
+        ]
+      },
+      "2": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "2_5965_8"
+        ]
+      },
+      "4": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "4_5873_8",
+          "4_6931_8",
+          "4_13154_8"
+        ]
+      },
+      "5": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "5_13586_8"
+        ]
+      },
+      "6": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "6_2799_8"
+        ]
+      },
+      "7": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "7_6861_8"
+        ]
+      },
+      "8": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "8_7467_8",
+          "8_1089_8"
+        ]
+      },
+      "9": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "9_1466_8"
+        ]
+      },
+      "14": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "14_2268_8",
+          "14_6632_8"
+        ]
+      },
+      "15": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "15_15087_8"
+        ]
+      },
+      "16": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "16_25_8",
+          "16_25_9"
+        ]
+      },
+      "17": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "17_9905_8"
+        ]
+      },
+      "18": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "18_187_8",
+          "18_187_9"
+        ]
+      },
+      "19": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "19_7477_9",
+          "19_7477_8"
+        ]
+      },
+      "20": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "20_15276_9",
+          "20_15589_8",
+          "20_15589_9",
+          "20_15276_8"
+        ]
+      },
+      "21": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "21_6795_9",
+          "21_11099_9",
+          "21_6795_8"
+        ]
+      },
+      "22": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "22_6392_9",
+          "22_14999_9",
+          "22_11718_9",
+          "22_3551_9",
+          "22_3064_9"
+        ]
+      },
+      "23": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "23_13193_9",
+          "23_2288_9",
+          "23_13841_9",
+          "23_8483_9",
+          "23_15366_9"
+        ]
+      },
+      "24": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "24_6044_9",
+          "24_6044_8",
+          "24_15627_9",
+          "24_15694_9",
+          "24_709_9"
+        ]
+      },
+      "25": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "25_4259_9",
+          "25_4236_9",
+          "25_13300_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 2,
+        "change": -20,
+        "pct_change": -95.23809523809523,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 2,
+        "to_layer": 4,
+        "change": 2,
+        "pct_change": 200.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 8,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 8,
+        "to_layer": 9,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 14,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 14,
+        "to_layer": 15,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 15,
+        "to_layer": 16,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 16,
+        "to_layer": 17,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 17,
+        "to_layer": 18,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 19,
+        "to_layer": 20,
+        "change": 2,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 20,
+        "to_layer": 21,
+        "change": -1,
+        "pct_change": -25.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 21,
+        "to_layer": 22,
+        "change": 2,
+        "pct_change": 66.66666666666666,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 24,
+        "to_layer": 25,
+        "change": -2,
+        "pct_change": -40.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      25
+    ],
+    "total_layers": 20
+  },
+  "13": {
+    "layer_features": {
+      "0": 68,
+      "1": 10,
+      "2": 12,
+      "3": 11,
+      "4": 10,
+      "5": 7,
+      "6": 5,
+      "7": 5,
+      "8": 3,
+      "12": 1,
+      "14": 1,
+      "16": 1,
+      "17": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 68,
+        "entry_count": 68,
+        "exit_count": 68,
+        "features": [
+          "0_4816_5",
+          "0_6421_5",
+          "0_3197_5",
+          "0_6440_5",
+          "0_389_5"
+        ]
+      },
+      "1": {
+        "num_features": 10,
+        "entry_count": 10,
+        "exit_count": 10,
+        "features": [
+          "1_2078_4",
+          "1_15751_4",
+          "1_185_5",
+          "1_28_5",
+          "1_6300_5"
+        ]
+      },
+      "2": {
+        "num_features": 12,
+        "entry_count": 12,
+        "exit_count": 12,
+        "features": [
+          "2_2586_4",
+          "2_15523_5",
+          "2_12993_5",
+          "2_10440_5",
+          "2_15063_5"
+        ]
+      },
+      "3": {
+        "num_features": 11,
+        "entry_count": 11,
+        "exit_count": 11,
+        "features": [
+          "3_8636_5",
+          "3_13816_5",
+          "3_2265_5",
+          "3_10356_4",
+          "3_4773_4"
+        ]
+      },
+      "4": {
+        "num_features": 10,
+        "entry_count": 10,
+        "exit_count": 10,
+        "features": [
+          "4_4384_5",
+          "4_243_5",
+          "4_6087_5",
+          "4_4367_5",
+          "4_8828_5"
+        ]
+      },
+      "5": {
+        "num_features": 7,
+        "entry_count": 7,
+        "exit_count": 7,
+        "features": [
+          "5_16285_5",
+          "5_15818_5",
+          "5_13908_5",
+          "5_13376_5",
+          "5_10508_5"
+        ]
+      },
+      "6": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "6_15292_5",
+          "6_1816_5",
+          "6_2267_5",
+          "6_4012_5",
+          "6_5440_5"
+        ]
+      },
+      "7": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "7_9290_5",
+          "7_1678_5",
+          "7_15569_5",
+          "7_4999_5",
+          "7_3995_5"
+        ]
+      },
+      "8": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "8_8625_5",
+          "8_1067_5",
+          "8_11172_5"
+        ]
+      },
+      "12": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "12_4767_5"
+        ]
+      },
+      "14": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "14_13624_5"
+        ]
+      },
+      "16": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "16_12167_9"
+        ]
+      },
+      "17": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "17_13250_5"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -58,
+        "pct_change": -85.29411764705883,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -3,
+        "pct_change": -30.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 5,
+        "to_layer": 6,
+        "change": -2,
+        "pct_change": -28.57142857142857,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 8,
+        "change": -2,
+        "pct_change": -40.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 8,
+        "to_layer": 12,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      17
+    ],
+    "total_layers": 13
+  },
+  "9": {
+    "layer_features": {
+      "0": 14,
+      "1": 8,
+      "2": 7,
+      "3": 10,
+      "4": 9,
+      "5": 9,
+      "6": 5,
+      "7": 14,
+      "8": 12,
+      "9": 13,
+      "10": 6,
+      "11": 4,
+      "13": 5,
+      "14": 3,
+      "16": 1,
+      "17": 1,
+      "18": 1,
+      "23": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 14,
+        "entry_count": 14,
+        "exit_count": 14,
+        "features": [
+          "0_15944_9",
+          "0_4823_9",
+          "0_12747_9",
+          "0_1998_9",
+          "0_4739_9"
+        ]
+      },
+      "1": {
+        "num_features": 8,
+        "entry_count": 8,
+        "exit_count": 8,
+        "features": [
+          "1_2794_9",
+          "1_5819_9",
+          "1_5136_9",
+          "1_14452_9",
+          "1_7403_9"
+        ]
+      },
+      "2": {
+        "num_features": 7,
+        "entry_count": 7,
+        "exit_count": 7,
+        "features": [
+          "2_14970_9",
+          "2_7822_9",
+          "2_15420_9",
+          "2_13917_9",
+          "2_3479_9"
+        ]
+      },
+      "3": {
+        "num_features": 10,
+        "entry_count": 10,
+        "exit_count": 10,
+        "features": [
+          "3_11734_9",
+          "3_14835_9",
+          "3_10751_9",
+          "3_5938_9",
+          "3_1931_9"
+        ]
+      },
+      "4": {
+        "num_features": 9,
+        "entry_count": 9,
+        "exit_count": 9,
+        "features": [
+          "4_8974_9",
+          "4_7062_9",
+          "4_8364_9",
+          "4_13294_9",
+          "4_3044_9"
+        ]
+      },
+      "5": {
+        "num_features": 9,
+        "entry_count": 9,
+        "exit_count": 9,
+        "features": [
+          "5_14336_9",
+          "5_11686_9",
+          "5_12872_9",
+          "5_4665_9",
+          "5_13917_9"
+        ]
+      },
+      "6": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "6_4662_9",
+          "6_10789_9",
+          "6_2267_9",
+          "6_9865_9",
+          "6_2417_9"
+        ]
+      },
+      "7": {
+        "num_features": 14,
+        "entry_count": 14,
+        "exit_count": 14,
+        "features": [
+          "7_6884_9",
+          "7_3163_9",
+          "7_7956_9",
+          "7_4051_9",
+          "7_691_9"
+        ]
+      },
+      "8": {
+        "num_features": 12,
+        "entry_count": 12,
+        "exit_count": 12,
+        "features": [
+          "8_3099_9",
+          "8_5019_9",
+          "8_9338_9",
+          "8_3351_9",
+          "8_12762_9"
+        ]
+      },
+      "9": {
+        "num_features": 13,
+        "entry_count": 13,
+        "exit_count": 13,
+        "features": [
+          "9_13795_9",
+          "9_185_9",
+          "9_12544_9",
+          "9_12570_9",
+          "9_13139_9"
+        ]
+      },
+      "10": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "10_1037_9",
+          "10_5563_9",
+          "10_1279_9",
+          "10_3960_9",
+          "10_3837_9"
+        ]
+      },
+      "11": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "11_15102_9",
+          "11_15109_9",
+          "11_12703_9",
+          "11_10566_9"
+        ]
+      },
+      "13": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "13_11158_9",
+          "13_3597_9",
+          "13_8341_9",
+          "13_3610_9",
+          "13_10050_9"
+        ]
+      },
+      "14": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "14_4758_9",
+          "14_6270_9",
+          "14_14233_9"
+        ]
+      },
+      "16": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "16_15223_9"
+        ]
+      },
+      "17": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "17_7767_9"
+        ]
+      },
+      "18": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "18_9416_9"
+        ]
+      },
+      "23": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "23_10032_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -6,
+        "pct_change": -42.857142857142854,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 2,
+        "to_layer": 3,
+        "change": 3,
+        "pct_change": 42.857142857142854,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 5,
+        "to_layer": 6,
+        "change": -4,
+        "pct_change": -44.44444444444444,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 6,
+        "to_layer": 7,
+        "change": 9,
+        "pct_change": 180.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 10,
+        "change": -7,
+        "pct_change": -53.84615384615385,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 10,
+        "to_layer": 11,
+        "change": -2,
+        "pct_change": -33.33333333333333,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 11,
+        "to_layer": 13,
+        "change": 1,
+        "pct_change": 25.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 13,
+        "to_layer": 14,
+        "change": -2,
+        "pct_change": -40.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 14,
+        "to_layer": 16,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      23
+    ],
+    "total_layers": 18
+  },
+  "10": {
+    "layer_features": {
+      "0": 2,
+      "18": 1,
+      "19": 3,
+      "20": 1,
+      "21": 2,
+      "22": 3,
+      "23": 9,
+      "24": 5,
+      "25": 5
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "0_15633_2",
+          "0_13711_2"
+        ]
+      },
+      "18": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "18_6101_9"
+        ]
+      },
+      "19": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "19_37_9",
+          "19_6741_9",
+          "19_1445_9"
+        ]
+      },
+      "20": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "20_114_9"
+        ]
+      },
+      "21": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "21_5943_9",
+          "21_11910_9"
+        ]
+      },
+      "22": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "22_13502_9",
+          "22_4999_9",
+          "22_11220_9"
+        ]
+      },
+      "23": {
+        "num_features": 9,
+        "entry_count": 9,
+        "exit_count": 9,
+        "features": [
+          "23_2209_9",
+          "23_11444_9",
+          "23_4564_9",
+          "23_9609_9",
+          "23_12194_9"
+        ]
+      },
+      "24": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "24_15013_9",
+          "24_5736_9",
+          "24_13894_9",
+          "24_6394_9",
+          "24_9794_9"
+        ]
+      },
+      "25": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "25_583_9",
+          "25_762_9",
+          "25_2502_9",
+          "25_1995_9",
+          "25_4679_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 18,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 18,
+        "to_layer": 19,
+        "change": 2,
+        "pct_change": 200.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 19,
+        "to_layer": 20,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 20,
+        "to_layer": 21,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 21,
+        "to_layer": 22,
+        "change": 1,
+        "pct_change": 50.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 22,
+        "to_layer": 23,
+        "change": 6,
+        "pct_change": 200.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 23,
+        "to_layer": 24,
+        "change": -4,
+        "pct_change": -44.44444444444444,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      25
+    ],
+    "total_layers": 9
+  },
+  "0": {
+    "layer_features": {
+      "0": 58,
+      "1": 24,
+      "2": 14,
+      "3": 16,
+      "4": 24,
+      "5": 13,
+      "6": 6,
+      "7": 6,
+      "8": 9,
+      "9": 2,
+      "11": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 58,
+        "entry_count": 58,
+        "exit_count": 58,
+        "features": [
+          "0_13765_6",
+          "0_8519_6",
+          "0_592_6",
+          "0_7584_6",
+          "0_13009_6"
+        ]
+      },
+      "1": {
+        "num_features": 24,
+        "entry_count": 24,
+        "exit_count": 24,
+        "features": [
+          "1_7094_6",
+          "1_14474_6",
+          "1_3404_6",
+          "1_5136_6",
+          "1_7488_6"
+        ]
+      },
+      "2": {
+        "num_features": 14,
+        "entry_count": 14,
+        "exit_count": 14,
+        "features": [
+          "2_13210_6",
+          "2_5925_6",
+          "2_10989_6",
+          "2_9839_6",
+          "2_13009_6"
+        ]
+      },
+      "3": {
+        "num_features": 16,
+        "entry_count": 16,
+        "exit_count": 16,
+        "features": [
+          "3_14835_6",
+          "3_7523_6",
+          "3_12082_6",
+          "3_13856_6",
+          "3_13201_6"
+        ]
+      },
+      "4": {
+        "num_features": 24,
+        "entry_count": 24,
+        "exit_count": 24,
+        "features": [
+          "4_7870_6",
+          "4_4322_6",
+          "4_12217_6",
+          "4_5905_6",
+          "4_9272_6"
+        ]
+      },
+      "5": {
+        "num_features": 13,
+        "entry_count": 13,
+        "exit_count": 13,
+        "features": [
+          "5_2947_6",
+          "5_8209_6",
+          "5_2880_6",
+          "5_8871_6",
+          "5_4665_6"
+        ]
+      },
+      "6": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "6_14808_6",
+          "6_3479_6",
+          "6_12132_6",
+          "6_3624_6",
+          "6_2267_6"
+        ]
+      },
+      "7": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "7_10547_6",
+          "7_13403_6",
+          "7_9774_6",
+          "7_5150_6",
+          "7_9551_6"
+        ]
+      },
+      "8": {
+        "num_features": 9,
+        "entry_count": 9,
+        "exit_count": 9,
+        "features": [
+          "8_8356_6",
+          "8_12762_6",
+          "8_11172_6",
+          "8_8625_6",
+          "8_16263_6"
+        ]
+      },
+      "9": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "9_14954_6",
+          "9_4114_6"
+        ]
+      },
+      "11": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "11_2686_8"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -34,
+        "pct_change": -58.620689655172406,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 1,
+        "to_layer": 2,
+        "change": -10,
+        "pct_change": -41.66666666666667,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 3,
+        "to_layer": 4,
+        "change": 8,
+        "pct_change": 50.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -11,
+        "pct_change": -45.83333333333333,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 5,
+        "to_layer": 6,
+        "change": -7,
+        "pct_change": -53.84615384615385,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 7,
+        "to_layer": 8,
+        "change": 3,
+        "pct_change": 50.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 8,
+        "to_layer": 9,
+        "change": -7,
+        "pct_change": -77.77777777777779,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 11,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      11
+    ],
+    "total_layers": 11
+  },
+  "2": {
+    "layer_features": {
+      "0": 67,
+      "1": 16,
+      "2": 26,
+      "3": 22,
+      "4": 17,
+      "5": 13,
+      "6": 13,
+      "7": 6,
+      "8": 6,
+      "9": 6,
+      "10": 1,
+      "11": 2,
+      "12": 5,
+      "13": 3,
+      "14": 3,
+      "15": 3,
+      "16": 1,
+      "17": 2,
+      "18": 1,
+      "19": 2,
+      "20": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 67,
+        "entry_count": 67,
+        "exit_count": 67,
+        "features": [
+          "0_12952_8",
+          "0_9397_8",
+          "0_8773_8",
+          "0_11846_8",
+          "0_2709_7"
+        ]
+      },
+      "1": {
+        "num_features": 16,
+        "entry_count": 16,
+        "exit_count": 16,
+        "features": [
+          "1_3545_8",
+          "1_7101_8",
+          "1_4379_8",
+          "1_3217_8",
+          "1_1248_8"
+        ]
+      },
+      "2": {
+        "num_features": 26,
+        "entry_count": 26,
+        "exit_count": 26,
+        "features": [
+          "2_10868_8",
+          "2_11496_8",
+          "2_8147_8",
+          "2_11362_8",
+          "2_2944_8"
+        ]
+      },
+      "3": {
+        "num_features": 22,
+        "entry_count": 22,
+        "exit_count": 22,
+        "features": [
+          "3_9133_8",
+          "3_9417_8",
+          "3_15777_8",
+          "3_11814_8",
+          "3_15869_8"
+        ]
+      },
+      "4": {
+        "num_features": 17,
+        "entry_count": 17,
+        "exit_count": 17,
+        "features": [
+          "4_14586_8",
+          "4_4559_8",
+          "4_9041_8",
+          "4_10245_8",
+          "4_5903_8"
+        ]
+      },
+      "5": {
+        "num_features": 13,
+        "entry_count": 13,
+        "exit_count": 13,
+        "features": [
+          "5_2683_8",
+          "5_15776_8",
+          "5_2754_8",
+          "5_9619_8",
+          "5_7089_8"
+        ]
+      },
+      "6": {
+        "num_features": 13,
+        "entry_count": 13,
+        "exit_count": 13,
+        "features": [
+          "6_15810_8",
+          "6_10481_8",
+          "6_2267_8",
+          "6_4662_8",
+          "6_5695_8"
+        ]
+      },
+      "7": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "7_4109_8",
+          "7_3099_8",
+          "7_691_8",
+          "7_6129_8",
+          "7_7929_8"
+        ]
+      },
+      "8": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "8_6462_8",
+          "8_8625_8",
+          "8_12762_8",
+          "8_3099_8",
+          "8_6141_8"
+        ]
+      },
+      "9": {
+        "num_features": 6,
+        "entry_count": 6,
+        "exit_count": 6,
+        "features": [
+          "9_8335_8",
+          "9_137_8",
+          "9_4367_8",
+          "9_2576_8",
+          "9_2819_8"
+        ]
+      },
+      "10": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "10_29_8"
+        ]
+      },
+      "11": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "11_3544_8",
+          "11_1278_8"
+        ]
+      },
+      "12": {
+        "num_features": 5,
+        "entry_count": 5,
+        "exit_count": 5,
+        "features": [
+          "12_8404_8",
+          "12_2082_8",
+          "12_6295_8",
+          "12_12910_8",
+          "12_14616_8"
+        ]
+      },
+      "13": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "13_8632_8",
+          "13_13918_8",
+          "13_3597_8"
+        ]
+      },
+      "14": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "14_2818_8",
+          "14_7732_8",
+          "14_4649_8"
+        ]
+      },
+      "15": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "15_14921_8",
+          "15_2107_8",
+          "15_10366_8"
+        ]
+      },
+      "16": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "16_12678_8"
+        ]
+      },
+      "17": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "17_13508_8",
+          "17_7767_8"
+        ]
+      },
+      "18": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "18_5424_8"
+        ]
+      },
+      "19": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "19_2695_8",
+          "19_13413_8"
+        ]
+      },
+      "20": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "20_11604_8"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 0,
+        "to_layer": 1,
+        "change": -51,
+        "pct_change": -76.11940298507463,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 1,
+        "to_layer": 2,
+        "change": 10,
+        "pct_change": 62.5,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 3,
+        "to_layer": 4,
+        "change": -5,
+        "pct_change": -22.727272727272727,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 4,
+        "to_layer": 5,
+        "change": -4,
+        "pct_change": -23.52941176470588,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 6,
+        "to_layer": 7,
+        "change": -7,
+        "pct_change": -53.84615384615385,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 10,
+        "change": -5,
+        "pct_change": -83.33333333333334,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 10,
+        "to_layer": 11,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 11,
+        "to_layer": 12,
+        "change": 3,
+        "pct_change": 150.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 12,
+        "to_layer": 13,
+        "change": -2,
+        "pct_change": -40.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 15,
+        "to_layer": 16,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 16,
+        "to_layer": 17,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 17,
+        "to_layer": 18,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 18,
+        "to_layer": 19,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 19,
+        "to_layer": 20,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      20
+    ],
+    "total_layers": 21
+  },
+  "3": {
+    "layer_features": {
+      "0": 1,
+      "7": 1,
+      "9": 2,
+      "10": 1,
+      "11": 2,
+      "12": 2,
+      "13": 7,
+      "14": 8,
+      "15": 3,
+      "16": 4,
+      "17": 2,
+      "18": 3,
+      "19": 1,
+      "20": 2,
+      "21": 1,
+      "25": 1
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "0_12215_9"
+        ]
+      },
+      "7": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "7_12405_9"
+        ]
+      },
+      "9": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "9_8559_9",
+          "9_1965_9"
+        ]
+      },
+      "10": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "10_10082_9"
+        ]
+      },
+      "11": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "11_3448_9",
+          "11_4749_9"
+        ]
+      },
+      "12": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "12_10631_9",
+          "12_10440_9"
+        ]
+      },
+      "13": {
+        "num_features": 7,
+        "entry_count": 7,
+        "exit_count": 7,
+        "features": [
+          "13_9438_9",
+          "13_15017_9",
+          "13_7558_9",
+          "13_10353_9",
+          "13_7058_9"
+        ]
+      },
+      "14": {
+        "num_features": 8,
+        "entry_count": 8,
+        "exit_count": 8,
+        "features": [
+          "14_3704_9",
+          "14_2829_9",
+          "14_3824_9",
+          "14_11422_9",
+          "14_2654_9"
+        ]
+      },
+      "15": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "15_2519_9",
+          "15_11961_9",
+          "15_1735_9"
+        ]
+      },
+      "16": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "16_5483_9",
+          "16_10202_9",
+          "16_14449_9",
+          "16_9522_9"
+        ]
+      },
+      "17": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "17_5821_9",
+          "17_10747_9"
+        ]
+      },
+      "18": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "18_1026_9",
+          "18_1437_9",
+          "18_3536_9"
+        ]
+      },
+      "19": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "19_64_9"
+        ]
+      },
+      "20": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "20_3094_9",
+          "20_10118_9"
+        ]
+      },
+      "21": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "21_5807_9"
+        ]
+      },
+      "25": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "25_12025_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 7,
+        "to_layer": 9,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 9,
+        "to_layer": 10,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 10,
+        "to_layer": 11,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 12,
+        "to_layer": 13,
+        "change": 5,
+        "pct_change": 250.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 14,
+        "to_layer": 15,
+        "change": -5,
+        "pct_change": -62.5,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 15,
+        "to_layer": 16,
+        "change": 1,
+        "pct_change": 33.33333333333333,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 16,
+        "to_layer": 17,
+        "change": -2,
+        "pct_change": -50.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 17,
+        "to_layer": 18,
+        "change": 1,
+        "pct_change": 50.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 18,
+        "to_layer": 19,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 19,
+        "to_layer": 20,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 20,
+        "to_layer": 21,
+        "change": -1,
+        "pct_change": -50.0,
+        "type": "contraction"
+      }
+    ],
+    "layer_range": [
+      0,
+      25
+    ],
+    "total_layers": 16
+  },
+  "8": {
+    "layer_features": {
+      "0": 1,
+      "19": 1,
+      "21": 3,
+      "22": 4,
+      "23": 11,
+      "24": 21,
+      "25": 18
+    },
+    "layer_stats": {
+      "0": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "0_13004_9"
+        ]
+      },
+      "19": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "19_14496_9"
+        ]
+      },
+      "21": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "21_8083_9",
+          "21_6762_9",
+          "21_5302_9"
+        ]
+      },
+      "22": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "22_2988_9",
+          "22_15273_9",
+          "22_13132_9",
+          "22_12991_9"
+        ]
+      },
+      "23": {
+        "num_features": 11,
+        "entry_count": 11,
+        "exit_count": 11,
+        "features": [
+          "23_4908_9",
+          "23_8252_9",
+          "23_12917_9",
+          "23_10413_9",
+          "23_12621_9"
+        ]
+      },
+      "24": {
+        "num_features": 21,
+        "entry_count": 21,
+        "exit_count": 21,
+        "features": [
+          "24_1260_9",
+          "24_3882_9",
+          "24_5311_9",
+          "24_15655_9",
+          "24_5395_9"
+        ]
+      },
+      "25": {
+        "num_features": 18,
+        "entry_count": 18,
+        "exit_count": 18,
+        "features": [
+          "25_13416_9",
+          "25_10152_9",
+          "25_9975_9",
+          "25_7435_9",
+          "25_2687_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 19,
+        "to_layer": 21,
+        "change": 2,
+        "pct_change": 200.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 21,
+        "to_layer": 22,
+        "change": 1,
+        "pct_change": 33.33333333333333,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 22,
+        "to_layer": 23,
+        "change": 7,
+        "pct_change": 175.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 23,
+        "to_layer": 24,
+        "change": 10,
+        "pct_change": 90.9090909090909,
+        "type": "expansion"
+      }
+    ],
+    "layer_range": [
+      0,
+      25
+    ],
+    "total_layers": 7
+  },
+  "4": {
+    "layer_features": {
+      "14": 1,
+      "15": 1,
+      "16": 4,
+      "17": 3,
+      "18": 1,
+      "19": 1,
+      "20": 1,
+      "21": 2
+    },
+    "layer_stats": {
+      "14": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "14_13956_9"
+        ]
+      },
+      "15": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "15_10992_9"
+        ]
+      },
+      "16": {
+        "num_features": 4,
+        "entry_count": 4,
+        "exit_count": 4,
+        "features": [
+          "16_4298_9",
+          "16_13497_9",
+          "16_6491_9",
+          "16_5021_9"
+        ]
+      },
+      "17": {
+        "num_features": 3,
+        "entry_count": 3,
+        "exit_count": 3,
+        "features": [
+          "17_436_9",
+          "17_7499_9",
+          "17_1084_9"
+        ]
+      },
+      "18": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "18_3852_9"
+        ]
+      },
+      "19": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "19_2783_9"
+        ]
+      },
+      "20": {
+        "num_features": 1,
+        "entry_count": 1,
+        "exit_count": 1,
+        "features": [
+          "20_10254_9"
+        ]
+      },
+      "21": {
+        "num_features": 2,
+        "entry_count": 2,
+        "exit_count": 2,
+        "features": [
+          "21_11630_9",
+          "21_10336_9"
+        ]
+      }
+    },
+    "transformations": [
+      {
+        "from_layer": 15,
+        "to_layer": 16,
+        "change": 3,
+        "pct_change": 300.0,
+        "type": "expansion"
+      },
+      {
+        "from_layer": 16,
+        "to_layer": 17,
+        "change": -1,
+        "pct_change": -25.0,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 17,
+        "to_layer": 18,
+        "change": -2,
+        "pct_change": -66.66666666666666,
+        "type": "contraction"
+      },
+      {
+        "from_layer": 20,
+        "to_layer": 21,
+        "change": 1,
+        "pct_change": 100.0,
+        "type": "expansion"
+      }
+    ],
+    "layer_range": [
+      14,
+      21
+    ],
+    "total_layers": 8
+  }
+}
