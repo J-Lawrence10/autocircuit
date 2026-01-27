@@ -410,6 +410,33 @@ def identify_flow_nodes(G, layer_groups):
         'bottleneck_nodes': bottleneck_candidates[:10]  # Top 10 bottlenecks
     }
 
+def get_top_features_per_supernode(G, supernodes, n=10):
+    """
+    Get top N features from each supernode by activation
+
+    Args:
+        G: NetworkX graph with node attributes
+        supernodes: Dict mapping supernode_id -> list of node_ids
+        n: Number of top features to extract per supernode
+
+    Returns:
+        Dict mapping supernode_id -> List of (node_id, activation) tuples
+    """
+    top_features_by_supernode = {}
+
+    for sn_id, node_list in supernodes.items():
+        # Get activations for nodes in this supernode
+        node_activations = [
+            (node_id, G.nodes[node_id]['activation'])
+            for node_id in node_list
+        ]
+
+        # Sort by activation descending, take top N (or all if fewer than N)
+        node_activations.sort(key=lambda x: x[1], reverse=True)
+        top_features_by_supernode[sn_id] = node_activations[:min(n, len(node_activations))]
+
+    return top_features_by_supernode
+
 # ============================================================================
 # STEP 3: HYBRID ANALYSIS (Louvain + Layer-based)
 # ============================================================================
@@ -560,18 +587,17 @@ print("="*60)
 # Initialize feature fetcher
 fetcher = FeatureDescriptionFetcher()
 
-# Ask user if they want to fetch ALL descriptions (takes longer but more accurate)
+# Ask user which fetch strategy to use
 print("\nFetch feature descriptions:")
 print("1. Quick - Top features only (~15 features, 10 seconds)")
 print("2. Complete - ALL features (~900 features, 5-10 minutes)")
+print("3. Smart - Top per supernode (~90 features, 30-60 seconds) [RECOMMENDED]")
 print()
 
-# Temporarily hardcoded to option 2 for comprehensive fetch
-fetch_choice = "2"
-print(f"[AUTO-SELECTED] Option 2 - Comprehensive fetch")
+fetch_choice = input("Select option (1/2/3, default=3): ").strip() or "3"
 
 if fetch_choice == "2":
-    print("\n[INFO] Fetching descriptions for ALL features...")
+    print("\n[INFO] Comprehensive fetch - fetching ALL features...")
     print("[INFO] This will take 5-10 minutes due to API rate limits...")
     print("[INFO] Progress will be shown as features are fetched...")
 
@@ -584,8 +610,33 @@ if fetch_choice == "2":
 
     # Still get top features for display
     layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
-else:
-    print("\n[INFO] Fetching descriptions for top features only...")
+
+elif fetch_choice == "3":
+    print("\n[INFO] Smart fetch - targeting top features per supernode...")
+    print("[INFO] This will take 30-60 seconds...")
+
+    # Get top 10 features per supernode
+    top_features_map = get_top_features_per_supernode(G, supernodes, n=10)
+
+    # Collect all unique node IDs
+    all_top_nodes = set()
+    for sn_id, features in top_features_map.items():
+        for node_id, _ in features:
+            all_top_nodes.add(node_id)
+
+    print(f"[INFO] Found {len(all_top_nodes)} unique features across {len(supernodes)} supernodes")
+
+    # Fetch descriptions
+    all_descriptions = fetcher.fetch_descriptions_for_features(
+        list(all_top_nodes),
+        max_features=len(all_top_nodes)
+    )
+
+    # Still get top features for display
+    layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
+
+else:  # Quick fetch (option 1)
+    print("\n[INFO] Quick fetch - top features only...")
     # Get top features per layer group with descriptions
     layer_group_descriptions = fetcher.get_top_features_per_layer_group(layer_groups, top_n=3)
     all_descriptions = {}
