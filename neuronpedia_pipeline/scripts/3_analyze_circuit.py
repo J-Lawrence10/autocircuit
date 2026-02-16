@@ -626,9 +626,16 @@ elif fetch_choice == "3":
 
     print(f"[INFO] Found {len(all_top_nodes)} unique features across {len(supernodes)} supernodes")
 
-    # Fetch descriptions
+    # Sort by activation for cleaner output (highest activation first)
+    all_top_nodes_sorted = sorted(
+        all_top_nodes,
+        key=lambda nid: G.nodes[nid]['activation'],
+        reverse=True
+    )
+
+    # Fetch descriptions (now in activation order)
     all_descriptions = fetcher.fetch_descriptions_for_features(
-        list(all_top_nodes),
+        all_top_nodes_sorted,
         max_features=len(all_top_nodes)
     )
 

@@ -1,5 +1,8 @@
+# ============================================================
 # Python
+# ============================================================
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -19,27 +22,51 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual environments
+# ============================================================
+# Virtual Environments
+# ============================================================
 venv/
 ENV/
 env/
 .venv
+*.venv/
 
-# IDE
+# ============================================================
+# IDE & Editors
+# ============================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+*.sublime-project
+*.sublime-workspace
 
-# OS
+# ============================================================
+# OS Generated Files
+# ============================================================
 .DS_Store
 Thumbs.db
 nul
+Desktop.ini
+.AppleDouble
+.LSOverride
 
-# Neuronpedia Pipeline Data
-# Keep the data structure but ignore all generated data files
+# ============================================================
+# Claude Code Temporary Files
+# ============================================================
+tmpclaude-*.cwd
+**/tmpclaude/
+.claude/settings.local.json
+C\:Users*/
+*AppDataLocalTempclaudeC--*
+
+# ============================================================
+# Neuronpedia Pipeline Generated Data
+# ============================================================
+# Keep directory structure but ignore all generated data
 neuronpedia_pipeline/data/prompts/*/1_generation/
 neuronpedia_pipeline/data/prompts/*/2_conversion/
 neuronpedia_pipeline/data/prompts/*/3_analysis/
@@ -49,19 +76,110 @@ neuronpedia_pipeline/data/prompts/*/8_evolution/
 neuronpedia_pipeline/data/prompts/*/9_steering/
 neuronpedia_pipeline/data/prompts/*/10_polysemanticity/
 
-# But keep the directory structure with .gitkeep files
+# Keep .gitkeep files for structure
 !neuronpedia_pipeline/data/prompts/.gitkeep
 !neuronpedia_pipeline/data/.gitkeep
+!**/.gitkeep
 
-# Logs and temporary files
+# ============================================================
+# Backup Directories
+# ============================================================
+*_backup_*/
+*_backup/
+backup_*/
+backup/
+*.bak
+*.backup
+
+# ============================================================
+# Logs and Temporary Files
+# ============================================================
 *.log
 *.tmp
 *.temp
+*.cache
+logs/
+**/logs/
 
+# ============================================================
 # Jupyter Notebooks
+# ============================================================
 .ipynb_checkpoints/
 *.ipynb
+**/.ipynb_checkpoints/
 
-# Environment variables
+# ============================================================
+# Environment Variables & Secrets
+# ============================================================
 .env
 .env.local
+.env.*.local
+secrets/
+*.secret
+credentials.json
+
+# ============================================================
+# Large Data Files (if needed)
+# ============================================================
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.model
+*.pt
+*.pth
+*.ckpt
+
+# ============================================================
+# Documentation Build Artifacts
+# ============================================================
+docs/_build/
+site/
+.doctrees/
+
+# ============================================================
+# Temporary Office Files
+# ============================================================
+~$*.pptx
+~$*.xlsx
+~$*.docx
+
+# ============================================================
+# Copy / Duplicate Directories
+# ============================================================
+*- Copy/
+* - Copy/
+
+# ============================================================
+# Old Data Archive
+# ============================================================
+neuronpedia_pipeline/data/prompts/Old Data/
+
+# ============================================================
+# Superpowers (external dependency)
+# ============================================================
+neuronpedia_pipeline/superpowers/.git/
+
+# ============================================================
+# Claude Project Settings (local only)
+# ============================================================
+neuronpedia_pipeline/.claude/
+
+# ============================================================
+# Stage 2 HTML Visualizations (too large for git)
+# ============================================================
+neuronpedia_pipeline/data/stage_2_visualizations/**/*.html
+
+# ============================================================
+# Archive (old code moved during cleanup)
+# ============================================================
+Archive/
+
+# ============================================================
+# Cleanup Artifacts (one-time use)
+# ============================================================
+CODE_REVIEW_CHECKLIST.md
+PRE_COMMIT_REVIEW.md
+READY_TO_COMMIT.md
+CLEANUP_COMPLETE.md
+CLEANUP_PLAN.md

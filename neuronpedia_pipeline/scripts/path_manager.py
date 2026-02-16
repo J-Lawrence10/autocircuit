@@ -61,8 +61,8 @@ class PathManager:
             "Dallas is located in the state of" -> "dallas-is-located-in-the-state-of"
             "<bos>The capitol..." -> "the-capitol..."
         """
-        # Remove <bos> tag
-        text = text.replace('<bos>', '').strip()
+        # Remove <bos> and <|im_end|> tags
+        text = text.replace('<bos>', '').replace('<|im_end|>', '').strip()
 
         # Convert to lowercase
         text = text.lower()
@@ -80,14 +80,27 @@ class PathManager:
 
         return text
 
-    def get_prompt_dir(self, prompt: str) -> Path:
-        """Get main directory for a prompt"""
+    def get_prompt_dir(self, prompt: str, model_id: str = None) -> Path:
+        """
+        Get main directory for a prompt
+
+        Args:
+            prompt: The prompt text
+            model_id: Optional model ID to include in path (e.g., 'gemma-2-2b', 'qwen3-4b')
+        """
         slug = self.slugify(prompt)
+
+        # If model_id provided, prepend it to the slug
+        if model_id:
+            # Clean model_id (remove special chars)
+            clean_model = re.sub(r'[^\w-]', '-', model_id.lower())
+            slug = f"{clean_model}_{slug}"
+
         prompt_dir = self.prompts_dir / slug
         prompt_dir.mkdir(parents=True, exist_ok=True)
         return prompt_dir
 
-    def get_step_dir(self, prompt: str, step: int, step_name: str) -> Path:
+    def get_step_dir(self, prompt: str, step: int, step_name: str, model_id: str = None) -> Path:
         """
         Get directory for a pipeline step
 
@@ -95,47 +108,72 @@ class PathManager:
             prompt: The prompt text
             step: Step number (1-10)
             step_name: Step name (e.g., 'generation', 'conversion')
+            model_id: Optional model ID to include in path
 
         Returns:
             Path to step directory
         """
-        prompt_dir = self.get_prompt_dir(prompt)
+        prompt_dir = self.get_prompt_dir(prompt, model_id=model_id)
         step_dir = prompt_dir / f"{step}_{step_name}"
         step_dir.mkdir(parents=True, exist_ok=True)
         return step_dir
 
+    def _get_file_prefix(self, prompt: str, model_id: str = None) -> str:
+        """
+        Generate a descriptive file prefix from model and prompt
+
+        Examples:
+            "gemma-2-2b_paris-is-capital"
+            "qwen3-4b_5-plus-6"
+        """
+        # Get short prompt slug (first 3-4 words)
+        words = re.sub(r'[^\w\s-]', '', prompt.lower()).split()[:4]
+        short_slug = '-'.join(words)
+
+        if model_id:
+            clean_model = re.sub(r'[^\w-]', '-', model_id.lower())
+            return f"{clean_model}_{short_slug}"
+        return short_slug
+
     # ========== Step 1: Generation ==========
-    def generation_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 1, 'generation')
+    def generation_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 1, 'generation', model_id=model_id)
 
-    def raw_graph_path(self, prompt: str) -> Path:
-        return self.generation_dir(prompt) / 'raw_graph.json'
+    def raw_graph_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.generation_dir(prompt, model_id=model_id) / f'{prefix}_raw_graph.json'
 
-    def metadata_path(self, prompt: str) -> Path:
-        return self.generation_dir(prompt) / 'metadata.json'
+    def metadata_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.generation_dir(prompt, model_id=model_id) / f'{prefix}_metadata.json'
 
     # ========== Step 2: Conversion ==========
-    def conversion_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 2, 'conversion')
+    def conversion_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 2, 'conversion', model_id=model_id)
 
-    def converted_graph_path(self, prompt: str) -> Path:
-        return self.conversion_dir(prompt) / 'converted_graph.json'
+    def converted_graph_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.conversion_dir(prompt, model_id=model_id) / f'{prefix}_converted_graph.json'
 
-    def conversion_stats_path(self, prompt: str) -> Path:
-        return self.conversion_dir(prompt) / 'conversion_stats.json'
+    def conversion_stats_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.conversion_dir(prompt, model_id=model_id) / f'{prefix}_conversion_stats.json'
 
     # ========== Step 3: Analysis ==========
-    def analysis_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 3, 'analysis')
+    def analysis_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 3, 'analysis', model_id=model_id)
 
-    def circuit_analysis_path(self, prompt: str) -> Path:
-        return self.analysis_dir(prompt) / 'circuit_analysis.json'
+    def circuit_analysis_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.analysis_dir(prompt, model_id=model_id) / f'{prefix}_circuit_analysis.json'
 
-    def supernodes_path(self, prompt: str) -> Path:
-        return self.analysis_dir(prompt) / 'supernodes.json'
+    def supernodes_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.analysis_dir(prompt, model_id=model_id) / f'{prefix}_supernodes.json'
 
-    def layer_groups_path(self, prompt: str) -> Path:
-        return self.analysis_dir(prompt) / 'layer_groups.json'
+    def layer_groups_path(self, prompt: str, model_id: str = None) -> Path:
+        prefix = self._get_file_prefix(prompt, model_id)
+        return self.analysis_dir(prompt, model_id=model_id) / f'{prefix}_layer_groups.json'
 
     # ========== Step 4: Visualizations ==========
     def visualizations_dir(self, prompt: str) -> Path:
@@ -257,13 +295,13 @@ class PathManager:
         return self.get_cross_analysis_dir(analysis_name) / 'reuse_network.png'
 
     # ========== Utility Methods ==========
-    def save_metadata(self, prompt: str, metadata: dict):
+    def save_metadata(self, prompt: str, metadata: dict, model_id: str = None):
         """Save metadata for a prompt"""
         metadata['generated_at'] = datetime.now().isoformat()
         metadata['prompt'] = prompt
         metadata['slug'] = self.slugify(prompt)
 
-        with open(self.metadata_path(prompt), 'w') as f:
+        with open(self.metadata_path(prompt, model_id=model_id), 'w') as f:
             json.dump(metadata, f, indent=2)
 
     def load_metadata(self, prompt: str) -> dict:

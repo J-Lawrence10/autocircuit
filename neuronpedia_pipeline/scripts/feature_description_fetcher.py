@@ -51,19 +51,22 @@ class FeatureDescriptionFetcher:
         else:
             raise ValueError(f"Invalid feature ID format: {feature_id}")
 
-    def get_sae_layer_name(self, layer_num: int) -> str:
+    def get_sae_layer_name(self, layer_num: int, use_transcoder: bool = True) -> str:
         """
-        Get SAE layer name for Neuronpedia API
+        Get SAE/Transcoder layer name for Neuronpedia API
 
-        For gemma-2-2b, the format is: {layer}-gemmascope-res-16k
+        Circuit Tracer data uses transcoders, not traditional SAEs!
 
         Args:
             layer_num: Layer number (0-25)
+            use_transcoder: If True, use transcoder format (for Circuit Tracer data)
+                          If False, use SAE res format (for traditional SAE features)
 
         Returns:
-            SAE layer name like "0-gemmascope-res-16k"
+            Layer name like "0-gemmascope-transcoder-16k" or "0-gemmascope-res-16k"
         """
-        return f"{layer_num}-gemmascope-res-16k"
+        layer_type = "transcoder" if use_transcoder else "res"
+        return f"{layer_num}-gemmascope-{layer_type}-16k"
 
     def fetch_feature_description(self, layer: int, feature: int) -> Optional[str]:
         """

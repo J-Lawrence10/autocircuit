@@ -238,7 +238,7 @@ def infer_theme_from_descriptions(feature_descriptions_list, min_descriptions=5)
     # Extract all tokens from descriptions
     all_tokens = []
     for desc in feature_descriptions_list[:10]:  # Look at top 10 features
-        if "Activates on:" in desc:
+        if desc and "Activates on:" in desc:
             tokens_part = desc.split("Activates on:")[1].strip()
             tokens = [t.strip().strip('"').strip("'").lower() for t in tokens_part.split(",")[:5]]
             all_tokens.extend(tokens)

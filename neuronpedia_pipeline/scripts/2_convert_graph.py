@@ -118,7 +118,10 @@ def convert_neuronpedia_graph(input_file, output_file=None, prompt=None):
             print(f"\n[MODEL OUTPUT] Top Prediction: '{model_output}' ({output_probability:.1%})")
             if len(top_predictions) > 1:
                 other_preds = [f"'{p['token']}'({p['probability']:.1%})" for p in top_predictions[1:6]]
-                print(f"  Other predictions: {', '.join(other_preds)}")
+                try:
+                    print(f"  Other predictions: {', '.join(other_preds)}")
+                except (UnicodeEncodeError, UnicodeDecodeError):
+                    print(f"  Other predictions: [Unicode error - {len(other_preds)} predictions]")
 
     # Create converted graph
     converted_graph = {
@@ -217,16 +220,23 @@ def find_available_raw_graphs():
 
     raw_graphs = []
 
-    # Look in new structure: data/prompts/*/1_generation/raw_graph.json
+    # Look in new structure: data/prompts/*/1_generation/*_raw_graph.json
     prompts_dir = pm.prompts_dir
     if prompts_dir.exists():
         for prompt_dir in prompts_dir.iterdir():
             if prompt_dir.is_dir():
                 gen_dir = prompt_dir / '1_generation'
                 if gen_dir.exists():
-                    raw_graph = gen_dir / 'raw_graph.json'
-                    if raw_graph.exists():
-                        raw_graphs.append(raw_graph)
+                    # Find any *_raw_graph.json files (new descriptive naming)
+                    raw_graph_files = list(gen_dir.glob('*_raw_graph.json'))
+                    if raw_graph_files:
+                        # Use the first one found (should only be one)
+                        raw_graphs.append(raw_graph_files[0])
+                    else:
+                        # Fallback to old naming
+                        raw_graph = gen_dir / 'raw_graph.json'
+                        if raw_graph.exists():
+                            raw_graphs.append(raw_graph)
 
     # Also check old location for backward compatibility
     old_graphs_dir = pm.base_dir / "graphs"
@@ -255,11 +265,14 @@ def display_available_graphs(graphs):
         size_mb = graph_path.stat().st_size / (1024 * 1024)
         mtime = graph_path.stat().st_mtime
 
-        # Check if already converted
-        converted_path = graph_path.parent / f"{graph_path.stem}_converted.json"
-        status = "[CONVERTED]" if converted_path.exists() else "[NOT CONVERTED]"
+        # Check if already converted (look for *_converted_graph.json files)
+        converted_files = list(graph_path.parent.glob('*_converted_graph.json'))
+        status = "[CONVERTED]" if converted_files else "[NOT CONVERTED]"
 
-        print(f"{i}. {graph_path.name} ({size_mb:.2f} MB) {status}")
+        # Show prompt directory for context
+        prompt_dir = graph_path.parent.parent.name
+
+        print(f"{i}. {prompt_dir}/{graph_path.name} ({size_mb:.2f} MB) {status}")
 
     print("=" * 60)
 
@@ -336,11 +349,12 @@ Examples:
     # Use PathManager for organized output
     pm = PathManager()
 
-    # Load metadata to get prompt
+    # Load metadata to get prompt and model_id
     with open(input_path) as f:
         raw_data = json.load(f)
         metadata = raw_data.get('metadata', {})
         prompt = metadata.get('prompt', '')
+        model_id = metadata.get('model', metadata.get('modelId', None))
 
         # If no prompt in metadata, try to extract from filename or slug
         if not prompt:
@@ -348,11 +362,22 @@ Examples:
             print(f"[WARNING] No prompt found in metadata, using slug: {slug}")
             prompt = slug.replace('-', ' ').title()
 
-    # Get output path using PathManager
-    output_path = pm.converted_graph_path(prompt)
+        # Try to extract model from directory name if not in metadata
+        if not model_id:
+            parent_dir = input_path.parent.parent.name
+            if '_' in parent_dir:
+                possible_model = parent_dir.split('_')[0]
+                if any(m in possible_model for m in ['gemma', 'qwen', 'gpt']):
+                    model_id = possible_model
+                    print(f"[INFO] Extracted model from directory: {model_id}")
+
+    # Get output path using PathManager (with model_id)
+    output_path = pm.converted_graph_path(prompt, model_id=model_id)
 
     print(f"\nPrompt: {prompt}")
-    print(f"Output directory: {pm.get_prompt_dir(prompt)}")
+    if model_id:
+        print(f"Model: {model_id}")
+    print(f"Output directory: {pm.get_prompt_dir(prompt, model_id=model_id)}")
 
     # Check if already converted
     if output_path.exists():

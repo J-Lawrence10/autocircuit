@@ -1,0 +1,167 @@
+{
+  "circuit": "paris-is-in",
+  "total_bottlenecks": 10,
+  "successful_queries": 10,
+  "bottlenecks": [
+    {
+      "node_id": "2_9457_1",
+      "layer": 2,
+      "circuit_feature_id": 44750527,
+      "neuronpedia_id": 5823,
+      "betweenness": 0.02978294935529165,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: stiefel, liberality, vPvB",
+      "positive_examples": [
+        "stiefel",
+        "liberality",
+        "vPvB"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "14_10901_3",
+      "layer": 14,
+      "circuit_feature_id": 59584971,
+      "neuronpedia_id": 12747,
+      "betweenness": 0.022247745622371046,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: onCreateView, typelib, CodeAttribute",
+      "positive_examples": [
+        "onCreateView",
+        "typelib",
+        "CodeAttribute"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "19_3273_3",
+      "layer": 19,
+      "circuit_feature_id": 5423551,
+      "neuronpedia_id": 447,
+      "betweenness": 0.02168587862854762,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: notes, Notes, note",
+      "positive_examples": [
+        "notes",
+        "Notes",
+        "note"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "3_3205_3",
+      "layer": 3,
+      "circuit_feature_id": 5150441,
+      "neuronpedia_id": 5865,
+      "betweenness": 0.017873198811804814,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: الاطلاع, SequentialGroup, ParallelGroup",
+      "positive_examples": [
+        "الاطلاع",
+        "SequentialGroup",
+        "ParallelGroup"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "17_5802_3",
+      "layer": 17,
+      "circuit_feature_id": 16939092,
+      "neuronpedia_id": 14420,
+      "betweenness": 0.01693214384900181,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: assume, Consider, Assume",
+      "positive_examples": [
+        "assume",
+        "Consider",
+        "Assume"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "20_3873_3",
+      "layer": 20,
+      "circuit_feature_id": 7583544,
+      "neuronpedia_id": 14136,
+      "betweenness": 0.011942375305445953,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: DoubleQuotes, toMatchSnapshot, свер",
+      "positive_examples": [
+        "DoubleQuotes",
+        "toMatchSnapshot",
+        "свер"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "5_3992_1",
+      "layer": 5,
+      "circuit_feature_id": 7993995,
+      "neuronpedia_id": 14987,
+      "betweenness": 0.009965917608276205,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: 來的, 来的, Incoming",
+      "positive_examples": [
+        "來的",
+        "来的",
+        "Incoming"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "5_2267_3",
+      "layer": 5,
+      "circuit_feature_id": 2584395,
+      "neuronpedia_id": 12107,
+      "betweenness": 0.008198937010494164,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: beginnetje, verwijspagina, Pautan",
+      "positive_examples": [
+        "beginnetje",
+        "verwijspagina",
+        "Pautan"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "17_9349_3",
+      "layer": 17,
+      "circuit_feature_id": 43875010,
+      "neuronpedia_id": 15042,
+      "betweenness": 0.008124281203869124,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: therlands, uests, Redacción",
+      "positive_examples": [
+        "therlands",
+        "uests",
+        "Redacción"
+      ],
+      "activation_count": 3
+    },
+    {
+      "node_id": "21_4532_3",
+      "layer": 21,
+      "circuit_feature_id": 10371713,
+      "neuronpedia_id": 641,
+      "betweenness": 0.006947673210928669,
+      "degree": null,
+      "semantic_category": "SEMANTICS",
+      "description": "Activates on: Personensuche, party, leader",
+      "positive_examples": [
+        "Personensuche",
+        "party",
+        "leader"
+      ],
+      "activation_count": 3
+    }
+  ]
+}

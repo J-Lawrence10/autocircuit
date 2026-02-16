@@ -232,13 +232,13 @@ Examples:
                 # Use PathManager for consistent file organization
                 pm = PathManager()
 
-                # Save raw graph JSON
-                output_path = pm.raw_graph_path(test_prompt)
+                # Save raw graph JSON (pass model_id for proper directory structure)
+                output_path = pm.raw_graph_path(test_prompt, model_id=args.model)
 
                 with open(output_path, 'w', encoding='utf-8') as f:
                     json.dump(graph_json, f, indent=2)
 
-                # Save metadata
+                # Save metadata (pass model_id for proper directory structure)
                 metadata = {
                     'prompt': test_prompt,
                     'model': args.model,
@@ -248,16 +248,17 @@ Examples:
                     's3_url': s3_location,
                     'neuronpedia_url': graph_data.get('url', '')
                 }
-                pm.save_metadata(test_prompt, metadata)
+                pm.save_metadata(test_prompt, metadata, model_id=args.model)
 
                 print(f"\n{'=' * 60}")
                 print("[SUCCESS] Graph saved successfully!")
                 print(f"{'=' * 60}")
+                print(f"Model: {args.model}")
                 print(f"File: {output_path.name}")
                 print(f"Location: {output_path}")
-                print(f"Prompt directory: {pm.get_prompt_dir(test_prompt)}")
+                print(f"Prompt directory: {pm.get_prompt_dir(test_prompt, model_id=args.model)}")
                 print(f"Nodes: {len(graph_json.get('nodes', []))}")
-                print(f"Links: {len(graph_json.get('links', []))}")
+                print(f"Links: {len(graph_json.get('links', []))} ")
                 print(f"Size: {output_path.stat().st_size / (1024*1024):.2f} MB")
                 print(f"\nNext step: Run script 2 to convert the graph")
         else:
