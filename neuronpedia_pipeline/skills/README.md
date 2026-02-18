@@ -6,7 +6,7 @@
 
 ## Overview
 
-This folder contains 6 Claude Code skills that provide one-command access to the Neuronpedia analysis pipeline. Each skill corresponds to a script in the pipeline and handles a specific step of circuit analysis.
+This folder contains 7 Claude Code skills that provide one-command access to the Neuronpedia analysis pipeline. Each skill corresponds to a script in the pipeline and handles a specific step of circuit analysis.
 
 ---
 
@@ -59,6 +59,14 @@ Ensure data quality (no mock data)
 - **Output**: Console validation report
 - **Time**: <1 second per file
 - **Script**: `scripts/validate_real_data.py`
+
+### 7. `/circuit-report`
+Run full pipeline and generate comprehensive analysis report
+
+- **What**: Runs pipeline end-to-end, reads all output data, writes a detailed circuit analysis .md
+- **Output**: `circuit_analysis_report.md` in the prompt's output directory
+- **Time**: 3-8 minutes (pipeline) + analysis
+- **Script**: `run_full_pipeline.py` + data analysis
 
 ---
 
@@ -144,6 +152,6 @@ See individual `.md` files for complete documentation.
 
 ---
 
-**Status**: ✅ All 6 skills production ready
+**Status**: All 7 skills production ready
 **Format**: Claude Code skill format with YAML front matter
 **Tested**: Windows 10, Python 3.11, real Neuronpedia data
