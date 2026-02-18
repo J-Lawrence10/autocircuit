@@ -2,11 +2,11 @@
 
 **AI Safety Camp 2025 - Project #24**
 
-[Original Project Overview](#original-project-overview) | **[Research Breakthrough](#research-breakthrough)** ⭐ | [Quick Start](#quick-start) | [Documentation](#documentation)
+[Original Project Overview](#original-project-overview) | **[Research ](#research)** ⭐ | [Quick Start](#quick-start) | [Documentation](#documentation)
 
 ---
 
-## 🔬 Research Breakthrough
+## 🔬 Research 
 
 **We discovered why language models fail at factual recall** using our novel **traceback graphing** method.
 
@@ -28,7 +28,7 @@
 ### Research Impact
 
 **What We Discovered**:
-1. **Models use ONE shared universal circuit** for all tokens (not separate circuits per output)
+1. **Models use ONE shared universal circuit** for all tokens in this prompt (not separate circuits per output)
 2. **Early bottlenecks cause systematic failures** by discarding semantic information before processing completes
 3. **Bottleneck features are high-leverage intervention targets** - modifying one feature can fix entire categories of failures
 4. **Architecture determines behavior** - bottleneck position is more important than model size for factual accuracy
@@ -137,7 +137,7 @@ autocircuit/
 
 ### 1. Traceback Graphing Algorithm
 
-**Novel attribution method** that traces backward from model outputs to identify bottleneck features.
+**Attribution method** that traces backward from model outputs to identify bottleneck features.
 
 **How it works**:
 - Start from final-layer predictions
@@ -197,40 +197,13 @@ autocircuit/
 
 ---
 
-## 📝 Citation
-
-If you use this work in your research:
-
-```
-Traceback Graphing: A Novel Method for Neural Network Attribution Analysis
-AutoCircuit Project - AI Safety Camp 2025, Project #24
-Models: GEMMA-2-2B (Google), QWEN3-4B (Alibaba)
-SAE Features: Neuronpedia.org
-```
-
----
 
 ## 🤝 Contributing
 
 This is an active research project from AI Safety Camp 2025.
 
-**For questions or collaboration**:
-- See [documentation](neuronpedia_pipeline/docs/)
-- Review [research papers](neuronpedia_pipeline/docs/papers/)
-- Check [open issues](https://github.com/[repo]/autocircuit/issues)
 
----
 
-## 📧 Contact
-
-**AI Safety Camp 2025 - Project #24**
-
-For technical questions, see:
-- [Neuronpedia Pipeline Documentation](neuronpedia_pipeline/README.md)
-- [Documentation Index](neuronpedia_pipeline/docs/README.md)
-- [Traceback Graphing Paper](neuronpedia_pipeline/docs/papers/TRACEBACK_GRAPHING_PAPER.md)
-
----
 
 ## Original Project Overview
 
