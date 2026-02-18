@@ -14,7 +14,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent))
 from path_manager import PathManager
 
-def convert_neuronpedia_graph(input_file, output_file=None, prompt=None):
+def convert_neuronpedia_graph(input_file, output_file=None, prompt=None, model_id=None):
     """
     Convert real Neuronpedia graph JSON to our pipeline format
 
@@ -176,7 +176,7 @@ def convert_neuronpedia_graph(input_file, output_file=None, prompt=None):
             'model_output': model_output,
             'output_probability': output_probability
         }
-        stats_path = pm.conversion_stats_path(prompt)
+        stats_path = pm.conversion_stats_path(prompt, model_id=model_id)
         with open(stats_path, 'w') as f:
             json.dump(stats, f, indent=2)
         print(f"[OK] Conversion stats saved to: {stats_path.name}")
@@ -382,17 +382,21 @@ Examples:
     # Check if already converted
     if output_path.exists():
         print(f"\n[WARNING] Converted file already exists: {output_path.name}")
-        overwrite = input("Overwrite? (y/n): ").strip().lower()
-        if overwrite != 'y':
-            print("Conversion cancelled.")
-            sys.exit(0)
+        if sys.stdin.isatty():
+            overwrite = input("Overwrite? (y/n): ").strip().lower()
+            if overwrite != 'y':
+                print("Conversion cancelled.")
+                sys.exit(0)
+        else:
+            print("  Auto-overwriting (non-interactive mode)")
+
 
     print("\n" + "=" * 60)
     print("CONVERTING GRAPH")
     print("=" * 60)
 
     # Convert (pass prompt for PathManager integration)
-    converted = convert_neuronpedia_graph(input_path, output_path, prompt=prompt)
+    converted = convert_neuronpedia_graph(input_path, output_path, prompt=prompt, model_id=model_id)
 
     # Create NetworkX graph to validate
     G = create_networkx_graph(converted)

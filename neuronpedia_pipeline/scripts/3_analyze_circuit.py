@@ -611,7 +611,15 @@ def main():
     print("3. Smart - Top per supernode (~90 features, 30-60 seconds) [RECOMMENDED]")
     print()
 
-    fetch_choice = input("Select option (1/2/3, default=3): ").strip() or "3"
+    if sys.stdin.isatty():
+        fetch_choice = input("Select option (1/2/3, default=3): ").strip() or "3"
+    else:
+        # Non-interactive mode: read from piped stdin or default to Smart
+        try:
+            fetch_choice = input().strip() or "3"
+        except EOFError:
+            fetch_choice = "3"
+        print(f"  Auto-selected option {fetch_choice} (non-interactive mode)")
 
     if fetch_choice == "2":
         print("\n[INFO] Comprehensive fetch - fetching ALL features...")
@@ -773,7 +781,7 @@ def main():
     # Use PathManager for organized output
     pm = PathManager()
     prompt = metadata.get('prompt', '')
-    model_id = metadata.get('modelId', '') or metadata.get('model_id', '')
+    model_id = metadata.get('model', '') or metadata.get('modelId', '') or metadata.get('model_id', '')
 
     # If no prompt in metadata, try to extract from slug
     if not prompt:
@@ -796,12 +804,12 @@ def main():
     print(f"  - Steering targets: {len(flow_analysis['input_nodes']) + len(flow_analysis['output_nodes']) + len(flow_analysis['bottleneck_nodes'])} total")
 
     # Also save old format for backward compatibility
-    supernode_file = pm.supernodes_path(prompt)
+    supernode_file = pm.supernodes_path(prompt, model_id=model_id)
     detector.save_supernodes(supernodes, supernode_file)
     print(f"\n[OK] Legacy supernodes file saved to: {supernode_file.name}")
 
     # Save layer groups
-    layer_groups_file = pm.layer_groups_path(prompt)
+    layer_groups_file = pm.layer_groups_path(prompt, model_id=model_id)
     with open(layer_groups_file, 'w') as f:
         json.dump(layer_groups, f, indent=2)
     print(f"[OK] Layer groups saved to: {layer_groups_file.name}")

@@ -147,6 +147,7 @@ def run_step(cmd: list, description: str, stdin_text: str = None) -> None:
             cwd=SCRIPT_DIR,
             input=stdin_text,
             text=True if stdin_text is not None else None,
+            stdin=None if stdin_text is not None else subprocess.PIPE,
             timeout=1800,  # 30 minute timeout per step
         )
     except subprocess.TimeoutExpired:

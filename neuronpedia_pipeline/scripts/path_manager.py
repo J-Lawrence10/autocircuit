@@ -176,73 +176,74 @@ class PathManager:
         return self.analysis_dir(prompt, model_id=model_id) / f'{prefix}_layer_groups.json'
 
     # ========== Step 4: Visualizations ==========
-    def visualizations_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 4, 'visualizations')
+    def visualizations_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 4, 'visualizations', model_id=model_id)
 
-    def visualization_path(self, prompt: str, viz_name: str) -> Path:
+    def visualization_path(self, prompt: str, viz_name: str, model_id: str = None) -> Path:
         """
         Get path for a specific visualization
 
         Args:
             prompt: The prompt text
             viz_name: Name like 'supernode_overview', 'layer_distribution', etc.
+            model_id: Optional model ID to include in path
         """
-        return self.visualizations_dir(prompt) / f"{viz_name}.png"
+        return self.visualizations_dir(prompt, model_id=model_id) / f"{viz_name}.png"
 
     # ========== Step 7: Minimal Pathways ==========
-    def minimal_pathways_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 7, 'minimal_pathways')
+    def minimal_pathways_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 7, 'minimal_pathways', model_id=model_id)
 
-    def minimal_circuit_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_circuit.json'
+    def minimal_circuit_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.minimal_pathways_dir(prompt, model_id=model_id) / 'minimal_circuit.json'
 
-    def pathway_comparison_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'pathway_comparison.png'
+    def pathway_comparison_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.minimal_pathways_dir(prompt, model_id=model_id) / 'pathway_comparison.png'
 
-    def minimal_pathways_result_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway.json'
+    def minimal_pathways_result_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.minimal_pathways_dir(prompt, model_id=model_id) / 'minimal_pathway.json'
 
-    def minimal_pathways_viz_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_comparison.png'
+    def minimal_pathways_viz_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.minimal_pathways_dir(prompt, model_id=model_id) / 'minimal_pathway_comparison.png'
 
-    def minimal_pathways_structure_viz_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_structure.png'
+    def minimal_pathways_structure_viz_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.minimal_pathways_dir(prompt, model_id=model_id) / 'minimal_pathway_structure.png'
 
     # ========== Step 8: Evolution ==========
-    def evolution_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 8, 'evolution')
+    def evolution_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 8, 'evolution', model_id=model_id)
 
-    def evolution_data_path(self, prompt: str) -> Path:
-        return self.evolution_dir(prompt) / 'evolution_data.json'
+    def evolution_data_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.evolution_dir(prompt, model_id=model_id) / 'evolution_data.json'
 
-    def evolution_report_path(self, prompt: str) -> Path:
-        return self.evolution_dir(prompt) / 'evolution_report.txt'
+    def evolution_report_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.evolution_dir(prompt, model_id=model_id) / 'evolution_report.txt'
 
-    def evolution_viz_path(self, prompt: str) -> Path:
-        return self.evolution_dir(prompt) / 'evolution_heatmap.png'
+    def evolution_viz_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.evolution_dir(prompt, model_id=model_id) / 'evolution_heatmap.png'
 
     # ========== Step 9: Steering ==========
-    def steering_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 9, 'steering')
+    def steering_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 9, 'steering', model_id=model_id)
 
-    def steering_targets_path(self, prompt: str) -> Path:
-        return self.steering_dir(prompt) / 'steering_targets.json'
+    def steering_targets_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.steering_dir(prompt, model_id=model_id) / 'steering_targets.json'
 
-    def steering_viz_path(self, prompt: str) -> Path:
-        return self.steering_dir(prompt) / 'targets_viz.png'
+    def steering_viz_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.steering_dir(prompt, model_id=model_id) / 'targets_viz.png'
 
     # ========== Step 10: Polysemanticity ==========
-    def polysemanticity_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 10, 'polysemanticity')
+    def polysemanticity_dir(self, prompt: str, model_id: str = None) -> Path:
+        return self.get_step_dir(prompt, 10, 'polysemanticity', model_id=model_id)
 
-    def polysemanticity_data_path(self, prompt: str) -> Path:
-        return self.polysemanticity_dir(prompt) / 'purity_scores.json'
+    def polysemanticity_data_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.polysemanticity_dir(prompt, model_id=model_id) / 'purity_scores.json'
 
-    def polysemanticity_report_path(self, prompt: str) -> Path:
-        return self.polysemanticity_dir(prompt) / 'purity_report.txt'
+    def polysemanticity_report_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.polysemanticity_dir(prompt, model_id=model_id) / 'purity_report.txt'
 
-    def polysemanticity_viz_path(self, prompt: str) -> Path:
-        return self.polysemanticity_dir(prompt) / 'purity_viz.png'
+    def polysemanticity_viz_path(self, prompt: str, model_id: str = None) -> Path:
+        return self.polysemanticity_dir(prompt, model_id=model_id) / 'purity_viz.png'
 
     # ========== Cross-Analysis ==========
     def get_cross_analysis_dir(self, analysis_name: str) -> Path:

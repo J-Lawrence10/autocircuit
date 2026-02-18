@@ -456,14 +456,15 @@ def main():
     # Use PathManager to find analysis files
     pm = PathManager()
     prompt = metadata.get('prompt', '')
+    model_id = metadata.get('model', metadata.get('modelId', ''))
 
     # If no prompt in metadata, try to extract from slug
     if not prompt:
         prompt = prompt_slug.replace('-', ' ').title()
 
     # Get analysis file paths using PathManager
-    analysis_file = pm.circuit_analysis_path(prompt)
-    supernode_file = pm.supernodes_path(prompt)
+    analysis_file = pm.circuit_analysis_path(prompt, model_id=model_id)
+    supernode_file = pm.supernodes_path(prompt, model_id=model_id)
 
     # Fall back to old structure if not found
     if not analysis_file.exists():
@@ -905,17 +906,19 @@ def main():
     # Use PathManager for organized output
     pm = PathManager()
     prompt = metadata.get('prompt', '')
+    model_id = metadata.get('model', metadata.get('modelId', ''))
 
     # If no prompt in metadata, try to extract from slug
     if not prompt:
         print(f"[WARNING] No prompt found in metadata, using slug: {prompt_slug}")
         prompt = prompt_slug.replace('-', ' ').title()
 
-    output_dir = pm.visualizations_dir(prompt)
+    output_dir = pm.visualizations_dir(prompt, model_id=model_id)
     print(f"\nPrompt: {prompt}")
+    print(f"Model: {model_id}")
     print(f"Organizing visualizations in: {output_dir}")
 
-    output_path = pm.visualization_path(prompt, 'supernode_overview')
+    output_path = pm.visualization_path(prompt, 'supernode_overview', model_id=model_id)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -966,7 +969,7 @@ def main():
     ax.grid(axis='y', alpha=0.3)
 
     # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-    output_path = pm.visualization_path(prompt, 'layer_distribution')
+    output_path = pm.visualization_path(prompt, 'layer_distribution', model_id=model_id)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -1020,7 +1023,7 @@ def main():
     ax.grid(True, alpha=0.3)
 
     # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-    output_path = pm.visualization_path(prompt, 'activation_heatmap')
+    output_path = pm.visualization_path(prompt, 'activation_heatmap', model_id=model_id)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -1073,7 +1076,7 @@ def main():
                   fontsize=8, framealpha=0.9, edgecolor='black', borderaxespad=0)
 
     # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-    output_path = pm.visualization_path(prompt, 'feature_importance')
+    output_path = pm.visualization_path(prompt, 'feature_importance', model_id=model_id)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -1110,7 +1113,7 @@ def main():
     ax2.set_title('Excitatory vs Inhibitory Connections', fontsize=12, fontweight='bold')
 
     # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-    output_path = pm.visualization_path(prompt, 'information_flow')
+    output_path = pm.visualization_path(prompt, 'information_flow', model_id=model_id)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"[OK] Saved: {output_path.name}")
     plt.close()
@@ -1234,7 +1237,7 @@ def main():
                     fontsize=16, fontweight='bold', pad=20)
 
         # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-        output_path = pm.visualization_path(prompt, 'thought_progression')
+        output_path = pm.visualization_path(prompt, 'thought_progression', model_id=model_id)
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         print(f"[OK] Saved: {output_path.name}")
         plt.close()
@@ -1310,7 +1313,7 @@ def main():
         plt.suptitle(f'Layer Group Analysis\n"{prompt_text}"',
                     fontsize=16, fontweight='bold', y=0.995)
         # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
-        output_path = pm.visualization_path(prompt, 'supernode_connections')
+        output_path = pm.visualization_path(prompt, 'supernode_connections', model_id=model_id)
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         print(f"[OK] Saved: {output_path.name}")
         plt.close()
@@ -1399,7 +1402,7 @@ def main():
 
         # plt.tight_layout()  # Skip to avoid matplotlib math parsing errors
         plt.subplots_adjust(bottom=0.15)  # Make room for action items
-        output_path = pm.visualization_path(prompt, 'summary_dashboard')
+        output_path = pm.visualization_path(prompt, 'summary_dashboard', model_id=model_id)
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         print(f"[OK] Saved: {output_path.name}")
         plt.close()
