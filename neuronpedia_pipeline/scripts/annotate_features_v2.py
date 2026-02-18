@@ -37,6 +37,90 @@ if sys.platform == 'win32':
 BASE = Path(__file__).parent.parent
 CONFIG_PATH = BASE / "config" / "neuronpedia_config.yaml"
 
+# ── Standalone keyword map (importable without class instantiation) ──────────
+_EXPLANATION_KEYWORDS = {
+    'CODE': [
+        'code', 'programming', 'html', 'function', 'variable',
+        'method', 'class', 'api', 'framework', 'library',
+        'syntax', 'parameter', 'module', 'script', 'tag',
+        'javascript', 'python', 'java', 'css', 'sql',
+        'web app', 'software', 'drupal', 'android', 'flutter',
+    ],
+    'CONCEPT': [
+        'word', 'phrase', 'language', 'concept', 'idea',
+        'abstract', 'meaning', 'topic', 'theme', 'related to',
+        'inhibition', 'biological', 'process', 'action',
+        'planning', 'future', 'possibility', 'problem',
+        'help', 'question', 'uncertainty',
+    ],
+    'GEOGRAPHIC': [
+        'place', 'city', 'country', 'capital', 'geographic',
+        'location', 'region', 'state', 'continent', 'border',
+        'north', 'south', 'east', 'west', 'latitude',
+    ],
+    'ENTITY': [
+        'name', 'person', 'people', 'organization', 'company',
+        'staff', 'leader', 'president', 'gender', 'male',
+        'female', 'human',
+    ],
+    'TEMPORAL': [
+        'time', 'date', 'year', 'day', 'month', 'period',
+        'century', 'decade', 'before', 'after', 'historical',
+    ],
+    'SYNTAX': [
+        'punctuation', 'formatting', 'token', 'delimiter',
+        'bracket', 'indentation', 'whitespace', 'special token',
+        'formula', 'expression', 'mathematical',
+    ],
+}
+
+
+def classify_from_explanation(explanation: str, layer: int = None) -> str:
+    """Classify a feature's semantic category from its NP explanation string.
+
+    Standalone function — can be imported without instantiating FeatureClassifierV2.
+    Uses keyword scoring with polysemantic detection.
+
+    Args:
+        explanation: Neuronpedia explanation text for the feature.
+        layer: Optional layer number (reserved for future Bayesian priors).
+
+    Returns:
+        Category string: SYNTAX, SEMANTICS:CODE, SEMANTICS:CONCEPT,
+        SEMANTICS:GEOGRAPHIC, SEMANTICS:TEMPORAL, SEMANTICS:ENTITY,
+        POLYSEMANTIC, or UNKNOWN.
+    """
+    if not explanation or len(explanation.strip()) < 5:
+        return 'UNKNOWN'
+
+    exp_lower = explanation.lower()
+
+    # Score each category by keyword matches
+    scores = {}
+    for cat, keywords in _EXPLANATION_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in exp_lower)
+        if score > 0:
+            scores[cat] = score
+
+    if not scores:
+        return 'SEMANTICS:CONCEPT'  # Has explanation but no keyword match
+
+    # Best match
+    best_cat = max(scores, key=scores.get)
+    best_score = scores[best_cat]
+
+    # Check for mixed signals (polysemantic)
+    runner_up = sorted(scores.values(), reverse=True)
+    if len(runner_up) >= 2 and runner_up[1] >= runner_up[0] * 0.7:
+        top_cats = [c for c, s in scores.items() if s >= best_score * 0.7]
+        if len(top_cats) >= 2 and set(top_cats) != {'CODE', 'SYNTAX'}:
+            return 'POLYSEMANTIC'
+
+    if best_cat in ('CODE', 'CONCEPT', 'GEOGRAPHIC', 'ENTITY', 'TEMPORAL'):
+        return f'SEMANTICS:{best_cat}'
+    else:
+        return best_cat
+
 
 class FeatureClassifierV2:
     """Improved feature classifier with NP explanations + multilingual awareness."""

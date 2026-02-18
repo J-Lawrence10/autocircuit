@@ -130,7 +130,7 @@ class SupernodeDetector:
 
         # Get node attributes
         activations = [graph.nodes[n].get('activation', 0) for n in supernode_nodes]
-        layers = [graph.nodes[n].get('layer') for n in supernode_nodes if graph.nodes[n].get('layer')]
+        layers = [graph.nodes[n].get('layer') for n in supernode_nodes if graph.nodes[n].get('layer') is not None]
         labels = [graph.nodes[n].get('label', '') for n in supernode_nodes]
 
         # Compute statistics

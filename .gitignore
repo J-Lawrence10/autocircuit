@@ -58,28 +58,46 @@ Desktop.ini
 # Claude Code Temporary Files
 # ============================================================
 tmpclaude-*.cwd
+tmpclaude-*-cwd
 **/tmpclaude/
 .claude/settings.local.json
 C\:Users*/
 *AppDataLocalTempclaudeC--*
 
 # ============================================================
-# Neuronpedia Pipeline Generated Data
+# Neuronpedia Pipeline — Generated Data & Outputs
 # ============================================================
-# Keep directory structure but ignore all generated data
-neuronpedia_pipeline/data/prompts/*/1_generation/
-neuronpedia_pipeline/data/prompts/*/2_conversion/
-neuronpedia_pipeline/data/prompts/*/3_analysis/
-neuronpedia_pipeline/data/prompts/*/4_visualizations/
-neuronpedia_pipeline/data/prompts/*/7_minimal_pathways/
-neuronpedia_pipeline/data/prompts/*/8_evolution/
-neuronpedia_pipeline/data/prompts/*/9_steering/
-neuronpedia_pipeline/data/prompts/*/10_polysemanticity/
+# Entire data directory (generated outputs, 700+ MB)
+neuronpedia_pipeline/data/
 
-# Keep .gitkeep files for structure
-!neuronpedia_pipeline/data/prompts/.gitkeep
-!neuronpedia_pipeline/data/.gitkeep
-!**/.gitkeep
+# Config with API key
+neuronpedia_pipeline/config/neuronpedia_config.yaml
+
+# Script archive (deprecated files)
+neuronpedia_pipeline/scripts/archive/
+
+# Skill archives
+neuronpedia_pipeline/skills/archive_*/
+
+# Documentation (README covers essentials)
+neuronpedia_pipeline/docs/
+
+# Superpowers (external dependency)
+neuronpedia_pipeline/superpowers/
+
+# Empty output directory
+neuronpedia_pipeline/visualizations/
+
+# Scripts directory markdown files (policies, guides)
+neuronpedia_pipeline/scripts/*.md
+
+# Root-level generated/session files
+neuronpedia_pipeline/DATA_PROVENANCE.md
+neuronpedia_pipeline/SESSION_CONTINUATION_GUIDE.md
+neuronpedia_pipeline/VALIDATION_PRESENTATION.md
+neuronpedia_pipeline/Traceback_Graphing_Presentation.pptx
+neuronpedia_pipeline/semantic_taxonomy_annotations.csv
+neuronpedia_pipeline/semantic_taxonomy_annotations_auto.csv
 
 # ============================================================
 # Backup Directories
@@ -150,10 +168,7 @@ site/
 *- Copy/
 * - Copy/
 
-# ============================================================
-# Old Data Archive
-# ============================================================
-neuronpedia_pipeline/data/prompts/Old Data/
+# (Old Data rule removed — covered by blanket data/ ignore above)
 
 # ============================================================
 # Superpowers (external dependency)
@@ -165,10 +180,7 @@ neuronpedia_pipeline/superpowers/.git/
 # ============================================================
 neuronpedia_pipeline/.claude/
 
-# ============================================================
-# Stage 2 HTML Visualizations (too large for git)
-# ============================================================
-neuronpedia_pipeline/data/stage_2_visualizations/**/*.html
+# (Stage 2 HTML rule removed — covered by blanket data/ ignore above)
 
 # ============================================================
 # Archive (old code moved during cleanup)

@@ -141,13 +141,6 @@ def fetch_s3_graph_json(s3_url):
         print(f"[ERROR] S3 fetch failed: {response.status_code}")
         return False, None
 
-def create_filename_from_prompt(prompt_text):
-    """Create a clean filename from prompt text"""
-    # Take first few words, remove punctuation, lowercase, replace spaces with underscores
-    words = re.sub(r'[^\w\s]', '', prompt_text.lower()).split()[:5]
-    filename = '_'.join(words)
-    return f"real_{filename}.json"
-
 def get_prompt_from_user():
     """Get prompt from user interactively"""
     print("\n" + "=" * 60)

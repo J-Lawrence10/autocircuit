@@ -199,6 +199,15 @@ class PathManager:
     def pathway_comparison_path(self, prompt: str) -> Path:
         return self.minimal_pathways_dir(prompt) / 'pathway_comparison.png'
 
+    def minimal_pathways_result_path(self, prompt: str) -> Path:
+        return self.minimal_pathways_dir(prompt) / 'minimal_pathway.json'
+
+    def minimal_pathways_viz_path(self, prompt: str) -> Path:
+        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_comparison.png'
+
+    def minimal_pathways_structure_viz_path(self, prompt: str) -> Path:
+        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_structure.png'
+
     # ========== Step 8: Evolution ==========
     def evolution_dir(self, prompt: str) -> Path:
         return self.get_step_dir(prompt, 8, 'evolution')
@@ -234,32 +243,6 @@ class PathManager:
 
     def polysemanticity_viz_path(self, prompt: str) -> Path:
         return self.polysemanticity_dir(prompt) / 'purity_viz.png'
-
-    # ========== Optional Analysis Steps ==========
-    # Step 7: Minimal Pathways
-    def minimal_pathways_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 7, 'minimal_pathways')
-
-    def minimal_pathways_result_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway.json'
-
-    def minimal_pathways_viz_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_comparison.png'
-
-    def minimal_pathways_structure_viz_path(self, prompt: str) -> Path:
-        return self.minimal_pathways_dir(prompt) / 'minimal_pathway_structure.png'
-
-    # Step 8: Evolution
-    def evolution_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 8, 'evolution')
-
-    # Step 9: Steering
-    def steering_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 9, 'steering')
-
-    # Step 10: Polysemanticity
-    def polysemanticity_dir(self, prompt: str) -> Path:
-        return self.get_step_dir(prompt, 10, 'polysemanticity')
 
     # ========== Cross-Analysis ==========
     def get_cross_analysis_dir(self, analysis_name: str) -> Path:
@@ -317,19 +300,23 @@ class PathManager:
         analyzed = []
         for prompt_dir in self.prompts_dir.iterdir():
             if prompt_dir.is_dir():
-                analysis_file = prompt_dir / '3_analysis' / 'circuit_analysis.json'
-                if analysis_file.exists():
-                    metadata = self.load_metadata_from_dir(prompt_dir)
-                    if metadata:
-                        analyzed.append(metadata['prompt'])
+                analysis_dir = prompt_dir / '3_analysis'
+                if analysis_dir.exists():
+                    analysis_files = list(analysis_dir.glob('*circuit_analysis.json'))
+                    if analysis_files:
+                        metadata = self.load_metadata_from_dir(prompt_dir)
+                        if metadata:
+                            analyzed.append(metadata['prompt'])
         return analyzed
 
     def load_metadata_from_dir(self, prompt_dir: Path) -> dict:
         """Load metadata from a specific directory"""
-        metadata_file = prompt_dir / '1_generation' / 'metadata.json'
-        if metadata_file.exists():
-            with open(metadata_file) as f:
-                return json.load(f)
+        gen_dir = prompt_dir / '1_generation'
+        if gen_dir.exists():
+            metadata_files = list(gen_dir.glob('*metadata.json'))
+            if metadata_files:
+                with open(metadata_files[0]) as f:
+                    return json.load(f)
         return {}
 
     def find_analysis_for_prompts(self, prompts: list) -> list:

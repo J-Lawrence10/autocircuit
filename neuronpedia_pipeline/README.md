@@ -1,266 +1,103 @@
 # Neuronpedia Circuit Analysis Pipeline
 
-**Traceback Graphing: A Novel Method for Neural Network Attribution Analysis**
+Traceback graphing pipeline for identifying bottleneck features in neural network circuits. Traces backward through SAE attribution graphs to find convergence points that control model predictions, with cross-circuit comparison and semantic classification.
 
-This pipeline implements traceback graphing to identify bottleneck features responsible for model predictions by tracing backward through neural network circuits.
+Supported models: GEMMA-2-2B (26 layers), QWEN3-4B (36 layers).
 
----
-
-## 🔬 Research Breakthrough
-
-**We discovered why models fail at factual recall:**
-
-- **GEMMA-2-2B** has early bottleneck (Layer 5, 19% depth) → Filters out semantic information → Wrong predictions
-- **QWEN3-4B** has late bottleneck (Layer 12, 33% depth) → Preserves semantic information → Correct predictions
-
-**On "The southern most US state is":**
-- GEMMA predicts " home" (10.5%) ❌
-- QWEN predicts " Florida" (78.1%) ✅
-
-**27× probability difference due to bottleneck position!**
-
-See [TRACEBACK_GRAPHING_PAPER.md](docs/papers/TRACEBACK_GRAPHING_PAPER.md) for full scientific paper (~6,800 words).
-
----
-
-## 🚀 Quick Start
-
-### Install Dependencies
+## Quick Start
 
 ```bash
-pip install networkx python-louvain matplotlib requests pyyaml numpy
+pip install -r config/requirements.txt
+# Add your Neuronpedia API key to config/neuronpedia_config.yaml
+python run_full_pipeline.py --prompt "The chemical symbol for Argon is" --model gemma-2-2b
 ```
 
-### Run the Pipeline
+## Pipeline Orchestrator
 
-```bash
-cd scripts
-
-# 1. Generate attribution graph from Neuronpedia
-python 1_generate_graph.py
-# Enter your prompt: "The southern most US state is"
-# Select model: 1 (GEMMA-2-2B) or 2 (QWEN3-4B)
-
-# 2. Convert to pipeline format
-python 2_convert_graph.py
-
-# 3. Analyze circuit (detect supernodes, bottlenecks)
-python 3_analyze_circuit.py
-
-# 4. Run traceback analysis (identify critical paths)
-python 3b_traceback_paths.py --top-k 5
-
-# 5. Generate visualizations
-python 4_visualize.py
-```
-
-**Output**: JSON analysis files + 8 PNG visualizations saved to `data/prompts/<prompt>/`
-
----
-
-## 📊 What This Pipeline Does
-
-### **Script 1: Generate Graph** (`1_generate_graph.py`)
-- Connects to Neuronpedia API
-- Generates attribution graph for your prompt
-- Downloads SAE feature activations and connections
-- ~10 seconds per prompt
-
-### **Script 2: Convert Graph** (`2_convert_graph.py`)
-- Converts Circuit Tracer format to pipeline format
-- Extracts node activations, edge weights, predictions
-- Handles model-specific token formatting
-- <1 second
-
-### **Script 3: Analyze Circuit** (`3_analyze_circuit.py`)
-- Detects supernodes using Louvain clustering
-- Identifies bottleneck nodes via betweenness centrality
-- Fetches feature descriptions from Neuronpedia
-- Ranks features by importance
-- ~5-30 seconds (depending on fetch option)
-
-### **Script 3b: Traceback Paths** (`3b_traceback_paths.py`) 🔍 **KEY INNOVATION**
-- **Backward BFS** from output to input layers
-- **Geometric decay** (score^0.8) prevents exponential explosion
-- Identifies **bottleneck features** with 100% convergence
-- Shows which features control model predictions
-- ~10-30 seconds
-
-### **Script 4: Visualize** (`4_visualize.py`)
-- Generates 8 high-resolution visualizations:
-  1. Supernode overview
-  2. Layer distribution
-  3. Activation heatmap
-  4. Feature importance
-  5. Information flow
-  6. Thought progression
-  7. Supernode connections
-  8. Summary dashboard
-- ~10 seconds
-
----
-
-## 📁 Project Structure
+`run_full_pipeline.py` runs the full pipeline end-to-end via CLI.
 
 ```
-neuronpedia_pipeline/
-├── README.md                    # This file
-├── scripts/                     # Analysis pipeline
-│   ├── 1_generate_graph.py      # API → raw graph
-│   ├── 2_convert_graph.py       # Convert format
-│   ├── 3_analyze_circuit.py     # Detect supernodes
-│   ├── 3b_traceback_paths.py    # Traceback analysis ⭐
-│   ├── 4_visualize.py           # Generate visualizations
-│   ├── path_manager.py          # Path utilities
-│   └── compare_models.py        # Model comparison
-├── data/                        # Generated data (gitignored)
-│   └── prompts/
-│       └── <prompt-name>/
-│           ├── 1_generation/    # Raw graphs
-│           ├── 2_conversion/    # Converted graphs
-│           ├── 3_analysis/      # Analysis results
-│           └── 4_visualizations/ # PNG images
-├── docs/                        # All documentation
-│   ├── README.md                # Documentation index
-│   ├── papers/                  # Main research papers
-│   │   ├── TRACEBACK_GRAPHING_PAPER.md ⭐
-│   │   ├── SOUTHERN_STATE_FINDINGS.md
-│   │   ├── TOKEN_ATTRIBUTION_VALIDATION.md
-│   │   ├── TRACEBACK_FINDINGS.md
-│   │   └── TRACEBACK_GRAPHING_CONCEPT.md
-│   ├── analyses/                # Supporting analyses
-│   ├── guides/                  # How-to guides
-│   └── archive/                 # Old docs (reference)
-├── config/                      # Configuration
-│   ├── neuronpedia_config.yaml  # API key
-│   └── requirements.txt         # Dependencies
-└── skills/                      # Claude Code skills
+--prompt TEXT       Prompt to analyze (required)
+--model MODEL       gemma-2-2b | qwen3-4b | both (default: both)
+--advanced          Also run advanced analysis steps 5-10
+--skip-api          Skip Neuronpedia API queries in Stage 1.5
+--api-limit N       Max API queries for Stage 1.5 (default: 100)
 ```
 
----
+Execution order: Steps 1 > 2 > 3 > 3b > 4 > Stage 1.5 > Stage 2. With `--advanced`: also Steps 5, 7, 8, 9, 10.
 
-## 🔑 Key Findings
+## Core Scripts (`scripts/`)
 
-### 1. **Shared Universal Circuits**
-Models use ONE circuit for all tokens, not separate per-token circuits.
+**`1_generate_graph.py`** -- Connects to the Neuronpedia circuit tracer API and generates a raw SAE attribution graph for a given prompt and model. Outputs a JSON graph file with node activations and edge weights to `data/prompts/<circuit>/1_generation/`.
 
-**Evidence**: Top-5 and bottom-5 final-layer nodes converge on same bottleneck (L2_F2604900 for GEMMA).
+**`2_convert_graph.py`** -- Converts the raw Circuit Tracer JSON into the pipeline's standardized format. Extracts node metadata, edge weights, model predictions, and handles model-specific token formatting differences between GEMMA and QWEN.
 
-**Implication**: Cannot trace individual tokens separately - must analyze shared circuit.
+**`3_analyze_circuit.py`** -- Performs structural analysis of the converted circuit graph. Runs Louvain community detection for supernode clustering, computes betweenness centrality for bottleneck identification, and optionally fetches feature descriptions from Neuronpedia.
 
-### 2. **Bottleneck Position Determines Accuracy**
-WHERE bottleneck occurs determines WHAT information survives.
+**`3b_traceback_paths.py`** -- Core innovation: backward BFS from output nodes to input layers with geometric decay scoring (score^0.8 per hop). Identifies bottleneck features where 60%+ of critical paths converge, revealing which features gate model predictions.
 
-**GEMMA**: L5 (19% depth) → Early compression → Loses semantics → Wrong predictions
-**QWEN**: L12 (33% depth) → Late bottleneck → Preserves semantics → Correct predictions
+**`4_visualize.py`** -- Generates 8 PNG visualizations per circuit: supernode overview, layer distribution, activation heatmap, feature importance rankings, information flow diagram, thought progression, supernode connections, and a summary dashboard.
 
-**Pattern holds across prompts**: GEMMA always decides early (L2-5), QWEN late (L12).
+**`annotate_features_v2.py`** -- Keyword-based semantic classifier for Neuronpedia feature explanations. Classifies into SYNTAX, SEMANTICS:CODE/CONCEPT/GEOGRAPHIC/ENTITY/TEMPORAL, or POLYSEMANTIC. Exports `classify_from_explanation()` for use by other scripts.
 
-### 3. **Early Decisions Are Irreversible**
-Once information is filtered at bottleneck, downstream layers cannot recover it.
+**`feature_description_fetcher.py`** -- Queries the Neuronpedia API for human-readable feature descriptions. Handles the ID mapping (`neuronpedia_id = circuit_tracer_id % 16384`) and rate limiting. Used by Step 3 and Stage 1.5.
 
-**GEMMA example**: L5 filters out " Florida" → No later layer can boost it back → Wrong answer " home".
+**`path_manager.py`** -- Centralized path resolution for the pipeline directory structure. Manages `data/prompts/<model>_<slug>/` layout and provides consistent path access across all scripts.
 
-### 4. **High-Leverage Intervention Targets**
-Bottleneck features represent minimal intervention points.
+**`pipeline_constants.py`** -- Shared constants: model layer counts, SAE dictionary sizes, layer group boundaries, and the bottleneck convergence threshold (0.6). Prevents threshold mismatches between stages.
 
-**Example**: Ablating L5_F7993995 (GEMMA) could fix factual recall without retraining entire model.
+**`supernode_detector.py`** -- Community detection module using Louvain clustering on circuit graphs. Groups individual SAE features into high-level supernodes based on connection density, with configurable min/max cluster sizes.
 
----
+**`stage_1_4_visualizations.py`** -- Distribution analysis visualizations: category-by-layer stacked bar chart, bottleneck before/after semantic profile, layer-wise semantic flow Sankey diagram, and cross-prompt convergence heatmap. Sources data from the bottleneck library.
 
-## 📖 Documentation
+**`stage_1_5_cross_circuit_bottlenecks.py`** -- Cross-circuit bottleneck analysis across all analyzed prompts and models. Builds the bottleneck library by comparing convergence features across circuits, enriches with Neuronpedia API descriptions, and identifies features that appear as bottlenecks in multiple circuits.
 
-**Start here**: [docs/README.md](docs/README.md) - Complete documentation index
+**`stage_2_enhanced_visualizations.py`** -- Generates semantically color-coded circuit diagrams, interactive HTML dashboards, and thought progression maps. Integrates the v2 classifier for automatic node categorization with multi-source feature lookup (cross-circuit library, per-circuit descriptions, fallback).
 
-**Main paper**: [TRACEBACK_GRAPHING_PAPER.md](docs/papers/TRACEBACK_GRAPHING_PAPER.md) - Full scientific paper
+## Advanced Analysis (`scripts/advanced_analysis/`)
 
-**Case study**: [SOUTHERN_STATE_FINDINGS.md](docs/papers/SOUTHERN_STATE_FINDINGS.md) - Detailed analysis
+These scripts perform deeper analysis beyond the core pipeline. Run via `--advanced` flag or individually.
 
-**Validation**: [TOKEN_ATTRIBUTION_VALIDATION.md](docs/papers/TOKEN_ATTRIBUTION_VALIDATION.md) - Hypothesis testing
+| Script | Purpose |
+|--------|---------|
+| `3_analyze_circuit_multi.py` | Batch analysis across multiple circuits with multi-algorithm comparison |
+| `5_compare_prompts.py` | Cross-prompt comparison of circuit structure and bottleneck overlap |
+| `6_identify_targets.py` | Identifies high-leverage intervention targets from bottleneck analysis |
+| `6_visualize_validation.py` | Generates validation visualizations for circuit analysis results |
+| `7_extract_minimal_pathways.py` | Extracts the minimum viable circuit -- fewest nodes preserving prediction |
+| `8_supernode_evolution.py` | Tracks how supernode composition and roles evolve across layers |
+| `9_steering_analysis.py` | Analyzes potential for feature steering/intervention at bottleneck points |
+| `10_polysemanticity_analysis.py` | Measures semantic purity vs polysemanticity of bottleneck features |
+| `batch_query_features.py` | Batch queries to Neuronpedia API for feature descriptions |
+| `query_bottleneck_semantics.py` | Targeted semantic queries for bottleneck features |
+| `query_feature_semantics.py` | Individual feature semantic profiling via Neuronpedia |
 
----
+## Skills (`skills/`)
 
-## 🎯 Example: GEMMA Southern State Analysis
+Claude Code skills for interactive pipeline usage:
 
-**Prompt**: "The southern most US state is"
+- **neuronpedia-convert** -- Convert raw graphs to pipeline format
+- **neuronpedia-compare** -- Compare circuits across prompts/models
+- **neuronpedia-validate** -- Validate circuit analysis results
+- **neuronpedia-visualize** -- Generate and inspect visualizations
 
-**Prediction**: " home" (10.5%) ❌ (Correct: " Florida" is rank 6 at 2.9%)
+## Key Concepts
 
-**Traceback Results**:
-- **All 5 paths** converge on **L5_F7993995** (100% convergence)
-- **Scores**: 1.67×10^9 to 1.28×10^10
-- **Layer distribution**: 30% early (L0-5), 57% middle (L6-20), 13% output (L21+)
+- **Traceback graphing**: Backward BFS from output to input with geometric decay (0.8) to score feature importance without exponential path explosion.
+- **Bottleneck convergence**: Features appearing in 60%+ of critical paths act as information gates. Where they occur in the layer stack determines what information survives to the output.
+- **Feature ID mapping**: Neuronpedia uses 16k SAE dictionaries, so `neuronpedia_id = circuit_tracer_id % 16384`. Only GEMMA features are currently queryable via the Neuronpedia feature API.
+- **Cross-circuit features**: Features that appear as bottlenecks across multiple prompts suggest universal circuit components rather than prompt-specific processing.
 
-**Conclusion**: L5_F7993995 filters out geographic information at 19% depth, before semantic processing completes. Model predicts syntactically plausible but factually wrong " home".
+## Output Structure
 
-**Solution**: Ablate L5_F7993995 or amplify geographic features at L4 to override filter.
-
----
-
-## 🛠️ Requirements
-
-**Python 3.8+** with:
-- `networkx` - Graph analysis
-- `python-louvain` - Community detection
-- `matplotlib` - Visualizations
-- `requests` - API calls
-- `pyyaml` - Config parsing
-- `numpy` - Numerical operations
-
-**Neuronpedia API Key**:
-1. Visit https://neuronpedia.org
-2. Log in → /account
-3. Copy API key
-4. Add to `config/neuronpedia_config.yaml`
-
----
-
-## 🔬 Research Status
-
-**✅ Completed**:
-- Traceback algorithm implemented and validated
-- GEMMA southern state analysis (L5 bottleneck identified)
-- Token attribution hypothesis REFUTED
-- Shared circuit architecture confirmed
-- Scientific paper drafted (~6,800 words)
-
-**⏳ In Progress**:
-- QWEN southern state traceback
-- Cross-prompt bottleneck comparison
-- Feature investigation (what L5_F7993995 represents)
-
-**📋 Planned**:
-- Intervention experiments (ablation, amplification)
-- Additional visualizations
-- Cross-model generalization testing
-
----
-
-## 📝 Citation
-
-If you use this work:
+All generated data goes to `data/` (gitignored). Per-circuit outputs follow:
 
 ```
-Traceback Graphing: A Novel Method for Neural Network Attribution Analysis
-Neuronpedia Circuit Analysis Pipeline
-Models: GEMMA-2-2B (Google), QWEN3-4B (Alibaba)
-SAE Features: Neuronpedia.org
+data/prompts/<model>_<prompt-slug>/
+  1_generation/    Raw API graph
+  2_conversion/    Standardized pipeline format
+  3_analysis/      Circuit analysis + traceback paths
+  4_visualizations/ PNG figures
 ```
 
----
-
-## 📧 Support
-
-**Documentation**: See [docs/](docs/) for comprehensive guides
-
-**Issues**: Check [docs/guides/troubleshooting.md](docs/guides/) (when created)
-
-**Paper**: [TRACEBACK_GRAPHING_PAPER.md](docs/papers/TRACEBACK_GRAPHING_PAPER.md)
-
----
-
-**Status**: ✅ Research Prototype (Major Findings Documented)
-
-**Last Updated**: February 2, 2026
-
-**Version**: 2.0 (Traceback Implementation)
+Cross-circuit results: `data/stage_1_5_bottleneck_library.json`, `data/stage_2_visualizations/`.

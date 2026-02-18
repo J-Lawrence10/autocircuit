@@ -8,7 +8,6 @@ Generates three key figures:
 Plus: cross-prompt bottleneck convergence heatmap
 """
 
-import csv
 import json
 import os
 import sys
@@ -16,7 +15,12 @@ import io
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if sys.platform == 'win32' and hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+sys.path.insert(0, str(Path(__file__).parent))
+
+from annotate_features_v2 import classify_from_explanation
 
 import matplotlib
 matplotlib.use('Agg')
@@ -26,7 +30,7 @@ import numpy as np
 
 # ── Config ────────────────────────────────────────────────────────────────
 BASE = Path(__file__).parent.parent
-CSV_PATH = BASE / "semantic_taxonomy_annotations_auto.csv"
+LIBRARY_PATH = BASE / "data" / "stage_1_5_bottleneck_library.json"
 OUT_DIR = BASE / "data" / "stage_1_4_visualizations"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -36,6 +40,7 @@ COLORS = {
     'SEMANTICS:CONCEPT':    '#2E7D32',  # Green
     'SEMANTICS:ENTITY':     '#6A1B9A',  # Purple
     'SEMANTICS:GEOGRAPHIC': '#E65100',  # Orange
+    'SEMANTICS:TEMPORAL':   '#00838F',  # Teal
     'POLYSEMANTIC':         '#C62828',  # Red
     'SYNTAX':               '#F9A825',  # Yellow
     'UNKNOWN':              '#9E9E9E',  # Gray
@@ -43,7 +48,8 @@ COLORS = {
 
 CATEGORY_ORDER = [
     'SEMANTICS:CODE', 'SEMANTICS:CONCEPT', 'SEMANTICS:ENTITY',
-    'SEMANTICS:GEOGRAPHIC', 'POLYSEMANTIC', 'SYNTAX', 'UNKNOWN'
+    'SEMANTICS:GEOGRAPHIC', 'SEMANTICS:TEMPORAL', 'POLYSEMANTIC',
+    'SYNTAX', 'UNKNOWN'
 ]
 
 SHORT_NAMES = {
@@ -51,6 +57,7 @@ SHORT_NAMES = {
     'SEMANTICS:CONCEPT': 'Concept',
     'SEMANTICS:ENTITY': 'Entity',
     'SEMANTICS:GEOGRAPHIC': 'Geographic',
+    'SEMANTICS:TEMPORAL': 'Temporal',
     'POLYSEMANTIC': 'Polysemantic',
     'SYNTAX': 'Syntax',
     'UNKNOWN': 'Unknown',
@@ -58,12 +65,50 @@ SHORT_NAMES = {
 
 
 def load_annotations():
-    """Load the validated annotation CSV."""
+    """Load features from the bottleneck library JSON and classify via explanation."""
+    with open(LIBRARY_PATH, encoding='utf-8') as f:
+        library = json.load(f)
+
     rows = []
-    with open(CSV_PATH, encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            rows.append(r)
+    seen_labels = set()
+
+    # 1. Cross-circuit features (appear in 2+ circuits)
+    for label, entry in library.get('cross_circuit_features', {}).items():
+        seen_labels.add(label)
+        explanation = entry.get('explanation', '')
+        layer = entry.get('layer', 0)
+        category = classify_from_explanation(explanation, layer=layer)
+        confidence = 'HIGH' if explanation else 'LOW'
+        rows.append({
+            'feature_label': label,
+            'layer': str(layer),
+            'manual_category': category,
+            'confidence': confidence,
+            'explanation': explanation,
+        })
+
+    # 2. Per-circuit bottlenecks (add any not already seen from cross-circuit)
+    for circuit_name, bottlenecks in library.get('per_circuit_bottlenecks', {}).items():
+        for bn in bottlenecks:
+            label = bn.get('label', '')
+            if label in seen_labels:
+                continue
+            seen_labels.add(label)
+            layer = bn.get('layer', 0)
+            # Per-circuit entries lack explanation; look up in cross_circuit if present
+            explanation = ''
+            if label in library.get('cross_circuit_features', {}):
+                explanation = library['cross_circuit_features'][label].get('explanation', '')
+            category = classify_from_explanation(explanation, layer=layer)
+            confidence = 'MEDIUM' if explanation else 'LOW'
+            rows.append({
+                'feature_label': label,
+                'layer': str(layer),
+                'manual_category': category,
+                'confidence': confidence,
+                'explanation': explanation,
+            })
+
     return rows
 
 
@@ -141,8 +186,9 @@ def plot_category_by_layer(rows):
 
     ax.set_xlabel('Layer', fontsize=12, fontweight='bold')
     ax.set_ylabel('Feature Count', fontsize=12, fontweight='bold')
-    ax.set_title('Semantic Category Distribution by Layer\n'
-                 'Validated taxonomy (N=80 features across 8 layers)',
+    n_total = sum(sum(layer_cats[l].values()) for l in layers)
+    ax.set_title(f'Semantic Category Distribution by Layer\n'
+                 f'Bottleneck library (N={n_total} features across {len(layers)} layers)',
                  fontsize=14, fontweight='bold', pad=15)
     ax.legend(loc='upper right', framealpha=0.9, fontsize=10)
     ax.set_ylim(0, max(bottoms) + 1.5)

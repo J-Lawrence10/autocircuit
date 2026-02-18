@@ -30,6 +30,8 @@ if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
+from pipeline_constants import BOTTLENECK_CONVERGENCE_THRESHOLD
+
 # Base paths
 SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR.parent / 'data'
@@ -56,7 +58,7 @@ def find_all_traceback_files() -> List[Dict]:
 
         # Extract prompt from directory name
         prompt = circuit_dir
-        for prefix in ['gemma-2-2b_', 'qwen3-4b_', 'qwen3-4b_im-end']:
+        for prefix in ['qwen3-4b_im-end', 'gemma-2-2b_', 'qwen3-4b_']:
             if prompt.startswith(prefix):
                 prompt = prompt[len(prefix):]
                 break
@@ -106,11 +108,11 @@ def extract_bottleneck_features(traceback_data: dict, circuit_info: dict) -> Lis
                         'influence': node.get('influence', 0),
                     }
 
-    # Identify bottlenecks: features in 60%+ of paths
+    # Identify bottlenecks: features in threshold% of paths
     bottlenecks = []
     for label, count in feature_path_count.items():
         convergence = count / num_paths
-        if convergence >= 0.6:  # 60% threshold
+        if convergence >= BOTTLENECK_CONVERGENCE_THRESHOLD:
             info = feature_info[label]
 
             # Parse circuit ID from label (e.g., "L5_F7993995")
@@ -217,8 +219,14 @@ def build_bottleneck_library(
     cross_circuit: Dict,
     api_results: Dict,
     existing_deep_dive: List[Dict],
+    existing_library: Dict = None,
 ) -> Dict:
-    """Build the comprehensive bottleneck semantic library."""
+    """Build the comprehensive bottleneck semantic library.
+
+    Preserves explanations from the existing library when no new data is available,
+    so that API results from previous runs are not lost on rebuild.
+    """
+    existing_cross = (existing_library or {}).get('cross_circuit_features', {})
 
     library = {
         'metadata': {
@@ -253,6 +261,19 @@ def build_bottleneck_library(
             None
         )
 
+        # Resolve explanation: current API > deep dive > existing library
+        prev_entry = existing_cross.get(label, {})
+        explanation = (
+            api_data.get('explanation', '')
+            or (deep_dive_data.get('explanation', '') if deep_dive_data else '')
+            or prev_entry.get('explanation', '')
+        )
+        examples = (
+            api_data.get('examples', [])
+            or (deep_dive_data.get('examples', []) if deep_dive_data else [])
+            or prev_entry.get('examples', [])
+        )
+
         entry = {
             'label': label,
             'layer': bn_info['layer'],
@@ -260,8 +281,8 @@ def build_bottleneck_library(
             'np_id': bn_info.get('np_id'),
             'circuits_appeared_in': len(appearances),
             'appearances': appearances,
-            'explanation': api_data.get('explanation', '') or (deep_dive_data.get('explanation', '') if deep_dive_data else ''),
-            'examples': api_data.get('examples', []) or (deep_dive_data.get('examples', []) if deep_dive_data else []),
+            'explanation': explanation,
+            'examples': examples,
             'avg_convergence': sum(a['convergence'] for a in appearances) / len(appearances),
         }
 
@@ -443,6 +464,8 @@ def generate_report(library: Dict, all_bottlenecks: List[Dict], cross_circuit: D
             domains['Politics'].append((circuit, bottlenecks))
         elif 'water' in circuit or 'boil' in circuit:
             domains['Science'].append((circuit, bottlenecks))
+        elif 'chemical' in circuit or 'symbol' in circuit:
+            domains['Chemistry'].append((circuit, bottlenecks))
         elif 'plus' in circuit or 'equals' in circuit:
             domains['Arithmetic'].append((circuit, bottlenecks))
         else:
@@ -643,8 +666,12 @@ def main():
     all_bottlenecks = []
 
     for tf in traceback_files:
-        with open(tf['file'], 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        try:
+            with open(tf['file'], 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"  [WARNING] Could not load {tf['circuit_dir']}: {e}")
+            continue
 
         bottlenecks = extract_bottleneck_features(data, tf)
         all_bottlenecks.extend(bottlenecks)
@@ -672,13 +699,29 @@ def main():
     print(f"\n[4/6] Querying Neuronpedia API...")
     api_results = {}
 
+    # Load existing library to preserve previous explanations
+    existing_library = {}
+    library_file = DATA_DIR / 'stage_1_5_bottleneck_library.json'
+    if library_file.exists():
+        try:
+            with open(library_file, 'r', encoding='utf-8') as f:
+                existing_library = json.load(f)
+            existing_cross = existing_library.get('cross_circuit_features', {})
+            prev_with_exp = sum(1 for v in existing_cross.values() if v.get('explanation', ''))
+            print(f"  Loaded existing library: {len(existing_cross)} cross-circuit features ({prev_with_exp} with explanations)")
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"  [WARNING] Could not load existing library: {e}")
+
     # Load existing deep dive data
     deep_dive_file = DATA_DIR / 'bottleneck_deep_dive.json'
     existing_deep_dive = []
     if deep_dive_file.exists():
-        with open(deep_dive_file, 'r', encoding='utf-8') as f:
-            existing_deep_dive = json.load(f)
-        print(f"  Loaded {len(existing_deep_dive)} features from existing deep dive")
+        try:
+            with open(deep_dive_file, 'r', encoding='utf-8') as f:
+                existing_deep_dive = json.load(f)
+            print(f"  Loaded {len(existing_deep_dive)} features from existing deep dive")
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"  [WARNING] Could not load deep dive file: {e}")
 
     if args.skip_api:
         print("  Skipping API queries (--skip-api)")
@@ -696,17 +739,20 @@ def main():
         if not api_key:
             print("  ⚠ No API key found, skipping API queries")
         else:
-            # Only query GEMMA features we don't already have
+            # Query GEMMA features that are new OR have empty explanations
+            existing_cross = existing_library.get('cross_circuit_features', {})
             gemma_features_to_query = []
             for bn in all_bottlenecks:
                 if bn['model'] == 'gemma-2-2b' and bn.get('np_id') is not None:
                     label = bn['label']
-                    # Check if we already have data from deep dive
+                    # Check if we already have a good explanation from deep dive
                     already_have = any(
                         dd.get('circuit_id') == bn.get('circuit_id')
                         for dd in existing_deep_dive
                     )
-                    if label not in api_results and not already_have:
+                    # Check if existing library has a non-empty explanation
+                    has_explanation = bool(existing_cross.get(label, {}).get('explanation', ''))
+                    if label not in api_results and not already_have and not has_explanation:
                         gemma_features_to_query.append(bn)
 
             # Deduplicate by label
@@ -718,7 +764,7 @@ def main():
                     unique_to_query.append(bn)
 
             query_count = min(len(unique_to_query), args.api_limit)
-            print(f"  Querying {query_count} new GEMMA features...")
+            print(f"  Querying {query_count} GEMMA features (new or missing explanations)...")
 
             for i, bn in enumerate(unique_to_query[:query_count]):
                 print(f"  [{i+1}/{query_count}] {bn['label']} (NP: L{bn['layer']}/F{bn['np_id']})")
@@ -734,7 +780,7 @@ def main():
 
     # Step 5: Build library
     print(f"\n[5/6] Building bottleneck semantic library...")
-    library = build_bottleneck_library(all_bottlenecks, cross_circuit, api_results, existing_deep_dive)
+    library = build_bottleneck_library(all_bottlenecks, cross_circuit, api_results, existing_deep_dive, existing_library)
 
     # Save library
     library_file = DATA_DIR / 'stage_1_5_bottleneck_library.json'

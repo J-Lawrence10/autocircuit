@@ -461,7 +461,9 @@ def backward_bfs_weighted(graph, start_node, max_depth=20, max_nodes=30, decay_f
     # (highest scores should be processed first)
     start_act = graph.nodes[start_node]['activation']
     start_inf = graph.nodes[start_node]['influence']
-    start_score = start_act * start_inf
+    # Use absolute value to prevent negative ** fractional crashes
+    # Sign of influence indicates inhibition vs excitation, tracked in metadata
+    start_score = abs(start_act * start_inf)
 
     pq = [(-start_score, 0, start_node, start_score)]
 
@@ -527,7 +529,7 @@ def backward_bfs_weighted(graph, start_node, max_depth=20, max_nodes=30, decay_f
                 #   new_score dampens each step
                 #   After 10 steps: stays in 10^8-10^10 range (manageable)
 
-                base_contribution = edge_weight * pred_act * pred_inf
+                base_contribution = edge_weight * abs(pred_act * pred_inf)
                 new_score = (acc_score ** decay_factor) * base_contribution
 
                 # Add to priority queue with updated depth

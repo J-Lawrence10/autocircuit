@@ -20,7 +20,7 @@ class FeatureDescriptionFetcher:
             config_path: Path to neuronpedia_config.yaml (optional)
         """
         if config_path is None:
-            config_path = Path(__file__).parent.parent.parent / "config" / "neuronpedia_config.yaml"
+            config_path = Path(__file__).parent.parent / "config" / "neuronpedia_config.yaml"
 
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)
@@ -73,13 +73,17 @@ class FeatureDescriptionFetcher:
         Fetch description for a single feature from Neuronpedia API
 
         Args:
-            layer: Layer number (0-25)
-            feature: Feature index
+            layer: Layer number (0-25 for GEMMA, 0-35 for QWEN)
+            feature: Raw feature index from circuit tracer (will be mapped via % 16384)
 
         Returns:
             Human-readable description string or None if not available
         """
-        cache_key = f"{layer}_{feature}"
+        # CRITICAL: Map circuit tracer feature ID to Neuronpedia feature ID
+        # The SAE has 16384 features, so: neuronpedia_id = circuit_tracer_id % 16384
+        feature_np = feature % 16384
+
+        cache_key = f"{layer}_{feature_np}"
 
         # Check cache first
         if cache_key in self.cache:
@@ -90,7 +94,7 @@ class FeatureDescriptionFetcher:
 
         try:
             sae_layer = self.get_sae_layer_name(layer)
-            url = f"{self.base_url}/feature/{self.model_name}/{sae_layer}/{feature}"
+            url = f"{self.base_url}/feature/{self.model_name}/{sae_layer}/{feature_np}"
 
             headers = {
                 'x-api-key': self.api_key
@@ -128,7 +132,7 @@ class FeatureDescriptionFetcher:
                     self.cache[cache_key] = None
                     return None
             else:
-                print(f"[WARNING] API returned status {response.status_code} for L{layer}_F{feature}")
+                print(f"[WARNING] API returned status {response.status_code} for L{layer}_F{feature} (NP: {feature_np})")
                 self.cache[cache_key] = None
                 return None
 
@@ -210,12 +214,17 @@ if __name__ == "__main__":
 
     # Test single feature
     print("\nTesting single feature fetch:")
+    print(f"  Raw ID: 41, NP ID: {41 % 16384}")
     desc = fetcher.fetch_feature_description(0, 41)
     print(f"L0_F41: {desc}")
 
-    # Test multiple features
+    # Test multiple features (raw circuit tracer IDs - will be mapped via % 16384)
     print("\nTesting multiple feature fetch:")
     test_features = ["0_41_1", "15_376262_150", "24_88478228_120"]
+    for fid in test_features:
+        parts = fid.split('_')
+        raw = int(parts[1])
+        print(f"  {fid}: raw={raw}, NP={raw % 16384}")
     descriptions = fetcher.fetch_descriptions_for_features(test_features)
 
     for fid, desc in descriptions.items():
