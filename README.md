@@ -2,7 +2,7 @@
 
 **AI Safety Camp 2025 - Project #24**
 
-[Original Project Overview](#original-project-overview) | **[Research Breakthrough](#research-breakthrough)** ⭐ | [Quick Start](#quick-start) | [Documentation](#documentation)
+[Original Project Overview](#original-project-overview) | **[Research ](#research)** ⭐ | [Quick Start](#quick-start) | [Documentation](#documentation)
 
 ---
 
