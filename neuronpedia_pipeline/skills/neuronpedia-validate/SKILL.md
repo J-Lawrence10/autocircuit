@@ -1,37 +1,42 @@
+---
+name: neuronpedia-validate
+description: This skill should be used when the user wants to validate data quality and ensure no mock data exists. Use when the user says "validate the data", "check data quality", or before publishing results.
+---
+
 # Neuronpedia Validate
 
 Validate data quality and ensure no mock data in the pipeline.
 
 ## Instructions
 
-When the user wants to validate data authenticity:
+### 1. Navigate to the pipeline directory
 
-1. **Navigate to the pipeline directory**:
-   ```bash
-   cd neuronpedia_pipeline
-   ```
+```bash
+cd neuronpedia_pipeline
+```
 
-2. **Run the validation script**:
-   ```bash
-   python scripts/validate_real_data.py
-   ```
-   - Takes less than 1 second per file
-   - Scans all JSON files in `data/graphs/`
-   - Checks multiple validation criteria
+### 2. Run the validation script
 
-3. **Review the validation output**:
-   - Note which files passed (✓) or failed (✗)
-   - Check the reasons for each status
-   - Count real vs mock files
+```bash
+python scripts/validate_real_data.py
+```
 
-4. **Report the validation results**:
-   - List each file with its validation status
-   - For real data files: show size, node count, confirmation
-   - For mock/invalid files: explain why they failed
-   - Summary: total real files vs mock files
-   - Overall status: Pass or Warning
+Takes less than 1 second per file. Scans all JSON files in `data/graphs/` and checks multiple validation criteria.
 
-## Validation criteria
+### 3. Review the validation output
+
+Note which files passed or failed, check the reasons for each status, and count real vs mock files.
+
+### 4. Report the validation results
+
+Include:
+- Each file with its validation status
+- For real data files: size, node count, confirmation
+- For mock/invalid files: explain why they failed
+- Summary: total real files vs mock files
+- Overall status: Pass or Warning
+
+## Validation Criteria
 
 The script checks for:
 1. **Filename prefix**: Must start with `real_`
@@ -42,68 +47,53 @@ The script checks for:
 ## Output
 
 **Console report** showing:
-- Each file's validation status (✓ or ✗)
+- Each file's validation status
 - Reason for validation result
 - Summary statistics
 - Warning if mock data found
 
-## Example interaction
+## Example Interaction
 
 **User**: "Validate the data"
 
-**You should**:
 1. Navigate to neuronpedia_pipeline
 2. Run validation script
-3. Report: "✓ Data validation complete:
+3. Report:
 
-   **Real data files**: 4
-   - ✓ real_japan_currency.json (4.3 MB, 962 nodes)
-   - ✓ real_japan_currency_converted.json (2.7 MB, 858 nodes)
-   - ✓ real_france_capital.json (6.5 MB, 1088 nodes)
-   - ✓ real_france_capital_converted.json (4.0 MB, 985 nodes)
+```
+Data validation complete:
 
-   **Mock/invalid files**: 0
+Real data files: 4
+  real_japan_currency.json (4.3 MB, 962 nodes)
+  real_japan_currency_converted.json (2.7 MB, 858 nodes)
+  real_france_capital.json (6.5 MB, 1088 nodes)
+  real_france_capital_converted.json (4.0 MB, 985 nodes)
 
-   **Status**: ✓ All data confirmed as genuine Neuronpedia Circuit Tracer output
+Mock/invalid files: 0
+Status: All data confirmed as genuine Neuronpedia Circuit Tracer output
+```
 
-   You can proceed with analysis confidently - all data is real and validated."
+## Common Issues
 
-## Example with mock data found
+- **"All files marked as mock"**: Files may need `real_` prefix -- rename them
+- **"File too small"**: Graph download may have failed -- re-fetch with `/neuronpedia-fetch`
+- **Mock data found**: Remove mock files or ensure they're not used in analysis
 
-If mock data is detected:
-
-"⚠️ Data validation found issues:
-
-   **Real data files**: 4 (validated above)
-
-   **Mock/invalid files**: 1
-   - ✗ japan_currency_mock.json (4.8 KB - too small, likely mock data)
-
-   **Status**: ⚠️ WARNING - Mock data detected!
-
-   Recommendation: Remove mock files or ensure analysis scripts use only 'real_' prefixed files. The mock file appears to be a test file from early development and should not be used for research."
-
-## Common issues
-
-- **"All files marked as mock"**: Files may need 'real_' prefix - rename them
-- **"File too small"**: Graph download may have failed - re-fetch with `/neuronpedia-fetch`
-- **Mock data found**: Delete mock files or ensure they're not used in analysis
-
-## When to use this skill
+## When to Use
 
 - User asks to "validate the data"
 - Before starting analysis or visualization
 - After fetching new data
 - User questions data authenticity
-- Before publishing results or deploying to production
+- Before publishing results
 - Quality control checkpoint
 
-## Next steps after this skill
+## Next Steps
 
 After validation:
-- **If passed**: Proceed confidently with `/neuronpedia-analyze` or `/neuronpedia-visualize`
+- **If passed**: Proceed with `/neuronpedia-analyze` or `/neuronpedia-visualize`
 - **If failed**: Re-fetch problematic graphs or remove mock data
 
-## Data quality policy
+## Data Quality Policy
 
-Per user request: **No mock data should be used unless explicitly specified**. This skill enforces that policy by automatically detecting and flagging any mock or fabricated data.
+No mock data should be used unless explicitly specified. This skill enforces that policy by automatically detecting and flagging any mock or fabricated data.

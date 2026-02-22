@@ -1,33 +1,40 @@
+---
+name: neuronpedia-convert
+description: This skill should be used when the user wants to convert a raw Circuit Tracer graph to pipeline format. Use when the user says "convert the graph" or "prepare for analysis", typically after fetching.
+---
+
 # Neuronpedia Convert
 
 Convert raw Circuit Tracer graphs to pipeline-compatible NetworkX format.
 
 ## Instructions
 
-When the user wants to convert a fetched graph:
+### 1. Navigate to the pipeline directory
 
-1. **Navigate to the pipeline directory**:
-   ```bash
-   cd neuronpedia_pipeline
-   ```
+```bash
+cd neuronpedia_pipeline
+```
 
-2. **Identify the graph to convert**:
-   - Auto-detects the latest `real_*.json` file in `data/graphs/`
-   - Or use a specific file if the user mentions one
+### 2. Identify the graph to convert
 
-3. **Run the conversion script**:
-   ```bash
-   python scripts/2_convert_graph.py
-   ```
-   - The script will automatically find and process the latest raw graph
-   - Takes less than 1 second typically
+Auto-detects the latest `real_*.json` file in `data/graphs/`, or use a specific file if the user mentions one.
 
-4. **Report the conversion results**:
-   - Original node count vs filtered node count
-   - Original edge count vs filtered edge count
-   - Number of nodes removed (typically 10-15%)
-   - Output file location
-   - File size before and after
+### 3. Run the conversion script
+
+```bash
+python scripts/2_convert_graph.py
+```
+
+The script automatically finds and processes the latest raw graph. Takes less than 1 second typically.
+
+### 4. Report the conversion results
+
+Include:
+- Original node count vs filtered node count
+- Original edge count vs filtered edge count
+- Number of nodes removed (typically 10-15%)
+- Output file location
+- File size before and after
 
 ## Output
 
@@ -39,36 +46,39 @@ When the user wants to convert a fetched graph:
   - Negative edge weights preserved (inhibitory connections)
   - Metadata retained
 
-## Example interaction
+## Example Interaction
 
 **User**: "Convert the graph"
 
-**You should**:
 1. Navigate to neuronpedia_pipeline
 2. Run conversion script
-3. Report: "✓ Conversion complete:
-   - Input: real_japan_currency.json (962 nodes, 35,561 edges)
-   - Output: real_japan_currency_converted.json (858 nodes, 22,687 edges)
-   - Removed: 104 invalid nodes (10.8%)
-   - Size: 4.3 MB → 2.7 MB
+3. Report:
 
-   Next step: Run `/neuronpedia-analyze` to detect supernodes"
+```
+Conversion complete:
+- Input: real_japan_currency.json (962 nodes, 35,561 edges)
+- Output: real_japan_currency_converted.json (858 nodes, 22,687 edges)
+- Removed: 104 invalid nodes (10.8%)
+- Size: 4.3 MB -> 2.7 MB
 
-## Common issues
+Next step: Run /neuronpedia-analyze to detect supernodes
+```
 
-- **"File not found"**: User needs to run `/neuronpedia-fetch` first
+## Common Issues
+
+- **"File not found"**: Run `/neuronpedia-fetch` first
 - **"No valid nodes after filtering"**: Raw graph may be corrupted, re-fetch
 - **"Too many nodes removed"**: If >20% removed, may indicate data issues
 
-## When to use this skill
+## When to Use
 
 - User says "convert the graph"
 - After running `/neuronpedia-fetch`
 - User asks to "prepare for analysis"
 - Before running analysis or visualization
 
-## Next steps after this skill
+## Next Steps
 
 After converting:
-1. Run `/neuronpedia-analyze` - Detect supernodes and analyze structure
-2. Run `/neuronpedia-validate` - Verify conversion quality
+1. Run `/neuronpedia-analyze` -- Detect supernodes and analyze structure
+2. Run `/neuronpedia-validate` -- Verify conversion quality

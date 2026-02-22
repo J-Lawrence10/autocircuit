@@ -20,11 +20,14 @@ python run_full_pipeline.py --prompt "The chemical symbol for Argon is" --model 
 --prompt TEXT       Prompt to analyze (required)
 --model MODEL       gemma-2-2b | qwen3-4b | both (default: both)
 --advanced          Also run advanced analysis steps 5-10
+--steer-quick       Run Stage 3 steering validation (quick: top 5 features, ~20 min)
+--steer-full        Run Stage 3 steering validation (full: all features, ~10 hours)
+--steer-rate-delay  Seconds between steering API calls (default: 36 = 100/hr)
 --skip-api          Skip Neuronpedia API queries in Stage 1.5
 --api-limit N       Max API queries for Stage 1.5 (default: 100)
 ```
 
-Execution order: Steps 1 > 2 > 3 > 3b > 4 > Stage 1.5 > Stage 2. With `--advanced`: also Steps 5, 7, 8, 9, 10.
+Execution order: Steps 1 > 2 > 3 > 3b > 4 > Stage 1.5 > Stage 2. With `--steer-quick/--steer-full`: also Stage 3. With `--advanced`: also Steps 5, 7, 8, 9, 10.
 
 ## Core Scripts (`scripts/`)
 
@@ -54,6 +57,8 @@ Execution order: Steps 1 > 2 > 3 > 3b > 4 > Stage 1.5 > Stage 2. With `--advance
 
 **`stage_2_enhanced_visualizations.py`** -- Generates semantically color-coded circuit diagrams, interactive HTML dashboards, and thought progression maps. Integrates the v2 classifier for automatic node categorization with multi-source feature lookup (cross-circuit library, per-circuit descriptions, fallback).
 
+**`5_steering_validation.py`** -- Stage 3: Tests whether bottleneck features identified via cross-circuit analysis actually steer model output when amplified or suppressed via the Neuronpedia Steering API. Computes Steering Impact Score (SIS), Disruption Score (DS), and correlates cross-circuit frequency with steering effectiveness. Supports quick, full, single-feature, resume, and analyze-only modes.
+
 ## Advanced Analysis (`scripts/advanced_analysis/`)
 
 These scripts perform deeper analysis beyond the core pipeline. Run via `--advanced` flag or individually.
@@ -80,6 +85,8 @@ Claude Code skills for interactive pipeline usage:
 - **neuronpedia-compare** -- Compare circuits across prompts/models
 - **neuronpedia-validate** -- Validate circuit analysis results
 - **neuronpedia-visualize** -- Generate and inspect visualizations
+- **steering-validate** -- Validate bottleneck features via Neuronpedia Steering API
+- **circuit-report** -- Run full pipeline and generate comprehensive analysis report
 
 ## Key Concepts
 
@@ -101,3 +108,5 @@ data/prompts/<model>_<prompt-slug>/
 ```
 
 Cross-circuit results: `data/stage_1_5_bottleneck_library.json`, `data/stage_2_visualizations/`.
+
+Steering validation: `data/stage_3_steering/` (baselines, results, analysis, report).

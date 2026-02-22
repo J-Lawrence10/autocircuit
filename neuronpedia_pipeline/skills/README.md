@@ -6,7 +6,7 @@
 
 ## Overview
 
-This folder contains 7 Claude Code skills that provide one-command access to the Neuronpedia analysis pipeline. Each skill corresponds to a script in the pipeline and handles a specific step of circuit analysis.
+This folder contains 8 Claude Code skills that provide one-command access to the Neuronpedia analysis pipeline. Each skill corresponds to a script in the pipeline and handles a specific step of circuit analysis.
 
 ---
 
@@ -68,6 +68,14 @@ Run full pipeline and generate comprehensive analysis report
 - **Time**: 3-8 minutes (pipeline) + analysis
 - **Script**: `run_full_pipeline.py` + data analysis
 
+### 8. `/steering-validate`
+Validate bottleneck features via Neuronpedia Steering API
+
+- **What**: Tests amplifying/suppressing bottleneck features, measures output changes, correlates cross-circuit frequency with steering effectiveness
+- **Output**: `steering_validation_report.md`, `steering_analysis.json`, `steering_results.json`
+- **Time**: ~20 min (quick) or ~10 hours (full)
+- **Script**: `scripts/5_steering_validation.py`
+
 ---
 
 ## Complete Workflow
@@ -90,9 +98,13 @@ Run full pipeline and generate comprehensive analysis report
 /neuronpedia-analyze
 
 /neuronpedia-compare real_japan_currency real_france_capital
+
+# Steering validation
+/steering-validate               # Quick test (~20 min)
+/steering-validate --full         # Full run (~10 hours)
 ```
 
-**Total time**: ~30-45 seconds per prompt
+**Total time**: ~30-45 seconds per prompt (core pipeline)
 
 ---
 
@@ -139,7 +151,7 @@ Each skill has:
 - Common issues and troubleshooting
 - Next steps in workflow
 
-See individual `.md` files for complete documentation.
+See individual `SKILL.md` files for complete documentation. Two skills (`circuit-report`, `neuronpedia-analyze`) also have `references/` subdirectories with detailed templates and guidelines.
 
 ---
 
@@ -152,6 +164,7 @@ See individual `.md` files for complete documentation.
 
 ---
 
-**Status**: All 7 skills production ready
-**Format**: Claude Code skill format with YAML front matter
+**Status**: All 8 skills restructured with proper YAML front matter
+**Format**: Claude Code SKILL.md format with `name` and `description` front matter
 **Tested**: Windows 10, Python 3.11, real Neuronpedia data
+**Archive**: Old skill files preserved in `_archive/`

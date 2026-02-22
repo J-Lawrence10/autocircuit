@@ -6,6 +6,7 @@ Runs the full circuit analysis pipeline for one or more models:
   Steps 1-4:    Per-model graph generation, conversion, analysis, visualization
   Stage 1.5:    Cross-circuit bottleneck comparison
   Stage 2:      Enhanced visualizations
+  Stage 3:      Steering validation (optional, --steer-quick or --steer-full flag)
   Steps 5-10:   Advanced analysis (optional, --advanced flag)
 
 Usage examples:
@@ -13,6 +14,7 @@ Usage examples:
   python run_full_pipeline.py --prompt "Paris is the capital of" --model gemma-2-2b
   python run_full_pipeline.py --prompt "Water boils at 100 degrees" --model both --advanced
   python run_full_pipeline.py --prompt "The president lives in" --skip-api --api-limit 50
+  python run_full_pipeline.py --prompt "The longest river in Africa is" --steer-quick
 """
 
 import argparse
@@ -270,6 +272,27 @@ def run_cross_circuit(circuit_dirs: list, skip_api: bool, api_limit: int) -> Non
     )
 
 
+def run_steering_validation(quick: bool = True, rate_delay: float = 36.0) -> None:
+    """Run Stage 3: Steering validation of cross-circuit bottleneck features."""
+
+    print(f"\n{'#' * 70}")
+    print(f"#  STAGE 3: STEERING VALIDATION")
+    print(f"{'#' * 70}")
+
+    mode = 'quick' if quick else 'full'
+    steer_cmd = [
+        sys.executable, os.path.join(SCRIPTS_DIR, '5_steering_validation.py'),
+    ]
+    if quick:
+        steer_cmd.append('--quick')
+    steer_cmd.extend(['--rate-delay', str(rate_delay)])
+
+    run_step(
+        steer_cmd,
+        f"Stage 3: Steering validation ({mode} mode)",
+    )
+
+
 def run_advanced_pipeline(models_run: list, prompt: str) -> None:
     """Run Steps 5-10 (advanced analysis) for each model that was processed."""
 
@@ -361,6 +384,18 @@ Examples:
         '--api-limit', type=int, default=100,
         help='Maximum API queries for Stage 1.5 (default: 100)',
     )
+    parser.add_argument(
+        '--steer-quick', action='store_true',
+        help='Run Stage 3 steering validation in quick mode (top 5 features, ~20 min)',
+    )
+    parser.add_argument(
+        '--steer-full', action='store_true',
+        help='Run Stage 3 steering validation in full mode (all features, ~10 hours)',
+    )
+    parser.add_argument(
+        '--steer-rate-delay', type=float, default=36.0,
+        help='Seconds between steering API calls (default: 36 = 100/hr)',
+    )
 
     args = parser.parse_args()
 
@@ -378,6 +413,8 @@ Examples:
     print(f"  Prompt:    \"{args.prompt}\"")
     print(f"  Models:    {', '.join(models_to_run)}")
     print(f"  Advanced:  {'Yes' if args.advanced else 'No'}")
+    steer_mode = 'Quick' if args.steer_quick else ('Full' if args.steer_full else 'No')
+    print(f"  Steering:  {steer_mode}")
     print(f"  Skip API:  {'Yes' if args.skip_api else 'No'}")
     print(f"  API limit: {args.api_limit}")
     print(f"  Python:    {sys.executable}")
@@ -395,7 +432,14 @@ Examples:
     print(f"{'#' * 70}")
     run_cross_circuit(circuit_dirs, args.skip_api, args.api_limit)
 
-    # ---- Phase 3: Advanced analysis (Steps 5-10, optional) ----
+    # ---- Phase 3: Steering validation (Stage 3, optional) ----
+    if args.steer_quick or args.steer_full:
+        run_steering_validation(
+            quick=args.steer_quick,
+            rate_delay=args.steer_rate_delay,
+        )
+
+    # ---- Phase 4: Advanced analysis (Steps 5-10, optional) ----
     if args.advanced:
         run_advanced_pipeline(models_to_run, args.prompt)
 
@@ -414,6 +458,11 @@ Examples:
     print(f"  {os.path.join(DATA_DIR, 'stage_1_5_bottleneck_library.json')}")
     print(f"  {os.path.join(DATA_DIR, 'stage_1_5_cross_circuit_report.md')}")
     print(f"  {os.path.join(DATA_DIR, 'stage_2_visualizations')}")
+    if args.steer_quick or args.steer_full:
+        print()
+        print("Steering validation outputs:")
+        print(f"  {os.path.join(DATA_DIR, 'stage_3_steering', 'steering_validation_report.md')}")
+        print(f"  {os.path.join(DATA_DIR, 'stage_3_steering', 'steering_analysis.json')}")
     if args.advanced:
         print()
         print("Advanced analysis outputs are in each circuit's sub-directories (steps 7-10).")
