@@ -23,7 +23,7 @@
 | **GEMMA-2-2B** | " home" | 10.5% | " Florida" (rank 6, 2.9%) | ❌ Wrong |
 | **QWEN3-4B** | " Florida" | 78.1% | " Florida" (rank 1) | ✅ Correct |
 
-**27× probability difference due to bottleneck position!**
+**27× probability difference which correlates to bottleneck position**
 
 ### Research Impact
 
