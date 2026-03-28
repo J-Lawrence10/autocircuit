@@ -1,8 +1,19 @@
 # Neuronpedia Circuit Analysis Pipeline
 
-Traceback graphing pipeline for identifying bottleneck features in neural network circuits. Traces backward through SAE attribution graphs to find convergence points that control model predictions, with cross-circuit comparison and semantic classification.
+Automated pipeline for analyzing factual knowledge circuits in LLMs via SAE attribution graphs. Traces backward through Neuronpedia circuit graphs to identify bottleneck features, runs cross-domain statistical analysis, and validates causal influence via steering experiments.
 
 Supported models: GEMMA-2-2B (26 layers), QWEN3-4B (36 layers).
+
+## Key Findings
+
+Analysis of 60 circuits (30 prompts × 2 models) across chemistry, geography, and history:
+
+- **Bottleneck depth = architecture, not domain.** GEMMA bottlenecks cluster at L5-7 (~22%), QWEN at L22-25 (~65%), regardless of knowledge category.
+- **94.1% circuit redundancy.** Minimal pathway extraction shows only 5.9% of nodes are essential for preserving predictions.
+- **Bottleneck features are infrastructure, not knowledge.** CODE (20%) and LANGUAGE (20%) dominate; 54% of features appear in 2+ domains.
+- **Steering reveals a three-tier dissociation.** 80 experiments show essential-pathway features produce strong distributional perturbations (mean KL=1.448) but circuit redundancy absorbs most before the output layer. Neither pathway topology nor cross-circuit frequency predicts text-level changes — output determinism does.
+
+Full paper: `docs/papers/CROSS_DOMAIN_CIRCUIT_PAPER.md`
 
 ## Quick Start
 
@@ -12,9 +23,21 @@ pip install -r config/requirements.txt
 python run_full_pipeline.py --prompt "The chemical symbol for Argon is" --model gemma-2-2b
 ```
 
+## Supernode Pipeline
+
+`scripts/supernode_pipeline.py` is a standalone end-to-end tool that takes a text prompt, generates an attribution graph, detects communities via multi-algorithm clustering, labels them with Neuronpedia explanations, and outputs an annotated JSON ready for upload to [neuronpedia.org/graph/validator](https://neuronpedia.org/graph/validator).
+
+```bash
+python scripts/supernode_pipeline.py "The capital of France is"
+python scripts/supernode_pipeline.py "Water boils at 100 degrees" --model gemma-2-2b
+python scripts/supernode_pipeline.py --raw-graph path/to/raw_graph.json
+```
+
+Output: `output/{model}_{prompt_slug}/annotated_graph.json`, `supernode_report.md`, `community_visualization.png`
+
 ## Pipeline Orchestrator
 
-`run_full_pipeline.py` runs the full pipeline end-to-end via CLI.
+`run_full_pipeline.py` runs the analysis pipeline end-to-end.
 
 ```
 --prompt TEXT       Prompt to analyze (required)
@@ -31,51 +54,66 @@ Execution order: Steps 1 > 2 > 3 > 3b > 4 > Stage 1.5 > Stage 2. With `--steer-q
 
 ## Core Scripts (`scripts/`)
 
-**`1_generate_graph.py`** -- Connects to the Neuronpedia circuit tracer API and generates a raw SAE attribution graph for a given prompt and model. Outputs a JSON graph file with node activations and edge weights to `data/prompts/<circuit>/1_generation/`.
+**`1_generate_graph.py`** -- Generates a raw SAE attribution graph via the Neuronpedia circuit tracer API.
 
-**`2_convert_graph.py`** -- Converts the raw Circuit Tracer JSON into the pipeline's standardized format. Extracts node metadata, edge weights, model predictions, and handles model-specific token formatting differences between GEMMA and QWEN.
+**`2_convert_graph.py`** -- Converts raw Circuit Tracer JSON into the pipeline's standardized format.
 
-**`3_analyze_circuit.py`** -- Performs structural analysis of the converted circuit graph. Runs Louvain community detection for supernode clustering, computes betweenness centrality for bottleneck identification, and optionally fetches feature descriptions from Neuronpedia.
+**`3_analyze_circuit.py`** -- Structural analysis: Louvain community detection, betweenness centrality, optional Neuronpedia descriptions.
 
-**`3b_traceback_paths.py`** -- Core innovation: backward BFS from output nodes to input layers with geometric decay scoring (score^0.8 per hop). Identifies bottleneck features where 60%+ of critical paths converge, revealing which features gate model predictions.
+**`3b_traceback_paths.py`** -- Core innovation: backward BFS from output to input with geometric decay scoring (score^0.8 per hop). Identifies bottleneck features where 60%+ of critical paths converge.
 
-**`4_visualize.py`** -- Generates 8 PNG visualizations per circuit: supernode overview, layer distribution, activation heatmap, feature importance rankings, information flow diagram, thought progression, supernode connections, and a summary dashboard.
+**`4_visualize.py`** -- Generates 8 PNG visualizations per circuit (supernode overview, layer distribution, activation heatmap, etc.).
 
-**`annotate_features_v2.py`** -- Keyword-based semantic classifier for Neuronpedia feature explanations. Classifies into SYNTAX, SEMANTICS:CODE/CONCEPT/GEOGRAPHIC/ENTITY/TEMPORAL, or POLYSEMANTIC. Exports `classify_from_explanation()` for use by other scripts.
+**`5_steering_validation.py`** -- Stage 3: causal validation via Neuronpedia Steering API. Amplifies/suppresses bottleneck features and measures output disruption.
 
-**`feature_description_fetcher.py`** -- Queries the Neuronpedia API for human-readable feature descriptions. Handles the ID mapping (`neuronpedia_id = circuit_tracer_id % 16384`) and rate limiting. Used by Step 3 and Stage 1.5.
+**`supernode_pipeline.py`** -- Standalone end-to-end supernode detection (see above).
 
-**`path_manager.py`** -- Centralized path resolution for the pipeline directory structure. Manages `data/prompts/<model>_<slug>/` layout and provides consistent path access across all scripts.
+**`supernode_detector.py`** -- Community detection module using Louvain clustering with configurable cluster sizes.
 
-**`pipeline_constants.py`** -- Shared constants: model layer counts, SAE dictionary sizes, layer group boundaries, and the bottleneck convergence threshold (0.6). Prevents threshold mismatches between stages.
+**`annotate_features_v2.py`** -- Keyword-based semantic classifier (SYNTAX, SEMANTICS:CODE/CONCEPT/GEOGRAPHIC/ENTITY/TEMPORAL, POLYSEMANTIC).
 
-**`supernode_detector.py`** -- Community detection module using Louvain clustering on circuit graphs. Groups individual SAE features into high-level supernodes based on connection density, with configurable min/max cluster sizes.
+**`feature_description_fetcher.py`** -- Neuronpedia API queries with ID mapping (`neuronpedia_id = circuit_tracer_id % 16384`) and rate limiting.
 
-**`stage_1_4_visualizations.py`** -- Distribution analysis visualizations: category-by-layer stacked bar chart, bottleneck before/after semantic profile, layer-wise semantic flow Sankey diagram, and cross-prompt convergence heatmap. Sources data from the bottleneck library.
+**`path_manager.py`** -- Centralized path resolution for the `data/prompts/<model>_<slug>/` directory structure.
 
-**`stage_1_5_cross_circuit_bottlenecks.py`** -- Cross-circuit bottleneck analysis across all analyzed prompts and models. Builds the bottleneck library by comparing convergence features across circuits, enriches with Neuronpedia API descriptions, and identifies features that appear as bottlenecks in multiple circuits.
+**`pipeline_constants.py`** -- Shared constants: layer counts, SAE dictionary sizes, layer group boundaries, convergence threshold (0.6).
 
-**`stage_2_enhanced_visualizations.py`** -- Generates semantically color-coded circuit diagrams, interactive HTML dashboards, and thought progression maps. Integrates the v2 classifier for automatic node categorization with multi-source feature lookup (cross-circuit library, per-circuit descriptions, fallback).
+## Stage 2 Analysis Scripts (`scripts/stage_2_*.py`)
 
-**`5_steering_validation.py`** -- Stage 3: Tests whether bottleneck features identified via cross-circuit analysis actually steer model output when amplified or suppressed via the Neuronpedia Steering API. Computes Steering Impact Score (SIS), Disruption Score (DS), and correlates cross-circuit frequency with steering effectiveness. Supports quick, full, single-feature, resume, and analyze-only modes.
-
-## Advanced Analysis (`scripts/advanced_analysis/`)
-
-These scripts perform deeper analysis beyond the core pipeline. Run via `--advanced` flag or individually.
+These scripts power the cross-domain analysis paper. Each reads from `data/` and writes results/figures to `data/stage_2_*/`.
 
 | Script | Purpose |
 |--------|---------|
-| `3_analyze_circuit_multi.py` | Batch analysis across multiple circuits with multi-algorithm comparison |
-| `5_compare_prompts.py` | Cross-prompt comparison of circuit structure and bottleneck overlap |
-| `6_identify_targets.py` | Identifies high-leverage intervention targets from bottleneck analysis |
-| `6_visualize_validation.py` | Generates validation visualizations for circuit analysis results |
-| `7_extract_minimal_pathways.py` | Extracts the minimum viable circuit -- fewest nodes preserving prediction |
-| `8_supernode_evolution.py` | Tracks how supernode composition and roles evolve across layers |
-| `9_steering_analysis.py` | Analyzes potential for feature steering/intervention at bottleneck points |
-| `10_polysemanticity_analysis.py` | Measures semantic purity vs polysemanticity of bottleneck features |
-| `batch_query_features.py` | Batch queries to Neuronpedia API for feature descriptions |
-| `query_bottleneck_semantics.py` | Targeted semantic queries for bottleneck features |
-| `query_feature_semantics.py` | Individual feature semantic profiling via Neuronpedia |
+| `stage_2_cross_category_analysis.py` | Main cross-domain statistical analysis (ANOVA, regression, effect sizes) |
+| `stage_2_minimal_pathways.py` | Essential pathway extraction (94.1% redundancy finding) |
+| `stage_2_multi_algorithm_validation.py` | Community detection with 4 algorithms (Louvain, Leiden, Infomap, Label Prop) |
+| `stage_2_polysemanticity_analysis.py` | Semantic purity vs polysemanticity of bottleneck features |
+| `stage_2_expanded_steering.py` | Expanded D5 steering experiments (50 experiments, 10 features) |
+| `stage_2_essential_pathway_steering.py` | Essential-pathway steering validation (30 experiments, 5 features) |
+| `stage_2_layer_energy_analysis.py` | Per-layer activation energy profiling |
+| `stage_2_edge_flow_analysis.py` | Edge weight flow patterns across layers |
+| `stage_2_feature_coactivation.py` | Feature co-activation network analysis |
+| `stage_2_output_decomposition.py` | Output node contribution decomposition |
+| `stage_2_enhanced_analysis.py` | Enhanced circuit metrics (8 categories, 16 metrics) |
+| `stage_2_statistical_deepdive.py` | Extended statistical tests and outlier analysis |
+| `stage_2_outlier_analysis.py` | Circuit outlier identification |
+| `stage_2_batch_annotate.py` | Batch Neuronpedia annotation enrichment |
+| `stage_2_paper_figures.py` | Publication-quality figures for the paper |
+| `stage_2_*_figures.py` | Additional figure generation scripts |
+
+## Advanced Analysis (`scripts/advanced_analysis/`)
+
+Deeper per-circuit analysis. Run via `--advanced` flag or individually.
+
+| Script | Purpose |
+|--------|---------|
+| `3_analyze_circuit_multi.py` | Batch analysis with multi-algorithm comparison |
+| `5_compare_prompts.py` | Cross-prompt circuit structure comparison |
+| `6_identify_targets.py` | High-leverage intervention target identification |
+| `7_extract_minimal_pathways.py` | Minimum viable circuit extraction |
+| `8_supernode_evolution.py` | Supernode composition evolution across layers |
+| `9_steering_analysis.py` | Steering potential analysis at bottleneck points |
+| `10_polysemanticity_analysis.py` | Feature polysemanticity measurement |
 
 ## Skills (`skills/`)
 
@@ -85,28 +123,46 @@ Claude Code skills for interactive pipeline usage:
 - **neuronpedia-compare** -- Compare circuits across prompts/models
 - **neuronpedia-validate** -- Validate circuit analysis results
 - **neuronpedia-visualize** -- Generate and inspect visualizations
+- **neuronpedia-analyze** -- Run analysis steps on existing circuit data
+- **neuronpedia-fetch** -- Fetch feature descriptions from Neuronpedia API
 - **steering-validate** -- Validate bottleneck features via Neuronpedia Steering API
 - **circuit-report** -- Run full pipeline and generate comprehensive analysis report
 
 ## Key Concepts
 
 - **Traceback graphing**: Backward BFS from output to input with geometric decay (0.8) to score feature importance without exponential path explosion.
-- **Bottleneck convergence**: Features appearing in 60%+ of critical paths act as information gates. Where they occur in the layer stack determines what information survives to the output.
-- **Feature ID mapping**: Neuronpedia uses 16k SAE dictionaries, so `neuronpedia_id = circuit_tracer_id % 16384`. Only GEMMA features are currently queryable via the Neuronpedia feature API.
-- **Cross-circuit features**: Features that appear as bottlenecks across multiple prompts suggest universal circuit components rather than prompt-specific processing.
+- **Bottleneck convergence**: Features appearing in 60%+ of critical paths act as information gates. Layer position determines what information survives to output.
+- **Feature ID mapping**: Neuronpedia uses 16k SAE dictionaries, so `neuronpedia_id = circuit_tracer_id % 16384`. Only GEMMA features are currently queryable via the feature API.
+- **Essential pathways**: Minimal subgraph preserving model prediction. Only 5.9% of nodes are essential; the rest provide redundancy.
+- **Cross-circuit features**: Features appearing as bottlenecks across multiple prompts — universal circuit infrastructure rather than prompt-specific processing.
+- **Steering validation**: Causal testing via Neuronpedia Steering API. Amplify/suppress features and measure KL divergence + text change rate.
 
 ## Output Structure
 
-All generated data goes to `data/` (gitignored). Per-circuit outputs follow:
+All generated data goes to `data/` (gitignored).
 
 ```
-data/prompts/<model>_<prompt-slug>/
-  1_generation/    Raw API graph
-  2_conversion/    Standardized pipeline format
-  3_analysis/      Circuit analysis + traceback paths
-  4_visualizations/ PNG figures
+data/
+  prompts/<model>_<prompt-slug>/
+    1_generation/         Raw API graph
+    2_conversion/         Standardized pipeline format
+    3_analysis/           Circuit analysis + traceback paths
+    4_visualizations/     PNG figures
+
+  stage_1_5_bottleneck_library.json   Cross-circuit bottleneck library
+  stage_2_analysis/                   Cross-domain statistical results
+  stage_2_minimal_pathways/           Essential pathway data
+  stage_2_multi_algorithm/            Community detection validation
+  stage_2_polysemanticity/            Semantic purity analysis
+  stage_2_steering_validation/        Expanded steering (D5)
+  stage_2_essential_pathway_steering/  Pathway steering results
+  stage_2_figures/                    Publication figures
+  stage_3_steering/                   Original steering validation
 ```
 
-Cross-circuit results: `data/stage_1_5_bottleneck_library.json`, `data/stage_2_visualizations/`.
+## Documentation
 
-Steering validation: `data/stage_3_steering/` (baselines, results, analysis, report).
+- `docs/papers/CROSS_DOMAIN_CIRCUIT_PAPER.md` -- Main paper: cross-domain circuit analysis (18 findings)
+- `docs/papers/TRACEBACK_GRAPHING_PAPER.md` -- Original traceback graphing methodology paper
+- `docs/papers/SEMANTIC_TAXONOMY_METHODOLOGY.md` -- Feature classification methodology
+- `docs/papers/TOKEN_ATTRIBUTION_VALIDATION.md` -- Token attribution validation study
