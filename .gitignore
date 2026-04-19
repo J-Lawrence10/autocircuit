@@ -84,8 +84,11 @@ neuronpedia_pipeline/skills/archive_*/
 neuronpedia_pipeline/skills/_archive/
 neuronpedia_pipeline/skills/*.zip
 
-# Documentation (README covers essentials)
-neuronpedia_pipeline/docs/
+# Documentation — keep papers and plans, ignore legacy notes
+neuronpedia_pipeline/docs/analyses/
+neuronpedia_pipeline/docs/archive/
+neuronpedia_pipeline/docs/guides/
+neuronpedia_pipeline/docs/*.md
 
 # Superpowers (external dependency)
 neuronpedia_pipeline/superpowers/
