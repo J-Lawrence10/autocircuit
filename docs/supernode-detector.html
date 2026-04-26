@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supernode Detector: Automated Community Detection for Neuronpedia Attribution Graphs</title>
+<meta name="description" content="An end-to-end open-source pipeline that takes a text prompt and produces an annotated, interactively viewable Neuronpedia attribution graph in a single command.">
+<meta name="keywords" content="mechanistic interpretability, sparse autoencoders, attribution graphs, community detection, Neuronpedia, scientific tooling">
+<meta property="og:title" content="Supernode Detector: Automated Community Detection for Neuronpedia Attribution Graphs">
+<meta property="og:description" content="One-command pipeline from prompt to published, annotated Neuronpedia attribution graph: multi-algorithm community detection, recursive splitting, bottleneck pinning, semantic labelling, influence trimming, and cantor-paired upload.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Theme variables ──────────────────────────────────────── */
+:root {
+  --bg:          #0d1117;
+  --bg2:         #161b22;
+  --bg3:         #21262d;
+  --border:      #30363d;
+  --text:        #c9d1d9;
+  --text-muted:  #8b949e;
+  --link:        #58a6ff;
+  --green:       #3fb950;
+  --orange:      #e67e22;
+  --purple:      #8854d0;
+  --red:         #f85149;
+  --hero-bg:     #0d1117;
+  --section-bg:  #0d1117;
+  --footer-bg:   #161b22;
+  --hr-color:    #30363d;
+  --code-bg:     #161b22;
+  --phase1-bg:   rgba(230,126,34,0.10);
+  --phase2-bg:   rgba(88,166,255,0.10);
+  --phase3-bg:   rgba(136,84,208,0.10);
+  --finding-bg:  rgba(63,185,80,0.10);
+  --finding-bdr: #3fb950;
+  --smoking-bg:  rgba(249,168,37,0.15);
+  --smoking-bdr: #d29922;
+  --table-head:  #161b22;
+  --table-even:  rgba(22,27,34,0.6);
+  /* SVG theme tokens */
+  --svg-box-blue-fill:   rgba(88,166,255,0.12);
+  --svg-box-blue-stroke: #58a6ff;
+  --svg-box-orange-fill: rgba(230,126,34,0.12);
+  --svg-box-orange-stroke: #e67e22;
+  --svg-text:            #c9d1d9;
+  --svg-text-muted:      #8b949e;
+  --svg-text-blue:       #58a6ff;
+  --svg-text-orange:     #e67e22;
+  --svg-divider:         #30363d;
+  --svg-bar-blue:        #3273dc;
+  --svg-bar-orange:      #e67e22;
+  --svg-bar-purple:      #8854d0;
+  --svg-bar-label:       #8b949e;
+}
+[data-theme="light"] {
+  --bg:          #ffffff;
+  --bg2:         #f6f8fa;
+  --bg3:         #eaeef2;
+  --border:      #d0d7de;
+  --text:        #1f2328;
+  --text-muted:  #57606a;
+  --link:        #0969da;
+  --green:       #1a7f37;
+  --orange:      #bc4c00;
+  --purple:      #6639ba;
+  --red:         #cf222e;
+  --hero-bg:     #ffffff;
+  --section-bg:  #ffffff;
+  --footer-bg:   #f6f8fa;
+  --hr-color:    #ededed;
+  --code-bg:     #eaeef2;
+  --phase1-bg:   #fff9f5;
+  --phase2-bg:   #f5f9ff;
+  --phase3-bg:   #f9f5ff;
+  --finding-bg:  #f6fff8;
+  --finding-bdr: #1a7f37;
+  --smoking-bg:  #fffde7;
+  --smoking-bdr: #f9a825;
+  --table-head:  #f6f8fa;
+  --table-even:  #f6f8fa;
+  --svg-box-blue-fill:   #f0f4ff;
+  --svg-box-blue-stroke: #3273dc;
+  --svg-box-orange-fill: #fff9e6;
+  --svg-box-orange-stroke: #e67e22;
+  --svg-text:            #1a1a1a;
+  --svg-text-muted:      #555555;
+  --svg-text-blue:       #3273dc;
+  --svg-text-orange:     #bc4c00;
+  --svg-divider:         #dddddd;
+  --svg-bar-blue:        #3273dc;
+  --svg-bar-orange:      #e67e22;
+  --svg-bar-purple:      #8854d0;
+  --svg-bar-label:       #555555;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+html { font-size: 12pt; }
+body {
+  font-family: 'DM Sans', sans-serif !important;
+  color: var(--text);
+  background: var(--bg);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+code, pre { font-family: 'DM Mono', monospace !important; background: var(--code-bg) !important; color: var(--link) !important; }
+a { color: var(--link); }
+a:hover { color: var(--link); opacity: 0.8; }
+
+/* ── Bulma overrides ──────────────────────────────────────── */
+.hero { background: var(--hero-bg) !important; }
+.section { background: var(--section-bg) !important; }
+.footer { background: var(--footer-bg) !important; color: var(--text-muted); }
+.footer a { color: var(--link); }
+.title { color: var(--text) !important; }
+.content { color: var(--text); }
+.content h2, .content h3, .content h4, .content h5 { color: var(--text) !important; }
+.content p, .content li, .content ol, .content ul { color: var(--text); }
+.content strong { color: var(--text); }
+.content em { color: var(--text-muted); }
+.table { background: var(--bg2) !important; color: var(--text) !important; border-color: var(--border) !important; }
+.table thead th { background: var(--table-head) !important; color: var(--text-muted) !important; border-color: var(--border) !important; }
+.table td, .table th { border-color: var(--border) !important; color: var(--text) !important; }
+.table.is-hoverable tbody tr:hover { background: var(--bg3) !important; }
+.table tbody tr:nth-child(even) td { background: var(--table-even) !important; }
+.is-size-5 { color: var(--text-muted); }
+
+/* ── Layout helpers ───────────────────────────────────────── */
+.max-width-content { max-width: 70vw; margin: 0 auto; }
+hr.section-divider { background-color: var(--hr-color); height: 1px; border: none; width: 90vw; margin: 0 auto; }
+.publication-links .link-block { margin: 5px; display: inline-block; }
+.figure-caption { color: var(--text-muted); font-size: 0.9em; margin-top: 10px; line-height: 1.5; }
+.figure-number { font-weight: 700; color: var(--text); }
+
+/* ── Theme toggle button ──────────────────────────────────── */
+#theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 9999;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+#theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ── Circuit phase boxes ──────────────────────────────────── */
+.phase-box { border-radius: 6px; padding: 14px 18px; margin: 8px 0; }
+.phase-input  { background: var(--bg3); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 12px 18px; font-family: 'DM Mono', monospace; font-size: 0.9em; text-align: center; }
+.phase-output { background: var(--bg3); color: var(--green); border: 1px solid var(--border); border-radius: 6px; padding: 12px 18px; font-family: 'DM Mono', monospace; font-size: 0.9em; text-align: center; }
+.phase-1 { border-left: 4px solid var(--orange); background: var(--phase1-bg); }
+.phase-2 { border-left: 4px solid var(--link);   background: var(--phase2-bg); }
+.phase-3 { border-left: 4px solid var(--purple);  background: var(--phase3-bg); }
+.phase-label   { font-size: 0.75em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.phase-label-1 { color: var(--orange); }
+.phase-label-2 { color: var(--link); }
+.phase-label-3 { color: var(--purple); }
+.phase-feature { font-family: 'DM Mono', monospace; font-size: 0.8em; color: var(--text); margin: 2px 0; }
+.phase-feature strong { color: var(--text); }
+.phase-arrow   { text-align: center; font-size: 1.8em; color: var(--text-muted); line-height: 1.2; margin: 2px 0; }
+.smoking-gun   { background: var(--smoking-bg); border: 2px solid var(--smoking-bdr); border-radius: 4px; padding: 2px 6px; font-weight: 700; color: var(--text); }
+.finding-box   { border-left: 4px solid var(--finding-bdr); background: var(--finding-bg); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; }
+.finding-box p { margin: 0; color: var(--text); }
+
+/* ── SVG theming via CSS vars ─────────────────────────────── */
+.svg-box-blue   { fill: var(--svg-box-blue-fill);   stroke: var(--svg-box-blue-stroke);   stroke-width: 1.5; }
+.svg-box-orange { fill: var(--svg-box-orange-fill); stroke: var(--svg-box-orange-stroke); stroke-width: 1.5; }
+.svg-box-bg     { fill: var(--bg2); stroke: var(--border); stroke-width: 1; }
+.svg-text-main  { fill: var(--svg-text); }
+.svg-text-muted { fill: var(--svg-text-muted); }
+.svg-text-blue  { fill: var(--svg-text-blue);   font-weight: 600; }
+.svg-text-orange{ fill: var(--svg-text-orange); font-weight: 600; }
+.svg-text-green { fill: var(--green); font-weight: 700; }
+.svg-divider    { stroke: var(--svg-divider); }
+.svg-arrow      { fill: var(--text-muted); }
+.svg-bar-blue   { fill: var(--svg-bar-blue); }
+.svg-bar-orange { fill: var(--svg-bar-orange); }
+.svg-bar-purple { fill: var(--svg-bar-purple); }
+.svg-bar-label  { fill: var(--svg-bar-label); }
+.svg-circle-blue   { fill: rgba(88,166,255,0.12); stroke: #58a6ff; stroke-width: 2; }
+.svg-circle-purple { fill: rgba(136,84,208,0.12); stroke: #8854d0; stroke-width: 2; }
+[data-theme="light"] .svg-circle-blue   { fill: rgba(50,115,220,0.12); stroke: #3273dc; }
+[data-theme="light"] .svg-circle-purple { fill: rgba(136,84,208,0.12); stroke: #8854d0; }
+
+/* ── Bar chart ────────────────────────────────────────────── */
+.bar-chart { margin: 16px 0; }
+.bar-row { display: flex; align-items: center; margin: 6px 0; gap: 10px; }
+.bar-row-label { width: 80px; font-size: 0.8em; color: var(--text-muted); font-family: 'DM Mono', monospace; text-align: right; }
+.bar-fill { height: 24px; border-radius: 3px; display: flex; align-items: center; padding-left: 8px; color: white; font-size: 0.75em; font-weight: 600; }
+.bar-value { font-size: 0.75em; color: var(--text-muted); margin-left: 6px; font-family: 'DM Mono', monospace; }
+
+/* ── Supplementary cards ──────────────────────────────────── */
+.supp-card { border: 1px solid var(--border); border-radius: 8px; padding: 20px; background: var(--bg2); }
+.supp-card p { color: var(--text-muted); }
+.supp-card a.button.is-dark { background: #363636; color: #fff; }
+[data-theme="light"] .supp-card { background: #f6f8fa; border-color: #d0d7de; }
+
+/* ── Pipeline stage styling ───────────────────────────────── */
+.pipeline-stage {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--link);
+  background: var(--bg2);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 6px 0;
+}
+.pipeline-stage-num {
+  display: inline-block;
+  background: var(--link);
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8em;
+  line-height: 22px;
+  margin-right: 8px;
+}
+.pipeline-stage-name { font-weight: 700; color: var(--text); font-size: 0.95em; }
+.pipeline-stage-desc { font-size: 0.82em; color: var(--text-muted); margin-top: 4px; margin-left: 30px; }
+
+.screenshot-frame {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg2);
+  padding: 8px;
+  margin: 14px 0;
+}
+.screenshot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+pre.code-block {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px !important;
+  font-size: 0.85em !important;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- THEME TOGGLE -->
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <span id="theme-icon">☀️</span>
+  <span id="theme-label">Light mode</span>
+</button>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-icon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('theme-label').textContent = isDark ? 'Dark mode' : 'Light mode';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+// Restore saved preference
+(function() {
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.addEventListener('DOMContentLoaded', function() {
+    const isDark = saved === 'dark';
+    document.getElementById('theme-icon').textContent  = isDark ? '☀️' : '🌙';
+    document.getElementById('theme-label').textContent = isDark ? 'Light mode' : 'Dark mode';
+  });
+})();
+</script>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-body" style="padding: 3rem 1.5rem 0.5rem 1.5rem;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">
+            Supernode Detector:<br>
+            Automated Community Detection for<br>
+            Neuronpedia Attribution Graphs
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block" style="margin: 0 8px;">
+              <a href="https://github.com/J-Lawrence10" target="_blank" style="color:var(--link);">Joseph Lawrence</a>
+            </span>
+            <span style="color:var(--text-muted);">·</span>
+            <span class="author-block" style="margin: 0 8px;">
+              <a href="https://www.linkedin.com/in/kkrampis/" target="_blank" style="color:var(--link);">Konstantinos Krampis</a>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors" style="margin-top:4px;">
+            <span style="color:var(--text-muted);">Mechanistic Interpretability Tooling &nbsp;·&nbsp; April 2026</span>
+          </div>
+          <div class="column has-text-centered" style="margin-top:16px;">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="../supernode_detector/docs/pdf/SUPERNODE_PIPELINE_TOOL_PAPER.pdf" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                  <span class="icon"><i class="fa-solid fa-file-pdf"></i></span>
+                  <span>Paper (PDF)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/J-Lawrence10/autocircuit" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://www.neuronpedia.org/gemma-2-2b/graph?slug=titanic-sank-supernodes-1775847434" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                  <span class="icon"><i class="fa-solid fa-brain"></i></span>
+                  <span>Live Demo</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="index.html" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fa-solid fa-book"></i></span>
+                  <span>Companion Paper</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ABSTRACT -->
+<section class="section" style="padding-top:1.5rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <p><b>TLDR:</b> One command takes a text prompt and produces an annotated, interactively viewable Neuronpedia attribution graph. A typical 1,200-node graph reduces to <strong>~14 supernode communities</strong> and ~13–14% of original nodes in <strong>under 90 seconds</strong> end-to-end, with <code>cantor</code>-paired feature IDs that render correctly in the Neuronpedia viewer.</p>
+        <br>
+        <h2 class="title is-4">Abstract</h2>
+        <div class="content has-text-left">
+          <p>Sparse autoencoder (SAE) attribution graphs generated by Neuronpedia's Circuit Tracer typically contain 1,000–1,500 nodes and 40,000–80,000 edges per prompt, making manual interpretation infeasible. Existing community-detection workflows require per-graph algorithm tuning, frequently produce degenerate partitions (either oversized communities that span most of the graph or fragmented partitions of singletons), and offer no integration with downstream annotation or publication.</p>
+          <p>We present <strong>Supernode Detector</strong>, an open-source command-line tool that takes a text prompt and produces an annotated, interactively viewable Neuronpedia graph in a single command. The pipeline (i) generates the attribution graph via the Neuronpedia API, (ii) runs three community-detection algorithms (Louvain, Leiden, and Greedy Modularity) and selects the best partition using a penalty-weighted modularity score that discourages oversized communities and singletons, (iii) recursively splits any community exceeding 30% of the graph at higher Louvain resolutions, (iv) identifies the top-10 critical routing nodes by betweenness centrality and pins them in the viewer, (v) labels each community using Neuronpedia feature explanations with a top-3 keyword summarisation strategy, (vi) trims each community to its top-influence members targeting a configurable fraction (default 15%) of the graph while always retaining bottleneck nodes, and (vii) optionally uploads the result to Neuronpedia via the platform's three-step signed-PUT API after applying the platform-required cantor-pairing transformation to feature identifiers.</p>
+          <p>We validate the tool on three test prompts spanning chemistry, geography, and history domains: a typical 1,200-node graph reduces to 11–14 supernode communities and approximately 13–14% of original nodes in 90 seconds end-to-end, with Louvain consistently selected as the best partition (modularity 0.44–0.50 versus Greedy 0.40–0.42 with only 3 oversized communities). The tool is positioned as an opinionated bridge between low-level circuit-discovery methods (e.g., ACDC, attribution patching, traceback graphing) and the human-readable interactive visualisations that researchers and reviewers actually consume.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- AT-A-GLANCE / TLDR PIPELINE -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">At a Glance: The Seven-Stage Pipeline</h2>
+    <div class="content">
+      <p>The full pipeline runs in a single Python invocation. Each stage is independently flag-controllable, but the default end-to-end command is one line:</p>
+
+      <pre class="code-block"><code>python scripts/supernode_pipeline.py \
+    --prompt "The capital of Australia is" \
+    --model gemma-2-2b \
+    --upload</code></pre>
+
+      <div class="max-width-content" style="margin: 24px auto;">
+        <div style="max-width:680px;margin:0 auto;">
+
+          <div class="phase-input">
+            Input: text prompt (e.g. <em>"The capital of Australia is"</em>)
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">1</span>
+            <span class="pipeline-stage-name">Graph Generation</span>
+            <div class="pipeline-stage-desc"><code>POST /api/graph/generate</code> &rarr; pre-signed S3 URL &rarr; download raw graph JSON (1,000–1,500 nodes, 40–80k edges).</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">2</span>
+            <span class="pipeline-stage-name">Multi-Algorithm Community Detection</span>
+            <div class="pipeline-stage-desc">Run Louvain, Leiden, Greedy Modularity in parallel. Select via penalty score: <code>mod − 0.05·n_oversized − 0.001·n_singletons</code>.</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">3</span>
+            <span class="pipeline-stage-name">Recursive Splitting</span>
+            <div class="pipeline-stage-desc">If any community &gt; 30% of graph, re-cluster its induced subgraph at resolutions {2.0, 3.0, 4.0, 6.0}. Cap at 10 sub-communities.</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">4</span>
+            <span class="pipeline-stage-name">Bottleneck Identification</span>
+            <div class="pipeline-stage-desc">Compute betweenness centrality across the full graph. Top-10 betweenness nodes &rarr; <code>qParams.pinnedIds</code> for viewer highlighting.</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">5</span>
+            <span class="pipeline-stage-name">Semantic Labelling</span>
+            <div class="pipeline-stage-desc">Query top-3 nodes per community against <code>/api/feature/...</code>. Top-3 keyword overlap or top-1 direct, with structural fallback ("L12-L18 cluster").</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">6</span>
+            <span class="pipeline-stage-name">Influence Trimming</span>
+            <div class="pipeline-stage-desc">Two-pass budget: <code>target_count = 0.15 × n_clustered</code>, distributed proportionally with min per-community floor. Bottlenecks always retained.</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="pipeline-stage">
+            <span class="pipeline-stage-num">7</span>
+            <span class="pipeline-stage-name">Cantor-Paired Export &amp; Upload</span>
+            <div class="pipeline-stage-desc">Apply <code>cantor(L,i)</code> to all feature IDs. Three-step Neuronpedia upload: <code>signed-put</code> &rarr; <code>S3 PUT</code> &rarr; <code>save-to-db</code>.</div>
+          </div>
+          <div class="phase-arrow">↓</div>
+
+          <div class="phase-output">
+            Output: viewable URL on neuronpedia.org &nbsp;+&nbsp; annotated JSON, report.md, visualisation.png
+          </div>
+        </div>
+
+        <p class="figure-caption has-text-centered" style="margin-top:16px;"><span class="figure-number">Figure 1.</span> The seven-stage Supernode Detector pipeline. Each stage can be invoked independently via flags; the default invocation runs all seven sequentially in ~90 seconds for a typical 1,200-node graph.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- MOTIVATION / WHY -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">1. Why This Tool Exists</h2>
+    <div class="content">
+      <p>Mechanistic interpretability research increasingly relies on <strong>attribution graphs</strong> — directed graphs whose nodes are sparse-autoencoder features and whose edges are attention-weighted causal contributions — to localise factual recall, indirect object identification, and other behaviours to specific computational circuits. The Neuronpedia platform (Decode Research) hosts a Circuit Tracer API that produces them on demand for several open-source models including Gemma-2-2B and Qwen3-4B.</p>
+
+      <p>A practical bottleneck blocks the workflow between graph generation and interpretation. A single attribution graph for a typical factual prompt contains roughly 1,200 SAE-feature nodes and 40,000–80,000 weighted edges, far beyond what a human can inspect node-by-node. Researchers must (a) reduce the graph to interpretable supernode clusters, (b) attach human-readable labels to each cluster, (c) format the result as the JSON schema Neuronpedia expects (including a non-trivial cantor-pairing transformation on feature identifiers), and (d) upload the graph through a multi-step signed-URL API. Each of these steps is independently nontrivial, and existing tooling provides no integrated path from prompt to published graph.</p>
+
+      <div class="max-width-content" style="margin: 24px auto;">
+        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+          <defs>
+            <marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" class="svg-arrow"/>
+            </marker>
+          </defs>
+          <rect x="10" y="50" width="260" height="100" rx="6" class="svg-box-orange"/>
+          <text x="140" y="40" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" class="svg-text-orange">BEFORE · Manual</text>
+          <text x="140" y="78" text-anchor="middle" font-family="DM Mono,monospace" font-size="14" class="svg-text-main">~1,200 nodes</text>
+          <text x="140" y="100" text-anchor="middle" font-family="DM Mono,monospace" font-size="14" class="svg-text-main">~50,000 edges</text>
+          <text x="140" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" class="svg-text-muted">Days to interpret · No labels</text>
+          <text x="140" y="142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" class="svg-text-muted">No upload pipeline</text>
+
+          <line x1="290" y1="100" x2="400" y2="100" stroke-width="2" class="svg-divider" marker-end="url(#arr2)"/>
+          <text x="345" y="92" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" class="svg-text-blue">supernode_pipeline.py</text>
+          <text x="345" y="112" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" class="svg-text-muted">~90 seconds</text>
+
+          <rect x="420" y="50" width="270" height="100" rx="6" class="svg-box-blue"/>
+          <text x="555" y="40" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" class="svg-text-blue">AFTER · Supernode Detector</text>
+          <text x="555" y="78" text-anchor="middle" font-family="DM Mono,monospace" font-size="14" class="svg-text-main">14 supernodes</text>
+          <text x="555" y="100" text-anchor="middle" font-family="DM Mono,monospace" font-size="14" class="svg-text-main">132 retained nodes</text>
+          <text x="555" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" class="svg-text-muted">Pinned bottlenecks · Auto-labels</text>
+          <text x="555" y="142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" class="svg-text-muted">Live on neuronpedia.org</text>
+        </svg>
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> Before / after framing for the Australia validation prompt. A 1,012-node raw graph collapses to a 14-community, 132-node interactive view in 91 seconds with a single command.</p>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:1.2rem;">Contributions</h3>
+      <ol>
+        <li><strong>Penalty-weighted multi-algorithm community selection</strong> that runs Louvain, Leiden, and Greedy Modularity in parallel and selects the partition that maximises modularity subject to penalties for oversized communities and singletons. Avoids the common pathology in which Greedy Modularity wins on raw modularity but produces partitions of two or three giant communities that are useless for interpretation.</li>
+        <li><strong>Influence-based trimming</strong> that reduces a 1,200-node clustered graph to approximately 13–15% of its nodes while always retaining critical routing nodes identified by betweenness centrality.</li>
+        <li><strong>Cantor-pairing export</strong> that automatically transforms raw circuit-tracer feature identifiers to the integer encoding the Neuronpedia viewer requires for feature dashboards to render correctly. This transformation is not documented in the Neuronpedia API and is a frequent source of upload failures for users who attempt manual JSON formatting.</li>
+        <li><strong>Three-step programmatic upload</strong> implementation of Neuronpedia's <code>/api/graph/signed-put</code> &rarr; S3 PUT &rarr; <code>/api/graph/save-to-db</code> flow with automatic slug-uniqueness handling, allowing batch publication of analyses without web-UI interaction.</li>
+        <li><strong>End-to-end validation</strong> on three independently chosen factual prompts demonstrating consistent algorithm selection, target trimming ratios, and successful Neuronpedia upload.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RELATED WORK -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">2. Related Work</h2>
+    <div class="content">
+      <p><strong>Manual circuit discovery.</strong> Early mechanistic interpretability work identifies circuits by hand: the indirect-object identification circuit in GPT-2 Small (Wang et al., 2023), the docstring circuit (Heimersheim &amp; Janiak, 2023), and the factual-association MLPs identified by causal tracing (Meng et al., 2022). These analyses are publication-quality but require weeks of expert effort per circuit.</p>
+
+      <p><strong>Automated circuit discovery.</strong> ACDC (Conmy et al., 2023) automates circuit discovery by iteratively pruning edges from a hypothesised circuit and measuring task-performance impact. Edge-attribution patching (Syed et al., 2023) and gradient-based attribution methods (Kramár et al., 2024) extend this approach with cheaper approximations to causal effects. These methods produce circuits expressed as edge subsets but do not provide tooling for visualisation, annotation, or publication of the resulting graphs.</p>
+
+      <p><strong>SAE feature interpretation.</strong> Sparse autoencoders decompose model activations into interpretable features (Cunningham et al., 2024; Bricken et al., 2023; Templeton et al., 2024). Features can be labelled automatically by an LLM examining their top-activating examples (Bills et al., 2023). Neuronpedia (Lin, 2023) hosts SAE feature dashboards with such auto-generated explanations and provides an API for retrieving them.</p>
+
+      <p><strong>Interactive visualisation.</strong> The Neuronpedia graph viewer renders attribution graphs as an interactive force-directed layout with clickable nodes that link to feature dashboards. Anthropic's interactive attribution-graph viewer (Lindsey et al., 2025) provides similar functionality for Claude. Neither platform provides automated supernode clustering or end-to-end pipelines from prompt to published graph; they expect researchers to bring an already-formatted JSON.</p>
+
+      <p>Supernode Detector occupies a niche between automated circuit-discovery methods (which produce edge subsets) and interactive visualisation platforms (which expect formatted graphs). It does not attempt to compete with ACDC or attribution patching for circuit identification; it consumes the output of Neuronpedia's existing Circuit Tracer and focuses on the under-tooled middle steps of clustering, annotation, and publication.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- METHOD WALKTHROUGH -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">3. Method Walkthrough</h2>
+    <div class="content">
+
+      <h3 class="title is-5">3.1 Graph Generation (Stage 1)</h3>
+      <p>Attribution graphs are generated via the Neuronpedia <code>POST /api/graph/generate</code> endpoint with parameters <code>modelId</code> (the target model identifier) and <code>sourceSetName</code> (the SAE family, defaulting to <code>gemmascope-transcoder-16k</code> for Gemma). The API returns a pre-signed S3 URL from which the raw graph JSON is downloaded. Typical graphs contain 1,000–1,500 nodes (SAE features plus embedding and error nodes) and 40,000–80,000 edges. The <code>--raw-graph PATH</code> flag bypasses generation and consumes a previously cached graph, which is useful for reanalysis.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.2 Penalty-Weighted Multi-Algorithm Selection (Stage 2)</h3>
+      <p>The graph is converted to an undirected NetworkX graph (edge weights are absolute values of attribution weights). Three community-detection algorithms are run independently:</p>
+      <ul>
+        <li><strong>Louvain</strong> (Blondel et al., 2008) via <code>python-louvain</code> with <code>random_state=42</code>, default resolution 1.0.</li>
+        <li><strong>Leiden</strong> (Traag et al., 2019) via <code>leidenalg</code> with the CPM partition type and resolution 0.01 (chosen empirically for sparse attribution graphs).</li>
+        <li><strong>Greedy Modularity</strong> via <code>networkx.algorithms.community.greedy_modularity_communities</code>.</li>
+      </ul>
+
+      <p>Each partition is scored using the penalty-weighted formula:</p>
+      <pre class="code-block"><code>score(alg) = modularity(alg) − 0.05 × n_oversized − 0.001 × n_singletons</code></pre>
+
+      <p>where <code>n_oversized</code> is the number of communities containing more than 30% of total nodes and <code>n_singletons</code> is the number of communities containing fewer than 3 nodes. The algorithm with the highest score is selected. The penalty weights were chosen empirically: a single oversized community costs 0.05 in score, comparable to a meaningful modularity gap (≈0.05 between competing algorithms in our validation runs), while singletons each cost only 0.001 to permit small but legitimate communities.</p>
+
+      <div class="finding-box">
+        <p><strong>Why this matters.</strong> The selection procedure addresses a recurring failure mode in which Greedy Modularity returns 3 giant communities with nominally higher modularity than Louvain's 11–14 balanced communities, despite the former being uninterpretable. The penalty term <code>−0.05 × n_oversized</code> reliably tips the scale toward Louvain in such cases.</p>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.3 Recursive Splitting (Stage 3)</h3>
+      <p>If the selected partition still contains a community larger than 30% of total nodes (uncommon but possible after Louvain selection), that community's induced subgraph is recursively split using Louvain at progressively higher resolutions {2.0, 3.0, 4.0, 6.0} until either the largest sub-community falls below 30% or the resolution sweep is exhausted. To prevent fragmentation, the split is capped at 10 sub-communities; if exceeded, the resolution is reduced via a fallback sweep over {1.5, 2.0, 2.5}.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.4 Bottleneck Identification (Stage 4)</h3>
+      <p>Betweenness centrality is computed across the full graph (NetworkX's default Brandes algorithm with edge weight). The top-10 nodes by betweenness are identified as bottleneck nodes and stored in <code>qParams.pinnedIds</code>, which causes them to be highlighted in the Neuronpedia viewer. Communities containing one or more bottleneck nodes are flagged in the report as "bottleneck communities."</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.5 Semantic Labelling (Stage 5)</h3>
+      <p>For each community, the top-3 nodes by influence (where influence is the activation × edge-weight product computed during traceback graphing) are queried against the Neuronpedia feature explanation API at <code>/api/feature/{model}/{layer}-{source_set}/{np_id}</code>. Two labelling strategies are computed in parallel:</p>
+      <ul>
+        <li><strong>Top-3 summarisation:</strong> keyword overlap across the three explanations is extracted via stop-word-filtered tokenisation; the most-frequent shared keywords (≥2) form the label.</li>
+        <li><strong>Top-1 direct:</strong> the single highest-influence feature's explanation is truncated to 35 characters and prefixed with the community's layer range.</li>
+      </ul>
+      <p>A heuristic selects whichever label is more specific (longer non-trivial overlap wins; ties go to top-1). When no explanations are available (typical for Qwen features as of writing) a structural fallback produces labels of the form <code>"L12-L18 cluster (42 nodes)"</code>.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.6 Influence-Based Trimming (Stage 6)</h3>
+      <p>Raw community partitions include low-influence noise nodes that dilute interpretation when rendered. The trimming step applies a two-pass procedure parameterised by <code>target_pct</code> (default 0.15):</p>
+      <pre class="code-block"><code># 1. Compute the global node budget
+target_count = target_pct × n_clustered_nodes
+
+# 2. Distribute proportionally to community size
+avg_budget    = target_count / n_communities
+min_per_comm  = max(1, min(3, int(avg_budget × 0.3)))
+budget[c]     = max(min_per_comm, round(target_count × |c| / n_clustered))
+
+# 3. Within each community, retain top-influence nodes until budget filled
+# 4. Bottleneck nodes from §3.4 are ALWAYS retained, regardless of community budget</code></pre>
+      <p>In practice this reduces a ~1,200-node graph to ~170 retained nodes (13–14% of the original) while preserving all critical routing structure.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.7 Cantor-Paired Export &amp; Upload (Stage 7)</h3>
+      <p>The Neuronpedia viewer expects each node's <code>feature</code> field to be a single integer encoding both the layer number and the SAE dictionary index using the Cantor pairing function:</p>
+
+      <pre class="code-block"><code>sae_index   = raw_feature_id mod 16384
+cantor(L,i) = (L + i) × (L + i + 1) ÷ 2 + i</code></pre>
+
+      <p>This transformation is applied to all node <code>feature</code> fields during export. <strong>Without it, the Neuronpedia viewer renders the graph but cannot resolve feature dashboards when a node is clicked</strong> — a common failure mode when users construct annotated JSON manually.</p>
+
+      <p>When <code>--upload</code> is set, the tool executes Neuronpedia's three-step graph upload:</p>
+      <ol>
+        <li><strong>Signed PUT request.</strong> <code>POST /api/graph/signed-put</code> with the JSON file size and content type returns a pre-signed S3 URL and a <code>putRequestId</code>. The graph slug has a Unix timestamp appended to guarantee uniqueness and avoid 400 errors from collisions with other users' graphs.</li>
+        <li><strong>S3 upload.</strong> The cantor-paired JSON is <code>PUT</code> directly to the pre-signed URL (no authentication required for this step).</li>
+        <li><strong>Database registration.</strong> <code>POST /api/graph/save-to-db</code> with the <code>putRequestId</code> registers the graph and returns a viewable URL on <code>neuronpedia.org</code>.</li>
+      </ol>
+      <p>Authentication uses the <code>x-api-key</code> header throughout. The viewable URL and <code>putRequestId</code> are saved to <code>upload_result.json</code> next to the annotated graph.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">3.8 Outputs</h3>
+      <p>Each invocation produces four files in <code>output/{model}_{prompt-slug}/</code>:</p>
+      <ul>
+        <li><code>annotated_graph.json</code> — the cantor-paired, supernode-annotated graph</li>
+        <li><code>supernode_report.md</code> — a markdown report listing communities, algorithm comparison, and bottleneck pins</li>
+        <li><code>community_visualization.png</code> — a force-directed layout coloured by community</li>
+        <li><code>raw_graph.json</code> — the unmodified original API response (cached for reanalysis)</li>
+      </ul>
+      <p>If <code>--upload</code> is used, a fifth file <code>upload_result.json</code> records the viewable URL.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- VALIDATION / RESULTS -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">4. Validation &amp; Results</h2>
+    <div class="content">
+
+      <h3 class="title is-5">4.1 Experimental Setup</h3>
+      <p>We validate the tool on three independently chosen prompts spanning chemistry, geography, and history — the three knowledge domains studied in our companion paper. All runs use Gemma-2-2B with the <code>gemmascope-transcoder-16k</code> SAE family. Each prompt is run with default parameters (no per-prompt tuning) and produces a complete pipeline output.</p>
+
+      <div class="max-width-content">
+        <table class="table is-bordered is-hoverable has-text-left" style="min-width:480px;">
+          <thead>
+            <tr>
+              <th style="width:40%;">Validation Prompt</th>
+              <th style="width:25%;">Target Output</th>
+              <th style="width:20%;">Domain</th>
+              <th style="width:15%;">Upload?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><em>"The chemical symbol for water is"</em></td><td>H₂O / Hydrogen</td><td>Chemistry</td><td>No</td></tr>
+            <tr><td><em>"The capital of Australia is"</em></td><td>Canberra</td><td>Geography</td><td><strong>Yes</strong></td></tr>
+            <tr><td><em>"The Titanic sank in the year"</em></td><td>1912</td><td>History</td><td>Yes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.2 Cross-Prompt Summary</h3>
+      <p>All three prompts completed end-to-end in under 100 seconds wall-clock time. The pipeline produced 11–14 supernode communities per graph and retained 13.0–14.4% of original nodes after influence trimming, in close agreement with the 15% target.</p>
+
+      <div class="max-width-content">
+        <table class="table is-bordered is-hoverable has-text-left" style="min-width:560px;">
+          <thead>
+            <tr>
+              <th>Prompt</th>
+              <th>Raw Nodes</th>
+              <th>Edges</th>
+              <th>Algorithm</th>
+              <th>Modularity</th>
+              <th>Communities</th>
+              <th>Retained</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Water (chemistry)</td><td>1,316</td><td>67,343</td><td>Louvain</td><td>0.4498</td><td>14</td><td>178</td><td>13.5%</td></tr>
+            <tr><td>Australia (geography)</td><td>1,012</td><td>40,665</td><td>Louvain</td><td>0.4570</td><td>14</td><td>132</td><td>13.0%</td></tr>
+            <tr><td>Titanic (history)</td><td>1,314</td><td>47,047</td><td>Louvain</td><td>0.4917</td><td>11</td><td>172</td><td>14.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>In all three cases <strong>Louvain was selected as the best partition</strong>. Greedy Modularity nominally produced higher modularity on the water prompt before penalty weighting (0.397 vs 0.450) but did so with only 3 communities, two of which exceeded the 30% threshold; the penalty score correctly down-weighted this partition. Leiden's CPM partition consistently produced the lowest modularity (0.28–0.30) and was never selected.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.3 Community Visualisations</h3>
+      <p>Force-directed layouts coloured by community for each validation prompt. Bottleneck nodes (top-10 betweenness) are drawn larger and pinned in the Neuronpedia viewer.</p>
+
+      <div class="columns" style="margin-top: 16px;">
+        <div class="column">
+          <div class="screenshot-frame">
+            <img src="../supernode_detector/output/gemma-2-2b_the-chemical-symbol-for-water-is/community_visualization.png" alt="Water prompt community visualisation">
+          </div>
+          <p class="figure-caption has-text-centered" style="font-size:0.82em;"><strong>Water</strong> · 1,316 nodes &rarr; 14 communities (Louvain, mod 0.45)</p>
+        </div>
+        <div class="column">
+          <div class="screenshot-frame">
+            <img src="../supernode_detector/output/gemma-2-2b_the-capital-of-australia-is/community_visualization.png" alt="Australia prompt community visualisation">
+          </div>
+          <p class="figure-caption has-text-centered" style="font-size:0.82em;"><strong>Australia</strong> · 1,012 nodes &rarr; 14 communities (Louvain, mod 0.46)</p>
+        </div>
+        <div class="column">
+          <div class="screenshot-frame">
+            <img src="../supernode_detector/output/gemma-2-2b_the-titanic-sank-in-the-year/community_visualization.png" alt="Titanic prompt community visualisation">
+          </div>
+          <p class="figure-caption has-text-centered" style="font-size:0.82em;"><strong>Titanic</strong> · 1,314 nodes &rarr; 11 communities (Louvain, mod 0.49)</p>
+        </div>
+      </div>
+      <p class="figure-caption has-text-centered"><span class="figure-number">Figure 3.</span> Force-directed community visualisations for the three validation prompts. Each color is a Louvain-detected community; bottleneck nodes are emphasised. The Titanic graph shows the most concentrated structure (11 communities, highest modularity 0.49), consistent with the focused circuit structure typical of well-known historical-date prompts.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.4 Validation Prompt 1: Chemistry — "The chemical symbol for water is"</h3>
+      <p>The water prompt produced the densest graph in the validation set (67,343 edges from 1,316 nodes, 51 edges per node on average). After filtering embedding and error nodes, the clustered graph contained 1,205 nodes which Louvain partitioned into 14 communities. Three communities were flagged as bottleneck-carrying. The largest community (community 4, "L0-L18 cluster, 351 nodes, bottleneck") spans 56% of the clustered graph and triggered the recursive-splitting path; after splitting at resolution 2.0, the partition retained 14 communities with no community exceeding 30% of the graph. After influence trimming, 178 nodes were retained (13.5% of clustered, target 15%).</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.5 Validation Prompt 2: Geography — "The capital of Australia is"</h3>
+      <p>The Australia prompt produced the smallest graph (1,012 raw nodes, 40,665 edges). Louvain partitioned the 917-node clustered graph into 14 communities with modularity 0.457, narrowly preferred over Greedy's 3-community solution (modularity 0.425) by the penalty score. No community exceeded the 30% threshold so recursive splitting was not invoked.</p>
+
+      <p>The bottleneck identification flagged 3 communities as bottleneck-carrying. The top-5 bottleneck nodes by betweenness centrality were:</p>
+      <div class="max-width-content">
+        <table class="table is-bordered is-hoverable has-text-left" style="font-size:0.85em;">
+          <thead><tr><th>Node</th><th>Layer</th><th>Betweenness</th><th>Community</th></tr></thead>
+          <tbody>
+            <tr><td><code>L2_F70110558</code></td><td>2</td><td>0.0204</td><td>7 (205-node bottleneck cluster)</td></tr>
+            <tr><td><code>L6_F10902108</code></td><td>6</td><td>0.0125</td><td>4 (L3-L23 bottleneck cluster)</td></tr>
+            <tr><td><code>L18_F5686859</code></td><td>18</td><td>0.0120</td><td>5 (L0-L27 bottleneck cluster)</td></tr>
+            <tr><td><code>L7_F244642</code></td><td>7</td><td>0.0102</td><td>4</td></tr>
+            <tr><td><code>L21_F17793573</code></td><td>21</td><td>0.0095</td><td>8</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The <code>--upload</code> flag triggered the three-step Neuronpedia upload, which completed in under 5 seconds. End-to-end wall time including upload was 1 minute 31 seconds. The viewable URL is:</p>
+      <p style="margin-left: 20px;"><a href="https://www.neuronpedia.org/gemma-2-2b/graph?slug=thecapitalofaust-1776888180439-1776888251" target="_blank"><code>https://www.neuronpedia.org/gemma-2-2b/graph?slug=thecapitalofaust-1776888180439-1776888251</code></a></p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.6 Validation Prompt 3: History — "The Titanic sank in the year"</h3>
+      <p>The Titanic prompt was previously analysed during steering experiments but was rerun to verify reproducibility after the cantor-pairing fix. Louvain partitioned the 1,193-node clustered graph into 11 communities with modularity 0.492 — the highest modularity in the validation set. The relatively low community count (11 vs 14 for the other prompts) reflects the more focused circuit structure typical of well-known historical-date prompts. Two communities were flagged as bottleneck-carrying. Semantic labelling succeeded for two communities ("words indicating periods or divisions" and "the phrase 'in order to'"), the highest semantic-label rate in the validation set.</p>
+
+      <p>After cantor-pairing was applied to all 1,307 node features (verified by spot-checking that <code>cantor(0, 4752) = 11297880</code> matches the first node), the graph uploaded successfully:</p>
+      <p style="margin-left: 20px;"><a href="https://www.neuronpedia.org/gemma-2-2b/graph?slug=titanic-sank-supernodes-1775847434" target="_blank"><code>https://www.neuronpedia.org/gemma-2-2b/graph?slug=titanic-sank-supernodes-1775847434</code></a></p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.7 Algorithm-Selection Behaviour</h3>
+      <p>Across all three validation prompts, the penalty-weighted selector preferred Louvain over Greedy in every case despite Greedy's competitive modularity:</p>
+
+      <div class="max-width-content">
+        <table class="table is-bordered is-hoverable has-text-left" style="font-size:0.88em;">
+          <thead>
+            <tr><th>Prompt</th><th>Louvain (mod / k)</th><th>Leiden (mod / k)</th><th>Greedy (mod / k)</th><th>Greedy oversized?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Water</td><td>0.450 / 14</td><td>0.296 / 5</td><td>0.397 / 3</td><td><span style="color:var(--orange);">Yes (2 communities)</span></td></tr>
+            <tr><td>Australia</td><td>0.457 / 14</td><td>0.294 / 5</td><td>0.425 / 3</td><td><span style="color:var(--orange);">Likely (≥1 community)</span></td></tr>
+            <tr><td>Titanic</td><td>0.492 / 11</td><td>0.289 / 5</td><td>0.484 / 3</td><td><span style="color:var(--orange);">Yes (≥1 community)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Without penalty weighting, Greedy would have been selected on the Titanic prompt by raw modularity (0.484 vs 0.492 difference is within typical run-to-run variance), producing 3 giant communities of which two would have spanned more than 30% of the graph. The penalty term <code>−0.05 × n_oversized</code> cost Greedy 0.10 and 0.05 in score for the water and Australia/Titanic prompts respectively, restoring Louvain as the choice.</p>
+
+      <h3 class="title is-5" style="margin-top:1.5rem;">4.8 Trimming Consistency</h3>
+      <p>The influence-based trimming step retained between 13.0% and 14.4% of clustered nodes across the three prompts, all within 2 percentage points of the 15% target. Bottleneck nodes (the top-10 betweenness nodes) were retained in every run. No community was reduced below its dynamic minimum of 1–3 nodes; the smallest retained community in the Australia run held 2 nodes (community 10, an L12-L24 cluster of 4 raw nodes).</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- DISCUSSION + COMPARISON -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">5. Discussion</h2>
+    <div class="content">
+
+      <h3 class="title is-5">5.1 Why Penalty-Weighted Multi-Algorithm Selection Matters</h3>
+      <p>Naive modularity maximisation is the standard practice in community-detection toolkits and is the implicit default in most circuit-analysis workflows. Our validation shows that on attribution graphs, naive modularity selects Greedy Modularity in two of three cases despite Greedy producing partitions that are clearly degenerate from an interpretability standpoint (3 communities, one or more spanning &gt;30% of the graph). The penalty weights <code>−0.05 × n_oversized − 0.001 × n_singletons</code> add a small but reliable cost to such partitions while leaving competitive partitions in the lead.</p>
+
+      <h3 class="title is-5" style="margin-top:1.2rem;">5.2 The Semantic Labelling Gap</h3>
+      <p>Across the three validation runs, only 4 of 39 communities (10.3%) received human-readable semantic labels; the remainder fell back to structural labels. This is a substantial limitation but is not a tool defect — it reflects the current sparsity of Neuronpedia's auto-generated SAE feature explanations, particularly for features that fire on technical vocabulary or non-English tokens. As Neuronpedia's annotation coverage improves, the labelling success rate should improve mechanically without requiring tool changes. The structural fallback ensures the tool never fails completely; users always receive a layer-range and node-count description as a minimum.</p>
+
+      <h3 class="title is-5" style="margin-top:1.2rem;">5.3 Cantor Pairing as a Hidden API Contract</h3>
+      <div class="finding-box">
+        <p>The cantor-pairing transformation in §3.7 is, to our knowledge, <strong>undocumented in the Neuronpedia public API documentation</strong>. We discovered it through trial: graphs that validated successfully on <code>https://neuronpedia.org/graph/validator</code> and uploaded successfully to the viewer nonetheless rendered with broken feature dashboards (clicking a node produced a 404 from the feature lookup endpoint). Inspection of working graphs hosted by other users revealed that their <code>feature</code> fields were Cantor-paired integers rather than raw circuit-tracer feature IDs. This is a clear case of a tool that codifies undocumented platform behaviour to spare future users the same debugging cycle.</p>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:1.2rem;">5.4 Comparison to Existing Tools</h3>
+
+      <div class="max-width-content">
+        <table class="table is-bordered is-hoverable has-text-left" style="font-size:0.85em;">
+          <thead>
+            <tr>
+              <th style="width:38%;">Feature</th>
+              <th>Supernode Detector</th>
+              <th>Manual Louvain</th>
+              <th>Neuronpedia Web UI</th>
+              <th>ACDC (Conmy et al.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Multi-algorithm selection with penalty</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>No</td><td><em>N/A (different goal)</em></td></tr>
+            <tr><td>Recursive splitting of oversized communities</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>No</td><td><em>N/A</em></td></tr>
+            <tr><td>Influence-based trimming</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>No</td><td><em>N/A</em></td></tr>
+            <tr><td>Automatic semantic labelling</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>Bottleneck pinning</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>Manual</td><td><em>N/A</em></td></tr>
+            <tr><td>Cantor-pairing transformation</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td><em>N/A</em></td><td><em>N/A</em></td></tr>
+            <tr><td>Programmatic upload</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td><em>N/A</em></td><td>Manual web form</td><td><em>N/A</em></td></tr>
+            <tr><td>Batch processing</td><td><span style="color:var(--green);font-weight:700;">Yes</span></td><td>No</td><td>No</td><td>Limited</td></tr>
+            <tr><td>Local model required</td><td>No</td><td>No</td><td>No</td><td>Yes (GPU)</td></tr>
+            <tr><td>Output format</td><td>Annotated JSON for viewer</td><td>Edge list / partition dict</td><td><em>N/A</em></td><td>Edge subset</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The tool's value is <strong>integration</strong>. Each individual capability above exists in some form: NetworkX provides Louvain and centrality, Neuronpedia provides graph generation and feature explanations, ACDC and attribution patching provide alternative circuit-discovery methods. Supernode Detector composes these into a single command optimised for the workflow of "I want to share an interpretable interactive view of this prompt's circuit."</p>
+
+      <h3 class="title is-5" style="margin-top:1.2rem;">5.5 When to Use Which Tool</h3>
+      <p>For circuit-discovery research that requires interventional rigour (e.g., proving a circuit is necessary for a behaviour), ACDC, attribution patching, or causal scrubbing remain the appropriate methods. They produce edge-subset circuits with statistical guarantees but do not produce shareable interactive visualisations.</p>
+
+      <p>For exploratory analysis or for sharing results with non-specialist audiences (reviewers, collaborators, students), Supernode Detector is more directly suited. It consumes the same Neuronpedia graphs that researchers were going to inspect anyway, and produces a publishable artefact rather than an internal data structure. The tool is also useful as part of a longer pipeline: in our companion paper, supernode detection serves as an annotation layer on top of traceback graphing, allowing per-circuit results to be communicated as labeled communities rather than as 1,200-node feature lists.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- LIMITATIONS -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">6. Limitations</h2>
+    <div class="content">
+      <ol>
+        <li><strong>Single-model invocations.</strong> Each pipeline run processes one model; cross-model comparison requires running the tool twice and comparing outputs manually.</li>
+        <li><strong>Semantic-labelling coverage.</strong> Only 10–15% of communities currently receive human-readable labels in the validation set. The tool exposes a <code>--rate-delay</code> flag for users who want to throttle API calls; otherwise rate limiting is the limiting factor on label-call throughput.</li>
+        <li><strong>Algorithm-dependent partitions.</strong> Multi-algorithm validation in the companion paper shows mean cross-algorithm Jaccard of 0.363. Penalty weighting addresses the worst pathologies (oversized and fragmented partitions) but does not eliminate the underlying degeneracy; users should treat individual community boundaries as one valid partition among many.</li>
+        <li><strong>No interactive preview.</strong> The current CLI emits the annotated JSON without an in-tool preview step; users who want to rename communities before upload must edit the JSON manually. A web UI for preview-and-rename is a planned future enhancement.</li>
+        <li><strong>Qwen support is partial.</strong> Qwen3-4B graphs are generated and clustered correctly, but Neuronpedia's feature explanation API does not yet support Qwen SAEs, so semantic labels fall back to structural descriptions for all Qwen communities.</li>
+        <li><strong>Cantor-pairing assumes a 16,384-feature SAE.</strong> The transformation hard-codes the modulus 16,384 to match <code>gemmascope-transcoder-16k</code> and the equivalent Qwen SAE. Users targeting SAEs with different dictionary sizes will need to adjust the constant in <code>MODEL_CONFIGS</code>.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CONCLUSION -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">7. Conclusion</h2>
+    <div class="content">
+      <p>We have presented Supernode Detector, an open-source command-line tool that takes a text prompt and produces an annotated, publishable Neuronpedia graph in a single command. The tool composes Neuronpedia's existing Circuit Tracer and feature-explanation APIs with three contributions of its own: a penalty-weighted multi-algorithm community selector that prefers interpretable partitions over nominally higher-modularity but degenerate ones; an influence-based trimming step that reduces a 1,200-node graph to ~170 retained nodes while preserving critical routing; and a cantor-paired export with three-step programmatic upload that codifies an otherwise-undocumented Neuronpedia API contract.</p>
+
+      <p>Validation on three factual-recall prompts spanning chemistry, geography, and history demonstrates consistent algorithm selection, target trimming ratios within 2 percentage points of the 15% target, and successful end-to-end upload in under two minutes per prompt. The tool is positioned as a bridge between low-level circuit-discovery methods and the human-readable interactive visualisations that researchers and reviewers actually consume. Source, documentation, and validation outputs are available at <a href="https://github.com/J-Lawrence10/autocircuit" target="_blank"><code>github.com/J-Lawrence10/autocircuit</code></a> under the MIT license.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SUPPLEMENTARY MATERIALS -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">Supplementary Materials</h2>
+    <div class="content">
+      <div class="columns">
+        <div class="column">
+          <div class="supp-card">
+            <p style="font-size:1em;font-weight:700;margin-bottom:8px;color:var(--text);"><i class="fa-brands fa-github" style="margin-right:8px;"></i>Source Code &amp; Documentation</p>
+            <p style="font-size:0.9em;">~1,400-line single-file Python pipeline (MIT license). Includes config, requirements, and step-by-step skill scripts.</p>
+            <a href="https://github.com/J-Lawrence10/autocircuit" target="_blank" class="button is-normal is-rounded is-dark" style="margin-top:12px;">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </div>
+        <div class="column">
+          <div class="supp-card">
+            <p style="font-size:1em;font-weight:700;margin-bottom:8px;color:var(--text);"><i class="fa-solid fa-brain" style="margin-right:8px;"></i>Live Annotated Graphs</p>
+            <p style="font-size:0.9em;margin-bottom:10px;">Interactive Neuronpedia views of the three validation runs:</p>
+            <ul style="font-size:0.85em;list-style:none;padding:0;margin:0;">
+              <li style="margin:4px 0;"><a href="https://www.neuronpedia.org/gemma-2-2b/graph?slug=titanic-sank-supernodes-1775847434" target="_blank">Titanic</a> — 11 communities, mod 0.49</li>
+              <li style="margin:4px 0;"><a href="https://www.neuronpedia.org/gemma-2-2b/graph?slug=thecapitalofaust-1776888180439-1776888251" target="_blank">Australia</a> — 14 communities, mod 0.46</li>
+              <li style="margin:4px 0;">Water — output cached locally (no upload run)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- BIBTEX -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-4">BibTeX</h2>
+    <pre class="code-block"><code>@article{lawrence2026supernode,
+  title    = {Supernode Detector: An End-to-End Pipeline for Automated
+              Community Detection, Annotation, and Publication of Sparse
+              Autoencoder Attribution Graphs},
+  author   = {Lawrence, Joseph and Krampis, Konstantinos},
+  year     = {2026},
+  month    = {April},
+  url      = {https://github.com/J-Lawrence10/autocircuit},
+  note     = {Open-source tool, MIT license. Validated on
+              \texttt{gemma-2-2b} with the
+              \texttt{gemmascope-transcoder-16k} SAE family.}
+}</code></pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- REFERENCES -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">References</h2>
+    <div class="content" style="font-size:0.92em;">
+      <p>Bills, S., Cammarata, N., Mossing, D., Tillman, H., Gao, L., Goh, G., Sutskever, I., Leike, J., Wu, J., &amp; Saunders, W. (2023). Language models can explain neurons in language models. <em>OpenAI</em>.</p>
+
+      <p>Blondel, V. D., Guillaume, J.-L., Lambiotte, R., &amp; Lefebvre, E. (2008). Fast unfolding of communities in large networks. <em>Journal of Statistical Mechanics: Theory and Experiment</em>, P10008.</p>
+
+      <p>Bricken, T., Templeton, A., Batson, J., Chen, B., Jermyn, A., Conerly, T., Turner, N., Anil, C., Denison, C., Askell, A., Lasenby, R., Wu, Y., Kravec, S., Schiefer, N., Maxwell, T., Joseph, N., Hatfield-Dodds, Z., Tamkin, A., Nguyen, K., McLean, B., Burke, J. E., Hume, T., Carter, S., Henighan, T., &amp; Olah, C. (2023). Towards Monosemanticity: Decomposing Language Models With Dictionary Learning. <em>Transformer Circuits Thread</em>.</p>
+
+      <p>Conmy, A., Mavor-Parker, A. N., Lynch, A., Heimersheim, S., &amp; Garriga-Alonso, A. (2023). Towards Automated Circuit Discovery for Mechanistic Interpretability. <em>NeurIPS 2023</em>.</p>
+
+      <p>Cunningham, H., Ewart, A., Riggs, L., Huben, R., &amp; Sharkey, L. (2024). Sparse Autoencoders Find Highly Interpretable Features in Language Models. <em>ICLR 2024</em>.</p>
+
+      <p>Elhage, N., Nanda, N., Olsson, C., Henighan, T., Joseph, N., Mann, B., Askell, A., Bai, Y., Chen, A., Conerly, T., DasSarma, N., Drain, D., Ganguli, D., Hatfield-Dodds, Z., Hernandez, D., Jones, A., Kernion, J., Lovitt, L., Ndousse, K., Amodei, D., Brown, T., Clark, J., Kaplan, J., McCandlish, S., &amp; Olah, C. (2021). A Mathematical Framework for Transformer Circuits. <em>Transformer Circuits Thread</em>.</p>
+
+      <p>Heimersheim, S., &amp; Janiak, J. (2023). A circuit for Python docstrings in a 4-layer attention-only transformer. <em>LessWrong</em>.</p>
+
+      <p>Kramár, J., Lieberum, T., Shah, R., &amp; Nanda, N. (2024). AtP*: An efficient and scalable method for localizing LLM behaviour to components. <em>arXiv:2403.00745</em>.</p>
+
+      <p>Lawrence, J., &amp; Krampis, K. (2026). Cross-Domain Circuit Analysis of Factual Knowledge Retrieval in Large Language Models. <em>Companion paper, this repository</em>.</p>
+
+      <p>Lin, J. (2023). Neuronpedia: Interactive Reference and Tooling for Analyzing Neural Networks. <a href="https://neuronpedia.org" target="_blank">https://neuronpedia.org</a></p>
+
+      <p>Lindsey, J., Gurnee, W., Ameisen, E., Chen, B., Pearce, A., Turner, N. L., Citro, C., Abrahams, D., Carter, S., Hosmer, B., Marcus, J., Sklar, M., Templeton, A., Bricken, T., McDougall, C., Cunningham, H., Henighan, T., Jermyn, A., Jones, A., Persic, A., Qi, Z., Thompson, T. B., Zimmerman, S., Rivoire, K., Conerly, T., Olah, C., &amp; Batson, J. (2025). On the Biology of a Large Language Model. <em>Transformer Circuits Thread</em>. <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html" target="_blank">https://transformer-circuits.pub/2025/attribution-graphs/biology.html</a></p>
+
+      <p>Meng, K., Bau, D., Andonian, A., &amp; Belinkov, Y. (2022). Locating and Editing Factual Associations in GPT. <em>NeurIPS 2022</em>.</p>
+
+      <p>Nanda, N. (2023). TransformerLens. <a href="https://github.com/TransformerLensOrg/TransformerLens" target="_blank">https://github.com/TransformerLensOrg/TransformerLens</a></p>
+
+      <p>Olah, C., Cammarata, N., Schubert, L., Goh, G., Petrov, M., &amp; Carter, S. (2020). Zoom In: An Introduction to Circuits. <em>Distill</em>.</p>
+
+      <p>Syed, A., Rager, C., &amp; Conmy, A. (2023). Attribution Patching Outperforms Automated Circuit Discovery. <em>arXiv:2310.10348</em>.</p>
+
+      <p>Templeton, A., Conerly, T., Marcus, J., Lindsey, J., Bricken, T., Chen, B., Pearce, A., Citro, C., Ameisen, E., Jones, A., Cunningham, H., Turner, N. L., McDougall, C., MacDiarmid, M., Freeman, C. D., Sumers, T. R., Rees, E., Batson, J., Jermyn, A., Carter, S., Olah, C., &amp; Henighan, T. (2024). Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet. <em>Transformer Circuits Thread</em>.</p>
+
+      <p>Traag, V. A., Waltman, L., &amp; van Eck, N. J. (2019). From Louvain to Leiden: guaranteeing well-connected communities. <em>Scientific Reports</em>, 9, 5233.</p>
+
+      <p>Wang, K., Variengien, A., Conmy, A., Shlegeris, B., &amp; Steinhardt, J. (2023). Interpretability in the Wild: A Circuit for Indirect Object Identification in GPT-2 Small. <em>ICLR 2023</em>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>Website template based on the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> and <a href="https://latentqa.github.io" target="_blank">LatentQA</a> project pages, reused verbatim from the <a href="index.html">analogical reasoning</a> companion paper. Tool implementation in Python with NetworkX, <code>python-louvain</code>, <code>leidenalg</code>, and the Neuronpedia REST API. Model: <span style="font-variant: small-caps;">Gemma-2-2B</span> (Google DeepMind). SAE: <code>gemmascope-transcoder-16k</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

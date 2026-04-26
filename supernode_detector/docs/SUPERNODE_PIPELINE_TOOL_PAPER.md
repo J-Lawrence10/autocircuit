@@ -36,7 +36,7 @@ The tool is open-source under the MIT license and has been used to generate the 
 
 **SAE feature interpretation.** Sparse autoencoders decompose model activations into interpretable features (Cunningham et al., 2024; Bricken et al., 2023; Templeton et al., 2024). Features can be labeled automatically by an LLM examining their top-activating examples (Bills et al., 2023). Neuronpedia (Lin, 2023) hosts SAE feature dashboards with such auto-generated explanations and provides an API for retrieving them.
 
-**Interactive visualisation.** TransformerLens (Nanda, 2023) provides programmatic access to model internals for exploration. The Neuronpedia graph viewer renders attribution graphs as an interactive force-directed layout with clickable nodes that link to feature dashboards. Anthropic's Attribution Graphs interface (Lindsey et al., 2025) provides similar functionality for Claude. Neither platform provides automated supernode clustering or end-to-end pipelines from prompt to published graph; they expect researchers to bring an already-formatted JSON.
+**Interactive visualisation.** TransformerLens (Nanda, 2023) provides programmatic access to model internals for exploration. The Neuronpedia graph viewer renders attribution graphs as an interactive force-directed layout with clickable nodes that link to feature dashboards. Anthropic's interactive attribution-graph viewer (Lindsey et al., 2025) provides similar functionality for Claude. Neither platform provides automated supernode clustering or end-to-end pipelines from prompt to published graph; they expect researchers to bring an already-formatted JSON.
 
 Supernode Detector occupies a niche between automated circuit-discovery methods (which produce edge subsets) and interactive visualisation platforms (which expect formatted graphs). It does not attempt to compete with ACDC or attribution patching for circuit identification; it consumes the output of Neuronpedia's existing Circuit Tracer and focuses on the under-tooled middle steps of clustering, annotation, and publication.
 
@@ -300,7 +300,7 @@ Lawrence, J., & Krampis, K. (2026). Cross-Domain Circuit Analysis of Factual Kno
 
 Lin, J. (2023). Neuronpedia: Interactive Reference and Tooling for Analyzing Neural Networks. https://neuronpedia.org
 
-Lindsey, J., et al. (2025). Attribution Graphs. *Transformer Circuits Thread*.
+Lindsey, J., Gurnee, W., Ameisen, E., Chen, B., Pearce, A., Turner, N. L., Citro, C., Abrahams, D., Carter, S., Hosmer, B., Marcus, J., Sklar, M., Templeton, A., Bricken, T., McDougall, C., Cunningham, H., Henighan, T., Jermyn, A., Jones, A., Persic, A., Qi, Z., Thompson, T. B., Zimmerman, S., Rivoire, K., Conerly, T., Olah, C., & Batson, J. (2025). On the Biology of a Large Language Model. *Transformer Circuits Thread*. https://transformer-circuits.pub/2025/attribution-graphs/biology.html
 
 Meng, K., Bau, D., Andonian, A., & Belinkov, Y. (2022). Locating and Editing Factual Associations in GPT. *NeurIPS 2022*.
 
