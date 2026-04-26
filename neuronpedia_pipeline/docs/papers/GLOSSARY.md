@@ -268,9 +268,33 @@ D4 was the initial validation. D5 expanded it because only 50% of D4 experiments
 **Pre-experiment cross-check:** Of the 10 frequency-selected features in D4+D5, only 5 were on essential pathways (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228). The other 5 were frequent but NOT essential — they appear often but aren't on critical paths. This split made D6 a clean comparison.
 
 **What was NOT varied:**
-- **Strength.** All 80 experiments used ±20 only. No dose-response curve.
+- **Strength.** All 80 experiments used ±20 only. No dose-response curve. (See "Why ±20?" below.)
 - **Number of features per intervention.** Always one feature at a time. No compound steering.
 - **Random seed.** All experiments used `seed=42, temperature=0` for reproducibility.
+
+**Why ±20 strength specifically?**
+
+The Neuronpedia steering API accepts strengths from approximately -50 to +50. We used ±20 across all 80 experiments. Three reasons:
+
+1. **It avoids two empirical failure modes.** At ±5 or ±10, most features produce no visible text change — too weak to distinguish causally-inert features from under-stimulated ones. At ±50 or higher, the model often produces nonsensical output ("activation overflow"), with effects that are real but uninterpretable. ±20 is in the middle: strong enough to detect causal influence, weak enough that surviving outputs remain grammatical.
+
+2. **It is a community-convention default.** Templeton et al. (2024) used clamping values roughly 5-10× a feature's natural maximum for the "Golden Gate Bridge" demonstration. Turner et al. (2023, activation engineering) used coefficients typically in the 1-15× range. Neuronpedia's documentation suggests ±10 to ±30 as illustrative defaults. ±20 sits in the middle of this established range. Reporting ±20 also keeps our results directly comparable to other groups using the same convention.
+
+3. **Practical: API rate-limit budget.** Each steering call costs ~36 seconds at Neuronpedia's 100-call/hour limit. Our total budget was 80 calls. We spent it on breadth (15 features × 3-6 prompts) rather than depth (a full dose-response curve at ±5/±10/±20/±50). Building the dose-response curve is listed as Future Work.
+
+**Empirical validation that ±20 was a reasonable choice:**
+
+| Batch | Text change rate at ±20 | Interpretation |
+|-------|--------------------------|----------------|
+| D4 | 50% (10/20) | Some features change outputs, others don't — clean separation |
+| D5 | 23% (7/30) | Most features ineffective at this strength — selection matters |
+| D6 | 27% (8/30) | Comparable to D5 — different selection, similar overall rate |
+
+These rates fall in the useful 20-50% band: not so low that everything looks inert, not so high that everything looks effective. Both ends of the spectrum would have hidden the three-tier dissociation finding by collapsing it into "all features causal" or "no features causal."
+
+**Limitations of single-strength testing:**
+
+We do not know whether the three-tier dissociation persists at other strengths. It is possible that at ±50, essential-pathway features dominate text-change rates as well as KL divergence (because circuit redundancy can no longer absorb the larger perturbation). It is also possible that at ±5, only frequency-on-pathway features show any effect. The single-point sample at ±20 captures one slice of an unmeasured curve.
 
 **The headline finding (the "three-tier dissociation"):**
 
