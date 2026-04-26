@@ -13,6 +13,7 @@
 - [Bottleneck Tax](#bottleneck-tax)
 - [Cosine Similarity on Energy Profiles](#cosine-similarity-on-energy-profiles)
 - [Is Energy Finite? (Addressing the Metaphor)](#is-energy-finite-addressing-the-metaphor)
+- [Steering Experiments: How Features Were Selected](#steering-experiments-how-features-were-selected)
 
 ---
 
@@ -229,6 +230,62 @@ We should soften Section 6.4 to either Option 1 (correlational) or Option 2 (inf
 - The **finding** (certain layers' energy predicts confidence) stands.
 - The **interpretation** (why) should be softened to information-theoretic language or pure correlational language.
 - The name "bottleneck tax" is fine as a memorable label, but the framing around it should acknowledge it's a metaphor.
+
+---
+
+## Steering Experiments: How Features Were Selected
+
+**Quick definition:** Steering is a causal validation technique where we clamp a single SAE feature's activation to a fixed value (positive = amplify, negative = suppress) and measure whether the model's output changes. We ran 80 such experiments across three batches, each using a different criterion to choose which features to steer.
+
+**The basic mechanism:**
+For each experiment, we made one Neuronpedia API call with one feature, one prompt, and one strength value:
+
+```
+POST /api/steer
+prompt   = "The Titanic sank in"
+feature  = L7_F4828270  (one feature at a time, never combined)
+strength = +20           (or -20; ±20 was used in every experiment)
+```
+
+The API returned both the unsteered (`DEFAULT`) and steered (`STEERED`) outputs along with token-level logprobs. We measured: (a) text change (binary), (b) KL divergence between baseline and steered token distributions, (c) logprob shift in the top token.
+
+**Three batches, three different selection criteria:**
+
+| Batch | Criterion | Source pool | Features | Experiments |
+|-------|-----------|-------------|----------|-------------|
+| D4 | Cross-circuit frequency, ranks 1-5 | Stage 1.5 bottleneck library (244 features that appeared as bottlenecks across the 60-circuit dataset) | L0_F1813559, L3_F5150441, L4_F110446948, L6_F2586668, L24_F88478228 | 20 |
+| D5 | Cross-circuit frequency, ranks 6-10 (extending D4) | Same library | L1_F99962728, L2_F25751073, L5_F7993995, L7_F4828270, L9_F125286525 | 30 |
+| D6 | Essential-pathway membership (topology) | 1,000 features extracted from minimal-pathway analysis on 30 GEMMA circuits | L0_F64712375, L1_F1736314, L21_F5479683, L24_F18002975, L25_F50014975 | 30 |
+
+**Cross-circuit frequency** = the number of distinct circuits (out of 60) in which a feature appears as a bottleneck (convergence ≥ 60% in the traceback analysis). High frequency = "this feature shows up everywhere."
+
+**Essential-pathway membership** = the number of distinct circuits whose minimum-viable input-to-output pathway includes this feature. High pathway membership = "this feature is on the critical route, not the redundant scaffolding." Only ~6% of nodes per circuit are on the essential pathway.
+
+**Why three batches:**
+
+D4 was the initial validation. D5 expanded it because only 50% of D4 experiments produced text changes and we wanted more statistical power. D6 was added when an unexpected finding emerged from D5: the most-frequent feature (L2_F25751073, 11 circuits) produced **zero** text changes, while a less-frequent one (L7_F4828270, 9 circuits) was the most causally effective. This dissociation between frequency and causation motivated testing a different criterion (topology) to see whether essential-pathway features would do better.
+
+**Pre-experiment cross-check:** Of the 10 frequency-selected features in D4+D5, only 5 were on essential pathways (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228). The other 5 were frequent but NOT essential — they appear often but aren't on critical paths. This split made D6 a clean comparison.
+
+**What was NOT varied:**
+- **Strength.** All 80 experiments used ±20 only. No dose-response curve.
+- **Number of features per intervention.** Always one feature at a time. No compound steering.
+- **Random seed.** All experiments used `seed=42, temperature=0` for reproducibility.
+
+**The headline finding (the "three-tier dissociation"):**
+
+| Group | Selection method | Text change rate | Mean KL divergence |
+|-------|------------------|------------------|---------------------|
+| Essential-pathway features (D6) | Topology | 26.7% (8/30) | 1.448 |
+| D5 features that happen to be ON pathway | Frequency-on-pathway | 18.8% (3/16) | ~0.4 |
+| D5 features that are OFF pathway | Frequency-off-pathway | 33.3% (6/18) | ~0.4 |
+
+Essential-pathway features produced the strongest distributional perturbations (highest KL) but circuit redundancy absorbed most of the perturbation before the output layer. Output determinism by domain (chemistry 0%, geography 20%, history 60%) governed text-level susceptibility regardless of which features were steered.
+
+**One-line summary:** We steered 15 unique features (5 per batch × 3 batches) at ±20 strength on 3-6 prompts each, with each batch chosen by a different selection criterion (frequency × 2, then topology) — and the three-tier dissociation finding emerged from comparing the three batches against each other.
+
+**How to explain it to someone:**
+> "We did 80 single-feature steering experiments split into three batches. The first two batches selected features by how often they appeared across our 60-circuit dataset; the third selected by whether they sit on the essential information pathway. Each feature was steered at ±20 strength on three target prompts (one per knowledge domain). The point of using three different selection criteria was to test whether structural importance metrics — frequency vs topology — actually predict causal influence. Neither does very well, which is itself a finding."
 
 ---
 

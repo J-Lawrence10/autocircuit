@@ -407,9 +407,23 @@ We extracted the minimum viable circuit connecting input features (early layers,
 
 ### 5.8 Causal Steering Validation
 
-#### 5.8.1 Initial Validation
+We ran 80 total steering experiments across three batches (D4, D5, D6), each using a different criterion to select which SAE features to intervene on. In every experiment a single feature was clamped to a fixed activation strength (±20) on a single prompt; no compound or multi-feature interventions were performed. All experiments used `temperature=0`, `seed=42`, `n_tokens=10` for reproducibility, and called Neuronpedia's `/api/steer` endpoint.
 
-We analyzed 20 steering experiments across 5 GEMMA bottleneck features and 6 circuits, comparing circuit-structural predictors with actual intervention effect sizes (Fig 43-44).
+**Feature-selection design:**
+
+| Batch | Selection criterion | Source pool | Features (5 per batch) | Experiments |
+|-------|---------------------|-------------|------------------------|-------------|
+| D4 | Cross-circuit frequency, ranks 1–5 | Stage 1.5 bottleneck library (244 features) | L0_F1813559, L3_F5150441, L4_F110446948, L6_F2586668, L24_F88478228 | 20 |
+| D5 | Cross-circuit frequency, ranks 6–10 | Same library | L1_F99962728, L2_F25751073, L5_F7993995, L7_F4828270, L9_F125286525 | 30 |
+| D6 | Essential-pathway membership (topology) | 1,000 essential-pathway features from §5.7 | L0_F64712375, L1_F1736314, L21_F5479683, L24_F18002975, L25_F50014975 | 30 |
+
+**Cross-circuit frequency** counts the number of distinct circuits in which a feature appears as a bottleneck (convergence ≥ 60% in traceback). **Essential-pathway membership** counts the number of distinct circuits whose minimum-viable input-to-output pathway includes the feature (typically only ~6% of nodes per circuit).
+
+A pre-experiment cross-check on D4+D5 features revealed that only 5 of 10 frequency-selected features (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228) were also on essential pathways; the other 5 (L4_F110446948, L5_F7993995, L6_F2586668, L7_F4828270, L9_F125286525) were frequent but not essential. This split between "frequent and topologically central" vs "frequent but topologically peripheral" allowed direct comparison of the two selection criteria.
+
+#### 5.8.1 Initial Validation (D4)
+
+We analyzed 20 steering experiments across the 5 D4 GEMMA bottleneck features and 6 target circuits, comparing circuit-structural predictors with actual intervention effect sizes (Fig 43-44).
 
 **Steering effects are small but consistent.** The mean logprob shift is 0.045 across all experiments, with 50% of experiments producing visible text changes. Effects are probability-level perturbations rather than token-flipping interventions.
 
