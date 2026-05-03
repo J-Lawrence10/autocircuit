@@ -14,6 +14,7 @@
 - [Cosine Similarity on Energy Profiles](#cosine-similarity-on-energy-profiles)
 - [Is Energy Finite? (Addressing the Metaphor)](#is-energy-finite-addressing-the-metaphor)
 - [Steering Experiments: How Features Were Selected](#steering-experiments-how-features-were-selected)
+- [Direct Logit Attribution: How the Output Token is Chosen](#direct-logit-attribution-how-the-output-token-is-chosen)
 
 ---
 
@@ -310,6 +311,72 @@ Essential-pathway features produced the strongest distributional perturbations (
 
 **How to explain it to someone:**
 > "We did 80 single-feature steering experiments split into three batches. The first two batches selected features by how often they appeared across our 60-circuit dataset; the third selected by whether they sit on the essential information pathway. Each feature was steered at ±20 strength on three target prompts (one per knowledge domain). The point of using three different selection criteria was to test whether structural importance metrics — frequency vs topology — actually predict causal influence. Neither does very well, which is itself a finding."
+
+---
+
+## Direct Logit Attribution: How the Output Token is Chosen
+
+**Quick definition:** The mechanism by which activations of output-layer SAE features get translated into a chosen vocabulary token. Each feature has a "decoder direction" in residual-stream space; that direction projected through the unembedding matrix tells you which tokens the feature pushes toward and which it pushes away from. The model selects whichever token has the highest resulting logit.
+
+**The full path from output features to chosen token:**
+
+```
+Output-layer SAE features (L25 in Gemma, L35 in Qwen)
+            ↓
+   Each feature has a decoder direction d_f (a vector in residual-stream space)
+            ↓
+   Sum of (activation × d_f) reconstructs the residual stream
+            ↓
+   Final LayerNorm
+            ↓
+   Multiply by unembedding matrix W_U (vocab_size × hidden_dim)
+            ↓
+   One logit per vocabulary token
+            ↓
+   argmax (or softmax sample at temperature > 0) → the chosen token
+```
+
+**The math behind individual feature contributions:**
+
+For a single feature `f` with decoder direction `d_f`, activation magnitude `a_f`, and unembedding column `W_U[:, t]` for token `t`:
+
+```
+logit_contribution(f, t) = a_f × (d_f · W_U[:, t])
+```
+
+This dot product is essentially the alignment between the feature's decoder direction and the token's unembedding row. **High positive value** = "this feature pushes toward this token." **High negative value** = "this feature suppresses this token." **Near zero** = "this feature has no direct effect on this token."
+
+This calculation is called **direct logit attribution (DLA)**, sometimes also called "logit lens applied to SAE features."
+
+**Two kinds of "output node" in our pipeline:**
+
+1. **Logit nodes** — these represent specific vocabulary tokens. The Top-K (K=5) highest-logit tokens become the anchor nodes that traceback graphing starts from. For "The capital of Japan is", the top logit nodes might be `" Tokyo"`, `" the"`, `" a"`, `" called"`, `" known"`.
+
+2. **Final-layer SAE feature nodes** — SAE features at the last layer (L25 for Gemma, L35 for Qwen) whose decoders project toward those top-K tokens. Their connections to logit nodes in the attribution graph are weighted by direct logit attribution.
+
+**Why output-feature convergence is meaningful (the §5.4 finding):**
+
+Same-domain circuits share **67% of their output features** in Qwen history (vs only 15% of path features). The mechanism: different history prompts ("WWII ended in", "Columbus reached the Americas in") need to produce different tokens (1945, 1492), but those tokens share decoder structure — both 4-digit years, both common in encyclopedic text. The same output features push toward the year-token region of vocabulary space. What differs across prompts is how earlier layers route information to those shared output features.
+
+This is the formal basis for "convergent outputs, divergent paths."
+
+**The selection step (at temperature=0):**
+
+`argmax(logits)`. That's it. No beam search, no sampling. The token with the highest logit wins. This is why steering can flip predictions: shifting one feature's activation ripples through the decoder math, changes some logits, and can flip which token wins the argmax.
+
+**Why the bottleneck tax connects to this:**
+
+If energy gets concentrated at L6 (compression bottleneck), less informative residual-stream content reaches L25 where the unembedding actually consumes it. The output features at L25 still fire — but on degraded input — producing a flatter logit distribution (lower confidence). The information bottleneck framing captures this: I(X; T_L25) is bounded by I(X; T_L6), and a flatter logit distribution means less peaked argmax probability.
+
+**Tools that compute DLA for you:**
+- **Neuronpedia feature dashboards** show top positive and negative logits per feature in their `top_logits` and `bottom_logits` fields
+- **TransformerLens** has `apply_ln_to_stack()` and unembedding helpers for projecting activations through the final layers manually
+- The Neuronpedia feature explanation API returns these fields when available
+
+**One-line summary:** Each output-layer feature has a decoder direction that, when projected through the model's unembedding matrix, produces a contribution to every vocabulary token's logit. The chosen token is just argmax of the sum of these contributions across all active features.
+
+**How to explain it to someone:**
+> "The model doesn't 'pick' tokens directly from features. Each output-layer feature has a learned vector that encodes which tokens it pushes toward when active. Those vectors get projected through the unembedding matrix to produce logits, and the highest-logit token wins. Two features that look completely different in semantic terms can both push toward 'Tokyo' if their decoder vectors happen to align with the unembedding row for 'Tokyo' — which is why we see same-domain prompts converging on shared output features even when their internal processing diverges."
 
 ---
 
