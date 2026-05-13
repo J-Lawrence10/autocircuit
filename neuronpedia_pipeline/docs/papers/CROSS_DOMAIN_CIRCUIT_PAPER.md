@@ -4,7 +4,17 @@
 
 ## Abstract
 
-We characterise the cross-domain organisation of factual knowledge circuits in two large language models by analysing attribution graphs for 60 prompts spanning three knowledge domains: chemical symbol lookup (10 prompts), world capital retrieval (10 prompts), and historical date recall (10 prompts), generated for both Gemma-2-2B and Qwen3-4B via the Neuronpedia API. We introduce **traceback graphing**, a backward breadth-first search with geometric score decay (factor 0.8) that traces critical paths from output predictions back to input features and identifies bottleneck features where 60% or more of paths converge. Per-layer activation energy profiling (cosine similarity over depth-normalised energy fraction vectors) reveals that within-model profile similarity is 0.978 across knowledge domains while between-model similarity is only 0.696, indicating that architecture explains roughly 14x more variance in circuit structure than knowledge domain. The two architectures use complementary energy accumulation strategies — Gemma front-loads 54% of activation energy into layers 0–12 while Qwen back-loads with only 31% in the corresponding first half — yet both achieve comparable factual recall accuracy. In Gemma, activation energy at the bottleneck layer L6 negatively correlates with output confidence (Spearman r = -0.684, Bonferroni-significant), while energy at post-bottleneck layers L13 and L16 positively predicts confidence (r ≈ +0.60); we interpret this "bottleneck tax" pattern through information bottleneck theory (Tishby & Zaslavsky, 2015) as evidence consistent with over-compression at intermediate layers reducing the information available for downstream evidence accumulation. Cross-circuit analysis identifies 6 universal bottleneck features in Gemma and 15 in Qwen, with zero overlap between architectures, suggesting that universal features function as architecture-specific routing infrastructure rather than shared knowledge stores. Output-layer features converge across same-domain circuits up to 4.4x more than path-level features (67.3% vs 15.3% Jaccard for Qwen history), indicating convergent prediction vocabulary built through divergent internal routes. Causal validation via 80 steering experiments reveals a three-tier dissociation between structural importance and behavioural effect: features on essential pathways produce the strongest distributional perturbations (mean KL = 1.448) but circuit redundancy (94.1% of nodes are non-essential) absorbs perturbations before the output layer, and output determinism — not feature selection — governs text-level steering susceptibility. A format-variation experiment confirms that prompt template explains a substantial portion of within-domain feature overlap (template-only Jaccard 0.49 vs fact-only Jaccard 0.31), but architectural domination of energy profiles is robust to this confound. These results indicate that factual knowledge retrieval in large language models is constrained by architectural processing strategy across the full layer-by-layer activation profile, that confident predictions are associated with reduced compression at the bottleneck, and that no single structural metric on the attribution graph reliably predicts behavioural causal influence.
+We characterise the cross-domain organisation of factual knowledge circuits in two language models, Gemma-2-2B and Qwen3-4B, by analysing 60 attribution graphs spanning chemistry, geography, and history. We introduce **traceback graphing**, a backward breadth-first search with geometric decay (factor 0.8) that identifies bottleneck features where ≥60% of paths converge.
+
+Per-layer activation energy profiling reveals that architecture dominates knowledge domain. Within-model cosine similarity is 0.978 while between-model similarity is only 0.696, an approximately 14× variance gap. Gemma front-loads 54% of energy into layers 0–12; Qwen back-loads with only 31% in the corresponding first half. Both architectures achieve comparable factual recall accuracy.
+
+In Gemma, activation energy at the bottleneck layer L6 negatively correlates with output confidence (Spearman r = −0.684, Bonferroni-significant), while energy at post-bottleneck layers L13 and L16 positively predicts confidence (r ≈ +0.60). We interpret this "bottleneck tax" through information bottleneck theory (Tishby & Zaslavsky, 2015): over-compression at intermediate layers reduces information available for downstream evidence accumulation.
+
+Cross-circuit analysis identifies 6 universal bottleneck features in Gemma and 15 in Qwen, with zero cross-architecture overlap. Universal features function as architecture-specific routing infrastructure rather than shared knowledge stores. Output-layer features converge across same-domain circuits up to 4.4× more than path-level features (Qwen history: 67.3% vs 15.3% Jaccard), evidencing convergent prediction vocabulary built through divergent internal routes.
+
+Causal validation via 80 steering experiments reveals a three-tier dissociation between structural importance and behavioural effect. Essential-pathway features produce the strongest distributional perturbations (mean KL = 1.448), but 94.1% circuit redundancy absorbs them before the output layer. Output determinism — not feature selection — governs text-level susceptibility. A format-variation experiment shows that prompt template explains substantial within-domain overlap (Jaccard 0.49 vs fact-only 0.31), but architectural dominance of energy profiles is robust to this confound.
+
+These results indicate that factual knowledge retrieval is constrained by architectural processing strategy across the full layer-by-layer activation profile, that confident predictions are associated with reduced bottleneck compression, and that no single structural metric on the attribution graph reliably predicts behavioural causal influence.
 
 **Keywords:** mechanistic interpretability, attribution graphs, sparse autoencoders, bottleneck features, factual recall, information bottleneck theory, activation steering
 
@@ -14,9 +24,11 @@ We characterise the cross-domain organisation of factual knowledge circuits in t
 
 ### 1.1 Motivation
 
-Large language models encode vast amounts of factual knowledge, yet how this knowledge is organized at the circuit level remains poorly understood. When a model correctly predicts that the chemical symbol for gold is "Au" or that the capital of Japan is "Tokyo," which internal features are responsible? Do different types of knowledge -- symbolic mappings, geographic relations, temporal facts -- use separate specialized circuits, or do they share common computational infrastructure?
+Large language models encode vast factual knowledge, yet how this knowledge is organised at the circuit level remains poorly understood. When a model predicts that the chemical symbol for gold is "Au" or that the capital of Japan is "Tokyo," which internal features are responsible?
 
-Understanding the circuit-level organization of knowledge has practical implications for model editing, knowledge updating, and targeted intervention. If factual knowledge is organized by domain (chemistry circuits, geography circuits, history circuits), then interventions must be domain-specific. If knowledge circuits share universal bottleneck features, then a small number of features may provide high-leverage intervention points across multiple knowledge types.
+A central question is whether different knowledge types — symbolic mappings, geographic relations, temporal facts — use separate specialised circuits or share common computational infrastructure. Both possibilities are consistent with the existing mechanistic-interpretability literature, and the question has been studied only piecemeal.
+
+The answer matters for model editing and targeted intervention. If factual knowledge is organised by domain, interventions must be domain-specific. If circuits share universal bottleneck features, a small number of features could provide high-leverage intervention points across multiple knowledge types.
 
 ### 1.2 Research Questions
 
@@ -37,7 +49,7 @@ We present six contributions:
 
 4. **Output-path convergence dissociation**: Finding that same-domain circuits share output features far more than intermediate features (up to 4.4x ratio), revealing convergent predictions from divergent internal processing.
 
-5. **Confidence-energetics model**: A regression model explains 49% of GEMMA prediction confidence variance using three circuit features (total activation energy, edge weight kurtosis, circuit size; F(3,26) = 8.30, p < 0.001). Total activation energy is the strongest single predictor (r = 0.527, Bonferroni-surviving), but bottleneck position and convergence do not significantly predict confidence, constraining "bottleneck quality" explanations.
+5. **Confidence-energetics model**: A three-predictor regression model explains 49% of GEMMA prediction confidence variance using total activation energy, edge weight kurtosis, and circuit size (F(3,26) = 8.30, p < 0.001). Total activation energy is the strongest single predictor (r = 0.527, Bonferroni-surviving). Bottleneck position and convergence do not significantly predict confidence, constraining "bottleneck quality" explanations.
 
 6. **Three-tier causal dissociation**: 80 steering experiments reveal that essential-pathway features produce strong distributional perturbations (mean KL = 1.448) but neither pathway topology nor cross-circuit frequency predicts text-level output changes -- circuit redundancy absorbs perturbations, and output determinism governs steering susceptibility.
 
@@ -59,7 +71,9 @@ Prior work has demonstrated that clamping SAE features can steer model outputs (
 
 ### Information Bottleneck Theory
 
-Information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017) formalizes the tradeoff between representational compression and predictive accuracy in deep networks. The framework posits that each layer L computes a representation T_L of the input X, and that the mutual information I(X; T_L) bounds the task-relevant information downstream layers can use. Over-compression at intermediate layers reduces this available information, limiting prediction quality. We draw on this framework to interpret our "bottleneck tax" finding in Section 5.5.3, where activation concentration at the bottleneck layer negatively correlates with output confidence.
+Information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017) formalises the tradeoff between representational compression and predictive accuracy in deep networks. The framework posits that each layer L computes a representation T_L of the input X, and that the mutual information I(X; T_L) bounds the task-relevant information downstream layers can use.
+
+Over-compression at intermediate layers reduces this available information, limiting prediction quality. We draw on this framework in Section 5.5.3 to interpret our "bottleneck tax" finding, in which activation concentration at the bottleneck layer negatively correlates with output confidence.
 
 ### Neuronpedia Platform
 
@@ -73,7 +87,9 @@ Neuronpedia (Decode Research) provides a public platform for exploring SAE featu
 
 Models: Gemma-2-2B (`gemma-2-2b` on Neuronpedia, 26 transformer layers) and Qwen3-4B (`qwen3-4b`, 36 layers). Sparse autoencoders: `gemmascope-transcoder-16k` (16,384 features per layer) for Gemma; transcoder-hp for Qwen.
 
-Attribution graphs were generated via the Neuronpedia `/api/graph/generate` endpoint with default parameters (`maxFeatureNodes=3000`, `desiredLogitProb=0.95`, `nodeThreshold=0.8`, `edgeThreshold=0.85`). The resulting directed graph G = (V, E) contains: **nodes** as SAE features identified by layer and feature index (e.g., L5_F7993995); **edges** as attention-weighted connections between features across layers; **node attributes** including activation magnitude and contribution to output logits; **edge attributes** giving connection weight. Graphs typically contain 1,000–1,500 nodes and 40,000–80,000 edges.
+Attribution graphs were generated via the Neuronpedia `/api/graph/generate` endpoint with default parameters: `maxFeatureNodes=3000`, `desiredLogitProb=0.95`, `nodeThreshold=0.8`, `edgeThreshold=0.85`. Graphs typically contain 1,000–1,500 nodes and 40,000–80,000 edges.
+
+The resulting directed graph G = (V, E) has: **nodes** as SAE features identified by layer and feature index (e.g., L5_F7993995); **edges** as attention-weighted connections between features across layers; **node attributes** including activation magnitude and contribution to output logits; **edge attributes** giving connection weight.
 
 ### 3.2 Traceback Graphing Algorithm
 
@@ -110,7 +126,7 @@ Output: Critical paths P, bottleneck features B
 
 **Geometric decay** (score^0.8) is critical: without it, multiplying activation scores across 20+ layers produces exponential overflow. The decay preserves relative path ranking while keeping scores manageable.
 
-**Top-K and Bottom-K tracing**: We trace paths from both the highest-contributing (correct prediction) and lowest-contributing output nodes. A key finding from our Stage 1 analysis was that top and bottom output nodes converge on the same bottleneck features, indicating shared universal circuits rather than token-specific pathways.
+**Top-K and Bottom-K tracing**: We trace paths from both the highest-contributing (correct prediction) and lowest-contributing output nodes. A key finding from our Stage 1 analysis is that top and bottom output nodes converge on the same bottleneck features, indicating shared universal circuits rather than token-specific pathways.
 
 ### 3.3 Cross-Circuit Comparison
 
@@ -223,9 +239,9 @@ A key finding is that bottleneck layer position is determined by model architect
 | Geography | L5.8 | 22% | L24.6 | 68% |
 | History | L6.6 | 25% | L22.0 | 61% |
 
-GEMMA bottlenecks consistently cluster in layers 5-7 (~22% depth) across all three knowledge domains. QWEN bottlenecks cluster in layers 22-25 (~65% depth). The variation within each model across domains (L5.5-6.6 for GEMMA, L22.0-24.6 for QWEN) is much smaller than the variation between models.
+GEMMA bottlenecks consistently cluster in layers 5–7 (~22% depth) across all three knowledge domains. QWEN bottlenecks cluster in layers 22–25 (~65% depth). The within-model range (L5.5–6.6 for GEMMA, L22.0–24.6 for QWEN) is much smaller than the between-model gap.
 
-This suggests that bottleneck position is an architectural property of the model, not a function of what kind of knowledge is being retrieved. GEMMA performs its critical information filtering in early layers regardless of domain, while QWEN preserves information through later layers. (Fig. 3)
+Bottleneck position is therefore an architectural property of the model, not a function of what knowledge is being retrieved. GEMMA performs its critical information filtering in early layers regardless of domain; QWEN preserves information through later layers. (Fig. 3)
 
 ![Figure 3](../../data/stage_2_figures/fig3_bottleneck_depth.png)
 *Figure 3: Bottleneck depth distribution by model and domain. GEMMA clusters at L5-7, QWEN at L22-25.*
@@ -280,9 +296,9 @@ We separately analyzed whether same-domain circuits converge at the output layer
 | QWEN | Geography | 0.475 | 0.335 | 1.42 |
 | QWEN | History | 0.673 | 0.153 | 4.41 |
 
-A striking finding: **output node convergence is consistently higher than path convergence**, and the gap is largest for history (4.41x in QWEN). This means history circuits share the same output features (the model uses similar features to produce the final prediction) even though their intermediate processing paths diverge substantially. The model arrives at similar "output vocabulary" through different internal routes.
+A striking finding: **output node convergence is consistently higher than path convergence**, and the gap is largest for history (4.41× in QWEN). Same-domain history circuits share the same output features even though their intermediate paths diverge — the model arrives at similar output vocabulary through different internal routes.
 
-QWEN shows stronger output convergence overall, with history circuits sharing 67.3% of output features despite only 15.3% path overlap. (Fig. 10)
+QWEN shows stronger output convergence overall: history circuits share 67.3% of output features despite only 15.3% path overlap. (Fig. 10)
 
 ![Figure 10](../../data/stage_2_figures/fig10_output_path.png)
 *Figure 10: Output node convergence vs path convergence by domain. History shows the largest output/path ratio (4.4x in QWEN).*
@@ -295,9 +311,11 @@ We computed cosine similarity between layer energy fraction profiles (energy at 
 
 **Within-model similarity is extremely high**. Across all 30 circuits within each model (regardless of knowledge domain), mean cosine similarity is 0.978 (std = 0.013). This means 97.8% of the energy distribution shape is shared across all factual recall circuits within each model architecture.
 
-**Within-category similarity is slightly higher than cross-category** (GEMMA: 0.984 vs 0.966; QWEN: 0.975 vs 0.956; KS test p < 0.001 for both models), confirming that knowledge domains do produce a small but statistically significant modulation of the energy profile. However, the domain effect (cosine difference of ~0.02) is dwarfed by the architecture effect.
+**Within-category similarity is slightly higher than cross-category** (GEMMA: 0.984 vs 0.966; QWEN: 0.975 vs 0.956; KS test p < 0.001 for both models). Knowledge domains do produce a small but statistically significant modulation of the energy profile. The domain effect (cosine difference ~0.02) is dwarfed by the architecture effect.
 
-**Between-model similarity is dramatically lower**. After normalizing both models to a common [0,1] depth scale (GEMMA 26 layers, QWEN 36 layers), mean cosine similarity drops to 0.696 (std = 0.045). Mann-Whitney U test confirms this difference is significant (p < 0.000001). The gap between within-model (0.978) and between-model (0.696) similarity is 0.282 — an order of magnitude larger than the within-model domain effect (0.02).
+**Between-model similarity is dramatically lower**. After normalising both models to a common [0,1] depth scale (GEMMA 26 layers, QWEN 36 layers), mean cosine similarity drops to 0.696 (std = 0.045). Mann-Whitney U confirms this difference is significant (p < 0.000001).
+
+The gap between within-model (0.978) and between-model (0.696) similarity is 0.282 — an order of magnitude larger than the within-model domain effect (0.02).
 
 This provides the strongest quantitative evidence for Angle 1: **architecture explains ~14x more variance in energy profiles than knowledge domain**.
 
@@ -326,9 +344,15 @@ We correlated each layer's energy fraction with output probability across all 30
 
 L6 — the primary bottleneck layer identified in our traceback analysis (L5-7) — shows the strongest negative correlation (r = -0.684): **circuits with a larger fraction of activation energy at the bottleneck layer exhibit lower output confidence**. We term this the "bottleneck tax," a memorable label for the negative correlation between bottleneck-layer activation and downstream confidence.
 
-**Theoretical framing.** We interpret this pattern through the lens of information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017), which formalizes the idea that deep networks compress information through intermediate layers and that this compression affects what downstream layers can recover. The theory predicts a tradeoff: heavier compression at a bottleneck limits the mutual information I(X; T) between input X and the bottleneck representation T, which in turn limits the information available for downstream prediction. Our correlation is consistent with this prediction: circuits that concentrate more activation magnitude at L6 may be compressing input representations more aggressively, leaving less information for evidence accumulation at L13-L16. In contrast, energy at post-bottleneck layers positively predicts confidence, consistent with the interpretation that those layers aggregate information into the final decision.
+**Theoretical framing.** We interpret this pattern through information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017): deep networks compress information through intermediate layers, and this compression affects what downstream layers can recover.
 
-**Important caveat.** The paper uses "energy" as shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently. The bottleneck tax is a **correlation, not a mechanistic causal claim**. Alternative explanations include: (a) harder prompts require more compression at L6 and are also harder to answer confidently (prompt-difficulty confound); (b) specific knowledge domains may both concentrate work at L6 and have lower baseline accuracy; (c) feature-selection effects in the traceback algorithm. We present the information-bottleneck framing as the most rigorous theoretical grounding for the observed pattern, while acknowledging that direct causal validation would require interventional experiments (e.g., clamping L6 energy and measuring confidence change).
+The theory predicts a tradeoff: heavier compression at a bottleneck limits the mutual information I(X; T) between input X and the bottleneck representation T, which in turn limits the information available for downstream prediction. Our correlation is consistent with this prediction: circuits that concentrate more activation magnitude at L6 may be compressing more aggressively, leaving less information for evidence accumulation at L13–L16.
+
+Energy at post-bottleneck layers positively predicts confidence, consistent with those layers aggregating information into the final decision.
+
+**Important caveat.** "Energy" here is shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently. The bottleneck tax is a **correlation, not a mechanistic causal claim**.
+
+Alternative explanations include: (a) harder prompts require more compression at L6 *and* are harder to answer confidently (prompt-difficulty confound); (b) specific knowledge domains may both concentrate work at L6 and have lower baseline accuracy; (c) feature-selection effects in the traceback algorithm. Direct causal validation would require interventional experiments such as clamping L6 energy and measuring confidence change.
 
 **QWEN shows 0 Bonferroni-significant layers** (best: L29, r = 0.552, p = 0.0016), consistent with its late-layer architecture decoupling layer-level energy from confidence. This extends the finding from Section 5.12.2 that QWEN lacks the confidence-structure relationships seen in GEMMA. (Fig. 18, 19, 20)
 
@@ -407,7 +431,9 @@ We extracted the minimum viable circuit connecting input features (early layers,
 
 ### 5.8 Causal Steering Validation
 
-We ran 80 total steering experiments across three batches (D4, D5, D6), each using a different criterion to select which SAE features to intervene on. In every experiment a single feature was clamped to a fixed activation strength (±20) on a single prompt; no compound or multi-feature interventions were performed. All experiments used `temperature=0`, `seed=42`, `n_tokens=10` for reproducibility, and called Neuronpedia's `/api/steer` endpoint.
+We ran 80 total steering experiments across three batches (D4, D5, D6), each using a different criterion to select which SAE features to intervene on.
+
+In every experiment a single feature was clamped to a fixed activation strength (±20) on a single prompt; no compound or multi-feature interventions were performed. All experiments used `temperature=0`, `seed=42`, `n_tokens=10` for reproducibility, and called Neuronpedia's `/api/steer` endpoint.
 
 **Feature-selection design:**
 
@@ -419,7 +445,9 @@ We ran 80 total steering experiments across three batches (D4, D5, D6), each usi
 
 **Cross-circuit frequency** counts the number of distinct circuits in which a feature appears as a bottleneck (convergence ≥ 60% in traceback). **Essential-pathway membership** counts the number of distinct circuits whose minimum-viable input-to-output pathway includes the feature (typically only ~6% of nodes per circuit).
 
-A pre-experiment cross-check on D4+D5 features revealed that only 5 of 10 frequency-selected features (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228) were also on essential pathways; the other 5 (L4_F110446948, L5_F7993995, L6_F2586668, L7_F4828270, L9_F125286525) were frequent but not essential. This split between "frequent and topologically central" vs "frequent but topologically peripheral" allowed direct comparison of the two selection criteria.
+A pre-experiment cross-check on D4+D5 features revealed that only 5 of 10 frequency-selected features (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228) were also on essential pathways. The other 5 were frequent but not essential.
+
+This split between "frequent and topologically central" versus "frequent but topologically peripheral" allowed direct comparison of the two selection criteria.
 
 #### 5.8.1 Initial Validation (D4)
 
@@ -427,9 +455,11 @@ We analyzed 20 steering experiments across the 5 D4 GEMMA bottleneck features an
 
 **Steering effects are small but consistent.** The mean logprob shift is 0.045 across all experiments, with 50% of experiments producing visible text changes. Effects are probability-level perturbations rather than token-flipping interventions.
 
-**Graph-structural metrics are unavailable for steered features.** A critical finding: none of the 5 steered features appear as nodes in their respective circuits' attribution graphs. The attribution graph's inclusion threshold (top-k activating features) filters out features that are active but below the display threshold. This means steered features exert causal influence despite being invisible in the circuit representation — a fundamental limitation of threshold-based circuit extraction.
+**Graph-structural metrics are unavailable for steered features.** A critical finding: none of the 5 steered features appear as nodes in their respective circuits' attribution graphs. The attribution graph's inclusion threshold filters out features that are active but below the display threshold.
 
-**Circuit-level predictors show promise.** In the absence of graph metrics, circuit-level features provide the best predictions: average convergence (from the bottleneck library) correlates positively with KL divergence (r=0.387), suggesting that features appearing with high convergence across more paths tend to produce larger steering effects. The number of circuits a feature appears in also trends positive (r=0.123) but does not reach significance with n=20.
+This means steered features exert causal influence despite being invisible in the circuit representation — a fundamental limitation of threshold-based circuit extraction.
+
+**Circuit-level predictors show promise.** In the absence of graph metrics, circuit-level features provide the best predictions. Average convergence (from the bottleneck library) correlates positively with KL divergence (r = 0.387), suggesting that features with high convergence across more paths tend to produce larger steering effects. The number of circuits a feature appears in also trends positive (r = 0.123) but does not reach significance at n = 20.
 
 **Layer depth inversely relates to effect size.** The deepest feature tested (L24) shows the smallest mean effect (0.020), while early-to-mid features (L0, L4, L6) show 2-3x larger effects (0.054-0.058). This is consistent with the bottleneck tax — deeper features may be more embedded in compensatory pathways that absorb perturbations.
 
@@ -447,17 +477,25 @@ We expanded the causal steering analysis from 20 to 50 experiments, testing 5 ad
 
 #### 5.8.3 Essential-Pathway Steering: The Three-Tier Dissociation
 
-We tested whether features on the minimal viable pathway (Section 5.7) produce stronger steering effects than features selected solely by cross-circuit frequency (Section 5.8.2). From the 1,000 unique features identified on essential pathways across 30 GEMMA circuits, we selected 5 high-frequency essential-pathway features not previously tested (L0_F64712375, L1_F1736314, L21_F5479683, L25_F50014975, L24_F18002975; 10-23 pathway circuits each) and ran 30 steering experiments (5 features x 3 circuits x +/-20 strength) on the same target circuits as D5.
+We tested whether features on the minimal viable pathway (Section 5.7) produce stronger steering effects than features selected by cross-circuit frequency (Section 5.8.2).
+
+From the 1,000 unique features identified on essential pathways across 30 GEMMA circuits, we selected 5 high-frequency essential-pathway features not previously tested (L0_F64712375, L1_F1736314, L21_F5479683, L25_F50014975, L24_F18002975; 10–23 pathway circuits each). We ran 30 steering experiments (5 features × 3 circuits × ±20) on the same target circuits as D5.
 
 **Essential-pathway features produce moderate text changes.** The 5 new features achieved a 26.7% text change rate (8/30), intermediate between D5 features on essential pathways (18.8%, 3/16) and D5 features off essential pathways (33.3%, 6/18). Neither pathway position nor cross-circuit frequency alone predicts text-level causal influence.
 
-**Pathway features produce larger distributional perturbations.** Despite comparable text change rates, essential-pathway features exhibit substantially higher mean KL divergence (1.448) than D5 features, driven by individual experiments with KL > 2.0 (6 of 30 experiments). The strongest single perturbation (L25_F50014975 amplification on geography, KL=12.72) changed the output from a generic description to the factually correct "Tokyo," suggesting this feature gates factual recall at the output layer.
+**Pathway features produce larger distributional perturbations.** Despite comparable text change rates, essential-pathway features exhibit substantially higher mean KL divergence (1.448) than D5 features, driven by 6 of 30 experiments with KL > 2.0.
+
+The strongest single perturbation — L25_F50014975 amplification on geography, KL = 12.72 — changed the output from a generic description to the factually correct "Tokyo," suggesting this feature gates factual recall at the output layer.
 
 **Layer depth modulates steering direction.** Early pathway features (L0, L1) produced changes exclusively via suppression (2/2 changes at strength=-20), while late pathway features (L21, L24, L25) produced changes via both suppression and amplification (6 changes split 3/3). This suggests early features serve as information gates that cause disruption when removed, while late features actively shape output content and respond to both directions of perturbation.
 
 **Domain susceptibility is consistent with prior findings.** Chemistry remained completely resistant (0/10), geography showed intermediate susceptibility (2/10), and history was most susceptible (6/10, 60%). This replicates the pattern from Section 5.8.2 and reinforces the interpretation that output determinism — not circuit topology — governs steering susceptibility.
 
-**The topology-causal relationship is nuanced.** Being on the essential pathway predicts stronger sub-threshold perturbation (higher KL divergence) but not stronger text-level changes. Combined with Section 5.8.2's finding that cross-circuit frequency does not predict text changes, this suggests a three-tier model of feature importance: (1) features on essential pathways perturb probability distributions most strongly; (2) features with high cross-circuit frequency are statistically common but not necessarily causal; (3) text-level output changes are governed primarily by output entropy and domain determinism rather than by any single feature-selection criterion. (Fig. 43, 45)
+**The topology-causal relationship is nuanced.** Being on the essential pathway predicts stronger sub-threshold perturbation (higher KL divergence) but not stronger text-level changes. Combined with Section 5.8.2's finding that frequency does not predict text changes, this suggests a three-tier model of feature importance:
+
+1. Features on essential pathways perturb probability distributions most strongly.
+2. Features with high cross-circuit frequency are statistically common but not necessarily causal.
+3. Text-level output changes are governed primarily by output entropy and domain determinism rather than by any single feature-selection criterion. (Fig. 43, 45)
 
 ![Figure 43](../../data/stage_2_figures/fig43_steering_effects.png)
 *Figure 43: Steering effects across 20 initial experiments. Mean logprob shift = 0.045; 50% produce visible text changes.*
@@ -469,7 +507,9 @@ Extended results including statistical significance tests, domain effect sizes, 
 
 ### 5.9 Format Variation: Template vs Domain Effects
 
-A critical question is whether the within-domain circuit similarity observed in Section 5.1 reflects genuine knowledge-domain convergence or merely prompt-template similarity (all chemistry prompts share "The chemical symbol for X is"). To test this, we generated circuits for the same fact using three different prompt formats and compared the resulting Jaccard similarity.
+A critical question is whether the within-domain circuit similarity observed in Section 5.1 reflects genuine knowledge-domain convergence or merely prompt-template similarity. All chemistry prompts share "The chemical symbol for X is."
+
+To test this, we generated circuits for the same fact using three different prompt formats and compared the resulting Jaccard similarity.
 
 **Pilot study: gold circuits across three formats:**
 - Original: "The chemical symbol for gold is" (1288 nodes, 1110 features)
@@ -487,11 +527,15 @@ A critical question is whether the within-domain circuit similarity observed in 
 
 All comparisons use the same raw feature ID space (validated by confirming J=1.000 for the same prompt generated in both sessions).
 
-**Prompt template drives more circuit overlap than factual identity, but the effect is domain-dependent.** Averaging across all domains, same-template pairs (J=0.493) exceed same-fact-different-template pairs (J=0.306) by a factor of 1.6×. Chemistry (0.611) and geography (0.713) show strong template-driven convergence, but history (0.156) does not — history circuits are so structurally diverse that the template provides little convergence beyond the cross-domain baseline (0.112). This mirrors the low within-domain Jaccard for history reported in Section 5.1 (GEMMA: 0.108).
+**Prompt template drives more circuit overlap than factual identity, but the effect is domain-dependent.** Averaging across all domains, same-template pairs (J = 0.493) exceed same-fact-different-template pairs (J = 0.306) by a factor of 1.6×.
 
-This establishes a nuanced hierarchy: **template > fact > cross-domain** for chemistry and geography, but **fact > template ≈ cross-domain** for history. The within-domain Jaccard values reported in Section 5.1 reflect a mixture of template and domain effects for chemistry and geography, while history's low convergence is genuine. However, the same-fact-different-format Jaccard (0.306) is still 2.7× higher than the cross-domain baseline (0.112), confirming that knowledge domain does contribute to circuit structure beyond template effects alone.
+Chemistry (0.611) and geography (0.713) show strong template-driven convergence, but history (0.156) does not. History circuits are so structurally diverse that the template provides little convergence beyond the cross-domain baseline (0.112), mirroring the low within-domain Jaccard for history reported in Section 5.1 (GEMMA: 0.108).
 
-**This finding does not undermine the architecture-dominance result** (Section 5.5), which is based on per-layer energy profiles (cosine similarity 0.978 within-model), not feature-level Jaccard. Energy profiles are robust to prompt format because they capture the distribution of computation across layers, not the identity of individual features. The format effect operates at the feature-selection level (which specific features are activated) while the architecture effect operates at the computational-structure level (where energy is concentrated).
+This establishes a nuanced hierarchy: **template > fact > cross-domain** for chemistry and geography, but **fact > template ≈ cross-domain** for history. The within-domain Jaccard values in Section 5.1 reflect a mixture of template and domain effects for chemistry and geography, while history's low convergence is genuine. The same-fact-different-format Jaccard (0.306) is still 2.7× higher than the cross-domain baseline (0.112), confirming that domain contributes to circuit structure beyond template alone.
+
+**This finding does not undermine the architecture-dominance result** (Section 5.5), which is based on per-layer energy profiles (cosine 0.978 within-model), not feature-level Jaccard. Energy profiles are robust to prompt format because they capture *where* computation happens across layers, not the identity of individual features.
+
+The format effect operates at the feature-selection level (which specific features activate). The architecture effect operates at the computational-structure level (where energy is concentrated).
 
 **Note:** This pilot is limited to one fact (gold) across three formats in one domain (chemistry), due to Neuronpedia API rate limits on graph generation. Extending to all facts and domains is an important direction for future work.
 
@@ -501,11 +545,23 @@ This establishes a nuanced hierarchy: **template > fact > cross-domain** for che
 
 ### 6.1 Architecture Determines Circuit Structure
 
-Our most striking finding is that not just bottleneck position, but the entire layer-by-layer energy distribution is an architectural constant. GEMMA routes all factual knowledge through early-layer bottlenecks (L5-7) while QWEN routes through late-layer bottlenecks (L22-25), and this pattern extends to the full energy profile: within-model cosine similarity is 0.978 (virtually identical profiles across domains) while between-model similarity drops to 0.696 even after depth normalization. Architecture explains ~14x more variance in energy profiles than knowledge domain. Our edge flow analysis extends this invariance from energy to wiring topology. Cross-category edge pattern similarity is 0.995 for both models — even higher than the 0.978 energy profile similarity — meaning domains share virtually identical wiring diagrams within each architecture. Skip connections dominate: 80-85% of edges bypass adjacent layers, with GEMMA's strongest connections radiating from L0 outward (L0→L1, L0→L2, L0→L4 — early fan-out consistent with front-loading) and QWEN's concentrated at L30-L35 (L34→L35, L30→L31 — late sequential processing consistent with back-loading). The architectural fingerprint thus extends from how much energy flows to where it flows. (See Supplementary Materials Section S1.14)
+Our most striking finding is that not just bottleneck position, but the entire layer-by-layer energy distribution is an architectural constant. GEMMA routes all factual knowledge through early-layer bottlenecks (L5–7); QWEN routes through late-layer bottlenecks (L22–25).
 
-The Mann-Whitney analysis confirms pervasive cross-model differences: 13/16 circuit metrics differ significantly between GEMMA and QWEN, with peak activation layer and bottleneck layer showing perfect rank separation (r = 1.0). Only branching factor, total edges, and community entropy are architecture-invariant. The three shared properties may represent computational constants of factual retrieval: regardless of where bottlenecks are placed or how much activation is recruited, the branching structure of information flow and the total volume of edges appear fixed by the task rather than the architecture. (See Supplementary Materials Section S1.5)
+Within-model cosine similarity is 0.978 (virtually identical profiles across domains) while between-model similarity drops to 0.696 even after depth normalisation. Architecture explains ~14× more variance in energy profiles than knowledge domain.
 
-The complementary accumulation strategies -- GEMMA front-loads 54% of energy into the first half of layers while QWEN back-loads with only 31% in the first half -- suggest fundamentally different computational paradigms. GEMMA processes factual associations early and refines through later layers; QWEN accumulates context broadly before concentrating processing in late layers. Crucially, both strategies produce comparable factual recall accuracy across all three domains, demonstrating that early-bottleneck and late-bottleneck architectures represent distinct but equally viable solutions to the same knowledge retrieval problem. The varying degree of within-domain circuit similarity (geography > chemistry > history) further reflects the structural similarity of the prompts within each domain: geography prompts are nearly identical in structure ("The capital of X is"), producing highly conserved circuits, while history prompts vary more in structure and subject matter, producing the most diverse circuits. (See Supplementary Materials Section S1.6)
+Edge flow analysis extends this invariance from energy to wiring topology. Cross-category edge pattern similarity is 0.995 for both models — even higher than the 0.978 energy profile similarity. Domains share virtually identical wiring diagrams within each architecture.
+
+Skip connections dominate: 80–85% of edges bypass adjacent layers. GEMMA's strongest connections radiate from L0 outward (L0→L1, L0→L2, L0→L4 — early fan-out consistent with front-loading); QWEN's concentrate at L30–L35 (L34→L35, L30→L31 — late sequential processing consistent with back-loading). The architectural fingerprint extends from how much energy flows to where it flows. (See Supplementary Materials S1.14)
+
+The Mann-Whitney analysis confirms pervasive cross-model differences: 13/16 circuit metrics differ significantly between GEMMA and QWEN, with peak activation layer and bottleneck layer showing perfect rank separation (r = 1.0). Only branching factor, total edges, and community entropy are architecture-invariant.
+
+These three shared properties may represent computational constants of factual retrieval: regardless of where bottlenecks are placed or how much activation is recruited, the branching structure of information flow and the total volume of edges appear fixed by the task rather than the architecture. (See Supplementary Materials S1.5)
+
+The complementary accumulation strategies — GEMMA front-loads 54% of energy into the first half of layers while QWEN back-loads with only 31% — suggest fundamentally different computational paradigms. GEMMA processes factual associations early and refines through later layers; QWEN accumulates context broadly before concentrating processing in late layers.
+
+Both strategies produce comparable factual recall accuracy across all three domains, demonstrating that early-bottleneck and late-bottleneck architectures represent distinct but equally viable solutions to the same knowledge retrieval problem.
+
+The varying degree of within-domain circuit similarity (geography > chemistry > history) further reflects the structural similarity of prompts within each domain. Geography prompts are nearly identical in structure ("The capital of X is"), producing highly conserved circuits; history prompts vary more in structure and subject matter, producing the most diverse circuits. (See Supplementary Materials S1.6)
 
 ### 6.2 Universal Features as Routing Infrastructure
 
@@ -513,7 +569,11 @@ The existence of universal bottleneck features that participate in all three kno
 
 The notable descriptions of GEMMA's universal features support this interpretation: "HTML formatting tags," "code/file keywords," and "place names" are structural/format-related features, not factual knowledge features.
 
-Our co-activation analysis further reveals that these universal features organize into within-layer functional modules (same-layer co-activation is 1.9x stronger than cross-layer), with hierarchical clustering identifying 5 distinct feature groups. This modular organization suggests a structured routing infrastructure rather than a random collection of individually useful features. The polysemanticity analysis provides additional converging evidence: CODE (20%) and LANGUAGE (20%) features -- encoding formatting, syntax, and linguistic patterns -- outnumber domain-specific features (13%), 54% of features appear in 2+ domains and 18% in all 3, and the low overall polysemanticity rate (12.3%) suggests bottleneck features are more specialized than the average SAE feature -- they are selected by the circuit architecture for specific routing functions, even if those functions span multiple knowledge domains. (See Supplementary Materials Sections S1.11, S1.15)
+Co-activation analysis further reveals that these universal features organise into within-layer functional modules: same-layer co-activation is 1.9× stronger than cross-layer, and hierarchical clustering identifies 5 distinct feature groups. This modular organisation suggests a structured routing infrastructure rather than a random collection of individually useful features.
+
+Polysemanticity analysis provides additional converging evidence. CODE (20%) and LANGUAGE (20%) features — encoding formatting, syntax, and linguistic patterns — outnumber domain-specific features (13%). 54% of features appear in ≥2 domains and 18% in all 3.
+
+The low overall polysemanticity rate (12.3%) suggests bottleneck features are more specialised than the average SAE feature: they are selected by the circuit architecture for specific routing functions, even when those functions span multiple knowledge domains. (See Supplementary Materials S1.11, S1.15)
 
 ### 6.3 Output Convergence vs Path Divergence
 
@@ -523,29 +583,51 @@ This has implications for model editing: intervening at the output layer would a
 
 ### 6.4 Confidence Is Driven by Circuit Energetics, Not Bottleneck Quality: The "Bottleneck Tax"
 
-Our combined statistical and per-layer analyses reveal a compelling pattern linking circuit structure to behavior. In GEMMA, total activation energy is the strongest single predictor of confidence (r = 0.527, Bonferroni-surviving), and a 3-predictor regression model (energy, kurtosis, circuit size) explains 49% of variance (p < 0.001). Critically, bottleneck convergence does NOT predict confidence (r = 0.270, p = 0.15), and bottleneck energy fraction specifically does NOT predict confidence (r = 0.256, p = 0.17): it is not the quality or concentration of information compression that matters.
+Our combined statistical and per-layer analyses reveal a compelling pattern linking circuit structure to behaviour. In GEMMA, total activation energy is the strongest single predictor of confidence (r = 0.527, Bonferroni-surviving), and a 3-predictor regression model (energy, kurtosis, circuit size) explains 49% of variance (p < 0.001).
 
-**The core observation.** Per-layer analysis reveals that GEMMA L6 (the primary bottleneck layer) shows a strong negative correlation with confidence (r = -0.684, p < 0.0001), while energy at post-bottleneck layers (L13: r = +0.601; L16: r = +0.598) positively predicts confidence. We term this pattern the "bottleneck tax" — a memorable label for the observation that heavier activation at the bottleneck layer is associated with lower downstream confidence.
+Critically, bottleneck convergence does NOT predict confidence (r = 0.270, p = 0.15), and bottleneck energy fraction specifically does NOT predict confidence (r = 0.256, p = 0.17). It is not the quality or concentration of information compression that matters.
 
-**Theoretical grounding: information bottleneck theory.** We interpret this pattern through information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017). The theory formalizes the tradeoff between compression and prediction in deep networks: each layer L computes a representation T_L of the input X with mutual information I(X; T_L), and heavier compression at an intermediate layer reduces the information available to downstream layers for reconstruction and prediction. Our observation — more bottleneck-layer activation predicts worse confidence — is consistent with the prediction that over-compression at L6 limits the information downstream layers (L13, L16) can use for evidence accumulation. We emphasize "consistent with" rather than "proof of": our measurements are of activation magnitude, not mutual information, and our analysis is correlational, not interventional.
+**The core observation.** Per-layer analysis reveals that GEMMA L6 (the primary bottleneck layer) shows a strong negative correlation with confidence (r = −0.684, p < 0.0001), while energy at post-bottleneck layers (L13: r = +0.601; L16: r = +0.598) positively predicts confidence. We term this pattern the "bottleneck tax" — a memorable label for the observation that heavier bottleneck-layer activation is associated with lower downstream confidence.
 
-**A nuance from output decomposition.** While the bottleneck tax operates at the circuit level (more overall bottleneck weight = lower confidence), the critical paths show the opposite pattern: paths that route *more* through bottleneck layers yield *higher* confidence (r=0.415, p=0.016). Bottleneck layers are simultaneously the most important processing hubs and the most costly when over-used. This dual role — essential routing infrastructure that imposes compression costs when overloaded — is consistent with the information bottleneck framework, in which a well-used bottleneck that preserves task-relevant information improves prediction while an over-compressed bottleneck harms it.
+**Theoretical grounding: information bottleneck theory.** We interpret this pattern through information bottleneck theory (Tishby & Zaslavsky, 2015; Shwartz-Ziv & Tishby, 2017). The theory formalises the tradeoff between compression and prediction in deep networks: each layer L computes a representation T_L of the input X with mutual information I(X; T_L), and heavier compression at an intermediate layer reduces the information available to downstream layers for reconstruction and prediction.
 
-**Relation to prior work.** This finding connects to Meng et al.'s (2022) causal tracing results. Where Meng et al. identified specific MLP layers as sites of factual association storage by intervening on activations, our per-layer correlation analysis provides a non-interventional analog — a "correlational causal tracing" that identifies which layers' activation patterns predict behavioral outcomes. The convergent finding (specific layers matter, not all layers equally) is compatible with both approaches, though interventional validation remains a target for future work.
+Our observation — more bottleneck-layer activation predicts worse confidence — is consistent with the prediction that over-compression at L6 limits the information downstream layers (L13, L16) can use for evidence accumulation. We emphasise "consistent with" rather than "proof of": our measurements are of activation magnitude, not mutual information, and our analysis is correlational, not interventional.
 
-**What the bottleneck tax is NOT.** We are careful to note that "energy" in this paper is shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently. The bottleneck tax is a correlation, not a mechanistic causal claim. Alternative explanations (prompt difficulty confounds, domain-specific accuracy differences, feature-selection effects in traceback) remain viable. Our contribution is the empirical pattern and its consistency with information bottleneck theory, not a proof of mechanism.
+**A nuance from output decomposition.** While the bottleneck tax operates at the circuit level (more overall bottleneck weight = lower confidence), the critical paths show the opposite pattern: paths that route *more* through bottleneck layers yield *higher* confidence (r = 0.415, p = 0.016).
 
-QWEN shows no per-layer confidence relationships (0 Bonferroni-significant layers), consistent with its late-layer architecture diffusing confidence signals across many layers rather than localizing them. This is itself an interesting finding: the information bottleneck framework predicts that architectures with diffuse compression should exhibit weaker per-layer correlations with output quality, which is what we observe. (See Supplementary Materials Section S1.16)
+Bottleneck layers are simultaneously the most important processing hubs and the most costly when over-used. This dual role — essential routing infrastructure that imposes compression costs when overloaded — is consistent with the information bottleneck framework, where a well-used bottleneck that preserves task-relevant information improves prediction while an over-compressed bottleneck harms it.
+
+**Relation to prior work.** This finding connects to Meng et al.'s (2022) causal tracing results. Where Meng et al. identified specific MLP layers as sites of factual association storage via interventions, our per-layer correlation analysis provides a non-interventional analog — a "correlational causal tracing" that identifies which layers' activation patterns predict behavioural outcomes.
+
+The convergent finding (specific layers matter, not all layers equally) is compatible with both approaches, though interventional validation remains a target for future work.
+
+**What the bottleneck tax is NOT.** "Energy" here is shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently.
+
+The bottleneck tax is a correlation, not a mechanistic causal claim. Alternative explanations remain viable: prompt difficulty confounds, domain-specific accuracy differences, and feature-selection effects in traceback. Our contribution is the empirical pattern and its consistency with information bottleneck theory, not a proof of mechanism.
+
+QWEN shows no per-layer confidence relationships (0 Bonferroni-significant layers), consistent with its late-layer architecture diffusing confidence signals across many layers. The information bottleneck framework predicts that architectures with diffuse compression should exhibit weaker per-layer correlations with output quality, which is what we observe. (See Supplementary Materials S1.16)
 
 ### 6.5 Causal Validation: Redundancy, Visibility, and the Three-Tier Model
 
-Our minimal pathway analysis reveals that circuits are 94.1% redundant -- only ~6% of nodes participate in the essential input-to-output pathways, and these pathways carry just 0.3% of total edge weight. The finding that GEMMA's redundancy positively correlates with confidence (r=0.642) suggests a functional role for this redundancy. More redundant circuits may represent more robust, well-established factual memories where the model has encoded multiple parallel pathways to the same answer. This "redundancy-as-robustness" hypothesis aligns with the ensemble interpretation of neural network computation.
+Minimal pathway analysis reveals that circuits are 94.1% redundant: only ~6% of nodes participate in the essential input-to-output pathways, and these pathways carry just 0.3% of total edge weight. GEMMA's redundancy positively correlates with confidence (r = 0.642), suggesting a functional role for this redundancy.
 
-Our steering analysis reveals a critical methodological gap: features that exert causal influence through steering are invisible in the attribution graph. None of the 5 initially steered features appeared as nodes in their circuits' graphs. This "visibility gap" means that circuit-based analysis underestimates the set of causally relevant features. The attribution graph captures only above-threshold activations, while causal influence extends to the sub-threshold feature population.
+More redundant circuits may represent more robust, well-established factual memories where the model has encoded multiple parallel pathways to the same answer. This "redundancy-as-robustness" hypothesis aligns with ensemble interpretations of neural network computation.
 
-The expanded steering analysis reveals a critical disconnect between structural importance (as measured by cross-circuit frequency) and causal influence (as measured by steering effect). L2_F25751073, the feature appearing in the most circuits (11), produced zero text changes when steered, while L7_F4828270 (9 circuits) was the most effective. This suggests that frequent activation across circuits reflects statistical co-occurrence rather than causal necessity. A feature can be reliably present without being mechanistically essential -- it may be part of the redundant scaffolding (94.1% redundancy) rather than the essential pathway. The domain asymmetry in steering susceptibility (history > geography > chemistry = 0) has a natural interpretation: chemistry circuits produce the most deterministic outputs (Na, Fe, Pb are near-certain completions), making them resistant to perturbation. History and geography outputs have more distributional uncertainty, creating more room for steering to shift the argmax.
+Our steering analysis reveals a critical methodological gap: features that exert causal influence through steering are invisible in the attribution graph. None of the 5 initially steered features appeared as nodes in their circuits' graphs. This "visibility gap" means that circuit-based analysis underestimates the causally relevant feature set — the attribution graph captures only above-threshold activations, while causal influence extends to sub-threshold features.
 
-The essential-pathway steering validation reveals a three-tier dissociation between structural importance metrics and causal influence. Features on the minimal viable pathway produce the strongest distributional perturbations (mean KL=1.448), but neither pathway position (26.7% text change rate) nor cross-circuit frequency (23.3% for frequency-selected features) reliably predicts text-level output changes. This dissociation suggests that the attribution graph captures two distinct types of information: (1) the essential routing topology, which determines how strongly a feature can perturb probability distributions, and (2) the redundancy structure, which determines whether that perturbation survives to change the argmax output token. Features on essential pathways are genuinely important for information flow -- their perturbations propagate strongly through the circuit -- but the model's 94.1% circuit redundancy provides compensatory pathways that absorb these perturbations before the output layer. The layer-dependent steering direction (early features respond to suppression only; late features respond to both directions) further suggests a functional partition: early-layer pathway features serve as information gates whose removal disrupts processing, while late-layer pathway features actively shape output distributions and respond to amplification. (See Supplementary Materials Sections S1.17, S1.19, S1.20, S1.21)
+Expanded steering reveals a disconnect between structural importance (cross-circuit frequency) and causal influence (steering effect). L2_F25751073, appearing in the most circuits (11), produced zero text changes when steered, while L7_F4828270 (9 circuits) was the most effective.
+
+Frequent activation across circuits reflects statistical co-occurrence rather than causal necessity. A feature can be reliably present without being mechanistically essential — it may be part of the redundant scaffolding (94.1% redundancy) rather than the essential pathway.
+
+The domain asymmetry in steering susceptibility (history > geography > chemistry = 0) has a natural interpretation. Chemistry circuits produce the most deterministic outputs (Na, Fe, Pb are near-certain completions), making them resistant to perturbation. History and geography outputs have more distributional uncertainty, creating more room for steering to shift the argmax.
+
+The essential-pathway steering validation reveals a **three-tier dissociation** between structural importance metrics and causal influence. Features on the minimal viable pathway produce the strongest distributional perturbations (mean KL = 1.448), but neither pathway position (26.7% text change rate) nor cross-circuit frequency (23.3% for frequency-selected features) reliably predicts text-level output changes.
+
+This dissociation suggests that the attribution graph captures two distinct types of information: (1) the essential routing topology, which determines how strongly a feature can perturb probability distributions, and (2) the redundancy structure, which determines whether that perturbation survives to change the argmax output token.
+
+Features on essential pathways are genuinely important for information flow — their perturbations propagate strongly through the circuit — but the model's 94.1% circuit redundancy provides compensatory pathways that absorb these perturbations before the output layer.
+
+The layer-dependent steering direction (early features respond to suppression only; late features respond to both directions) further suggests a functional partition: early-layer pathway features serve as information gates whose removal disrupts processing, while late-layer pathway features actively shape output distributions and respond to amplification. (See Supplementary Materials S1.17, S1.19, S1.20, S1.21)
 
 ---
 
@@ -553,19 +635,19 @@ The essential-pathway steering validation reveals a three-tier dissociation betw
 
 1. **Two models only.** Our findings are based on Gemma-2-2B and Qwen3-4B. Larger models, different architectures, or instruction-tuned variants may exhibit different patterns. The architecture-dominance claim is supported by between-architecture comparison of these two models, not a population of architectures.
 
-2. **Sample size and statistical power.** With n = 30 per model (10 per category), correlations below |r| = 0.45 are unreliable at α = 0.05, and only |r| ≥ 0.60 survives Bonferroni correction. Medium-sized effects (Cohen's d = 0.5–0.8) may exist in our ANOVA comparisons but remain undetectable. The full regression model (9 predictors, 21 residual df) is underpowered; we report reduced models as primary results.
+2. **Sample size and statistical power.** With n = 30 per model (10 per category), correlations below |r| = 0.45 are unreliable at α = 0.05, and only |r| ≥ 0.60 survives Bonferroni correction. Medium-sized effects (Cohen's d = 0.5–0.8) may exist in our ANOVA comparisons but remain undetectable. The full regression (9 predictors, 21 residual df) is underpowered; we report reduced models as primary results.
 
-3. **SAE quality and QWEN annotation gap.** Feature interpretability depends on SAE training quality. 114 of 244 cross-circuit features (all Qwen) lack Neuronpedia explanations, limiting the polysemanticity analysis to Gemma features only. The semantic classification covers only 130 Gemma features (53.3% of 244 cross-circuit features), and classification is regex-based on Neuronpedia explanations, which may misclassify features with ambiguous descriptions.
+3. **SAE quality and QWEN annotation gap.** 114 of 244 cross-circuit features (all Qwen) lack Neuronpedia explanations, limiting polysemanticity analysis to Gemma features only. The semantic classification covers only 130 Gemma features (53.3%), and classification is regex-based on Neuronpedia explanations, which may misclassify features with ambiguous descriptions.
 
-4. **Prompt format effects.** Our format variation experiment (Section 5.9) shows that prompt template drives 1.6x more feature-level circuit overlap than factual identity for chemistry and geography, though not for history. The within-domain Jaccard values in Section 5.1 are partially inflated by template similarity for these domains. The architecture-dominance finding (Section 5.5) is based on energy profiles, not feature Jaccard, and is robust to this confound. The format variation pilot tests only one fact (gold) across formats; extending to all facts and domains would strengthen this analysis.
+4. **Prompt format effects.** Our format variation experiment (§5.9) shows that prompt template drives 1.6× more feature-level overlap than factual identity for chemistry and geography, though not for history. The within-domain Jaccard values in §5.1 are partially inflated by template similarity for these domains. The architecture-dominance finding (§5.5) uses energy profiles, not feature Jaccard, and is robust to this confound. The pilot tests only one fact (gold); extending to all facts and domains would strengthen this analysis.
 
-5. **Correlational, not interventional.** Our per-layer energy-confidence correlations (Section 5.5.3) and the bottleneck tax interpretation are based on observational data across 30 circuits per model. The information bottleneck framing is a theoretical interpretation, not a proven mechanism. Direct interventional validation (e.g., clamping bottleneck-layer activations and measuring confidence change) is future work and would require local model access not currently available through the Neuronpedia API.
+5. **Correlational, not interventional.** Our per-layer energy–confidence correlations (§5.5.3) and the bottleneck tax interpretation are based on observational data across 30 circuits per model. The information bottleneck framing is a theoretical interpretation, not a proven mechanism. Direct interventional validation (clamping bottleneck-layer activations and measuring confidence change) is future work requiring local model access not available through the Neuronpedia API.
 
 6. **Limited steering coverage.** The 80-experiment steering validation provides initial causal evidence but is limited to Gemma (Qwen SAE steering is not yet supported by the Neuronpedia API), uses only ±20 strength with 3 target circuits per experiment, and tests 15 features total. Dose-response curves at varying strengths and broader feature coverage would strengthen the three-tier dissociation finding.
 
-7. **Community degeneracy.** The multi-algorithm validation (4 methods, 60 circuits) shows high modularity (>0.4 for Louvain and Greedy Modularity) but low cross-algorithm agreement (mean Jaccard = 0.363), indicating that community boundaries are algorithm-dependent while the existence of community structure is robust. Analyses depending on specific community assignments (e.g., supernode construction, community-level statistics) should be interpreted as one valid partition among many.
+7. **Community degeneracy.** The multi-algorithm validation (4 methods, 60 circuits) shows high modularity (>0.4 for Louvain and Greedy Modularity) but low cross-algorithm agreement (mean Jaccard = 0.363). Community boundaries are algorithm-dependent while the existence of community structure is robust. Analyses depending on specific community assignments should be interpreted as one valid partition among many.
 
-8. **Visibility gap and circuit extraction method.** Steered features are causally relevant but invisible in the circuit representation, suggesting that threshold-based graph extraction systematically underestimates the causally relevant feature set. Our circuits are generated via Neuronpedia's Circuit Tracer API, which uses activation-based attribution. Alternative methods — including ACDC (Conmy et al., 2023), attribution patching (Neel & Steinhardt, 2023), and causal scrubbing — use different extraction criteria and may yield different circuit structures. Future work should compare circuits extracted by different methods on the same prompts.
+8. **Visibility gap and circuit extraction method.** Steered features are causally relevant but invisible in the circuit representation, suggesting that threshold-based graph extraction systematically underestimates the causally relevant feature set. Our circuits are generated via Neuronpedia's Circuit Tracer API, which uses activation-based attribution. Alternative methods — ACDC (Conmy et al., 2023), attribution patching (Neel & Steinhardt, 2023), causal scrubbing — use different extraction criteria and may yield different circuit structures. Future work should compare extraction methods on the same prompts.
 
 ---
 
@@ -573,9 +655,11 @@ The essential-pathway steering validation reveals a three-tier dissociation betw
 
 We presented the first systematic cross-domain analysis of factual knowledge circuits in large language models, analyzing 60 circuits across three knowledge domains and two architectures with 80 causal steering experiments. Our findings:
 
-1. **Architecture dominates circuit structure.** Within-model energy profile similarity is 0.978 versus 0.696 between models — architecture explains ~14x more variance than domain. GEMMA front-loads energy (54% in first half), QWEN back-loads (31%), yet both achieve comparable recall. 13/16 structural metrics differ significantly between architectures (Mann-Whitney, Bonferroni-corrected).
+1. **Architecture dominates circuit structure.** Within-model energy profile similarity is 0.978 versus 0.696 between models — architecture explains ~14× more variance than domain. GEMMA front-loads energy (54% in first half), QWEN back-loads (31%), yet both achieve comparable recall. 13/16 structural metrics differ significantly between architectures (Mann-Whitney, Bonferroni-corrected).
 
-2. **The bottleneck tax links circuit structure to behavior.** In GEMMA, activation energy at the bottleneck layer L6 negatively predicts confidence (r = -0.684, Bonferroni-significant), while post-bottleneck layers positively predict it. A 3-predictor regression explains 49% of confidence variance (p < 0.001). We interpret this pattern through information bottleneck theory (Tishby & Zaslavsky, 2015): over-compression at an intermediate layer reduces information available for downstream evidence accumulation. The finding is correlational; interventional validation is future work.
+2. **The bottleneck tax links circuit structure to behaviour.** In GEMMA, activation energy at the bottleneck layer L6 negatively predicts confidence (r = −0.684, Bonferroni-significant), while post-bottleneck layers positively predict it. A 3-predictor regression explains 49% of confidence variance (p < 0.001).
+
+   We interpret this pattern through information bottleneck theory (Tishby & Zaslavsky, 2015): over-compression at an intermediate layer reduces information available for downstream evidence accumulation. The finding is correlational; interventional validation is future work.
 
 3. **Within-domain convergence is real but small.** Permutation tests (p < 0.0001) confirm domain-specific circuits, but domain effects account for only ~2% of energy profile variance. Geography shows highest convergence (Jaccard = 0.39), history lowest (0.11).
 
@@ -585,9 +669,13 @@ We presented the first systematic cross-domain analysis of factual knowledge cir
 
 6. **Circuits are 94% redundant.** Only 6% of nodes and 0.3% of edge weight participate in essential pathways. GEMMA redundancy positively correlates with confidence (r = 0.642), suggesting redundancy encodes robustness.
 
-7. **Causal validation reveals a three-tier dissociation.** 80 steering experiments show that essential-pathway features produce the strongest distributional perturbations (mean KL = 1.448) but neither pathway topology nor cross-circuit frequency predicts text-level output changes. Circuit redundancy absorbs perturbations, and output determinism — not feature selection — governs steering susceptibility (chemistry 0%, geography 20%, history 60%).
+7. **Causal validation reveals a three-tier dissociation.** 80 steering experiments show that essential-pathway features produce the strongest distributional perturbations (mean KL = 1.448), but neither pathway topology nor cross-circuit frequency predicts text-level output changes.
 
-These findings demonstrate that factual knowledge retrieval is constrained by model architecture across the full energy profile. The bottleneck tax provides a mechanistic link between structure and behavior: confident predictions arise from evidence accumulation beyond the bottleneck, not from compression quality. The three-tier causal dissociation — where topology, frequency, and text-level effects decouple — reveals that attribution graphs capture only a fraction of causally relevant computation, mediated by layers of circuit redundancy.
+   Circuit redundancy absorbs perturbations, and output determinism — not feature selection — governs steering susceptibility (chemistry 0%, geography 20%, history 60%).
+
+These findings demonstrate that factual knowledge retrieval is constrained by model architecture across the full energy profile. The bottleneck tax provides a structure-behaviour link: confident predictions arise from evidence accumulation beyond the bottleneck, not from compression quality at the bottleneck itself.
+
+The three-tier causal dissociation — where topology, frequency, and text-level effects decouple — reveals that attribution graphs capture only a fraction of causally relevant computation, mediated by layers of circuit redundancy.
 
 ### Future Work
 
