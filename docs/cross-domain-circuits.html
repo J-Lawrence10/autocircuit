@@ -535,8 +535,8 @@ function toggleTheme() {
       </div>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig20_profile_similarity.svg" alt="Energy profile similarity matrix" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> Energy profile similarity. Within-model cosine = 0.978; between-model = 0.696 even after depth normalization.</p>
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig_architecture_dominance_hero.svg" alt="Architecture dominance — two-panel annotated hero figure" class="paper-figure paper-figure-hero" id="fig-architecture-dominance">
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> <strong>Architecture dominance.</strong> <strong>Left:</strong> Cumulative energy profiles show <span style="font-variant:small-caps;">Gemma</span> front-loads 54% of activation into the first half of layers while <span style="font-variant:small-caps;">Qwen</span> back-loads with only 31% — fundamentally different computational strategies, comparable factual recall. <strong>Right:</strong> Energy profile cosine similarity matrix across all 60 circuits. Within-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Gemma</span> and <span style="font-variant:small-caps;">Qwen</span>×<span style="font-variant:small-caps;">Qwen</span>) cluster at 0.978; between-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Qwen</span> off-diagonal blocks) drop to 0.696. Architecture explains ~14× more variance than knowledge domain.</p>
       </div>
 
       <h4 class="title is-6" style="margin-top:1.4rem;">Front-loading vs back-loading</h4>
@@ -546,11 +546,6 @@ function toggleTheme() {
         <li><strong><span style="font-variant:small-caps;">Qwen</span> back-loads</strong>: only 31% of energy in the first half (L0–L17). Cumulative energy reaches 50% by L28 and 90% by L34.</li>
       </ul>
       <p>These accumulation profiles are consistent across all three knowledge domains — category differences in the 50% threshold layer are only 1–2 layers within each model. Both strategies produce comparable factual recall accuracy: distinct but equally viable solutions to the same retrieval problem.</p>
-
-      <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig19_cumulative_energy.svg" alt="Cumulative energy profiles" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 3.</span> Cumulative energy profiles. <span style="font-variant:small-caps;">Gemma</span> front-loads (54% in first half); <span style="font-variant:small-caps;">Qwen</span> back-loads (31%).</p>
-      </div>
 
       <h4 class="title is-6" style="margin-top:1.4rem;">Bottleneck depth is architecture-dependent</h4>
       <p>Bottleneck layer position is determined by model architecture, not knowledge domain:</p>
