@@ -457,11 +457,42 @@ function toggleTheme() {
 
 <hr class="section-divider">
 
-<!-- RESULTS: ARCHITECTURE DOMINATES DOMAIN -->
-<section class="section" style="padding-top:1rem;" id="results-architecture">
+<!-- RESULTS WRAPPER -->
+<section class="section" style="padding-top:1rem;" id="results">
   <div class="container is-max-desktop">
-    <h2 class="title is-4">1. Architecture Dominates Domain</h2>
     <div class="content">
+      <h2 class="title is-4">3. Results</h2>
+      <p class="subtitle is-6" style="color:var(--text-muted);">Seven findings, in narrative order: from architecture-level structure (§3.1–§3.2) to specific feature behavior (§3.3–§3.4) to mechanistic interpretation (§3.5–§3.6) to causal validation (§3.7–§3.8).</p>
+    </div>
+
+    <!-- 3.1 WITHIN-DOMAIN CONVERGENCE -->
+    <div class="results-subsection" id="results-within-domain">
+      <div class="content">
+        <h3 class="title is-5">3.1 Within-domain convergence</h3>
+        <p>Within-category circuit similarity, measured as average pairwise Jaccard similarity of traceback path features, varies systematically by domain:</p>
+        <div class="max-width-content">
+          <table class="table is-bordered is-hoverable has-text-left" style="min-width:420px;">
+            <thead><tr><th>Category</th><th><span style="font-variant:small-caps;">Gemma</span> Jaccard</th><th><span style="font-variant:small-caps;">Qwen</span> Jaccard</th></tr></thead>
+            <tbody>
+              <tr><td>Chemistry</td><td>0.289</td><td>0.353</td></tr>
+              <tr><td>Geography</td><td><strong>0.395</strong></td><td>0.335</td></tr>
+              <tr><td>History</td><td>0.108</td><td>0.153</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Geography is most conserved; history is most diverse — expected, since "WWII ended" and "Columbus reached the Americas" involve fundamentally different subject matter, while capital queries are structurally identical.</p>
+
+        <div class="max-width-content" style="margin:20px auto;">
+          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig2_jaccard_heatmaps.png" alt="Jaccard similarity heatmaps" class="paper-figure">
+          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 5.</span> Within-category Jaccard similarity heatmaps for <span style="font-variant:small-caps;">Gemma</span> (top) and <span style="font-variant:small-caps;">Qwen</span> (bottom) across chemistry, geography, and history.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.2 ARCHITECTURE DOMINANCE -->
+    <div class="results-subsection" id="results-architecture">
+      <div class="content">
+        <h3 class="title is-5">3.2 Architecture dominance</h3>
       <p>We computed cosine similarity between layer energy fraction profiles (energy at each layer as a proportion of total circuit energy) for all pairs of circuits. Within-model similarity averages <strong>0.978</strong> (std = 0.013) across all 30 circuits within each model — meaning 97.8% of the energy distribution shape is shared across all factual recall circuits within each architecture, regardless of knowledge domain. After normalizing both models to a common [0,1] depth scale, between-model similarity drops to <strong>0.696</strong> (std = 0.045; Mann–Whitney p &lt; 1e-6). The gap of 0.282 is an order of magnitude larger than the within-model domain effect (~0.02).</p>
 
       <div class="finding-box">
@@ -473,7 +504,7 @@ function toggleTheme() {
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> Energy profile similarity. Within-model cosine = 0.978; between-model = 0.696 even after depth normalization.</p>
       </div>
 
-      <h3 class="title is-5" style="margin-top:1.4rem;">Front-loading vs Back-loading</h3>
+      <h4 class="title is-6" style="margin-top:1.4rem;">Front-loading vs back-loading</h4>
       <p>The two models adopt fundamentally different energy accumulation strategies:</p>
       <ul>
         <li><strong><span style="font-variant:small-caps;">Gemma</span> front-loads</strong>: 54% of energy in the first half of layers (L0–L12). Cumulative energy reaches 50% by L11 and 90% by L24.</li>
@@ -486,7 +517,7 @@ function toggleTheme() {
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 3.</span> Cumulative energy profiles. <span style="font-variant:small-caps;">Gemma</span> front-loads (54% in first half); <span style="font-variant:small-caps;">Qwen</span> back-loads (31%).</p>
       </div>
 
-      <h3 class="title is-5" style="margin-top:1.4rem;">Bottleneck Depth is Architecture-Dependent</h3>
+      <h4 class="title is-6" style="margin-top:1.4rem;">Bottleneck depth is architecture-dependent</h4>
       <p>Bottleneck layer position is determined by model architecture, not knowledge domain:</p>
       <div class="max-width-content">
         <table class="table is-bordered is-hoverable has-text-left" style="min-width:520px;">
@@ -507,78 +538,15 @@ function toggleTheme() {
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 4.</span> Bottleneck depth distribution by model and domain. <span style="font-variant:small-caps;">Gemma</span> clusters at L5–7, <span style="font-variant:small-caps;">Qwen</span> at L22–25.</p>
       </div>
 
-      <h3 class="title is-5" style="margin-top:1.4rem;">Within-Domain Convergence (Jaccard)</h3>
-      <p>Within-category circuit similarity, measured as average pairwise Jaccard similarity of traceback path features, varies systematically by domain:</p>
-      <div class="max-width-content">
-        <table class="table is-bordered is-hoverable has-text-left" style="min-width:420px;">
-          <thead><tr><th>Category</th><th><span style="font-variant:small-caps;">Gemma</span> Jaccard</th><th><span style="font-variant:small-caps;">Qwen</span> Jaccard</th></tr></thead>
-          <tbody>
-            <tr><td>Chemistry</td><td>0.289</td><td>0.353</td></tr>
-            <tr><td>Geography</td><td><strong>0.395</strong></td><td>0.335</td></tr>
-            <tr><td>History</td><td>0.108</td><td>0.153</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Geography is most conserved; history is most diverse — expected, since "WWII ended" and "Columbus reached the Americas" involve fundamentally different subject matter, while capital queries are structurally identical.</p>
-
-      <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig2_jaccard_heatmaps.png" alt="Jaccard similarity heatmaps" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 5.</span> Within-category Jaccard similarity heatmaps for <span style="font-variant:small-caps;">Gemma</span> (top) and <span style="font-variant:small-caps;">Qwen</span> (bottom) across chemistry, geography, and history.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<hr class="section-divider">
+    <hr class="results-subsection-divider">
 
-<!-- RESULTS: BOTTLENECK TAX -->
-<section class="section" style="padding-top:1rem;" id="results-bottleneck-tax">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">2. The Bottleneck Tax</h2>
-    <div class="content">
-
-      <p>We correlated each layer's energy fraction with output probability across all 30 circuits within each model, applying Bonferroni correction (<span style="font-variant:small-caps;">Gemma</span>: α = 0.0019 for 26 tests; <span style="font-variant:small-caps;">Qwen</span>: α = 0.0014 for 36 tests).</p>
-
-      <div class="max-width-content">
-        <table class="table is-bordered is-hoverable has-text-left" style="min-width:480px;">
-          <thead><tr><th>Layer</th><th>Spearman r</th><th>p-value</th><th>Direction</th></tr></thead>
-          <tbody>
-            <tr style="font-weight:700;background:var(--smoking-bg);"><td>L6 (bottleneck)</td><td>−0.684</td><td>&lt;0.0001</td><td>Negative — <em>bottleneck tax</em></td></tr>
-            <tr><td>L10</td><td>−0.601</td><td>0.0004</td><td>Negative</td></tr>
-            <tr><td>L1</td><td>+0.634</td><td>0.0002</td><td>Positive</td></tr>
-            <tr><td>L13</td><td>+0.601</td><td>0.0004</td><td>Positive</td></tr>
-            <tr><td>L16</td><td>+0.598</td><td>0.0005</td><td>Positive</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="finding-box">
-        <p><strong>L6 — the primary bottleneck layer — shows the strongest negative correlation (r = −0.684).</strong> Circuits with a larger fraction of activation energy at the bottleneck layer exhibit lower output confidence. Energy at post-bottleneck layers (L13, L16) positively predicts confidence. We term this pattern the <strong>"bottleneck tax."</strong></p>
-      </div>
-
-      <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig18_layer_confidence_correlation.png" alt="Per-layer energy-confidence correlation" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 6.</span> Per-layer energy–confidence correlation in <span style="font-variant:small-caps;">Gemma</span>. L6 shows strong negative correlation (r = −0.684); post-bottleneck layers show positive correlations.</p>
-      </div>
-
-      <h3 class="title is-5" style="margin-top:1.4rem;">Theoretical Framing: Information Bottleneck Theory</h3>
-      <p>We interpret this pattern through information bottleneck theory (Tishby &amp; Zaslavsky, 2015; Shwartz-Ziv &amp; Tishby, 2017), which formalizes the tradeoff between representational compression and predictive accuracy. Each layer L computes a representation T<sub>L</sub> of the input X with mutual information I(X; T<sub>L</sub>); heavier compression at an intermediate layer reduces what downstream layers can recover. Our correlation is consistent with this prediction: circuits that concentrate more activation magnitude at L6 may be compressing input representations more aggressively, leaving less information for evidence accumulation at L13–L16. Energy at post-bottleneck layers positively predicts confidence, consistent with those layers aggregating information into the final decision.</p>
-
-      <h4 class="title is-6">Important caveat</h4>
-      <p>"Energy" here is shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently. The bottleneck tax is a <strong>correlation, not a mechanistic causal claim</strong>. Alternative explanations include prompt-difficulty confounds, domain-specific accuracy differences, and feature-selection effects in the traceback algorithm. Direct interventional validation (clamping L6 activation and measuring confidence change) would require local model access not currently available through the Neuronpedia API.</p>
-
-      <p><span style="font-variant:small-caps;">Qwen</span> shows <strong>0 Bonferroni-significant layers</strong> (best: L29, r = 0.552, p = 0.0016), consistent with its late-layer architecture decoupling layer-level energy from confidence.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider">
-
-<!-- RESULTS: UNIVERSAL BOTTLENECKS -->
-<section class="section" style="padding-top:1rem;" id="results-universal">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">3. Universal Bottleneck Features</h2>
-    <div class="content">
+    <!-- 3.3 UNIVERSAL BOTTLENECKS -->
+    <div class="results-subsection" id="results-universal">
+      <div class="content">
+        <h3 class="title is-5">3.3 Universal bottlenecks</h3>
       <p>We identified features that serve as bottlenecks across <em>all three</em> knowledge domains. <strong>Zero features are shared between <span style="font-variant:small-caps;">Gemma</span> and <span style="font-variant:small-caps;">Qwen</span></strong>, further supporting the architecture-dominance hypothesis.</p>
 
       <div class="columns">
@@ -626,17 +594,15 @@ function toggleTheme() {
       <div class="finding-box">
         <p><strong>Top bottleneck consistency.</strong> <code>L34_F415944868</code> appears as a bottleneck in 100% of <span style="font-variant:small-caps;">Qwen</span> geography, 100% of <span style="font-variant:small-caps;">Qwen</span> history, and 90% of <span style="font-variant:small-caps;">Qwen</span> chemistry circuits — a domain-agnostic late-layer hub.</p>
       </div>
+      </div>
     </div>
-  </div>
-</section>
 
-<hr class="section-divider">
+    <hr class="results-subsection-divider">
 
-<!-- RESULTS: OUTPUT CONVERGENCE -->
-<section class="section" style="padding-top:1rem;" id="results-output-convergence">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">4. Output Convergence vs Path Divergence</h2>
-    <div class="content">
+    <!-- 3.4 OUTPUT CONVERGENCE -->
+    <div class="results-subsection" id="results-output-convergence">
+      <div class="content">
+        <h3 class="title is-5">3.4 Output convergence vs path divergence</h3>
       <p>We separately analyzed whether same-domain circuits converge at the output layer (final-layer features) versus along full traceback paths.</p>
 
       <div class="max-width-content">
@@ -661,17 +627,56 @@ function toggleTheme() {
       </div>
 
       <p>This has implications for model editing: intervening at the output layer would affect most circuits within a domain, while intervening at intermediate layers requires more domain-specific targeting.</p>
+      </div>
     </div>
-  </div>
-</section>
 
-<hr class="section-divider">
+    <hr class="results-subsection-divider">
 
-<!-- RESULTS: CIRCUIT REDUNDANCY -->
-<section class="section" style="padding-top:1rem;" id="results-redundancy">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">5. Circuit Redundancy</h2>
-    <div class="content">
+    <!-- 3.5 BOTTLENECK TAX -->
+    <div class="results-subsection" id="results-bottleneck-tax">
+      <div class="content">
+        <h3 class="title is-5">3.5 The bottleneck tax</h3>
+
+        <p>We correlated each layer's energy fraction with output probability across all 30 circuits within each model, applying Bonferroni correction (<span style="font-variant:small-caps;">Gemma</span>: α = 0.0019 for 26 tests; <span style="font-variant:small-caps;">Qwen</span>: α = 0.0014 for 36 tests).</p>
+
+        <div class="max-width-content">
+          <table class="table is-bordered is-hoverable has-text-left" style="min-width:480px;">
+            <thead><tr><th>Layer</th><th>Spearman r</th><th>p-value</th><th>Direction</th></tr></thead>
+            <tbody>
+              <tr style="font-weight:700;background:var(--smoking-bg);"><td>L6 (bottleneck)</td><td>−0.684</td><td>&lt;0.0001</td><td>Negative — <em>bottleneck tax</em></td></tr>
+              <tr><td>L10</td><td>−0.601</td><td>0.0004</td><td>Negative</td></tr>
+              <tr><td>L1</td><td>+0.634</td><td>0.0002</td><td>Positive</td></tr>
+              <tr><td>L13</td><td>+0.601</td><td>0.0004</td><td>Positive</td></tr>
+              <tr><td>L16</td><td>+0.598</td><td>0.0005</td><td>Positive</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="finding-box">
+          <p><strong>L6 — the primary bottleneck layer — shows the strongest negative correlation (r = −0.684).</strong> Circuits with a larger fraction of activation energy at the bottleneck layer exhibit lower output confidence. Energy at post-bottleneck layers (L13, L16) positively predicts confidence. We term this pattern the <strong>"bottleneck tax."</strong></p>
+        </div>
+
+        <div class="max-width-content" style="margin:20px auto;">
+          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig18_layer_confidence_correlation.png" alt="Per-layer energy-confidence correlation" class="paper-figure">
+          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 6.</span> Per-layer energy–confidence correlation in <span style="font-variant:small-caps;">Gemma</span>. L6 shows strong negative correlation (r = −0.684); post-bottleneck layers show positive correlations.</p>
+        </div>
+
+        <h4 class="title is-6" style="margin-top:1.4rem;">Theoretical framing: information bottleneck theory</h4>
+        <p>We interpret this pattern through information bottleneck theory (Tishby &amp; Zaslavsky, 2015; Shwartz-Ziv &amp; Tishby, 2017), which formalizes the tradeoff between representational compression and predictive accuracy. Each layer L computes a representation T<sub>L</sub> of the input X with mutual information I(X; T<sub>L</sub>); heavier compression at an intermediate layer reduces what downstream layers can recover. Our correlation is consistent with this prediction: circuits that concentrate more activation magnitude at L6 may be compressing input representations more aggressively, leaving less information for evidence accumulation at L13–L16. Energy at post-bottleneck layers positively predicts confidence, consistent with those layers aggregating information into the final decision.</p>
+
+        <h4 class="title is-6">Important caveat</h4>
+        <p>"Energy" here is shorthand for summed feature activation magnitudes, not a conserved physical quantity. Neural networks have no global energy budget; activations at different layers are computed independently. The bottleneck tax is a <strong>correlation, not a mechanistic causal claim</strong>. Alternative explanations include prompt-difficulty confounds, domain-specific accuracy differences, and feature-selection effects in the traceback algorithm. Direct interventional validation (clamping L6 activation and measuring confidence change) would require local model access not currently available through the Neuronpedia API.</p>
+
+        <p><span style="font-variant:small-caps;">Qwen</span> shows <strong>0 Bonferroni-significant layers</strong> (best: L29, r = 0.552, p = 0.0016), consistent with its late-layer architecture decoupling layer-level energy from confidence.</p>
+      </div>
+    </div>
+
+    <hr class="results-subsection-divider">
+
+    <!-- 3.6 CIRCUIT REDUNDANCY -->
+    <div class="results-subsection" id="results-redundancy">
+      <div class="content">
+        <h3 class="title is-5">3.6 Circuit redundancy</h3>
       <p>We extracted the minimum viable circuit connecting input features (early layers, high fan-out) to output features (late layers, high fan-in) for all 60 circuits.</p>
 
       <div class="findings-grid">
@@ -699,23 +704,21 @@ function toggleTheme() {
       </div>
 
       <p>The <span style="font-variant:small-caps;">Gemma</span> redundancy–confidence correlation suggests a functional role: more redundant circuits may represent more robust, well-established factual memories where the model has encoded multiple parallel pathways to the same answer. This <em>"redundancy-as-robustness"</em> hypothesis aligns with the ensemble interpretation of neural network computation.</p>
+      </div>
     </div>
-  </div>
-</section>
 
-<hr class="section-divider">
+    <hr class="results-subsection-divider">
 
-<!-- RESULTS: CAUSAL STEERING -->
-<section class="section" style="padding-top:1rem;" id="results-steering">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">6. Causal Steering — Three-Tier Dissociation</h2>
-    <div class="content">
+    <!-- 3.7 CAUSAL STEERING -->
+    <div class="results-subsection" id="results-steering">
+      <div class="content">
+        <h3 class="title is-5">3.7 Causal steering — three-tier dissociation</h3>
       <p>Across <strong>80 steering experiments</strong> on <span style="font-variant:small-caps;">Gemma</span>, we tested whether structural importance metrics on the attribution graph predict behavioural causal influence. Three categories of features were tested: original 5 bottleneck features (Section 6a), 5 cross-circuit-frequency-selected features (Section 6b), and 5 essential-pathway features (Section 6c).</p>
 
-      <h3 class="title is-5">6a. Initial Steering (20 experiments)</h3>
+      <h4 class="title is-6">3.7a Initial steering (20 experiments)</h4>
       <p>Mean logprob shift = <strong>0.045</strong> across all experiments; <strong>50%</strong> produced visible text changes. Effects are probability-level perturbations rather than token-flipping interventions. Critical methodological finding: <strong>none of the 5 steered features appeared as nodes in their respective circuits' attribution graphs</strong> — the threshold-based circuit extraction filters out features that exert causal influence below the display threshold. This <em>visibility gap</em> means circuit-based analysis underestimates the set of causally relevant features.</p>
 
-      <h3 class="title is-5">6b. Frequency vs Causation (D5 — 30 experiments)</h3>
+      <h4 class="title is-6">3.7b Frequency vs causation (D5 — 30 experiments)</h4>
       <p>We expanded by testing 5 high-frequency cross-circuit features (each appearing in 9–11 of the 30 <span style="font-variant:small-caps;">Gemma</span> circuits) on 3 target circuits at strengths ±20.</p>
       <ul>
         <li><strong>23.3% text change rate</strong> for D5 features vs 50% for the original set. Cross-circuit frequency alone is insufficient for predicting causal effectiveness.</li>
@@ -728,7 +731,7 @@ function toggleTheme() {
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 9.</span> Expanded steering (D5). Frequency does not predict causal influence; domain susceptibility is asymmetric (history &gt; geography &gt; chemistry).</p>
       </div>
 
-      <h3 class="title is-5" style="margin-top:1.4rem;">6c. Essential-Pathway Steering (30 experiments)</h3>
+      <h4 class="title is-6" style="margin-top:1.4rem;">3.7c Essential-pathway steering (30 experiments)</h4>
       <p>From the 1,000 unique features identified on essential pathways across 30 <span style="font-variant:small-caps;">Gemma</span> circuits, we selected 5 high-frequency essential-pathway features not previously tested.</p>
       <ul>
         <li><strong>26.7% text change rate</strong> — comparable to D5 features off essential pathways (33.3%) and intermediate to D5 features on essential pathways (18.8%).</li>
@@ -741,7 +744,7 @@ function toggleTheme() {
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 10.</span> Steering effects across initial 20 experiments. Mean logprob shift = 0.045; 50% produce visible text changes.</p>
       </div>
 
-      <h3 class="title is-5" style="margin-top:1.4rem;">Domain Susceptibility</h3>
+      <h4 class="title is-6" style="margin-top:1.4rem;">Domain susceptibility</h4>
       <p>Steering susceptibility is highly asymmetric across domains and replicates across all three experiment sets:</p>
       <div class="bar-chart">
         <div class="bar-row">
@@ -765,17 +768,15 @@ function toggleTheme() {
       <div class="finding-box">
         <p><strong>The Three-Tier Dissociation.</strong> Combining all 80 experiments yields a three-tier model of feature importance: (1) features on essential pathways perturb probability distributions most strongly (highest KL); (2) features with high cross-circuit frequency are statistically common but not necessarily causal; (3) text-level output changes are governed primarily by output entropy and domain determinism rather than by any single feature-selection criterion. <strong>Topology, frequency, and text-level effects decouple.</strong></p>
       </div>
+      </div>
     </div>
-  </div>
-</section>
 
-<hr class="section-divider">
+    <hr class="results-subsection-divider">
 
-<!-- FORMAT VARIATION -->
-<section class="section" style="padding-top:1rem;" id="results-format">
-  <div class="container is-max-desktop">
-    <h2 class="title is-4">7. Format Variation: Template &gt; Fact &gt; Cross-Domain</h2>
-    <div class="content">
+    <!-- 3.8 FORMAT VARIATION -->
+    <div class="results-subsection" id="results-format">
+      <div class="content">
+        <h3 class="title is-5">3.8 Format variation: template &gt; fact &gt; cross-domain</h3>
       <p>A critical question is whether the within-domain circuit similarity reflects genuine knowledge-domain convergence or merely prompt-template similarity (all chemistry prompts share "The chemical symbol for X is"). To test this, we generated circuits for the same fact (gold) using three different prompt formats.</p>
 
       <div class="max-width-content">
@@ -799,7 +800,9 @@ function toggleTheme() {
       <p>Same-fact-different-format Jaccard (0.306) is still <strong>2.7× higher</strong> than the cross-domain baseline (0.112), confirming that knowledge domain contributes to circuit structure beyond template effects alone.</p>
 
       <p><strong>This finding does not undermine the architecture-dominance result</strong>, which is based on per-layer energy profiles (cosine similarity 0.978 within-model), not feature-level Jaccard. Energy profiles are robust to prompt format because they capture the <em>distribution of computation across layers</em>, not the identity of individual features. The format effect operates at the feature-selection level (which specific features are activated) while the architecture effect operates at the computational-structure level (where energy is concentrated).</p>
+      </div>
     </div>
+
   </div>
 </section>
 
