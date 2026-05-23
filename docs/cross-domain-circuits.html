@@ -244,6 +244,16 @@ hr.results-subsection-divider {
 }
 .key-findings-list a { color: var(--link); font-weight: 500; text-decoration: none; }
 .key-findings-list a:hover { text-decoration: underline; }
+
+/* Glossary deep-link icons */
+.gloss-link {
+  font-size: 0.7em;
+  vertical-align: super;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 2px;
+}
+.gloss-link:hover { color: var(--link); }
 </style>
 </head>
 <body>
@@ -378,7 +388,7 @@ function toggleTheme() {
       <h3 class="title is-5">1.1 Motivation</h3>
       <p>Large language models encode vast factual knowledge, yet how this knowledge is organized at the circuit level remains poorly understood. When a model predicts that the chemical symbol for gold is "Au" or that the capital of Japan is "Tokyo," which internal features are responsible?</p>
       <p>A central question is whether different knowledge types (symbolic mappings, geographic relations, temporal facts) use separate specialised circuits or share common computational infrastructure. Both possibilities are consistent with the existing mechanistic-interpretability literature, and the question has been studied only piecemeal.</p>
-      <p>The answer matters for model editing and targeted intervention. If factual knowledge is organized by domain, interventions must be domain-specific. If circuits share universal bottleneck features, a small number of features could provide high-leverage intervention points across multiple knowledge types.</p>
+      <p>The answer matters for model editing and targeted intervention. If factual knowledge is organized by domain, interventions must be domain-specific. If circuits share universal bottleneck features<a href="glossary.html#universal-bottleneck-features" class="gloss-link" title="See glossary">ⓘ</a>, a small number of features could provide high-leverage intervention points across multiple knowledge types.</p>
 
       <h3 class="title is-5" style="margin-top:1.4rem;">1.2 Research Questions</h3>
       <ol>
@@ -395,7 +405,7 @@ function toggleTheme() {
         <li><strong>Architecture-dominance finding.</strong> Demonstration that bottleneck depth is determined by model architecture, not knowledge domain. <span style="font-variant:small-caps;">Gemma</span> consistently uses early bottlenecks (L5–7) and <span style="font-variant:small-caps;">Qwen</span> uses late bottlenecks (L22–25) regardless of whether the task involves chemistry, geography, or history. Cross-model Mann–Whitney tests confirm 13/16 structural metrics differ significantly (Bonferroni-corrected).</li>
         <li><strong>Universal bottleneck identification.</strong> Discovery of 6 universal bottleneck features in <span style="font-variant:small-caps;">Gemma</span> and 15 in <span style="font-variant:small-caps;">Qwen</span> that participate in circuits across all three knowledge domains, with zero overlap between architectures.</li>
         <li><strong>Output–path convergence dissociation.</strong> Finding that same-domain circuits share output features far more than intermediate features (up to 4.4× ratio), revealing convergent predictions from divergent internal processing.</li>
-        <li><strong>Confidence–energetics model.</strong> A three-predictor regression model explains 49% of <span style="font-variant:small-caps;">Gemma</span> prediction-confidence variance using total activation energy, edge weight kurtosis, and circuit size (F(3,26) = 8.30, p &lt; 0.001). Bottleneck position and convergence do not significantly predict confidence, constraining "bottleneck quality" explanations.</li>
+        <li><strong>Confidence–energetics model.</strong> A three-predictor regression model explains 49% of <span style="font-variant:small-caps;">Gemma</span> prediction-confidence variance using total activation energy<a href="glossary.html#activation-energy" class="gloss-link" title="See glossary">ⓘ</a>, edge weight kurtosis, and circuit size (F(3,26) = 8.30, p &lt; 0.001). Bottleneck position and convergence do not significantly predict confidence, constraining "bottleneck quality" explanations.</li>
         <li><strong>Three-tier causal dissociation.</strong> 80 steering experiments reveal that essential-pathway features produce strong distributional perturbations (mean KL = 1.448) but neither pathway topology nor cross-circuit frequency predicts text-level output changes: circuit redundancy absorbs perturbations, and output determinism governs steering susceptibility.</li>
       </ol>
     </div>
@@ -452,7 +462,7 @@ function toggleTheme() {
           <!-- Equation -->
           <text x="365" y="200" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" class="svg-text-muted">score(n_p) = activation(n_p) × weight(n_p → n) × score(n)^0.8</text>
         </svg>
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 1.</span> <strong>Traceback graphing pipeline.</strong> Starting from the highest-contributing output nodes, the algorithm walks backward through the attribution graph, scoring predecessors by activation × edge weight × decayed downstream score. Geometric decay (factor 0.8) prevents score overflow across 20+ layers while preserving relative path ranking.</p>
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 1.</span> <strong>Traceback graphing pipeline.</strong><a href="glossary.html#traceback-graphing" class="gloss-link" title="See glossary">ⓘ</a> Starting from the highest-contributing output nodes, the algorithm walks backward through the attribution graph, scoring predecessors by activation × edge weight × decayed downstream score. Geometric decay (factor 0.8) prevents score overflow across 20+ layers while preserving relative path ranking.</p>
       </div>
 
       <h3 class="title is-5" style="margin-top:1.4rem;">Models &amp; SAEs</h3>
@@ -491,7 +501,7 @@ function toggleTheme() {
     <div class="results-subsection" id="results-within-domain">
       <div class="content">
         <h3 class="title is-5">3.1 Within-domain convergence</h3>
-        <p>Within-category circuit similarity, measured as average pairwise Jaccard similarity of traceback path features, varies systematically by domain:</p>
+        <p>Within-category circuit similarity, measured as average pairwise Jaccard similarity<a href="glossary.html#jaccard-similarity" class="gloss-link" title="See glossary">ⓘ</a> of traceback path features, varies systematically by domain:</p>
         <div class="max-width-content">
           <table class="table is-bordered is-hoverable has-text-left" style="min-width:420px;">
             <thead><tr><th>Category</th><th><span style="font-variant:small-caps;">Gemma</span> Jaccard</th><th><span style="font-variant:small-caps;">Qwen</span> Jaccard</th></tr></thead>
@@ -514,7 +524,7 @@ function toggleTheme() {
     <!-- 3.2 ARCHITECTURE DOMINANCE -->
     <div class="results-subsection" id="results-architecture">
       <div class="content">
-        <h3 class="title is-5">3.2 Architecture dominance</h3>
+        <h3 class="title is-5">3.2 Architecture dominance<a href="glossary.html#architecture-dominance" class="gloss-link" title="See glossary">ⓘ</a></h3>
       <p>We computed cosine similarity between layer energy fraction profiles (energy at each layer as a proportion of total circuit energy) for all pairs of circuits. Within-model similarity averages <strong>0.978</strong> (std = 0.013) across all 30 circuits within each model, meaning 97.8% of the energy distribution shape is shared across all factual recall circuits within each architecture, regardless of knowledge domain. After normalizing both models to a common [0,1] depth scale, between-model similarity drops to <strong>0.696</strong> (std = 0.045; Mann–Whitney p &lt; 1e-6). The gap of 0.282 is an order of magnitude larger than the within-model domain effect (~0.02).</p>
 
       <div class="finding-box">
@@ -683,7 +693,7 @@ function toggleTheme() {
         </div>
 
         <div class="finding-box">
-          <p><strong>L6, the primary bottleneck layer, shows the strongest negative correlation (r = −0.684).</strong> Circuits with a larger fraction of activation energy at the bottleneck layer exhibit lower output confidence. Energy at post-bottleneck layers (L13, L16) positively predicts confidence. We term this pattern the <strong>"bottleneck tax."</strong></p>
+          <p><strong>L6, the primary bottleneck layer, shows the strongest negative correlation (r = −0.684).</strong> Circuits with a larger fraction of activation energy at the bottleneck layer exhibit lower output confidence. Energy at post-bottleneck layers (L13, L16) positively predicts confidence. We term this pattern the <strong>"bottleneck tax."</strong><a href="glossary.html#bottleneck-tax" class="gloss-link" title="See glossary">ⓘ</a></p>
         </div>
 
         <div class="max-width-content" style="margin:20px auto;">
@@ -742,7 +752,7 @@ function toggleTheme() {
     <!-- 3.7 CAUSAL STEERING -->
     <div class="results-subsection" id="results-steering">
       <div class="content">
-        <h3 class="title is-5">3.7 Causal steering: three-tier dissociation</h3>
+        <h3 class="title is-5">3.7 Causal steering: three-tier dissociation<a href="glossary.html#three-tier-dissociation" class="gloss-link" title="See glossary">ⓘ</a></h3>
       <p>Across <strong>80 steering experiments</strong> on <span style="font-variant:small-caps;">Gemma</span>, we tested whether structural importance metrics on the attribution graph predict behavioral causal influence. Three categories of features were tested: original 5 bottleneck features (Section 6a), 5 cross-circuit-frequency-selected features (Section 6b), and 5 essential-pathway features (Section 6c).</p>
 
       <h4 class="title is-6">3.7a Initial steering (20 experiments)</h4>
