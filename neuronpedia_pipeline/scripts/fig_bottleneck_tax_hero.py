@@ -25,44 +25,43 @@ Outputs:
 
 from __future__ import annotations
 
-import io
 import json
 import sys
 from pathlib import Path
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy import stats
+# Make sibling modules in scripts/ importable, then bring in shared style.
+SCRIPT_DIR = Path(__file__).parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from _hero_style import (  # noqa: E402
+    setup_agg_backend,
+    apply_hero_rcparams,
+    save_hero_figure,
+    COLOR_BOTTLENECK,
+    COLOR_POSTBOTTLE,
+    COLOR_NEUTRAL,
+    COLOR_TEXT,
+    COLOR_AXIS,
+    COLOR_MUTED,
+    COLOR_REGLINE,
+    COLOR_SCATTER,
+)
 
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+setup_agg_backend()
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+from scipy import stats  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 
-BASE = Path(__file__).parent.parent
+BASE = SCRIPT_DIR.parent
 LAYER_ENERGY_DIR = BASE / 'data' / 'stage_2_layer_energy'
 OUTPUT_DIR = BASE / 'data' / 'stage_2_figures'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 RESULTS_FILE = LAYER_ENERGY_DIR / 'layer_energy_results.json'
 PER_CIRCUIT_FILE = LAYER_ENERGY_DIR / 'per_circuit_layer_energy.json'
-
-# ---------------------------------------------------------------------------
-# Theme tokens (match site CSS — see docs/cross-domain-circuits.html)
-# ---------------------------------------------------------------------------
-
-COLOR_BOTTLENECK = '#e67e22'   # orange — phase 1 / bottleneck
-COLOR_POSTBOTTLE = '#8854d0'   # purple — post-bottleneck
-COLOR_NEUTRAL    = '#8b949e'   # grey  — non-significant
-COLOR_TEXT       = '#1a1a1a'
-COLOR_AXIS       = '#555555'
-COLOR_MUTED      = '#6c757d'
-COLOR_REGLINE    = '#3273dc'   # blue (regression line)
-COLOR_SCATTER    = '#1a1a1a'   # dark scatter dots
 
 # Visual threshold for sign-based bar coloring (separate from Bonferroni).
 SIGN_THRESHOLD = 0.3
@@ -75,27 +74,7 @@ BOTTLENECK_LAYER = 6
 # Matplotlib style
 # ---------------------------------------------------------------------------
 
-plt.rcParams.update({
-    # DM Sans is loaded by the site; matplotlib will fall back gracefully
-    # if it isn't installed locally.
-    'font.family': ['DM Sans', 'Helvetica', 'Arial', 'sans-serif'],
-    'font.size': 11,
-    'axes.titlesize': 12,
-    'axes.labelsize': 11,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
-    'axes.spines.top': False,
-    'axes.spines.right': False,
-    'axes.edgecolor': COLOR_AXIS,
-    'axes.labelcolor': COLOR_TEXT,
-    'xtick.color': COLOR_AXIS,
-    'ytick.color': COLOR_AXIS,
-    'text.color': COLOR_TEXT,
-    'figure.dpi': 150,
-    'savefig.dpi': 300,
-    'savefig.bbox': 'tight',
-    'savefig.transparent': False,  # keep a white background for embedding
-})
+apply_hero_rcparams()
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -269,14 +248,10 @@ def main() -> None:
              fontsize=11.5, style='italic', color=COLOR_MUTED,
              ha='center', va='bottom')
 
-    svg_path = OUTPUT_DIR / 'fig_bottleneck_tax_hero.svg'
-    png_path = OUTPUT_DIR / 'fig_bottleneck_tax_hero.png'
-    plt.savefig(svg_path, bbox_inches='tight')
-    plt.savefig(png_path, bbox_inches='tight')
+    save_hero_figure(fig, 'fig_bottleneck_tax_hero', OUTPUT_DIR,
+                     base_for_display=BASE)
     plt.close(fig)
 
-    print(f'  [OK] {svg_path.relative_to(BASE)}')
-    print(f'  [OK] {png_path.relative_to(BASE)}')
     print(f'  L6 Spearman r = {r_values[BOTTLENECK_LAYER]:.4f}  '
           f'(scatter: r = {stats.spearmanr(l6_frac, output_prob).correlation:.4f}, '
           f'n = {len(l6_frac)})')

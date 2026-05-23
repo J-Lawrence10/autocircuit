@@ -28,17 +28,8 @@ Outputs:
 
 from __future__ import annotations
 
-import io
 import sys
 from pathlib import Path
-
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ---------------------------------------------------------------------------
 # Re-use the JSON loaders from the existing figure module rather than
@@ -47,6 +38,23 @@ if sys.platform == 'win32':
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
+from _hero_style import (  # noqa: E402
+    setup_agg_backend,
+    apply_hero_rcparams,
+    save_hero_figure,
+    COLOR_GEMMA,
+    COLOR_QWEN,
+    COLOR_NEUTRAL,
+    COLOR_TEXT,
+    COLOR_AXIS,
+    COLOR_MUTED,
+    COLOR_HIGH_SIM,
+)
+
+setup_agg_backend()
+import matplotlib.pyplot as plt  # noqa: E402, F401
+import numpy as np  # noqa: E402
+
 from stage_2_layer_energy_figures import load_results, load_per_circuit  # noqa: E402
 from pipeline_constants import GEMMA_TOTAL_LAYERS, QWEN_TOTAL_LAYERS  # noqa: E402
 
@@ -57,18 +65,6 @@ from pipeline_constants import GEMMA_TOTAL_LAYERS, QWEN_TOTAL_LAYERS  # noqa: E4
 BASE = SCRIPT_DIR.parent
 OUTPUT_DIR = BASE / 'data' / 'stage_2_figures'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# ---------------------------------------------------------------------------
-# Theme tokens (match site CSS — same as F1 hero / Milestone C)
-# ---------------------------------------------------------------------------
-
-COLOR_GEMMA      = '#e67e22'   # orange
-COLOR_QWEN       = '#8854d0'   # purple
-COLOR_NEUTRAL    = '#8b949e'
-COLOR_TEXT       = '#1a1a1a'
-COLOR_AXIS       = '#555555'
-COLOR_MUTED      = '#6c757d'
-COLOR_HIGH_SIM   = '#3273dc'   # blue, high-similarity diagonal blocks
 
 MODEL_TOTAL_LAYERS = {'gemma-2-2b': GEMMA_TOTAL_LAYERS, 'qwen3-4b': QWEN_TOTAL_LAYERS}
 
@@ -86,25 +82,7 @@ QWEN_50PCT_LAYER = 28
 # Matplotlib style — matches F1 hero
 # ---------------------------------------------------------------------------
 
-plt.rcParams.update({
-    'font.family': ['DM Sans', 'Helvetica', 'Arial', 'sans-serif'],
-    'font.size': 11,
-    'axes.titlesize': 12,
-    'axes.labelsize': 11,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
-    'axes.spines.top': False,
-    'axes.spines.right': False,
-    'axes.edgecolor': COLOR_AXIS,
-    'axes.labelcolor': COLOR_TEXT,
-    'xtick.color': COLOR_AXIS,
-    'ytick.color': COLOR_AXIS,
-    'text.color': COLOR_TEXT,
-    'figure.dpi': 150,
-    'savefig.dpi': 300,
-    'savefig.bbox': 'tight',
-    'savefig.transparent': False,
-})
+apply_hero_rcparams()
 
 
 # ---------------------------------------------------------------------------
@@ -383,14 +361,10 @@ def main() -> None:
              fontsize=11.5, style='italic', color=COLOR_MUTED,
              ha='center', va='bottom')
 
-    svg_path = OUTPUT_DIR / 'fig_architecture_dominance_hero.svg'
-    png_path = OUTPUT_DIR / 'fig_architecture_dominance_hero.png'
-    plt.savefig(svg_path, bbox_inches='tight')
-    plt.savefig(png_path, bbox_inches='tight')
+    save_hero_figure(fig, 'fig_architecture_dominance_hero', OUTPUT_DIR,
+                     base_for_display=BASE)
     plt.close(fig)
 
-    print(f'  [OK] {svg_path.relative_to(BASE)}')
-    print(f'  [OK] {png_path.relative_to(BASE)}')
     print(f'  Within-model cosine (empirical, this run):   {within_emp:.4f}')
     print(f'  Within-model cosine (paper / aggregated):    {within_paper:.4f}')
     print(f'  Between-model cosine (empirical, this run):  {between_emp:.4f}')
