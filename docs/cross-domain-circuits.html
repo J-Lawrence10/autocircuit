@@ -518,7 +518,7 @@ function toggleTheme() {
         <p>Geography is most conserved; history is most diverse — expected, since "WWII ended" and "Columbus reached the Americas" involve fundamentally different subject matter, while capital queries are structurally identical.</p>
 
         <div class="max-width-content" style="margin:20px auto;">
-          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig2_jaccard_heatmaps.png" alt="Jaccard similarity heatmaps" class="paper-figure">
+          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig2_jaccard_heatmaps.svg" alt="Jaccard similarity heatmaps" class="paper-figure">
           <p class="figure-caption has-text-centered"><span class="figure-number">Figure 5.</span> Within-category Jaccard similarity heatmaps for <span style="font-variant:small-caps;">Gemma</span> (top) and <span style="font-variant:small-caps;">Qwen</span> (bottom) across chemistry, geography, and history.</p>
         </div>
       </div>
@@ -535,7 +535,7 @@ function toggleTheme() {
       </div>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig20_profile_similarity.png" alt="Energy profile similarity matrix" class="paper-figure">
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig20_profile_similarity.svg" alt="Energy profile similarity matrix" class="paper-figure">
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> Energy profile similarity. Within-model cosine = 0.978; between-model = 0.696 even after depth normalization.</p>
       </div>
 
@@ -548,7 +548,7 @@ function toggleTheme() {
       <p>These accumulation profiles are consistent across all three knowledge domains — category differences in the 50% threshold layer are only 1–2 layers within each model. Both strategies produce comparable factual recall accuracy: distinct but equally viable solutions to the same retrieval problem.</p>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig19_cumulative_energy.png" alt="Cumulative energy profiles" class="paper-figure">
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig19_cumulative_energy.svg" alt="Cumulative energy profiles" class="paper-figure">
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 3.</span> Cumulative energy profiles. <span style="font-variant:small-caps;">Gemma</span> front-loads (54% in first half); <span style="font-variant:small-caps;">Qwen</span> back-loads (31%).</p>
       </div>
 
@@ -569,7 +569,7 @@ function toggleTheme() {
       <p><span style="font-variant:small-caps;">Gemma</span> bottlenecks consistently cluster in layers 5–7 (~22% depth) across all three domains; <span style="font-variant:small-caps;">Qwen</span> bottlenecks cluster in layers 22–25 (~65% depth). Within-model variation across domains is much smaller than between-model variation.</p>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig3_bottleneck_depth.png" alt="Bottleneck depth distribution" class="paper-figure">
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig3_bottleneck_depth.svg" alt="Bottleneck depth distribution" class="paper-figure">
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 4.</span> Bottleneck depth distribution by model and domain. <span style="font-variant:small-caps;">Gemma</span> clusters at L5–7, <span style="font-variant:small-caps;">Qwen</span> at L22–25.</p>
       </div>
 
@@ -657,7 +657,7 @@ function toggleTheme() {
       <p><strong>Output node convergence is consistently higher than path convergence</strong>, and the gap is largest for history (4.41× in <span style="font-variant:small-caps;">Qwen</span>). History circuits share the same output features (the model uses similar features to produce the final prediction) even though their intermediate processing paths diverge substantially. The model arrives at a similar "output vocabulary" through different internal routes.</p>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig10_output_path.png" alt="Output vs path convergence" class="paper-figure">
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig10_output_path.svg" alt="Output vs path convergence" class="paper-figure">
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 7.</span> Output node convergence vs path convergence by domain. History shows the largest output/path ratio (4.4× in <span style="font-variant:small-caps;">Qwen</span>).</p>
       </div>
 
@@ -692,7 +692,7 @@ function toggleTheme() {
         </div>
 
         <div class="max-width-content" style="margin:20px auto;">
-          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig18_layer_confidence_correlation.png" alt="Per-layer energy-confidence correlation" class="paper-figure">
+          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig18_layer_confidence_correlation.svg" alt="Per-layer energy-confidence correlation" class="paper-figure">
           <p class="figure-caption has-text-centered"><span class="figure-number">Figure 6.</span> Per-layer energy–confidence correlation in <span style="font-variant:small-caps;">Gemma</span>. L6 shows strong negative correlation (r = −0.684); post-bottleneck layers show positive correlations.</p>
         </div>
 
@@ -734,7 +734,7 @@ function toggleTheme() {
       </div>
 
       <div class="max-width-content" style="margin:20px auto;">
-        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig41_reduction_breakdown.png" alt="Minimal pathway extraction" class="paper-figure">
+        <img src="../neuronpedia_pipeline/data/stage_2_figures/fig41_reduction_breakdown.svg" alt="Minimal pathway extraction" class="paper-figure">
         <p class="figure-caption has-text-centered"><span class="figure-number">Figure 8.</span> Minimal pathway extraction. Circuits are 94.1% redundant; essential edges carry only 0.3% of total weight. <span style="font-variant:small-caps;">Gemma</span> bottlenecks concentrate at L22 (median); <span style="font-variant:small-caps;">Qwen</span> at L30.</p>
       </div>
 
