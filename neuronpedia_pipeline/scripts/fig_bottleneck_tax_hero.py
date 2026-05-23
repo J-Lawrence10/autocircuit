@@ -80,14 +80,21 @@ apply_hero_rcparams()
 # Data loading
 # ---------------------------------------------------------------------------
 
-def load_per_layer_correlations(results: dict) -> tuple[list[int], list[float], list[float]]:
-    """Return (layers, spearman_r, spearman_p) for Gemma."""
-    lc = results['layer_confidence_correlation']['gemma-2-2b']
-    per_layer = lc['per_layer']
+def load_per_layer_correlations(results: dict) -> tuple[list[int], list[float]]:
+    """Return (layers, spearman_r) for Gemma, defensively traversing the dict."""
+    per_layer = (
+        results.get('layer_confidence_correlation', {})
+               .get('gemma-2-2b', {})
+               .get('per_layer', [])
+    )
+    if not per_layer:
+        raise SystemExit(
+            "layer_confidence_correlation.gemma-2-2b.per_layer missing or empty "
+            "in results JSON; re-run the layer-energy pipeline first."
+        )
     layers = [entry['layer'] for entry in per_layer]
     r_values = [entry['spearman_r'] for entry in per_layer]
-    p_values = [entry['spearman_p'] for entry in per_layer]
-    return layers, r_values, p_values
+    return layers, r_values
 
 
 def load_l6_scatter(per_circuit: dict) -> tuple[np.ndarray, np.ndarray]:
@@ -225,7 +232,7 @@ def main() -> None:
     with open(PER_CIRCUIT_FILE, 'r', encoding='utf-8') as f:
         per_circuit = json.load(f)
 
-    layers, r_values, p_values = load_per_layer_correlations(results)
+    layers, r_values = load_per_layer_correlations(results)
     l6_frac, output_prob = load_l6_scatter(per_circuit)
 
     if len(l6_frac) == 0:
