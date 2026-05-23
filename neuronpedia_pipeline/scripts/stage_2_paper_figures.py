@@ -233,7 +233,7 @@ def fig3_bottleneck_depth():
             ax.text(i, m + s + 0.5, f'{pct:.0f}%', ha='center', va='bottom', fontsize=10, fontweight='bold')
 
     fig.tight_layout()
-    fig.savefig(os.path.join(FIG_DIR, 'fig3_bottleneck_depth.png'))
+    fig.savefig(os.path.join(FIG_DIR, 'fig3_bottleneck_depth.png'), bbox_inches='tight')
     fig.savefig(os.path.join(FIG_DIR, 'fig3_bottleneck_depth.svg'), bbox_inches='tight')
     plt.close(fig)
     print("  Figure 3: Bottleneck depth")
