@@ -155,7 +155,7 @@ def draw_left_panel(ax, layers: list[int], r_values: list[float]) -> None:
     # Annotation arrow pointing to L6.
     r_l6 = r_values[BOTTLENECK_LAYER]
     ax.annotate(
-        'L6 — bottleneck',
+        'L6 (bottleneck)',
         xy=(BOTTLENECK_LAYER, r_l6),
         xytext=(BOTTLENECK_LAYER + 5.0, r_l6 - 0.18),
         fontsize=10, color=COLOR_BOTTLENECK, fontweight='bold',
