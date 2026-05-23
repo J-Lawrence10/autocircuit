@@ -692,8 +692,8 @@ function toggleTheme() {
         </div>
 
         <div class="max-width-content" style="margin:20px auto;">
-          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig18_layer_confidence_correlation.svg" alt="Per-layer energy-confidence correlation" class="paper-figure">
-          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 6.</span> Per-layer energy–confidence correlation in <span style="font-variant:small-caps;">Gemma</span>. L6 shows strong negative correlation (r = −0.684); post-bottleneck layers show positive correlations.</p>
+          <img src="../neuronpedia_pipeline/data/stage_2_figures/fig_bottleneck_tax_hero.svg" alt="Bottleneck tax — two-panel annotated hero figure" class="paper-figure paper-figure-hero" id="fig-bottleneck-tax">
+          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 1.</span> <strong>The bottleneck tax.</strong> Per-layer Spearman correlation between activation energy fraction and output confidence across 30 <span style="font-variant:small-caps;">Gemma</span> circuits. <strong>Bottleneck layer L6 shows a strong negative correlation (r = −0.684, p &lt; 0.0001):</strong> circuits concentrating more activation at L6 produce <em>less</em> confident predictions. Post-bottleneck layers L13, L16 reverse the sign (r ≈ +0.60), consistent with information bottleneck framing — heavier compression at intermediate layers reduces information available for downstream evidence accumulation.</p>
         </div>
 
         <h4 class="title is-6" style="margin-top:1.4rem;">Theoretical framing: information bottleneck theory</h4>
