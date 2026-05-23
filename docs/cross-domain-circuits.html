@@ -234,6 +234,16 @@ hr.results-subsection-divider {
 .finding-card.blue  { border-left: 4px solid var(--link); }
 .finding-card.orange{ border-left: 4px solid var(--orange); }
 .finding-card.purple{ border-left: 4px solid var(--purple); }
+.key-findings-list { list-style: none; padding-left: 0; margin: 1em 0; }
+.key-findings-list li {
+  padding: 0.75em 1em;
+  margin-bottom: 0.5em;
+  background: var(--finding-bg);
+  border-left: 3px solid var(--finding-bdr);
+  border-radius: 4px;
+}
+.key-findings-list a { color: var(--link); font-weight: 500; text-decoration: none; }
+.key-findings-list a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -347,51 +357,12 @@ function toggleTheme() {
   <div class="container is-max-desktop">
     <h2 class="title is-4">Key Findings</h2>
     <div class="content">
-      <div class="findings-grid">
-
-        <div class="finding-card blue">
-          <div class="finding-icon"><i class="fa-solid fa-microchip"></i></div>
-          <div class="finding-title">1. Architecture dominates domain</div>
-          <div class="finding-body">Within-model energy profile similarity is <strong>0.978</strong> vs <strong>0.696</strong> between models — architecture explains <strong>~14×</strong> more variance than domain. 13/16 structural metrics differ significantly cross-model (Bonferroni-corrected).</div>
-        </div>
-
-        <div class="finding-card orange">
-          <div class="finding-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
-          <div class="finding-title">2. The "bottleneck tax"</div>
-          <div class="finding-body">In <span style="font-variant:small-caps;">Gemma</span>, energy at L6 (bottleneck) negatively predicts confidence (<strong>r = −0.684</strong>), while post-bottleneck L13/L16 positively predict it. Consistent with information bottleneck theory.</div>
-        </div>
-
-        <div class="finding-card purple">
-          <div class="finding-icon"><i class="fa-solid fa-route"></i></div>
-          <div class="finding-title">3. Front-load vs back-load</div>
-          <div class="finding-body"><span style="font-variant:small-caps;">Gemma</span> concentrates <strong>54%</strong> of energy in layers 0–12; <span style="font-variant:small-caps;">Qwen</span> only <strong>31%</strong> in its first half. Different paradigms, comparable accuracy.</div>
-        </div>
-
-        <div class="finding-card green">
-          <div class="finding-icon"><i class="fa-solid fa-shuffle"></i></div>
-          <div class="finding-title">4. Convergent outputs, divergent paths</div>
-          <div class="finding-body">Same-domain circuits share up to <strong>67.3%</strong> of output features (<span style="font-variant:small-caps;">Qwen</span> history) despite only <strong>15.3%</strong> path overlap — an output/path ratio of <strong>4.4×</strong>.</div>
-        </div>
-
-        <div class="finding-card blue">
-          <div class="finding-icon"><i class="fa-solid fa-globe"></i></div>
-          <div class="finding-title">5. Universal bottlenecks are architecture-specific</div>
-          <div class="finding-body"><strong>6</strong> universal bottlenecks in <span style="font-variant:small-caps;">Gemma</span>, <strong>15</strong> in <span style="font-variant:small-caps;">Qwen</span>, with <strong>zero</strong> overlap. Routing infrastructure, not knowledge stores.</div>
-        </div>
-
-        <div class="finding-card purple">
-          <div class="finding-icon"><i class="fa-solid fa-network-wired"></i></div>
-          <div class="finding-title">6. Circuits are 94% redundant</div>
-          <div class="finding-body">Only <strong>~6%</strong> of nodes and <strong>0.3%</strong> of edge weight participate in essential pathways. <span style="font-variant:small-caps;">Gemma</span> redundancy correlates with confidence (r = 0.642).</div>
-        </div>
-
-        <div class="finding-card orange">
-          <div class="finding-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="finding-title">7. Three-tier causal dissociation</div>
-          <div class="finding-body">80 steering experiments: essential-pathway features perturb distributions strongest (mean KL = 1.448), but neither topology nor frequency predicts text changes. Output determinism rules.</div>
-        </div>
-
-      </div>
+      <ul class="key-findings-list">
+        <li><strong>Architecture dominance.</strong> Across 60 circuits, model architecture explains ~14× more variance in layer-energy profiles than knowledge domain. <span style="font-variant:small-caps;">Gemma</span> front-loads 54% of energy into early layers; <span style="font-variant:small-caps;">Qwen</span> back-loads with 31%. Both produce comparable factual recall. <a href="#results-architecture">[Jump to §3.2 →]</a></li>
+        <li><strong>Universal bottleneck features.</strong> Six <span style="font-variant:small-caps;">Gemma</span> and 15 <span style="font-variant:small-caps;">Qwen</span> features participate in circuits across chemistry, geography, AND history. Zero cross-architecture overlap. Function: routing infrastructure, not knowledge stores. <a href="#results-universal">[Jump to §3.3 →]</a></li>
+        <li><strong>The bottleneck tax.</strong> More activation at <span style="font-variant:small-caps;">Gemma</span>'s bottleneck layer L6 predicts <em>worse</em> output confidence (r = −0.684, Bonferroni-significant). Counter-intuitive correlation consistent with information bottleneck theory. <a href="#results-bottleneck-tax">[Jump to §3.5 →]</a></li>
+        <li><strong>The three-tier dissociation.</strong> 80 steering experiments reveal that pathway topology, cross-circuit frequency, and text-level behavior each measure different things. Essential-pathway features perturb distributions strongest (KL = 1.448) but 94% circuit redundancy absorbs them. <a href="#results-steering">[Jump to §3.7 →]</a></li>
+      </ul>
     </div>
   </div>
 </section>
