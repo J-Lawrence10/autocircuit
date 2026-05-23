@@ -519,7 +519,7 @@ function toggleTheme() {
 
         <div class="max-width-content" style="margin:20px auto;">
           <img src="../neuronpedia_pipeline/data/stage_2_figures/fig2_jaccard_heatmaps.svg" alt="Jaccard similarity heatmaps" class="paper-figure">
-          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 5.</span> Within-category Jaccard similarity heatmaps for <span style="font-variant:small-caps;">Gemma</span> (top) and <span style="font-variant:small-caps;">Qwen</span> (bottom) across chemistry, geography, and history.</p>
+          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> Within-category Jaccard similarity heatmaps for <span style="font-variant:small-caps;">Gemma</span> (top) and <span style="font-variant:small-caps;">Qwen</span> (bottom) across chemistry, geography, and history.</p>
         </div>
       </div>
     </div>
@@ -536,7 +536,7 @@ function toggleTheme() {
 
       <div class="max-width-content" style="margin:20px auto;">
         <img src="../neuronpedia_pipeline/data/stage_2_figures/fig_architecture_dominance_hero.svg" alt="Architecture dominance — two-panel annotated hero figure" class="paper-figure paper-figure-hero" id="fig-architecture-dominance">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 2.</span> <strong>Architecture dominance.</strong> <strong>Left:</strong> Cumulative energy profiles show <span style="font-variant:small-caps;">Gemma</span> front-loads 54% of activation into the first half of layers while <span style="font-variant:small-caps;">Qwen</span> back-loads with only 31% — fundamentally different computational strategies, comparable factual recall. <strong>Right:</strong> Energy profile cosine similarity matrix across all 60 circuits. Within-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Gemma</span> and <span style="font-variant:small-caps;">Qwen</span>×<span style="font-variant:small-caps;">Qwen</span>) cluster at 0.978; between-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Qwen</span> off-diagonal blocks) drop to 0.696. Architecture explains ~14× more variance than knowledge domain.</p>
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 3.</span> <strong>Architecture dominance.</strong> <strong>Left:</strong> Cumulative energy profiles show <span style="font-variant:small-caps;">Gemma</span> front-loads 54% of activation into the first half of layers while <span style="font-variant:small-caps;">Qwen</span> back-loads with only 31% — fundamentally different computational strategies, comparable factual recall. <strong>Right:</strong> Energy profile cosine similarity matrix across all 60 circuits. Within-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Gemma</span> and <span style="font-variant:small-caps;">Qwen</span>×<span style="font-variant:small-caps;">Qwen</span>) cluster at 0.978; between-model pairs (<span style="font-variant:small-caps;">Gemma</span>×<span style="font-variant:small-caps;">Qwen</span> off-diagonal blocks) drop to 0.696. Architecture explains ~14× more variance than knowledge domain.</p>
       </div>
 
       <h4 class="title is-6" style="margin-top:1.4rem;">Front-loading vs back-loading</h4>
@@ -554,7 +554,7 @@ function toggleTheme() {
                class="paper-figure paper-figure-hero"
                id="fig-bottleneck-density">
           <figcaption class="figure-caption has-text-centered">
-            <span class="figure-number">Figure 3.</span>
+            <span class="figure-number">Figure 4.</span>
             [draft caption — Milestone F will polish all captions]
             Per-circuit mean bottleneck layer (path convergence ≥ 60%) across 30 <span style="font-variant:small-caps;">Gemma</span> circuits (left) and 30 <span style="font-variant:small-caps;">Qwen</span> circuits (right). <span style="font-variant:small-caps;">Gemma</span> circuits cluster at L5–7 (53% of circuits, mean L5.6); <span style="font-variant:small-caps;">Qwen</span> circuits cluster at L22–25 (60% of circuits, mean L23.6). The modal band in each histogram defines that model's primary bottleneck layer.
           </figcaption>
@@ -579,7 +579,7 @@ function toggleTheme() {
 
       <div class="max-width-content" style="margin:20px auto;">
         <img src="../neuronpedia_pipeline/data/stage_2_figures/fig3_bottleneck_depth.svg" alt="Bottleneck depth distribution" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 4.</span> Bottleneck depth distribution by model and domain. <span style="font-variant:small-caps;">Gemma</span> clusters at L5–7, <span style="font-variant:small-caps;">Qwen</span> at L22–25.</p>
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 5.</span> Bottleneck depth distribution by model and domain. <span style="font-variant:small-caps;">Gemma</span> clusters at L5–7, <span style="font-variant:small-caps;">Qwen</span> at L22–25.</p>
       </div>
 
       </div>
@@ -667,7 +667,7 @@ function toggleTheme() {
 
       <div class="max-width-content" style="margin:20px auto;">
         <img src="../neuronpedia_pipeline/data/stage_2_figures/fig10_output_path.svg" alt="Output vs path convergence" class="paper-figure">
-        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 7.</span> Output node convergence vs path convergence by domain. History shows the largest output/path ratio (4.4× in <span style="font-variant:small-caps;">Qwen</span>).</p>
+        <p class="figure-caption has-text-centered"><span class="figure-number">Figure 6.</span> Output node convergence vs path convergence by domain. History shows the largest output/path ratio (4.4× in <span style="font-variant:small-caps;">Qwen</span>).</p>
       </div>
 
       <p>This has implications for model editing: intervening at the output layer would affect most circuits within a domain, while intervening at intermediate layers requires more domain-specific targeting.</p>
@@ -702,7 +702,7 @@ function toggleTheme() {
 
         <div class="max-width-content" style="margin:20px auto;">
           <img src="../neuronpedia_pipeline/data/stage_2_figures/fig_bottleneck_tax_hero.svg" alt="Bottleneck tax — two-panel annotated hero figure" class="paper-figure paper-figure-hero" id="fig-bottleneck-tax">
-          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 1.</span> <strong>The bottleneck tax.</strong> Per-layer Spearman correlation between activation energy fraction and output confidence across 30 <span style="font-variant:small-caps;">Gemma</span> circuits. <strong>Bottleneck layer L6 shows a strong negative correlation (r = −0.684, p &lt; 0.0001):</strong> circuits concentrating more activation at L6 produce <em>less</em> confident predictions. Post-bottleneck layers L13, L16 reverse the sign (r ≈ +0.60), consistent with information bottleneck framing — heavier compression at intermediate layers reduces information available for downstream evidence accumulation.</p>
+          <p class="figure-caption has-text-centered"><span class="figure-number">Figure 7.</span> <strong>The bottleneck tax.</strong> Per-layer Spearman correlation between activation energy fraction and output confidence across 30 <span style="font-variant:small-caps;">Gemma</span> circuits. <strong>Bottleneck layer L6 shows a strong negative correlation (r = −0.684, p &lt; 0.0001):</strong> circuits concentrating more activation at L6 produce <em>less</em> confident predictions. Post-bottleneck layers L13, L16 reverse the sign (r ≈ +0.60), consistent with information bottleneck framing — heavier compression at intermediate layers reduces information available for downstream evidence accumulation.</p>
         </div>
 
         <h4 class="title is-6" style="margin-top:1.4rem;">Theoretical framing: information bottleneck theory</h4>
