@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary — Cross-Domain Circuit Analysis</title>
+<meta name="description" content="Plain-language definitions of Jaccard similarity, activation energy, bottleneck tax, cosine similarity on energy profiles, steering experiments, and direct logit attribution.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117; --bg2: #161b22; --bg3: #21262d; --border: #30363d;
+  --text: #c9d1d9; --text-muted: #8b949e; --link: #58a6ff;
+  --hero-bg: #0d1117; --section-bg: #0d1117; --footer-bg: #161b22;
+  --code-bg: #161b22; --table-head: #161b22; --table-even: rgba(22,27,34,0.6);
+  --hr-color: #30363d;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg2: #f6f8fa; --bg3: #eaeef2; --border: #d0d7de;
+  --text: #1f2328; --text-muted: #57606a; --link: #0969da;
+  --hero-bg: #ffffff; --section-bg: #ffffff; --footer-bg: #f6f8fa;
+  --code-bg: #eaeef2; --table-head: #f6f8fa; --table-even: #f6f8fa;
+  --hr-color: #ededed;
+}
+html { font-size: 12pt; }
+body {
+  font-family: 'DM Sans', sans-serif !important;
+  color: var(--text);
+  background: var(--bg);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+code, pre { font-family: 'DM Mono', monospace !important; background: var(--code-bg) !important; color: var(--link) !important; }
+pre { padding: 0.75rem; border-radius: 6px; overflow-x: auto; }
+a { color: var(--link); }
+a:hover { opacity: 0.8; }
+.hero { background: var(--hero-bg) !important; }
+.section { background: var(--section-bg) !important; }
+.footer { background: var(--footer-bg) !important; color: var(--text-muted); }
+.footer a { color: var(--link); }
+.title { color: var(--text) !important; }
+.content { color: var(--text); }
+.content h2, .content h3, .content h4 { color: var(--text) !important; }
+.content h2 { border-bottom: 1px solid var(--hr-color); padding-bottom: 0.3em; margin-top: 2em; }
+hr { background-color: var(--hr-color); border: none; height: 1px; }
+table { color: var(--text) !important; background: transparent !important; }
+table th { background: var(--table-head) !important; color: var(--text) !important; border-color: var(--border) !important; }
+table td { border-color: var(--border) !important; }
+table tr:nth-child(even) td { background: var(--table-even) !important; }
+blockquote { border-left: 3px solid var(--link); padding-left: 1em; color: var(--text-muted); margin: 1em 0; }
+
+#theme-toggle {
+  position: fixed; top: 1rem; right: 1rem; z-index: 1000;
+  background: var(--bg2); color: var(--text);
+  border: 1px solid var(--border); padding: 0.4rem 0.8rem;
+  border-radius: 20px; cursor: pointer; font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+#theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+.back-link {
+  display: inline-block; margin-bottom: 1rem; font-size: 0.95rem;
+  color: var(--text-muted); text-decoration: none;
+}
+.back-link:hover { color: var(--link); }
+.back-link i { margin-right: 0.4rem; }
+</style>
+</head>
+<body>
+
+<!-- THEME TOGGLE -->
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <span id="theme-icon">☀️</span>
+  <span id="theme-label">Light mode</span>
+</button>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-icon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('theme-label').textContent = isDark ? 'Dark mode' : 'Light mode';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+(function() {
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.addEventListener('DOMContentLoaded', function() {
+    const isDark = saved === 'dark';
+    document.getElementById('theme-icon').textContent  = isDark ? '☀️' : '🌙';
+    document.getElementById('theme-label').textContent = isDark ? 'Light mode' : 'Dark mode';
+  });
+})();
+</script>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-body" style="padding: 3rem 1.5rem 0.5rem 1.5rem;">
+    <div class="container is-max-desktop">
+      <a href="cross-domain-circuits.html" class="back-link"><i class="fa-solid fa-arrow-left"></i>Back to paper</a>
+      <h1 class="title is-2">Glossary</h1>
+      <p class="subtitle is-5" style="color: var(--text-muted);">Plain-language definitions of key concepts used in the Cross-Domain Circuit Analysis paper.</p>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- BODY -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+<h1 id="glossary-cross-domain-circuit-analysis">Glossary — Cross-Domain Circuit Analysis</h1>
+<p><strong>Purpose:</strong> Plain-language definitions of key concepts used in the paper, for explaining the work to others.</p>
+<p><strong>Companion to:</strong> <code>CROSS_DOMAIN_CIRCUIT_PAPER.md</code></p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#jaccard-similarity">Jaccard Similarity</a></li>
+<li><a href="#activation-energy">Activation Energy</a></li>
+<li><a href="#bottleneck-tax">Bottleneck Tax</a></li>
+<li><a href="#cosine-similarity-on-energy-profiles">Cosine Similarity on Energy Profiles</a></li>
+<li><a href="#is-energy-finite-addressing-the-metaphor">Is Energy Finite? (Addressing the Metaphor)</a></li>
+<li><a href="#steering-experiments-how-features-were-selected">Steering Experiments: How Features Were Selected</a></li>
+<li><a href="#direct-logit-attribution-how-the-output-token-is-chosen">Direct Logit Attribution: How the Output Token is Chosen</a></li>
+</ul>
+<hr />
+<h2 id="jaccard-similarity">Jaccard Similarity</h2>
+<p><strong>Quick definition:</strong> A number between 0 and 1 that measures how much two sets overlap.</p>
+<p><strong>Formula:</strong>
+$$J(A, B) = \frac{|A \cap B|}{|A \cup B|} = \frac{\text{size of overlap}}{\text{size of combined set}}$$</p>
+<p><strong>How to read the values:</strong>
+- <strong>J = 0</strong> → the two sets share nothing
+- <strong>J = 1</strong> → the two sets are identical
+- <strong>J = 0.5</strong> → half the elements are shared</p>
+<p><strong>Worked example:</strong></p>
+<p>Set A = {apple, orange, banana, grape}
+Set B = {apple, orange, pear, kiwi}</p>
+<ul>
+<li>Intersection: {apple, orange} → size 2</li>
+<li>Union: {apple, orange, banana, grape, pear, kiwi} → size 6</li>
+<li><strong>J = 2/6 ≈ 0.33</strong></li>
+</ul>
+<p><strong>How we use it:</strong> Every circuit has a set of SAE features that activate during the prompt. We compute Jaccard over those feature sets to ask "how similar are these two circuits?"</p>
+<p><strong>Example results from the paper:</strong>
+| Comparison | Jaccard | Interpretation |
+|-----------|---------|----------------|
+| Gold vs Sodium (same template, different facts) | 0.60 | Circuits share 60% of features |
+| Gold template-A vs Gold template-B (same fact, different templates) | 0.30 | Only 30% shared |
+| Chemistry vs Geography (different domain) | 0.11 | Very different circuits |
+| GEMMA Geography prompts (within-domain) | 0.40 | Highest within-domain convergence |
+| GEMMA History prompts (within-domain) | 0.11 | Lowest within-domain convergence |</p>
+<p><strong>Why we chose it:</strong>
+- Simple and interpretable
+- Doesn't care about set size — two small sets with perfect overlap still score 1.0
+- Ignores element ordering and magnitude</p>
+<p><strong>Limitation:</strong> Treats all features as equally important. A strongly-activated feature counts the same as one that barely fires.</p>
+<hr />
+<h2 id="activation-energy">Activation Energy</h2>
+<p><strong>Quick definition:</strong> A measure of how much "work" a neural network layer is doing, quantified by the magnitudes of feature activations.</p>
+<p><strong>How we compute it:</strong>
+- <strong>Node energy</strong> = sum of activation magnitudes across all SAE features in that layer
+- <strong>Total activation energy</strong> = sum of node energies across the entire circuit
+- <strong>Layer energy fraction</strong> = (energy at layer L) / (total circuit energy) — what % of the circuit's work happens at layer L</p>
+<p><strong>Why call it "energy"?</strong> Physics analogy. High energy = many features strongly firing. Low energy = sparse activation. The name captures the intuition that a layer with high activation magnitudes is "doing more work."</p>
+<p><strong>How it looks in the paper:</strong></p>
+<p><strong>Energy profiles</strong> plot layer-energy-fraction against layer depth for each circuit. We found two distinct patterns:
+- <strong>GEMMA front-loads energy:</strong> 54% of total energy is in layers 0-12 (first half). Cumulative 50% reached by L11.
+- <strong>QWEN back-loads energy:</strong> Only 31% of energy in the first half. Cumulative 50% not reached until L28.</p>
+<p>These are fundamentally different computational strategies, but both produce comparable factual recall.</p>
+<p><strong>Key property:</strong> Energy profiles are <strong>architecture-determined, not domain-determined.</strong>
+- Within-model cosine similarity (across chemistry/geography/history): <strong>0.978</strong>
+- Between-model cosine similarity: <strong>0.696</strong>
+- Architecture explains roughly 14× more variance than knowledge domain</p>
+<p><strong>Why this matters:</strong> Energy profiles are robust to prompt-template confounds (see Section 5.9). Feature IDs change when you rephrase prompts, but <em>where</em> computation happens across layers stays architecturally locked. That's why the architecture-dominance claim survives the format-variation critique.</p>
+<hr />
+<h2 id="bottleneck-tax">Bottleneck Tax</h2>
+<p><strong>Quick definition:</strong> The empirical finding that <strong>higher activation magnitude at a bottleneck layer correlates with <em>worse</em> model confidence.</strong> The name is a memorable label; the theoretical grounding is information bottleneck theory (Tishby &amp; Zaslavsky, 2015), which predicts that over-compression at an intermediate layer limits the information downstream layers can use for prediction.</p>
+<p><strong>Important note on framing:</strong> This is a <strong>correlation with a theoretical interpretation, not a proven causal mechanism</strong>. "Energy" here means summed feature activation magnitudes, NOT a conserved physical quantity (see the "Is Energy Finite?" entry). Early drafts used "energy budget" language; the final paper grounds the finding in information bottleneck theory instead.</p>
+<p><strong>The core correlations (GEMMA-2-2B):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Role</th>
+<th>Correlation with confidence</th>
+<th>Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L6</strong></td>
+<td>Primary bottleneck</td>
+<td>r = −0.684, p &lt; 0.0001</td>
+<td>Negative (tax)</td>
+</tr>
+<tr>
+<td><strong>L10</strong></td>
+<td>Mid-layer</td>
+<td>r = −0.601</td>
+<td>Negative</td>
+</tr>
+<tr>
+<td><strong>L1</strong></td>
+<td>Input</td>
+<td>r = +0.634</td>
+<td>Positive</td>
+</tr>
+<tr>
+<td><strong>L13</strong></td>
+<td>Post-bottleneck</td>
+<td>r = +0.601</td>
+<td>Positive</td>
+</tr>
+<tr>
+<td><strong>L16</strong></td>
+<td>Post-bottleneck</td>
+<td>r = +0.598</td>
+<td>Positive</td>
+</tr>
+</tbody>
+</table>
+<p><strong>More energy at L6 → worse predictions. More energy at L13/L16 → better predictions.</strong></p>
+<p><strong>The intuition (doorway analogy — use cautiously):</strong>
+Think of a narrow doorway in a hallway.
+- Information has to squeeze through the doorway (bottleneck at L6)
+- The <em>useful assembly</em> happens in the rooms after the doorway (L13, L16)
+- When too much is compressed at the doorway, less useful information reaches the downstream rooms for assembly</p>
+<p>This is a metaphor to build intuition. The <strong>formal version</strong> comes from information bottleneck theory: the mutual information I(X; T_L) between input X and the representation at layer L bounds what downstream layers can recover. Higher compression at the bottleneck layer reduces this mutual information, which limits downstream evidence accumulation.</p>
+<p>Note: The bottleneck both filters information (potentially helpful, by discarding noise) AND limits downstream information (potentially harmful, if it discards signal). The paper's finding is that on average the harm dominates — circuits with heavier bottleneck activation tend to produce less confident predictions.</p>
+<p><strong>What we ruled out:</strong>
+- <strong>Bottleneck convergence</strong> (how sharply paths funnel): r = 0.27, NOT significant
+- <strong>Bottleneck energy fraction</strong> (what % of energy is at bottleneck): r = 0.26, NOT significant
+- <strong>Total activation energy</strong>: r = 0.53, Bonferroni-significant</p>
+<p>So it's not about having a "sharper" or "cleaner" bottleneck — it's about not <em>over-spending</em> energy there.</p>
+<p><strong>Why this matters:</strong>
+This is one of the paper's most novel contributions because it <strong>connects circuit structure directly to behavior</strong>. Earlier work (Meng et al. 2022) showed specific layers matter for factual recall via causal intervention. Our bottleneck tax is the correlational version: just by measuring <em>where</em> energy lives in a circuit, you can predict <em>how confident</em> the model will be.</p>
+<p><strong>QWEN3-4B contrast:</strong>
+QWEN shows zero Bonferroni-significant layer-energy-confidence correlations. Its late-bottleneck architecture (L22-25) diffuses the confidence signal across many layers instead of localizing it. The bottleneck tax appears specific to early-bottleneck architectures like GEMMA.</p>
+<p><strong>One-line summary:</strong> Bottleneck tax = an empirical correlation (higher L6 activation → lower confidence) grounded in information bottleneck theory (Tishby 2015), not a literal energy-budget mechanism.</p>
+<p><strong>How to explain it to someone:</strong></p>
+<blockquote>
+<p>"We found that the more a circuit's activation is concentrated at its bottleneck layer (L6 in GEMMA), the less confident its prediction tends to be — r = -0.684, Bonferroni-significant. This is consistent with information bottleneck theory, which predicts that heavy compression at intermediate layers limits the information downstream layers can use. We call the pattern the 'bottleneck tax' for memorability, but it's a correlational finding with a theoretical interpretation, not a proven causal mechanism."</p>
+</blockquote>
+<hr />
+<hr />
+<h2 id="cosine-similarity-on-energy-profiles">Cosine Similarity on Energy Profiles</h2>
+<p><strong>Quick definition:</strong> A number between 0 and 1 measuring whether two circuits have the same <em>shape</em> of layer-by-layer energy distribution, regardless of total magnitude.</p>
+<p><strong>What the inputs are:</strong>
+Each circuit produces a vector of N numbers (26 for GEMMA, 36 for QWEN) — the proportion of total circuit energy at each layer. Example:</p>
+<pre><code>GEMMA circuit → [0.08, 0.12, 0.15, 0.09, 0.06, 0.04, 0.03, 0.02, ...]
+</code></pre>
+<p>These sum to 1.0 (they're fractions).</p>
+<p><strong>Why cosine specifically:</strong></p>
+<ol>
+<li><strong>Shape over magnitude.</strong> Measures the <em>angle</em> between vectors, not their length. Two circuits concentrating energy at L6 will score as similar even if one has much more absolute energy. We care about <em>where</em> computation happens, not how much.</li>
+<li><strong>Standard in ML.</strong> Used ubiquitously for comparing embeddings, feature vectors, and activation patterns.</li>
+<li><strong>Interpretable.</strong> 1 = identical shape, 0 = completely different shape.</li>
+</ol>
+<p><strong>Alternatives we didn't use and why:</strong>
+- <strong>Euclidean distance:</strong> dominated by absolute magnitude differences, not shape
+- <strong>KL divergence:</strong> asymmetric, treats vectors as probability distributions (which is OK since ours sum to 1, but harder to interpret as a "similarity")
+- <strong>Correlation:</strong> adds a mean-centering step that's harder to interpret here</p>
+<p><strong>Precedents in the literature:</strong>
+- <strong>Representational Similarity Analysis (RSA)</strong> — Kriegeskorte, Mur, &amp; Bandettini (2008), <em>Frontiers in Systems Neuroscience</em>. Standard for comparing activation patterns across brains/models/conditions.
+- <strong>Centered Kernel Alignment (CKA)</strong> — Kornblith, Norouzi, Lee, &amp; Hinton (2019), <em>ICML</em>, "Similarity of Neural Network Representations Revisited." Modern method for comparing activations across networks.
+- <strong>Cosine on SAE features</strong> — Bricken et al. (2023), Templeton et al. (2024) use cosine similarity on feature activations.</p>
+<p><strong>What's novel in our application:</strong> Applying cosine similarity specifically to <strong>per-layer energy fractions aggregated across a circuit</strong>, rather than comparing individual activation vectors. It's a reasonable extension of standard practice.</p>
+<p><strong>The key results (Section 5.5.1):</strong>
+- Within-model cosine similarity: <strong>0.978</strong>
+- Between-model cosine similarity: <strong>0.696</strong> (after depth normalization)
+- Mann-Whitney U test: <strong>p &lt; 0.000001</strong> (distributions don't overlap)
+- Bootstrap 95% CI on within-model mean: <strong>[0.975, 0.981]</strong></p>
+<p><strong>Where we're vulnerable to reviewer critique:</strong>
+- We didn't formally benchmark cosine against KL divergence or Earth Mover's Distance. A reviewer could reasonably ask "would the pattern hold with a different metric?"
+- The "~14× more variance" claim divides the between-model gap (0.282) by the within-model domain gap (~0.02). This is a rough comparison, not a formal variance decomposition.</p>
+<p><strong>How to explain it:</strong></p>
+<blockquote>
+<p>"Cosine similarity measures whether two circuits concentrate their computation at the same layers — we care about the shape of where work happens, not the absolute amount. This extends representational similarity analysis (Kriegeskorte 2008) and modern activation-comparison methods like CKA (Kornblith 2019). Our finding that within-model scores cluster at 0.978 while between-model scores drop to 0.696 is statistically robust (Mann-Whitney p &lt; 0.000001)."</p>
+</blockquote>
+<hr />
+<h2 id="is-energy-finite-addressing-the-metaphor">Is Energy Finite? (Addressing the Metaphor)</h2>
+<p><strong>Quick definition:</strong> Our paper frames the bottleneck tax as if the model has a "finite energy budget" that must be spent somewhere. <strong>This is a metaphor, not a mechanism.</strong> Neural networks have no conservation law for activation energy.</p>
+<p><strong>The physical reality:</strong>
+- Each layer's activations are the output of learned linear + nonlinear transformations applied independently
+- Layer 6 can activate 0 features or 16,000 features without "using up" anything Layer 13 needs
+- Activation magnitudes are bounded by input magnitudes and learned weights, not by a global pool</p>
+<p><strong>What IS finite in a neural network:</strong>
+- <strong>Parameters</strong> (fixed capacity)
+- <strong>Compute per forward pass</strong> (fixed FLOPs)
+- <strong>Input information content</strong> (bounded by prompt)</p>
+<p>But these are different from a "shared energy budget."</p>
+<p><strong>So what does the bottleneck tax actually capture?</strong></p>
+<p>The correlation (r = −0.684 between L6 energy fraction and confidence) is <strong>real data</strong>. The <em>interpretation</em> as a resource tradeoff is where we're on thinner ground. Three more rigorous ways to frame the same finding:</p>
+<h3 id="option-1-correlational-safest-for-publication">Option 1: Correlational (safest for publication)</h3>
+<p>"Layer 6 energy fraction negatively correlates with output confidence across 30 GEMMA circuits. We do not claim a direct causal mechanism; this pattern could reflect upstream prompt difficulty, domain differences, or genuine compression-accumulation tradeoffs."</p>
+<h3 id="option-2-information-theoretic-stronger-with-citation">Option 2: Information-theoretic (stronger, with citation)</h3>
+<p>Following <strong>Tishby &amp; Zaslavsky (2015)</strong>, "Deep Learning and the Information Bottleneck Principle" (ITW) and <strong>Shwartz-Ziv &amp; Tishby (2017)</strong>, "Opening the Black Box of Deep Neural Networks via Information":</p>
+<blockquote>
+<p>"Information bottleneck theory predicts that heavy compression at an intermediate layer limits the information available to downstream layers for reconstruction and prediction. The negative correlation between L6 energy fraction and confidence (r = −0.684) is consistent with this prediction: circuits that concentrate more processing at the bottleneck may be compressing harder, leaving less information for evidence accumulation in later layers."</p>
+</blockquote>
+<p>This framing uses <strong>information</strong> (which does have a precise mathematical meaning in this context) rather than <strong>energy</strong> (which doesn't, in this context).</p>
+<h3 id="option-3-economic-metaphor-what-we-currently-wrote">Option 3: Economic metaphor (what we currently wrote)</h3>
+<p>"Heavy processing at the bottleneck consumes resources that could otherwise contribute to confidence." Evocative but not mechanistically grounded.</p>
+<p><strong>References that do NOT support "energy is finite":</strong>
+- <strong>Energy-based models</strong> (LeCun, Hinton): use "energy" as a scalar objective function over configurations — completely different concept
+- <strong>Activation atlases</strong> (Olah et al., Distill): use activation magnitudes as features without framing them as finite
+- <strong>Hardware energy consumption</strong> (MLPerf, EfficientNet literature): about Joules used by chips, not about activations</p>
+<p><strong>Recommendation for publication:</strong></p>
+<p>We should soften Section 6.4 to either Option 1 (correlational) or Option 2 (information-theoretic, with citation). The current "energy tax" framing is evocative but a reviewer who pushes on the mechanism will find nothing solid behind it.</p>
+<p><strong>How to explain it honestly:</strong></p>
+<blockquote>
+<p>"The paper uses 'energy' as a convenient shorthand for activation magnitude, not as a claim that the model has a literal conserved quantity. The bottleneck tax is a correlation, not a mechanism. The best theoretical grounding comes from information bottleneck theory (Tishby &amp; Zaslavsky 2015), which predicts that compression at intermediate layers reduces information available downstream — consistent with our observation that high L6 energy predicts low confidence."</p>
+</blockquote>
+<p><strong>What this means for the paper:</strong>
+- The <strong>data</strong> (r = −0.684, Bonferroni-significant) stands.
+- The <strong>finding</strong> (certain layers' energy predicts confidence) stands.
+- The <strong>interpretation</strong> (why) should be softened to information-theoretic language or pure correlational language.
+- The name "bottleneck tax" is fine as a memorable label, but the framing around it should acknowledge it's a metaphor.</p>
+<hr />
+<h2 id="steering-experiments">Steering Experiments: How Features Were Selected</h2>
+<p><strong>Quick definition:</strong> Steering is a causal validation technique where we clamp a single SAE feature's activation to a fixed value (positive = amplify, negative = suppress) and measure whether the model's output changes. We ran 80 such experiments across three batches, each using a different criterion to choose which features to steer.</p>
+<p><strong>The basic mechanism:</strong>
+For each experiment, we made one Neuronpedia API call with one feature, one prompt, and one strength value:</p>
+<pre><code>POST /api/steer
+prompt   = &quot;The Titanic sank in&quot;
+feature  = L7_F4828270  (one feature at a time, never combined)
+strength = +20           (or -20; ±20 was used in every experiment)
+</code></pre>
+<p>The API returned both the unsteered (<code>DEFAULT</code>) and steered (<code>STEERED</code>) outputs along with token-level logprobs. We measured: (a) text change (binary), (b) KL divergence between baseline and steered token distributions, (c) logprob shift in the top token.</p>
+<p><strong>Three batches, three different selection criteria:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Batch</th>
+<th>Criterion</th>
+<th>Source pool</th>
+<th>Features</th>
+<th>Experiments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D4</td>
+<td>Cross-circuit frequency, ranks 1-5</td>
+<td>Stage 1.5 bottleneck library (244 features that appeared as bottlenecks across the 60-circuit dataset)</td>
+<td>L0_F1813559, L3_F5150441, L4_F110446948, L6_F2586668, L24_F88478228</td>
+<td>20</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>Cross-circuit frequency, ranks 6-10 (extending D4)</td>
+<td>Same library</td>
+<td>L1_F99962728, L2_F25751073, L5_F7993995, L7_F4828270, L9_F125286525</td>
+<td>30</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>Essential-pathway membership (topology)</td>
+<td>1,000 features extracted from minimal-pathway analysis on 30 GEMMA circuits</td>
+<td>L0_F64712375, L1_F1736314, L21_F5479683, L24_F18002975, L25_F50014975</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cross-circuit frequency</strong> = the number of distinct circuits (out of 60) in which a feature appears as a bottleneck (convergence ≥ 60% in the traceback analysis). High frequency = "this feature shows up everywhere."</p>
+<p><strong>Essential-pathway membership</strong> = the number of distinct circuits whose minimum-viable input-to-output pathway includes this feature. High pathway membership = "this feature is on the critical route, not the redundant scaffolding." Only ~6% of nodes per circuit are on the essential pathway.</p>
+<p><strong>Why three batches:</strong></p>
+<p>D4 was the initial validation. D5 expanded it because only 50% of D4 experiments produced text changes and we wanted more statistical power. D6 was added when an unexpected finding emerged from D5: the most-frequent feature (L2_F25751073, 11 circuits) produced <strong>zero</strong> text changes, while a less-frequent one (L7_F4828270, 9 circuits) was the most causally effective. This dissociation between frequency and causation motivated testing a different criterion (topology) to see whether essential-pathway features would do better.</p>
+<p><strong>Pre-experiment cross-check:</strong> Of the 10 frequency-selected features in D4+D5, only 5 were on essential pathways (L0_F1813559, L1_F99962728, L2_F25751073, L3_F5150441, L24_F88478228). The other 5 were frequent but NOT essential — they appear often but aren't on critical paths. This split made D6 a clean comparison.</p>
+<p><strong>What was NOT varied:</strong>
+- <strong>Strength.</strong> All 80 experiments used ±20 only. No dose-response curve. (See "Why ±20?" below.)
+- <strong>Number of features per intervention.</strong> Always one feature at a time. No compound steering.
+- <strong>Random seed.</strong> All experiments used <code>seed=42, temperature=0</code> for reproducibility.</p>
+<p><strong>Why ±20 strength specifically?</strong></p>
+<p>The Neuronpedia steering API accepts strengths from approximately -50 to +50. We used ±20 across all 80 experiments. Three reasons:</p>
+<ol>
+<li>
+<p><strong>It avoids two empirical failure modes.</strong> At ±5 or ±10, most features produce no visible text change — too weak to distinguish causally-inert features from under-stimulated ones. At ±50 or higher, the model often produces nonsensical output ("activation overflow"), with effects that are real but uninterpretable. ±20 is in the middle: strong enough to detect causal influence, weak enough that surviving outputs remain grammatical.</p>
+</li>
+<li>
+<p><strong>It is a community-convention default.</strong> Templeton et al. (2024) used clamping values roughly 5-10× a feature's natural maximum for the "Golden Gate Bridge" demonstration. Turner et al. (2023, activation engineering) used coefficients typically in the 1-15× range. Neuronpedia's documentation suggests ±10 to ±30 as illustrative defaults. ±20 sits in the middle of this established range. Reporting ±20 also keeps our results directly comparable to other groups using the same convention.</p>
+</li>
+<li>
+<p><strong>Practical: API rate-limit budget.</strong> Each steering call costs ~36 seconds at Neuronpedia's 100-call/hour limit. Our total budget was 80 calls. We spent it on breadth (15 features × 3-6 prompts) rather than depth (a full dose-response curve at ±5/±10/±20/±50). Building the dose-response curve is listed as Future Work.</p>
+</li>
+</ol>
+<p><strong>Empirical validation that ±20 was a reasonable choice:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Batch</th>
+<th>Text change rate at ±20</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D4</td>
+<td>50% (10/20)</td>
+<td>Some features change outputs, others don't — clean separation</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>23% (7/30)</td>
+<td>Most features ineffective at this strength — selection matters</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>27% (8/30)</td>
+<td>Comparable to D5 — different selection, similar overall rate</td>
+</tr>
+</tbody>
+</table>
+<p>These rates fall in the useful 20-50% band: not so low that everything looks inert, not so high that everything looks effective. Both ends of the spectrum would have hidden the three-tier dissociation finding by collapsing it into "all features causal" or "no features causal."</p>
+<p><strong>Limitations of single-strength testing:</strong></p>
+<p>We do not know whether the three-tier dissociation persists at other strengths. It is possible that at ±50, essential-pathway features dominate text-change rates as well as KL divergence (because circuit redundancy can no longer absorb the larger perturbation). It is also possible that at ±5, only frequency-on-pathway features show any effect. The single-point sample at ±20 captures one slice of an unmeasured curve.</p>
+<p><strong>The headline finding (the "three-tier dissociation"):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Selection method</th>
+<th>Text change rate</th>
+<th>Mean KL divergence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Essential-pathway features (D6)</td>
+<td>Topology</td>
+<td>26.7% (8/30)</td>
+<td>1.448</td>
+</tr>
+<tr>
+<td>D5 features that happen to be ON pathway</td>
+<td>Frequency-on-pathway</td>
+<td>18.8% (3/16)</td>
+<td>~0.4</td>
+</tr>
+<tr>
+<td>D5 features that are OFF pathway</td>
+<td>Frequency-off-pathway</td>
+<td>33.3% (6/18)</td>
+<td>~0.4</td>
+</tr>
+</tbody>
+</table>
+<p>Essential-pathway features produced the strongest distributional perturbations (highest KL) but circuit redundancy absorbed most of the perturbation before the output layer. Output determinism by domain (chemistry 0%, geography 20%, history 60%) governed text-level susceptibility regardless of which features were steered.</p>
+<p><strong>One-line summary:</strong> We steered 15 unique features (5 per batch × 3 batches) at ±20 strength on 3-6 prompts each, with each batch chosen by a different selection criterion (frequency × 2, then topology) — and the three-tier dissociation finding emerged from comparing the three batches against each other.</p>
+<p><strong>How to explain it to someone:</strong></p>
+<blockquote>
+<p>"We did 80 single-feature steering experiments split into three batches. The first two batches selected features by how often they appeared across our 60-circuit dataset; the third selected by whether they sit on the essential information pathway. Each feature was steered at ±20 strength on three target prompts (one per knowledge domain). The point of using three different selection criteria was to test whether structural importance metrics — frequency vs topology — actually predict causal influence. Neither does very well, which is itself a finding."</p>
+</blockquote>
+<hr />
+<h2 id="direct-logit-attribution">Direct Logit Attribution: How the Output Token is Chosen</h2>
+<p><strong>Quick definition:</strong> The mechanism by which activations of output-layer SAE features get translated into a chosen vocabulary token. Each feature has a "decoder direction" in residual-stream space; that direction projected through the unembedding matrix tells you which tokens the feature pushes toward and which it pushes away from. The model selects whichever token has the highest resulting logit.</p>
+<p><strong>The full path from output features to chosen token:</strong></p>
+<pre><code>Output-layer SAE features (L25 in Gemma, L35 in Qwen)
+            ↓
+   Each feature has a decoder direction d_f (a vector in residual-stream space)
+            ↓
+   Sum of (activation × d_f) reconstructs the residual stream
+            ↓
+   Final LayerNorm
+            ↓
+   Multiply by unembedding matrix W_U (vocab_size × hidden_dim)
+            ↓
+   One logit per vocabulary token
+            ↓
+   argmax (or softmax sample at temperature &gt; 0) → the chosen token
+</code></pre>
+<p><strong>The math behind individual feature contributions:</strong></p>
+<p>For a single feature <code>f</code> with decoder direction <code>d_f</code>, activation magnitude <code>a_f</code>, and unembedding column <code>W_U[:, t]</code> for token <code>t</code>:</p>
+<pre><code>logit_contribution(f, t) = a_f × (d_f · W_U[:, t])
+</code></pre>
+<p>This dot product is essentially the alignment between the feature's decoder direction and the token's unembedding row. <strong>High positive value</strong> = "this feature pushes toward this token." <strong>High negative value</strong> = "this feature suppresses this token." <strong>Near zero</strong> = "this feature has no direct effect on this token."</p>
+<p>This calculation is called <strong>direct logit attribution (DLA)</strong>, sometimes also called "logit lens applied to SAE features."</p>
+<p><strong>Two kinds of "output node" in our pipeline:</strong></p>
+<ol>
+<li>
+<p><strong>Logit nodes</strong> — these represent specific vocabulary tokens. The Top-K (K=5) highest-logit tokens become the anchor nodes that traceback graphing starts from. For "The capital of Japan is", the top logit nodes might be <code>" Tokyo"</code>, <code>" the"</code>, <code>" a"</code>, <code>" called"</code>, <code>" known"</code>.</p>
+</li>
+<li>
+<p><strong>Final-layer SAE feature nodes</strong> — SAE features at the last layer (L25 for Gemma, L35 for Qwen) whose decoders project toward those top-K tokens. Their connections to logit nodes in the attribution graph are weighted by direct logit attribution.</p>
+</li>
+</ol>
+<p><strong>Why output-feature convergence is meaningful (the §5.4 finding):</strong></p>
+<p>Same-domain circuits share <strong>67% of their output features</strong> in Qwen history (vs only 15% of path features). The mechanism: different history prompts ("WWII ended in", "Columbus reached the Americas in") need to produce different tokens (1945, 1492), but those tokens share decoder structure — both 4-digit years, both common in encyclopedic text. The same output features push toward the year-token region of vocabulary space. What differs across prompts is how earlier layers route information to those shared output features.</p>
+<p>This is the formal basis for "convergent outputs, divergent paths."</p>
+<p><strong>The selection step (at temperature=0):</strong></p>
+<p><code>argmax(logits)</code>. That's it. No beam search, no sampling. The token with the highest logit wins. This is why steering can flip predictions: shifting one feature's activation ripples through the decoder math, changes some logits, and can flip which token wins the argmax.</p>
+<p><strong>Why the bottleneck tax connects to this:</strong></p>
+<p>If energy gets concentrated at L6 (compression bottleneck), less informative residual-stream content reaches L25 where the unembedding actually consumes it. The output features at L25 still fire — but on degraded input — producing a flatter logit distribution (lower confidence). The information bottleneck framing captures this: I(X; T_L25) is bounded by I(X; T_L6), and a flatter logit distribution means less peaked argmax probability.</p>
+<p><strong>Tools that compute DLA for you:</strong>
+- <strong>Neuronpedia feature dashboards</strong> show top positive and negative logits per feature in their <code>top_logits</code> and <code>bottom_logits</code> fields
+- <strong>TransformerLens</strong> has <code>apply_ln_to_stack()</code> and unembedding helpers for projecting activations through the final layers manually
+- The Neuronpedia feature explanation API returns these fields when available</p>
+<p><strong>One-line summary:</strong> Each output-layer feature has a decoder direction that, when projected through the model's unembedding matrix, produces a contribution to every vocabulary token's logit. The chosen token is just argmax of the sum of these contributions across all active features.</p>
+<p><strong>How to explain it to someone:</strong></p>
+<blockquote>
+<p>"The model doesn't 'pick' tokens directly from features. Each output-layer feature has a learned vector that encodes which tokens it pushes toward when active. Those vectors get projected through the unembedding matrix to produce logits, and the highest-logit token wins. Two features that look completely different in semantic terms can both push toward 'Tokyo' if their decoder vectors happen to align with the unembedding row for 'Tokyo' — which is why we see same-domain prompts converging on shared output features even when their internal processing diverges."</p>
+</blockquote>
+<hr />
+<h2 id="how-to-extend-this-document">How to Extend This Document</h2>
+<p>When a new question comes up:
+1. Add entry to the Table of Contents
+2. Follow the structure: Quick definition → Details → Example → Why it matters
+3. Keep plain-language definitions at the top of each section so readers who only want the gist don't have to read the full explanation
+4. Cross-reference with specific sections of <code>CROSS_DOMAIN_CIRCUIT_PAPER.md</code> where relevant</p>    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p><a href="cross-domain-circuits.html">Return to the Cross-Domain Circuit Analysis paper</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
