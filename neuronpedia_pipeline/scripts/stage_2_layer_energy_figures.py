@@ -242,6 +242,7 @@ def fig18_layer_confidence_correlation(results):
                  fontsize=14, y=1.02)
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig18_layer_confidence_correlation.png', bbox_inches='tight')
+    plt.savefig(OUTPUT_DIR / 'fig18_layer_confidence_correlation.svg', bbox_inches='tight')
     plt.close()
     print("  [OK] fig18_layer_confidence_correlation.png")
 
@@ -300,6 +301,7 @@ def fig19_cumulative_energy(results):
                  fontsize=14, y=1.02)
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig19_cumulative_energy.png', bbox_inches='tight')
+    plt.savefig(OUTPUT_DIR / 'fig19_cumulative_energy.svg', bbox_inches='tight')
     plt.close()
     print("  [OK] fig19_cumulative_energy.png")
 
@@ -380,6 +382,7 @@ def fig20_profile_similarity(results):
 
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig20_profile_similarity.png', bbox_inches='tight', dpi=150)
+    plt.savefig(OUTPUT_DIR / 'fig20_profile_similarity.svg', bbox_inches='tight')
     plt.close()
     print("  [OK] fig20_profile_similarity.png")
 

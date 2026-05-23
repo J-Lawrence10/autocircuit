@@ -327,6 +327,7 @@ def fig41_reduction_breakdown(d3):
     plt.tight_layout()
     path = FIG_DIR / 'fig41_reduction_breakdown.png'
     plt.savefig(path, dpi=150, bbox_inches='tight')
+    plt.savefig(FIG_DIR / 'fig41_reduction_breakdown.svg', bbox_inches='tight')
     plt.close()
     print(f"  Fig41: {path.name}")
 

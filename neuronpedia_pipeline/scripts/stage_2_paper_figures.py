@@ -191,6 +191,7 @@ def fig2_jaccard_heatmaps():
     cbar_ax = fig.add_axes([0.90, 0.15, 0.02, 0.7])
     fig.colorbar(im, cax=cbar_ax, label='Jaccard Similarity')
     fig.savefig(os.path.join(FIG_DIR, 'fig2_jaccard_heatmaps.png'), bbox_inches='tight', dpi=150)
+    fig.savefig(os.path.join(FIG_DIR, 'fig2_jaccard_heatmaps.svg'), bbox_inches='tight')
     plt.close(fig)
     print("  Figure 2: Jaccard heatmaps")
 
@@ -233,6 +234,7 @@ def fig3_bottleneck_depth():
 
     fig.tight_layout()
     fig.savefig(os.path.join(FIG_DIR, 'fig3_bottleneck_depth.png'))
+    fig.savefig(os.path.join(FIG_DIR, 'fig3_bottleneck_depth.svg'), bbox_inches='tight')
     plt.close(fig)
     print("  Figure 3: Bottleneck depth")
 
@@ -596,6 +598,7 @@ def fig10_output_path():
 
     fig.tight_layout()
     fig.savefig(os.path.join(FIG_DIR, 'fig10_output_path.png'), bbox_inches='tight', dpi=150)
+    fig.savefig(os.path.join(FIG_DIR, 'fig10_output_path.svg'), bbox_inches='tight')
     plt.close(fig)
     print("  Figure 10: Output vs path convergence")
 
