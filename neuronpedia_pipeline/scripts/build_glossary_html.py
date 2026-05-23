@@ -2,13 +2,17 @@
 
 The generated HTML reuses the Bulma scaffolding (theme variables, theme toggle,
 hero, footer) from docs/cross-domain-circuits.html and exposes stable anchor
-IDs for the seven glossary sections so the deep-link icons in the paper page
+IDs for the eleven glossary sections so the deep-link icons in the paper page
 can jump straight to the right entry.
 
 Anchor mapping (override the default markdown slugs):
   Jaccard Similarity                                  -> jaccard-similarity
   Activation Energy                                   -> activation-energy
   Bottleneck Tax                                      -> bottleneck-tax
+  Architecture Dominance                              -> architecture-dominance
+  Universal Bottleneck Features                       -> universal-bottleneck-features
+  Traceback Graphing                                  -> traceback-graphing
+  Three-Tier Dissociation                             -> three-tier-dissociation
   Cosine Similarity on Energy Profiles                -> cosine-similarity-on-energy-profiles
   Is Energy Finite? (Addressing the Metaphor)         -> is-energy-finite-addressing-the-metaphor
   Steering Experiments: How Features Were Selected    -> steering-experiments
@@ -36,6 +40,10 @@ ANCHOR_OVERRIDES: dict[str, str] = {
     "Jaccard Similarity": "jaccard-similarity",
     "Activation Energy": "activation-energy",
     "Bottleneck Tax": "bottleneck-tax",
+    "Architecture Dominance": "architecture-dominance",
+    "Universal Bottleneck Features": "universal-bottleneck-features",
+    "Traceback Graphing": "traceback-graphing",
+    "Three-Tier Dissociation": "three-tier-dissociation",
     "Cosine Similarity on Energy Profiles": "cosine-similarity-on-energy-profiles",
     "Is Energy Finite? (Addressing the Metaphor)": "is-energy-finite-addressing-the-metaphor",
     "Steering Experiments: How Features Were Selected": "steering-experiments",

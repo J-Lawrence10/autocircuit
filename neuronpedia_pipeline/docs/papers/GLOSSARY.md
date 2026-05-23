@@ -11,6 +11,10 @@
 - [Jaccard Similarity](#jaccard-similarity)
 - [Activation Energy](#activation-energy)
 - [Bottleneck Tax](#bottleneck-tax)
+- [Architecture Dominance](#architecture-dominance)
+- [Universal Bottleneck Features](#universal-bottleneck-features)
+- [Traceback Graphing](#traceback-graphing)
+- [Three-Tier Dissociation](#three-tier-dissociation)
 - [Cosine Similarity on Energy Profiles](#cosine-similarity-on-energy-profiles)
 - [Is Energy Finite? (Addressing the Metaphor)](#is-energy-finite-addressing-the-metaphor)
 - [Steering Experiments: How Features Were Selected](#steering-experiments-how-features-were-selected)
@@ -134,6 +138,115 @@ QWEN shows zero Bonferroni-significant layer-energy-confidence correlations. Its
 > "We found that the more a circuit's activation is concentrated at its bottleneck layer (L6 in GEMMA), the less confident its prediction tends to be — r = -0.684, Bonferroni-significant. This is consistent with information bottleneck theory, which predicts that heavy compression at intermediate layers limits the information downstream layers can use. We call the pattern the 'bottleneck tax' for memorability, but it's a correlational finding with a theoretical interpretation, not a proven causal mechanism."
 
 ---
+
+## Architecture Dominance
+
+**Quick definition:** The empirical observation that within-model circuits cluster about 14× more tightly in energy-profile similarity than between-model circuits, with knowledge domain modulating the profile by less than 2%. In short: which model you are using matters far more for circuit structure than what you are asking the model about.
+
+**The core numbers (Section 5.5.1 and 6.1):**
+
+| Comparison | Cosine similarity on energy profiles | Interpretation |
+|------------|----------------------------------------|----------------|
+| Within Gemma, across chemistry/geography/history | 0.978 | Nearly identical shape |
+| Within Qwen, across chemistry/geography/history | 0.978 | Nearly identical shape |
+| Between Gemma and Qwen (depth-normalized) | 0.696 | Substantial structural gap |
+| Gap | 0.282 | ~14× the within-model domain spread |
+
+The within-model figure clusters across all three knowledge domains. The between-model figure persists even after normalizing layer indices to a common 0-1 depth scale, so it is not an artifact of Gemma having 26 layers and Qwen having 36. A Mann-Whitney U test on the two distributions of pairwise similarities returns p < 0.000001, with non-overlapping 95% bootstrap confidence intervals.
+
+**Beyond energy profiles:** 13 of 16 structural metrics (node counts, edge density, layer breadth, path depth, bottleneck depth, and others) differ significantly between Gemma and Qwen circuits under a Bonferroni-corrected Mann-Whitney test. Peak activation layer shows perfect rank separation: every Gemma circuit peaks earlier than every Qwen circuit, with no overlap across the 60-circuit dataset.
+
+**Why this is a load-bearing claim:** The natural prior is that factual recall circuits differ by what they recall (chemistry features for chemistry prompts, geography features for geography prompts). Architecture dominance flips that prior. The same model produces structurally near-identical circuits across all three domains, while a different model on the same prompts produces a different structural signature. Domain is a small perturbation on top of an architecture-determined backbone.
+
+**Robustness to format confounds:** Because feature IDs change when prompt templates are rephrased (Section 5.9), feature-overlap metrics can be inflated by template repetition. Energy profiles avoid this confound: they describe where computation happens across layers, not which specific features fire. Architecture dominance survives the format-variation critique that weaker overlap-based claims do not.
+
+**How to explain it to someone:**
+> "We compared the layer-by-layer energy distribution of 60 circuits, 30 from each model, spanning three knowledge domains. Within a single model, circuits cluster at 0.978 cosine similarity regardless of domain. Between models, that drops to 0.696, even after we normalize layer depth. The gap is about 14 times larger than the spread we see within either model when we change the topic. So architecture, not knowledge, dictates the structural shape of factual recall circuits in these models."
+
+---
+
+## Universal Bottleneck Features
+
+**Quick definition:** SAE features that act as bottlenecks (path convergence at or above 60% in the traceback analysis) across all three knowledge domains within a single model architecture. They are not knowledge stores but shared routing infrastructure that domain-specific circuits pass through.
+
+**The core inventory (Section 5.3):**
+
+- Gemma-2-2B: 6 universal bottleneck features
+- Qwen3-4B: 15 universal bottleneck features
+- Cross-model overlap: 0 features (the two sets are disjoint)
+
+**Gemma's six:**
+| Feature ID | Semantic role |
+|------------|---------------|
+| L0_F1813559 | Code and file-keyword tokens |
+| L0_F74438300 | Early-layer routing (mixed) |
+| L3_F5150441 | HTML formatting tags |
+| L4_F110446948 | Place names |
+| L6_F2586668 | Code snippets |
+| L24_F88478228 | Lithuanian place names |
+
+**Qwen's 15** span layers L15 to L34, sitting squarely in the late-bottleneck region characteristic of Qwen's architecture. By semantic role, the dominant categories are CODE (about 20%) and LANGUAGE (about 20%), with explicitly domain-specific features (chemistry, geography, history) accounting for only about 13% of universal bottlenecks combined.
+
+**Why this matters (Section 6.2):** Universal bottlenecks are surprising on two counts. First, the dominant semantic categories (code, language formatting, place names) are not the categories you would predict from the prompts themselves. Many circuits route encyclopedic factual recall through features that originally encode code structure or HTML markup. Second, the lack of cross-model overlap means there is no shared universal feature set across models, despite both models exhibiting the same architectural pattern of having universal bottlenecks at all. Each architecture builds its own routing layer from whatever features its training landed on.
+
+**The high-leverage intervention hypothesis:** If a handful of universal bottlenecks carry many circuits, then steering or ablating those features should produce out-sized causal effects relative to randomly-chosen features. The steering experiments (D4-D6, see Three-Tier Dissociation) test this hypothesis and find it only partially supported: structural universality predicts where compression happens, but not how much downstream behavior changes.
+
+**How to explain it to someone:**
+> "Within each model, a small set of SAE features sits on the path of nearly every factual-recall circuit we examined, regardless of whether the prompt is about chemistry, geography, or history. Gemma has six such features; Qwen has fifteen. The two sets do not overlap, and neither is dominated by domain-specific concepts. Most of them encode code structure, language formatting, or place names. They look more like routing infrastructure than knowledge stores."
+
+---
+
+## Traceback Graphing
+
+**Quick definition:** The paper's core analytical method. A backward breadth-first search from a circuit's top output tokens through SAE feature activations and attribution edges, scored with geometric decay, that identifies the critical paths a model uses to assemble its prediction and the bottleneck features those paths converge on.
+
+**The algorithm (Section 3.2):**
+
+1. Identify the top-K output tokens by final-layer logits (default K=5). These become the anchor nodes for the search.
+2. Run a backward breadth-first search from each anchor through the attribution graph, layer by layer.
+3. Score each predecessor node by `activation × edge_weight × downstream_score^0.8`. The exponent 0.8 is a geometric-decay factor applied to the recursively-accumulated downstream score.
+4. Record the full path from each output anchor back through every visited intermediate node.
+5. Flag a feature as a "bottleneck feature" for the circuit if it appears on at least 60% of the recorded paths.
+
+**Why geometric decay:** Without it, multiplying raw activation scores across 20-plus layers produces exponential overflow at deeper search depths. The 0.8 exponent preserves the relative ranking of paths while keeping accumulated scores in a numerically tractable range. The decay is applied uniformly, so it does not bias the analysis toward any particular layer.
+
+**What the method produces:**
+
+- **Critical paths:** Ranked sequences of features that contributed most strongly to each top-K output token.
+- **Bottleneck features:** The features that show up on most of those paths, identified by the 60% convergence threshold.
+- **Convergence statistic:** The fraction of paths that share each candidate feature, which becomes the unit of analysis for cross-domain comparison (Section 5.3) and for the universal-bottleneck inventory.
+
+**A useful diagnostic property:** Top-K and bottom-K tracing (anchoring on the highest- and lowest-logit output tokens respectively) tend to converge on the same bottleneck features. This is consistent with the idea that circuits share routing infrastructure across all output tokens at the top of the logit distribution, rather than building a separate pathway per candidate token.
+
+**Where the method appears in the paper:** Traceback graphing is the analytical engine behind every structural claim in the paper. Bottleneck inventories (Section 5.3), within-model convergence (Section 5.4), and the steering selection criteria for D4 and D5 (Section 5.8) all derive from features that traceback graphing flagged as bottlenecks.
+
+**How to explain it to someone:**
+> "We start at the model's predicted output tokens and walk backward through the attribution graph, layer by layer, scoring each step with activation magnitude times edge weight and applying a geometric decay so the scores stay numerically stable across 20-plus layers. The output is a set of critical paths from input to output. Any feature that sits on more than 60% of those paths gets called a bottleneck. The same machinery identifies bottleneck features, lets us compare circuits across domains and models, and supplies the candidate features for our steering experiments."
+
+---
+
+## Three-Tier Dissociation
+
+**Quick definition:** A pattern that emerged from 80 single-feature steering experiments: the structural property that best predicts distributional impact (essential-pathway membership) does not predict whether output text actually changes, and text-level changes are governed instead by domain-specific output entropy. Three predictors, three different effects, no single criterion that wins on all of them.
+
+**The three tiers (Section 5.8.3):**
+
+| Tier | Predictor | What it predicts | What it does not predict |
+|------|-----------|------------------|---------------------------|
+| 1 | Essential-pathway membership (topology) | Mean KL divergence 1.448 (the largest distributional perturbation of any selection criterion) | Text-change rate (26.7%, comparable to frequency-selected features) |
+| 2 | Cross-circuit frequency | A feature appearing in many circuits | Causal influence. L2_F25751073 (top frequency, 11 circuits) produced 0 text changes |
+| 3 | Output entropy by domain | Text-level susceptibility: chemistry 0%, geography 20%, history 60% | Anything about which features were steered |
+
+**What the dissociation rules out:** It is tempting to assume that the features that show up most often across circuits, or the features that sit on the critical pathway, are also the ones that most reshape model behavior when perturbed. Neither relationship holds cleanly. The most-frequent feature (L2_F25751073) was causally inert at strength ±20. The strongest single perturbation in the dataset, L25_F50014975 on a geography prompt, produced KL = 12.72 and flipped the output to "Tokyo", but it was selected by essential-pathway membership, not by frequency, and an equivalent perturbation on a chemistry prompt produced no text change at all.
+
+**Why redundancy absorbs perturbations:** Roughly 94.1% of nodes per circuit sit off the essential pathway. They form redundant scaffolding that can compensate for an isolated perturbation by re-routing activation through alternate edges. Essential-pathway features create the largest local effects (high KL), but the downstream layers smooth those effects back toward the original distribution before they reach the output. Whether a perturbation breaks through to the output is then governed by how concentrated the output token distribution was to begin with, a property of the prompt's domain.
+
+**The asymmetry by domain:** History prompts are most susceptible (60% text-change rate) because their output distributions are flatter, with multiple plausible year tokens competing near the top. Geography prompts are intermediate (20%) because a single canonical answer usually dominates but can be displaced. Chemistry prompts show 0% text change because the output entropy is so low that no single-feature perturbation at ±20 strength reshuffles the argmax.
+
+**Why this is a finding rather than a failed validation:** The natural expectation going in was that essential-pathway features would dominate on every metric: largest KL, highest text-change rate, most consistent across domains. The first prediction holds, the second does not, and the third turns out to be controlled by the prompt rather than the feature. That decomposition into three independent axes is the dissociation. It implies that any single metric for "important feature" is incomplete, and that causal intervention studies need to report all three.
+
+**How to explain it to someone:**
+> "We ran 80 steering experiments with three different selection criteria. Essential-pathway features produced the strongest distributional perturbations on average, with mean KL of 1.448. But they did not flip output text any more reliably than features selected by cross-circuit frequency, both landing around a quarter of experiments. And the rate of text changes turned out to depend almost entirely on the prompt domain: chemistry 0%, geography 20%, history 60%, regardless of which features we steered. Three tiers of causal effect, three different predictors, no single metric that wins on all three."
 
 ---
 
