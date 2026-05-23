@@ -798,6 +798,47 @@ function toggleTheme() {
       <div class="finding-box">
         <p><strong>The Three-Tier Dissociation.</strong> Combining all 80 experiments yields a three-tier model of feature importance: (1) features on essential pathways perturb probability distributions most strongly (highest KL); (2) features with high cross-circuit frequency are statistically common but not necessarily causal; (3) text-level output changes are governed primarily by output entropy and domain determinism rather than by any single feature-selection criterion. <strong>Topology, frequency, and text-level effects decouple.</strong></p>
       </div>
+
+      <div class="max-width-content" style="margin:24px auto;">
+        <figure id="fig-three-tier" class="paper-figure-svg">
+          <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-three-tier-title fig-three-tier-desc" style="width:100%; height:auto; display:block;">
+            <title id="fig-three-tier-title">The three-tier dissociation schematic</title>
+            <desc id="fig-three-tier-desc">Three stacked tiers showing three independent dimensions of feature importance: essential-pathway topology (Tier 1), cross-circuit frequency (Tier 2), and output determinism by domain (Tier 3).</desc>
+
+            <!-- TIER 1 -->
+            <rect x="40" y="20" width="720" height="90" rx="8"
+                  fill="var(--phase1-bg)" stroke="var(--svg-box-orange-stroke)" stroke-width="1.5"/>
+            <text x="60" y="50" fill="var(--text)" font-size="16" font-weight="700">Tier 1 &#183; Essential-pathway topology</text>
+            <text x="60" y="75" fill="var(--text-muted)" font-size="12">Governs distributional perturbation strength &#183; mean KL = 1.448</text>
+            <text x="60" y="95" fill="var(--text-muted)" font-size="11" font-style="italic">Example: L25_F50014975 amplification &#8594; KL = 12.72 (&#8220;Tokyo&#8221;)</text>
+
+            <!-- Arrow Tier 1 -> Tier 2 -->
+            <path d="M 400 110 L 400 130" stroke="var(--text-muted)" stroke-width="1.5" fill="none"/>
+            <path d="M 395 125 L 400 135 L 405 125 Z" fill="var(--text-muted)"/>
+
+            <!-- TIER 2 -->
+            <rect x="40" y="135" width="720" height="90" rx="8"
+                  fill="var(--phase2-bg)" stroke="var(--svg-box-blue-stroke)" stroke-width="1.5"/>
+            <text x="60" y="165" fill="var(--text)" font-size="16" font-weight="700">Tier 2 &#183; Cross-circuit frequency</text>
+            <text x="60" y="190" fill="var(--text-muted)" font-size="12">Statistically common &#183; causally weak &#183; does NOT predict steering effect</text>
+            <text x="60" y="210" fill="var(--text-muted)" font-size="11" font-style="italic">Example: L2_F25751073 (highest frequency, 11 circuits) &#8594; 0% text changes</text>
+
+            <!-- Arrow Tier 2 -> Tier 3 -->
+            <path d="M 400 225 L 400 245" stroke="var(--text-muted)" stroke-width="1.5" fill="none"/>
+            <path d="M 395 240 L 400 250 L 405 240 Z" fill="var(--text-muted)"/>
+
+            <!-- TIER 3 -->
+            <rect x="40" y="250" width="720" height="90" rx="8"
+                  fill="var(--phase3-bg)" stroke="var(--svg-bar-purple)" stroke-width="1.5"/>
+            <text x="60" y="280" fill="var(--text)" font-size="16" font-weight="700">Tier 3 &#183; Output determinism by domain</text>
+            <text x="60" y="305" fill="var(--text-muted)" font-size="12">Governs text-level susceptibility &#183; chemistry 0% &#183; geography 20% &#183; history 60%</text>
+            <text x="60" y="325" fill="var(--text-muted)" font-size="11" font-style="italic">Attribution graphs do NOT capture this tier</text>
+          </svg>
+          <figcaption class="figure-caption">
+            <strong>Figure 8: The three-tier dissociation.</strong> Three independent dimensions of feature importance, none of which alone predicts behavior. <strong>Tier 1 (essential-pathway topology)</strong> governs distributional perturbation strength. <strong>Tier 2 (cross-circuit frequency)</strong> is statistically common but causally weak. <strong>Tier 3 (output determinism by domain)</strong> governs text-level susceptibility (chemistry 0%, geography 20%, history 60%). Attribution graphs capture Tier 1 but not Tier 3.
+          </figcaption>
+        </figure>
+      </div>
       </div>
     </div>
 
