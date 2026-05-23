@@ -585,12 +585,12 @@ function toggleTheme() {
           <table class="table is-bordered is-hoverable has-text-left" style="font-size:0.85em;">
             <thead><tr><th>Feature</th><th>Layer</th><th>Description</th></tr></thead>
             <tbody>
-              <tr><td><code>L0_F1813559</code></td><td>L0</td><td>Code/file keywords</td></tr>
-              <tr><td><code>L0_F74438300</code></td><td>L0</td><td>—</td></tr>
-              <tr><td><code>L3_F5150441</code></td><td>L3</td><td>HTML formatting tags</td></tr>
-              <tr><td><code>L4_F110446948</code></td><td>L4</td><td>Place names</td></tr>
-              <tr><td><code>L6_F2586668</code></td><td>L6</td><td>Code snippets</td></tr>
-              <tr><td><code>L24_F88478228</code></td><td>L24</td><td>Lithuanian place names</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/0-gemmascope-transcoder-16k/11319" target="_blank" rel="noopener"><code>L0_F1813559</code></a></td><td>L0</td><td>Code/file keywords</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/0-gemmascope-transcoder-16k/5788" target="_blank" rel="noopener"><code>L0_F74438300</code></a></td><td>L0</td><td>—</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/3-gemmascope-transcoder-16k/5865" target="_blank" rel="noopener"><code>L3_F5150441</code></a></td><td>L3</td><td>HTML formatting tags</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/4-gemmascope-transcoder-16k/2404" target="_blank" rel="noopener"><code>L4_F110446948</code></a></td><td>L4</td><td>Place names</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/6-gemmascope-transcoder-16k/14380" target="_blank" rel="noopener"><code>L6_F2586668</code></a></td><td>L6</td><td>Code snippets</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/24-gemmascope-transcoder-16k/4628" target="_blank" rel="noopener"><code>L24_F88478228</code></a></td><td>L24</td><td>Lithuanian place names</td></tr>
             </tbody>
           </table>
         </div>
@@ -604,8 +604,8 @@ function toggleTheme() {
               <tr><td><code>L17_F6197796762</code></td><td>L17</td></tr>
               <tr><td><code>L18_F11703352509</code></td><td>L18</td></tr>
               <tr><td><code>L19_F6611637508</code></td><td>L19</td></tr>
-              <tr><td><code>L24_F457788386</code></td><td>L24</td></tr>
-              <tr><td><code>L25_F942235729</code></td><td>L25</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/24-gemmascope-transcoder-16k/3042" target="_blank" rel="noopener"><code>L24_F457788386</code></a></td><td>L24</td></tr>
+              <tr><td><a href="https://neuronpedia.org/gemma-2-2b/25-gemmascope-transcoder-16k/8273" target="_blank" rel="noopener"><code>L25_F942235729</code></a></td><td>L25</td></tr>
               <tr><td><code>L26_F10368215974</code></td><td>L26</td></tr>
               <tr><td><code>L27_F12610705050</code></td><td>L27</td></tr>
               <tr><td><code>L28_F393078712</code></td><td>L28</td></tr>
@@ -752,8 +752,8 @@ function toggleTheme() {
       <p>We expanded by testing 5 high-frequency cross-circuit features (each appearing in 9–11 of the 30 <span style="font-variant:small-caps;">Gemma</span> circuits) on 3 target circuits at strengths ±20.</p>
       <ul>
         <li><strong>23.3% text change rate</strong> for D5 features vs 50% for the original set. Cross-circuit frequency alone is insufficient for predicting causal effectiveness.</li>
-        <li><strong>L2_F25751073</strong>, the feature appearing in the most circuits (11), produced <strong>zero</strong> text changes when steered.</li>
-        <li><strong>L7_F4828270</strong> (9 circuits) was the most effective new feature (3/6 changed). High frequency does not imply high causal influence.</li>
+        <li><strong><a href="https://neuronpedia.org/gemma-2-2b/2-gemmascope-transcoder-16k/11809" target="_blank" rel="noopener">L2_F25751073</a></strong>, the feature appearing in the most circuits (11), produced <strong>zero</strong> text changes when steered.</li>
+        <li><strong><a href="https://neuronpedia.org/gemma-2-2b/7-gemmascope-transcoder-16k/11374" target="_blank" rel="noopener">L7_F4828270</a></strong> (9 circuits) was the most effective new feature (3/6 changed). High frequency does not imply high causal influence.</li>
       </ul>
 
       <div class="max-width-content" style="margin:20px auto;">
@@ -765,7 +765,7 @@ function toggleTheme() {
       <p>From the 1,000 unique features identified on essential pathways across 30 <span style="font-variant:small-caps;">Gemma</span> circuits, we selected 5 high-frequency essential-pathway features not previously tested.</p>
       <ul>
         <li><strong>26.7% text change rate</strong>, comparable to D5 features off essential pathways (33.3%) and intermediate to D5 features on essential pathways (18.8%).</li>
-        <li><strong>Essential-pathway features produce substantially larger distributional perturbations</strong>: mean KL divergence = <strong>1.448</strong>, vs much lower for D5 features. The strongest single perturbation (L25_F50014975 amplification on geography, KL = 12.72) changed the output from a generic description to the factually correct "Tokyo," suggesting the feature gates factual recall at the output layer.</li>
+        <li><strong>Essential-pathway features produce substantially larger distributional perturbations</strong>: mean KL divergence = <strong>1.448</strong>, vs much lower for D5 features. The strongest single perturbation (<a href="https://neuronpedia.org/gemma-2-2b/25-gemmascope-transcoder-16k/11007" target="_blank" rel="noopener">L25_F50014975</a> amplification on geography, KL = 12.72) changed the output from a generic description to the factually correct "Tokyo," suggesting the feature gates factual recall at the output layer.</li>
         <li><strong>Layer depth modulates direction</strong>: early pathway features (L0, L1) produced changes exclusively via suppression; late features (L21, L24, L25) responded to both directions.</li>
       </ul>
 
