@@ -17,9 +17,15 @@ at a glance.
 Data sources:
   data/stage_2_layer_energy/layer_energy_results.json
       -> .cumulative_energy[model]._category_summary
-      -> .profile_similarity.cross_model.overall
   data/stage_2_layer_energy/per_circuit_layer_energy.json
       -> .[model] (30 circuits each, layer_energy_fraction)
+
+Similarity math mirrors `compute_profile_similarity` in
+`stage_2_layer_energy_analysis.py`: each circuit's `layer_energy_fraction`
+is linearly interpolated to a common 20-bin depth grid (`NORM_DEPTH_BINS`)
+and pairwise cosine similarity is computed over those normalized vectors.
+This makes the in-figure block means match `results.profile_similarity.
+cross_model.overall.{within_model_mean, between_model_mean}` exactly.
 
 Outputs:
   data/stage_2_figures/fig_architecture_dominance_hero.svg
@@ -69,10 +75,10 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 MODEL_TOTAL_LAYERS = {'gemma-2-2b': GEMMA_TOTAL_LAYERS, 'qwen3-4b': QWEN_TOTAL_LAYERS}
 
 # Common normalized-depth grid for pairwise similarity comparison across
-# circuits of different layer counts. 64 was chosen as a smooth super-set
-# of both 26 (Gemma) and 36 (Qwen) — high enough that linear interpolation
-# error is negligible, low enough to keep the matrix cheap.
-NORM_DEPTH_BINS = 64
+# circuits of different layer counts. 20 matches the paper's pipeline
+# (`compute_profile_similarity` in stage_2_layer_energy_analysis.py), so the
+# values produced here line up with `results.profile_similarity.cross_model.overall`.
+NORM_DEPTH_BINS = 20
 
 # Annotation milestones, from the paper / per_circuit data.
 GEMMA_50PCT_LAYER = 11
@@ -328,20 +334,7 @@ def main() -> None:
     qwen_x, qwen_y = model_cumulative_curve(results, 'qwen3-4b')
 
     sim, slugs, n_gemma = build_similarity_matrix(per_circuit)
-    within_emp, between_emp = block_means(sim, n_gemma)
-
-    # Use the paper's reported values for the in-figure labels (they were
-    # computed from the exact same per-circuit profiles, just in
-    # stage_2_layer_energy_main; the empirical numbers from this script
-    # should match to within rounding — we print both so any drift is
-    # visible at build time).
-    overall = (
-        results.get('profile_similarity', {})
-               .get('cross_model', {})
-               .get('overall', {})
-    )
-    within_paper = overall.get('within_model_mean', within_emp)
-    between_paper = overall.get('between_model_mean', between_emp)
+    within_mean, between_mean = block_means(sim, n_gemma)
 
     fig, (ax_left, ax_right) = plt.subplots(
         1, 2, figsize=(13.2, 5.2),
@@ -350,7 +343,7 @@ def main() -> None:
 
     draw_left_panel(ax_left, gemma_x, gemma_y, qwen_x, qwen_y)
     draw_right_panel(ax_right, sim, n_gemma,
-                     within_mean=within_paper, between_mean=between_paper)
+                     within_mean=within_mean, between_mean=between_mean)
 
     # Suptitle + subtitle, matching F1's positioning.
     fig.subplots_adjust(top=0.82)
@@ -365,10 +358,8 @@ def main() -> None:
                      base_for_display=BASE)
     plt.close(fig)
 
-    print(f'  Within-model cosine (empirical, this run):   {within_emp:.4f}')
-    print(f'  Within-model cosine (paper / aggregated):    {within_paper:.4f}')
-    print(f'  Between-model cosine (empirical, this run):  {between_emp:.4f}')
-    print(f'  Between-model cosine (paper / aggregated):   {between_paper:.4f}')
+    print(f'  Within-model cosine:  {within_mean:.4f}')
+    print(f'  Between-model cosine: {between_mean:.4f}')
     print(f'  Circuits in matrix: {len(slugs)} '
           f'(Gemma={n_gemma}, Qwen={len(slugs) - n_gemma})')
 
