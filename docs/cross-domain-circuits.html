@@ -382,10 +382,45 @@ function toggleTheme() {
 
 <hr class="section-divider">
 
-<!-- METHOD OVERVIEW -->
+<!-- 1. INTRODUCTION -->
+<section class="section" style="padding-top:1rem;" id="introduction">
+  <div class="container is-max-desktop">
+    <div class="content">
+      <h2 class="title is-4">1. Introduction</h2>
+
+      <h3 class="title is-5">1.1 Motivation</h3>
+      <p>Large language models encode vast factual knowledge, yet how this knowledge is organized at the circuit level remains poorly understood. When a model predicts that the chemical symbol for gold is "Au" or that the capital of Japan is "Tokyo," which internal features are responsible?</p>
+      <p>A central question is whether different knowledge types — symbolic mappings, geographic relations, temporal facts — use separate specialised circuits or share common computational infrastructure. Both possibilities are consistent with the existing mechanistic-interpretability literature, and the question has been studied only piecemeal.</p>
+      <p>The answer matters for model editing and targeted intervention. If factual knowledge is organized by domain, interventions must be domain-specific. If circuits share universal bottleneck features, a small number of features could provide high-leverage intervention points across multiple knowledge types.</p>
+
+      <h3 class="title is-5" style="margin-top:1.4rem;">1.2 Research Questions</h3>
+      <ol>
+        <li><strong>Within-domain convergence.</strong> Do prompts querying the same type of knowledge (e.g., chemical symbols) share circuit architecture?</li>
+        <li><strong>Cross-domain divergence.</strong> Do different knowledge types use different circuit features or layer depths?</li>
+        <li><strong>Universal bottlenecks.</strong> Are there features that participate in circuits across all knowledge domains?</li>
+        <li><strong>Architecture vs. domain.</strong> Is circuit structure more determined by model architecture or by the type of knowledge being retrieved?</li>
+      </ol>
+
+      <h3 class="title is-5" style="margin-top:1.4rem;">1.3 Contributions</h3>
+      <p>We present six contributions:</p>
+      <ol>
+        <li><strong>Systematic cross-domain circuit analysis.</strong> The first large-scale comparison of attribution circuits across three knowledge domains on two model architectures (60 circuits total), with statistical validation via permutation tests (p &lt; 0.0001).</li>
+        <li><strong>Architecture-dominance finding.</strong> Demonstration that bottleneck depth is determined by model architecture, not knowledge domain — <span style="font-variant:small-caps;">Gemma</span> consistently uses early bottlenecks (L5–7) and <span style="font-variant:small-caps;">Qwen</span> uses late bottlenecks (L22–25) regardless of whether the task involves chemistry, geography, or history. Cross-model Mann–Whitney tests confirm 13/16 structural metrics differ significantly (Bonferroni-corrected).</li>
+        <li><strong>Universal bottleneck identification.</strong> Discovery of 6 universal bottleneck features in <span style="font-variant:small-caps;">Gemma</span> and 15 in <span style="font-variant:small-caps;">Qwen</span> that participate in circuits across all three knowledge domains, with zero overlap between architectures.</li>
+        <li><strong>Output–path convergence dissociation.</strong> Finding that same-domain circuits share output features far more than intermediate features (up to 4.4× ratio), revealing convergent predictions from divergent internal processing.</li>
+        <li><strong>Confidence–energetics model.</strong> A three-predictor regression model explains 49% of <span style="font-variant:small-caps;">Gemma</span> prediction-confidence variance using total activation energy, edge weight kurtosis, and circuit size (F(3,26) = 8.30, p &lt; 0.001). Bottleneck position and convergence do not significantly predict confidence, constraining "bottleneck quality" explanations.</li>
+        <li><strong>Three-tier causal dissociation.</strong> 80 steering experiments reveal that essential-pathway features produce strong distributional perturbations (mean KL = 1.448) but neither pathway topology nor cross-circuit frequency predicts text-level output changes — circuit redundancy absorbs perturbations, and output determinism governs steering susceptibility.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- 2. METHODOLOGY -->
 <section class="section" style="padding-top:1rem;" id="methods">
   <div class="container is-max-desktop">
-    <h2 class="title is-4">Method: Traceback Graphing</h2>
+    <h2 class="title is-4">2. Methodology</h2>
     <div class="content">
       <p>Attribution graphs were generated via the Neuronpedia <code>/api/graph/generate</code> endpoint with <code>maxFeatureNodes=3000</code>, <code>desiredLogitProb=0.95</code>, <code>nodeThreshold=0.8</code>, <code>edgeThreshold=0.85</code>. Graphs typically contain 1,000–1,500 nodes and 40,000–80,000 edges. Our core analytical method is a backward breadth-first search from the top-K output nodes that traces critical paths through intermediate layers and identifies bottleneck features where 60%+ of paths converge.</p>
 
@@ -808,10 +843,43 @@ function toggleTheme() {
 
 <hr class="section-divider">
 
-<!-- LIMITATIONS -->
+<!-- 4. DISCUSSION -->
+<section class="section" style="padding-top:1rem;" id="discussion">
+  <div class="container is-max-desktop">
+    <div class="content">
+      <h2 class="title is-4">4. Discussion</h2>
+
+      <h3 class="title is-5">4.1 Architecture vs domain</h3>
+      <p>Our most striking finding is that not just bottleneck position, but the entire layer-by-layer energy distribution is an architectural constant. <span style="font-variant:small-caps;">Gemma</span> routes all factual knowledge through early-layer bottlenecks (L5–7); <span style="font-variant:small-caps;">Qwen</span> routes through late-layer bottlenecks (L22–25). Within-model cosine similarity is 0.978 (virtually identical profiles across domains) while between-model similarity drops to 0.696 even after depth normalization. Architecture explains ~14× more variance in energy profiles than knowledge domain.</p>
+      <p>Edge flow analysis extends this invariance from energy to wiring topology. Cross-category edge pattern similarity is 0.995 for both models — even higher than the 0.978 energy profile similarity. Domains share virtually identical wiring diagrams within each architecture. Skip connections dominate: 80–85% of edges bypass adjacent layers.</p>
+      <p>The complementary accumulation strategies — <span style="font-variant:small-caps;">Gemma</span> front-loads 54% of energy into the first half of layers while <span style="font-variant:small-caps;">Qwen</span> back-loads with only 31% — suggest fundamentally different computational paradigms. <span style="font-variant:small-caps;">Gemma</span> processes factual associations early and refines through later layers; <span style="font-variant:small-caps;">Qwen</span> accumulates context broadly before concentrating processing in late layers. Both strategies produce comparable factual recall accuracy across all three domains, demonstrating that early-bottleneck and late-bottleneck architectures represent distinct but equally viable solutions to the same knowledge retrieval problem.</p>
+
+      <h3 class="title is-5" style="margin-top:1.4rem;">4.2 Universal features as routing infrastructure</h3>
+      <p>The existence of universal bottleneck features that participate in all three knowledge domains suggests these features serve as general-purpose routing or gating infrastructure rather than domain-specific knowledge stores. A feature that activates for chemistry, geography, AND history queries is unlikely to encode any specific factual content; instead, it may implement a more general function such as attention routing, information filtering, or output formatting.</p>
+      <p>The notable descriptions of <span style="font-variant:small-caps;">Gemma</span>'s universal features support this interpretation: "HTML formatting tags," "code/file keywords," and "place names" are structural/format-related features, not factual knowledge features. Co-activation analysis further reveals that these universal features organize into within-layer functional modules: same-layer co-activation is 1.9× stronger than cross-layer, and hierarchical clustering identifies 5 distinct feature groups. This modular organization suggests a structured routing infrastructure rather than a random collection of individually useful features.</p>
+      <p>Polysemanticity analysis provides additional converging evidence. CODE (20%) and LANGUAGE (20%) features — encoding formatting, syntax, and linguistic patterns — outnumber domain-specific features (13%). 54% of features appear in ≥2 domains and 18% in all 3. The low overall polysemanticity rate (12.3%) suggests bottleneck features are more specialised than the average SAE feature: they are selected by the circuit architecture for specific routing functions, even when those functions span multiple knowledge domains.</p>
+
+      <h3 class="title is-5" style="margin-top:1.4rem;">4.3 Bottleneck tax interpretation</h3>
+      <p>Per-layer analysis reveals that <span style="font-variant:small-caps;">Gemma</span> L6 (the primary bottleneck layer) shows a strong negative correlation with confidence (r = −0.684, p &lt; 0.0001), while energy at post-bottleneck layers (L13: r = +0.601; L16: r = +0.598) positively predicts confidence. We term this pattern the <strong>"bottleneck tax"</strong> — a memorable label for the observation that heavier bottleneck-layer activation is associated with lower downstream confidence.</p>
+      <p>We interpret this pattern through information bottleneck theory (Tishby &amp; Zaslavsky, 2015; Shwartz-Ziv &amp; Tishby, 2017). The theory formalizes the tradeoff between compression and prediction in deep networks: each layer L computes a representation T<sub>L</sub> of the input X with mutual information I(X; T<sub>L</sub>), and heavier compression at an intermediate layer reduces the information available to downstream layers for reconstruction and prediction. Our observation — more bottleneck-layer activation predicts worse confidence — is consistent with the prediction that over-compression at L6 limits the information downstream layers (L13, L16) can use for evidence accumulation. We emphasize "consistent with" rather than "proof of": our measurements are of activation magnitude, not mutual information, and our analysis is correlational, not interventional.</p>
+      <p><strong>A nuance from output decomposition.</strong> While the bottleneck tax operates at the circuit level (more overall bottleneck weight = lower confidence), the critical paths show the opposite pattern: paths that route <em>more</em> through bottleneck layers yield <em>higher</em> confidence (r = 0.415, p = 0.016). Bottleneck layers are simultaneously the most important processing hubs and the most costly when over-used. This dual role — essential routing infrastructure that imposes compression costs when overloaded — is consistent with the information bottleneck framework.</p>
+      <p><span style="font-variant:small-caps;">Qwen</span> shows no per-layer confidence relationships (0 Bonferroni-significant layers), consistent with its late-layer architecture diffusing confidence signals across many layers. The information bottleneck framework predicts that architectures with diffuse compression should exhibit weaker per-layer correlations with output quality, which is what we observe.</p>
+
+      <h3 class="title is-5" style="margin-top:1.4rem;">4.4 Three-tier dissociation</h3>
+      <p>Minimal pathway analysis reveals that circuits are 94.1% redundant: only ~6% of nodes participate in the essential input-to-output pathways, and these pathways carry just 0.3% of total edge weight. <span style="font-variant:small-caps;">Gemma</span>'s redundancy positively correlates with confidence (r = 0.642), suggesting a functional role for this redundancy. More redundant circuits may represent more robust, well-established factual memories where the model has encoded multiple parallel pathways to the same answer.</p>
+      <p>Our steering analysis reveals a critical methodological gap: features that exert causal influence through steering are invisible in the attribution graph. None of the 5 initially steered features appeared as nodes in their circuits' graphs. This "visibility gap" means that circuit-based analysis underestimates the causally relevant feature set — the attribution graph captures only above-threshold activations, while causal influence extends to sub-threshold features.</p>
+      <p>The essential-pathway steering validation reveals a <strong>three-tier dissociation</strong> between structural importance metrics and causal influence. Features on the minimal viable pathway produce the strongest distributional perturbations (mean KL = 1.448), but neither pathway position (26.7% text change rate) nor cross-circuit frequency (23.3% for frequency-selected features) reliably predicts text-level output changes. This dissociation suggests that the attribution graph captures two distinct types of information: (1) the essential routing topology, which determines how strongly a feature can perturb probability distributions, and (2) the redundancy structure, which determines whether that perturbation survives to change the argmax output token.</p>
+      <p>Features on essential pathways are genuinely important for information flow — their perturbations propagate strongly through the circuit — but the model's 94.1% circuit redundancy provides compensatory pathways that absorb these perturbations before the output layer. The domain asymmetry in steering susceptibility (history &gt; geography &gt; chemistry = 0) has a natural interpretation: chemistry circuits produce the most deterministic outputs (Na, Fe, Pb are near-certain completions), making them resistant to perturbation; history and geography outputs have more distributional uncertainty, creating more room for steering to shift the argmax.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- 5. LIMITATIONS -->
 <section class="section" style="padding-top:1rem;" id="limitations">
   <div class="container is-max-desktop">
-    <h2 class="title is-4">Limitations</h2>
+    <h2 class="title is-4">5. Limitations</h2>
     <div class="content">
       <ol>
         <li><strong>Two models only.</strong> Findings based on <span style="font-variant:small-caps;">Gemma-2-2B</span> and <span style="font-variant:small-caps;">Qwen3-4B</span>. Larger models or instruction-tuned variants may exhibit different patterns.</li>
@@ -832,7 +900,7 @@ function toggleTheme() {
 <!-- CONCLUSIONS -->
 <section class="section" style="padding-top:1rem;" id="conclusions">
   <div class="container is-max-desktop">
-    <h2 class="title is-4">Conclusion</h2>
+    <h2 class="title is-4">6. Conclusions</h2>
     <div class="content">
       <p>Factual knowledge retrieval in large language models is constrained by architectural processing strategy across the full layer-by-layer activation profile. The bottleneck tax provides a mechanistic link between structure and behavior: confident predictions arise from evidence accumulation beyond the bottleneck, not from compression quality. The three-tier causal dissociation — where topology, frequency, and text-level effects decouple — reveals that attribution graphs capture only a fraction of causally relevant computation, mediated by layers of circuit redundancy.</p>
 
