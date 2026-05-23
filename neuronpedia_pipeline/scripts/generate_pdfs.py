@@ -27,7 +27,9 @@ if sys.platform == 'win32':
 
 BASE = Path(__file__).parent.parent
 FIGURES_DIR = BASE / 'data' / 'stage_2_figures'
-OUTPUT_DIR = BASE / 'docs' / 'papers' / 'pdf'
+# PDFs are mirrored to the repo-root docs/ so the website can serve them
+# via a short relative path (papers/pdf/...) under GitHub Pages.
+OUTPUT_DIR = BASE.parent / 'docs' / 'papers' / 'pdf'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
