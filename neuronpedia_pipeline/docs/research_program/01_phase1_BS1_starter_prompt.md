@@ -34,13 +34,13 @@ Style rules carried over from the cross-domain paper:
 
 What I need from you for this Phase 1 kickoff session:
 
-1. First, help me design the dangerous-prompt set. I do not want a list of bioterror recipes; I want 30 prompts that span a spectrum of dual-use risk so that the cross-prompt structure is itself informative. Discuss the design principles, then I will draft the actual prompts.
+1. First, help me decide the IRB / safety considerations. We are generating prompts that ask about dangerous biology. There is a real ethical question about (a) writing these prompts in a public repo, (b) running them through public APIs, (c) what to do if the model actually answers them informatively. We resolve this before drafting prompts because the constraints shape what counts as a valid prompt and a valid control. Address these head-on.
 
-2. Second, help me design the matched-benign controls. The matching has to be tight: same surface structure, same biological domain, different intent. Otherwise the circuit signature we find is just "the model recognizes the topic," not "the model recognizes the risk."
+2. Second, help me design the dangerous-prompt set. I do not want a list of bioterror recipes; I want 30 prompts that span a spectrum of dual-use risk so that the cross-prompt structure is itself informative. Discuss the design principles, then I will draft the actual prompts.
 
-3. Third, help me decide the IRB / safety considerations. We are generating prompts that ask about dangerous biology. There is a real ethical question about (a) writing these prompts in a public repo, (b) running them through public APIs, (c) what to do if the model actually answers them informatively. Address these head-on before any data collection.
+3. Third, help me design the matched-benign controls. The matching has to be tight: same surface structure, same biological domain, different intent. Otherwise the circuit signature we find is just "the model recognizes the topic," not "the model recognizes the risk."
 
-Begin with question 1. I want to think through the design space before drafting prompts. Be opinionated about what a good dangerous-prompt set looks like methodologically.
+Begin with question 1. I want the IRB / safety frame resolved before drafting prompts so the design space is bounded. Be opinionated; do not enumerate options without taking a position.
 ```
 
 ---
@@ -61,7 +61,7 @@ Begin with question 1. I want to think through the design space before drafting 
 
 A few design choices worth flagging so you can edit them if your situation changes:
 
-- I framed Phase 1 as starting with **prompt design and ethics**, not data collection. This is deliberate. The hardest part of dual-use research is not the methodology; it is making sure the prompt set is methodologically clean and ethically defensible. Starting with code would waste cycles.
+- I framed Phase 1 as starting with **ethics and prompt design**, not data collection. This is deliberate. The hardest part of dual-use research is not the methodology; it is making sure the prompt set is methodologically clean and ethically defensible. Ethics goes ahead of prompt design because the constraints (public repo, public API, response handling) shape what counts as a valid prompt. Starting with code would waste cycles.
 
 - I told the session to be **opinionated**. Claude tends to enumerate options when asked open-ended design questions. For research design, you want a strong recommendation followed by alternatives, not a balanced list.
 
