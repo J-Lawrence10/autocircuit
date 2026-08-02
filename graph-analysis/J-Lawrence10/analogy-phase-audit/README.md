@@ -22,6 +22,7 @@ move any files in the original analysis directories.
 ## Folder layout
 
 ```text
+METHODS.md
 analysis/
   DATA_MANIFEST.md
   rerun_corrected_analysis.py
@@ -73,6 +74,9 @@ python analysis/rerun_corrected_analysis.py --regenerate --fetch-labels
 No API credential is stored in this package.
 
 ## Statistical procedure
+
+A step-by-step explanation without assumed statistical background is available
+in [How the analysis works](METHODS.md).
 
 For each prompt and layer, the phase analysis calculates:
 
