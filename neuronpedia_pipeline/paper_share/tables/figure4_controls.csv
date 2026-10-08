@@ -1,0 +1,7 @@
+model,control,mean,n,ci_low,ci_high,matching_rule
+Gemma-2-2B,same_template_nonce,-0.0687165369248007,2,-0.09344968263600034,-0.043983391213601064,same broad token class; not same semantic output
+Qwen3-1.7B,same_template_nonce,-0.013648240299632991,4,-0.02636046628596328,-1.5226038739143966e-05,same broad token class; not same semantic output
+Qwen3-4B*,same_template_nonce,0.09605954447396417,10,0.059578085559126706,0.13435120203070305,same broad token class; not same semantic output
+Gemma-2-2B,paraphrased_nonce,0.13712773194506703,7,0.10364188464915623,0.17626847985681096,same broad token class; not same semantic output
+Qwen3-1.7B,paraphrased_nonce,0.11177450933539032,5,0.10423152503884794,0.11906887784221776,same broad token class; not same semantic output
+Qwen3-4B*,paraphrased_nonce,0.18937337963576648,10,0.1551468047181882,0.22348416620849423,same broad token class; not same semantic output

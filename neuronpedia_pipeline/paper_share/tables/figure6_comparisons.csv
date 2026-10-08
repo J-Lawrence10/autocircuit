@@ -1,0 +1,17 @@
+job_id,case,format,comparator,jaccard,equal_count
+f0m1p0w0_ordinal_label,f0m1p0w0,label,same_country,0.5128393250183418,0.4859720437047163
+f0m1p0w0_ordinal_label,f0m1p0w0,label,same_output,0.6739659367396593,0.6338076704157324
+f0m0p1w0_ordinal_label,f0m0p1w0,label,same_country,0.4801470588235294,0.45505508824864305
+f0m0p1w0_ordinal_label,f0m0p1w0,label,same_output,0.6911262798634812,0.6670892899795473
+f1m0p0w0_ordinal_label,f1m0p0w0,label,same_country,0.503003003003003,0.48054957434697043
+f1m0p0w0_ordinal_label,f1m0p0w0,label,same_output,0.7228813559322034,0.6676368144257492
+f1m1p1w0_ordinal_label,f1m1p1w0,label,same_country,0.48644688644688644,0.47144017423784007
+f1m1p1w0_ordinal_label,f1m1p1w0,label,same_output,0.6877601998334721,0.6649206170077122
+f0m1p0w0_ordinal_capital,f0m1p0w0,capital,same_country,0.3922441195168468,0.37077129630054173
+f0m1p0w0_ordinal_capital,f0m1p0w0,capital,same_output,0.71972049689441,0.6579445325885075
+f0m0p1w0_ordinal_capital,f0m0p1w0,capital,same_country,0.41509433962264153,0.3845005095317548
+f0m0p1w0_ordinal_capital,f0m0p1w0,capital,same_output,0.6207928197456993,0.5398965312164736
+f1m0p0w0_ordinal_capital,f1m0p0w0,capital,same_country,0.41661300708306503,0.3609530032041553
+f1m0p0w0_ordinal_capital,f1m0p0w0,capital,same_output,0.7023144453312051,0.626845196420617
+f1m1p1w0_ordinal_capital,f1m1p1w0,capital,same_country,0.4128738621586476,0.3928044239598141
+f1m1p1w0_ordinal_capital,f1m1p1w0,capital,same_output,0.6535796766743649,0.6288517906462454

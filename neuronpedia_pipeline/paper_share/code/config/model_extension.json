@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-08-30",
+  "protocol": "docs/papers/MODEL_EXTENSION_PROTOCOL.md",
+  "controlled_manifest": {
+    "path": "config/paper_control_manifest.csv",
+    "sha256": "C2C36A46E09A4C7943FF38E537F78CF3E7D4AA27E031B011BE3B6035C6106196",
+    "jobs_per_model": 120
+  },
+  "crossed_prompt_source": {
+    "path": "scripts/stage_2_format_variation_experiment.py",
+    "sha256": "ABD0FDC0F541AB2E0D2451425D7715E4678DD4D9AC9AFA43D6D5A7ED67C87C58",
+    "jobs_per_model": 27
+  },
+  "models": [
+    {
+      "extension_id": "qwen3-4b",
+      "model_id": "qwen3-4b",
+      "backend": "neuronpedia",
+      "source_set": "transcoder-hp",
+      "desired_logit_prob": 0.99,
+      "status": "active"
+    },
+    {
+      "extension_id": "llama-3.2-1b",
+      "model_id": "meta-llama/Llama-3.2-1B",
+      "backend": "circuit-tracer-local",
+      "transcoder_set": "mntss/transcoder-Llama-3.2-1B",
+      "status": "deferred_insufficient_local_hardware",
+      "run_authorized": false
+    }
+  ]
+}

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1224pt" height="684pt" viewBox="0 0 1224 684" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-07T10:06:08.590696</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 684 
+L 1224 684 
+L 1224 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 86.904 281.124 
+L 358.632 281.124 
+Q 373.32 281.124 373.32 272.916 
+L 373.32 220.932 
+Q 373.32 212.724 358.632 212.724 
+L 86.904 212.724 
+Q 72.216 212.724 72.216 220.932 
+L 72.216 272.916 
+Q 72.216 281.124 86.904 281.124 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #f2f6f8; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 105.264 365.256 
+L 380.664 365.256 
+Q 395.352 365.256 395.352 357.048 
+L 395.352 314.64 
+Q 395.352 306.432 380.664 306.432 
+L 105.264 306.432 
+Q 90.576 306.432 90.576 314.64 
+L 90.576 357.048 
+Q 90.576 365.256 105.264 365.256 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #ffffff; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 105.264 426.816 
+L 380.664 426.816 
+Q 395.352 426.816 395.352 418.608 
+L 395.352 376.2 
+Q 395.352 367.992 380.664 367.992 
+L 105.264 367.992 
+Q 90.576 367.992 90.576 376.2 
+L 90.576 418.608 
+Q 90.576 426.816 105.264 426.816 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #ffffff; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 105.264 488.376 
+L 380.664 488.376 
+Q 395.352 488.376 395.352 480.168 
+L 395.352 437.76 
+Q 395.352 429.552 380.664 429.552 
+L 105.264 429.552 
+Q 90.576 429.552 90.576 437.76 
+L 90.576 480.168 
+Q 90.576 488.376 105.264 488.376 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #ffffff; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 515.304 396.72 
+L 613.224 396.72 
+Q 627.912 396.72 627.912 388.512 
+L 627.912 343.368 
+Q 627.912 335.16 613.224 335.16 
+L 515.304 335.16 
+Q 500.616 335.16 500.616 343.368 
+L 500.616 388.512 
+Q 500.616 396.72 515.304 396.72 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #eaf3f6; stroke: #ffffff; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 640.152 396.72 
+L 738.072 396.72 
+Q 752.76 396.72 752.76 388.512 
+L 752.76 343.368 
+Q 752.76 335.16 738.072 335.16 
+L 640.152 335.16 
+Q 625.464 335.16 625.464 343.368 
+L 625.464 388.512 
+Q 625.464 396.72 640.152 396.72 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #f4efe8; stroke: #ffffff; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 515.304 461.016 
+L 613.224 461.016 
+Q 627.912 461.016 627.912 452.808 
+L 627.912 407.664 
+Q 627.912 399.456 613.224 399.456 
+L 515.304 399.456 
+Q 500.616 399.456 500.616 407.664 
+L 500.616 452.808 
+Q 500.616 461.016 515.304 461.016 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #f4efe8; stroke: #ffffff; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 640.152 461.016 
+L 738.072 461.016 
+Q 752.76 461.016 752.76 452.808 
+L 752.76 407.664 
+Q 752.76 399.456 738.072 399.456 
+L 640.152 399.456 
+Q 625.464 399.456 625.464 407.664 
+L 625.464 452.808 
+Q 625.464 461.016 640.152 461.016 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #eaf3f6; stroke: #ffffff; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 854.352 373.464 
+L 1148.112 373.464 
+Q 1162.8 373.464 1162.8 365.256 
+L 1162.8 221.616 
+Q 1162.8 213.408 1148.112 213.408 
+L 854.352 213.408 
+Q 839.664 213.408 839.664 221.616 
+L 839.664 365.256 
+Q 839.664 373.464 854.352 373.464 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #fbf3ef; stroke: #ebd5c9; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 850.68 482.904 
+L 985.32 482.904 
+Q 1000.008 482.904 1000.008 474.696 
+L 1000.008 421.344 
+Q 1000.008 413.136 985.32 413.136 
+L 850.68 413.136 
+Q 835.992 413.136 835.992 421.344 
+L 835.992 474.696 
+Q 835.992 482.904 850.68 482.904 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #f2f6f8; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 1019.592 482.904 
+L 1154.232 482.904 
+Q 1168.92 482.904 1168.92 474.696 
+L 1168.92 421.344 
+Q 1168.92 413.136 1154.232 413.136 
+L 1019.592 413.136 
+Q 1004.904 413.136 1004.904 421.344 
+L 1004.904 474.696 
+Q 1004.904 482.904 1019.592 482.904 
+z
+" clip-path="url(#pa4d0645045)" style="fill: #f2f6f8; stroke: #d6e0e5; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 52.632 201.096 
+L 392.904 201.096 
+" style="fill: none; stroke: #d6e0e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 52.632 519.84 
+L 392.904 519.84 
+" style="fill: none; stroke: #387765; stroke-width: 1.4; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 441.864 201.096 
+L 782.136 201.096 
+" style="fill: none; stroke: #d6e0e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 441.864 519.84 
+L 782.136 519.84 
+" style="fill: none; stroke: #387765; stroke-width: 1.4; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 831.096 201.096 
+L 1171.368 201.096 
+" style="fill: none; stroke: #d6e0e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 831.096 519.84 
+L 1171.368 519.84 
+" style="fill: none; stroke: #387765; stroke-width: 1.4; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 70.992 458.964 
+L 70.992 294.12 
+" clip-path="url(#pa4d0645045)" style="fill: none; stroke: #a6b7c1; stroke-width: 0.9; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 70.992 294.12 
+L 222.768 294.12 
+L 222.768 283.86 
+" clip-path="url(#pa4d0645045)" style="fill: none; stroke: #a6b7c1; stroke-width: 0.9; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 42.84 616.968 
+L 1181.16 616.968 
+" style="fill: none; stroke: #d6e0e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="42.84" y="36.220625" transform="rotate(-0 42.84 36.220625)">Three tests ask what similar graphs can tell us</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #236c88" x="52.632" y="87.719187" transform="rotate(-0 52.632 87.719187)">a</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="222.768" y="114.11925" transform="rotate(-0 222.768 114.11925)">Reword a factual question</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="52.632" y="141.197469" transform="rotate(-0 52.632 141.197469)">Models Tested:</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #667782" x="52.632" y="159.665469" transform="rotate(-0 52.632 159.665469)">Gemma-2-2B · Qwen3-1.7B · Qwen3-4B</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #667782" x="222.768" y="185.657469" transform="rotate(-0 222.768 185.657469)">Original questions and controls</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #387765" x="222.768" y="539.969469" transform="rotate(-0 222.768 539.969469)">WHAT WE ASK</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(98.69925 564.120625)">Do reworded questions about the same fact</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(88.490656 576.838125)">share more features than other-fact questions?</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #236c88" x="441.864" y="87.719187" transform="rotate(-0 441.864 87.719187)">b</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="612" y="114.072375" transform="rotate(-0 612 114.072375)">Change the correct A/B answer</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="441.864" y="141.197469" transform="rotate(-0 441.864 141.197469)">Models Tested:</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #667782" x="441.864" y="159.665469" transform="rotate(-0 441.864 159.665469)">Qwen3-4B</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #667782" x="612" y="185.657469" transform="rotate(-0 612 185.657469)">48 graphs · six country pairs</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #387765" x="612" y="539.969469" transform="rotate(-0 612 539.969469)">WHAT WE ASK</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(473.961719 564.081563)">Do same-fact questions still share more features</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(502.553906 576.799062)">when the correct A/B answer changes?</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #236c88" x="831.096" y="87.719187" transform="rotate(-0 831.096 87.719187)">c</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="1001.232" y="114.072375" transform="rotate(-0 1001.232 114.072375)">Examine selected wrong answers</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="831.096" y="141.197469" transform="rotate(-0 831.096 141.197469)">Models Tested:</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #667782" x="831.096" y="159.665469" transform="rotate(-0 831.096 159.665469)">Qwen3-4B</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #667782" x="1001.232" y="185.657469" transform="rotate(-0 1001.232 185.657469)">16 graphs · one country pair · two answer formats</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #387765" x="1001.232" y="539.969469" transform="rotate(-0 1001.232 539.969469)">WHAT WE ASK</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(878.498406 564.0425)">Does an error graph resemble the intended</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(864.411687 576.838125)">question or a response giving the same answer?</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 10.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="222.768" y="247.05775" transform="rotate(-0 222.768 247.05775)">“The chemical symbol for gold is ...”</text>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="222.768" y="265.277406" transform="rotate(-0 222.768 265.277406)">Expected answer: Au</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 72.990264 335.844 
+Q 82.006912 335.844 89.905527 335.844 
+" style="fill: none; stroke: #8da2af; stroke-linecap: round"/>
+    <path d="M 85.905527 333.844 
+L 89.905527 335.844 
+L 85.905527 337.844 
+z
+" style="fill: #8da2af; stroke: #8da2af; stroke-linecap: round"/>
+   </g>
+   <g id="text_25">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="242.964" y="328.067437" transform="rotate(-0 242.964 328.067437)">Same fact</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="242.964" y="347.903437" transform="rotate(-0 242.964 347.903437)">“Gold has the chemical symbol ...” → Au</text>
+   </g>
+   <g id="patch_14">
+    <path d="M 72.990264 397.404 
+Q 82.006912 397.404 89.905527 397.404 
+" style="fill: none; stroke: #8da2af; stroke-linecap: round"/>
+    <path d="M 85.905527 395.404 
+L 89.905527 397.404 
+L 85.905527 399.404 
+z
+" style="fill: #8da2af; stroke: #8da2af; stroke-linecap: round"/>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="242.964" y="389.627437" transform="rotate(-0 242.964 389.627437)">Other fact</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="242.964" y="409.463437" transform="rotate(-0 242.964 409.463437)">“Iron has the chemical symbol ...” → Fe</text>
+   </g>
+   <g id="patch_15">
+    <path d="M 72.990264 458.964 
+Q 82.006912 458.964 89.905527 458.964 
+" style="fill: none; stroke: #8da2af; stroke-linecap: round"/>
+    <path d="M 85.905527 456.964 
+L 89.905527 458.964 
+L 85.905527 460.964 
+z
+" style="fill: #8da2af; stroke: #8da2af; stroke-linecap: round"/>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="242.964" y="451.187437" transform="rotate(-0 242.964 451.187437)">Made-up name</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="242.964" y="471.023438" transform="rotate(-0 242.964 471.023438)">“The chemical symbol for zorium is ...”</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(519.006172 221.760687)">“For France rather than Germany,</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(555.588906 235.749937)">what is the capital?”</text>
+   </g>
+   <g id="text_32">
+    <text style="font-size: 8.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #667782" x="612" y="267.82025" transform="rotate(-0 612 267.82025)">Change the country asked about and the A/B choices</text>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(543.585914 302.328594)">A: Paris</text>
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(541.268063 314.410219)">B: Berlin</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(665.971336 302.328594)">A: Berlin</text>
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(668.578641 314.410219)">B: Paris</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="445.536" y="368.589" transform="rotate(-0 445.536 368.589)">France</text>
+   </g>
+   <g id="text_36">
+    <text style="font-weight: 700; font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="564.264" y="372.010625" transform="rotate(-0 564.264 372.010625)">A</text>
+   </g>
+   <g id="text_37">
+    <text style="font-weight: 700; font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a4532b" x="689.112" y="372.010625" transform="rotate(-0 689.112 372.010625)">B</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="445.536" y="432.885" transform="rotate(-0 445.536 432.885)">Germany</text>
+   </g>
+   <g id="text_39">
+    <text style="font-weight: 700; font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a4532b" x="564.264" y="436.306625" transform="rotate(-0 564.264 436.306625)">B</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="689.112" y="436.306625" transform="rotate(-0 689.112 436.306625)">A</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 8.8px; font-family: 'DejaVu Sans'; fill: #667782" transform="translate(505.977188 483.84055)">Letters are correct answers, not measurements.</text>
+    <text style="font-size: 8.8px; font-family: 'DejaVu Sans'; fill: #667782" transform="translate(495.13325 495.03195)">Also vary wording while keeping the available words.</text>
+   </g>
+   <g id="text_42">
+    <text style="font-weight: 700; font-size: 8.7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a4532b" x="1001.232" y="234.960656" transform="rotate(-0 1001.232 234.960656)">RECORDED USER PROMPT</text>
+   </g>
+   <g id="text_43">
+    <text style="font-size: 10.2px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(915.815766 260.046863)">Reply with only the capital name.</text>
+    <text style="font-size: 10.2px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(955.852359 273.018713)">A: Berlin. B: Paris.</text>
+    <text style="font-size: 10.2px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(928.902844 285.990563)">Countries: France, Germany.</text>
+    <text style="font-size: 10.2px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(909.499734 298.962413)">Question: what is the capital for the</text>
+    <text style="font-size: 10.2px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(904.008469 311.934263)">first country, not the second? Answer:</text>
+   </g>
+   <g id="text_44">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a4532b" x="1001.232" y="347.316375" transform="rotate(-0 1001.232 347.316375)">Model output: Berlin (wrong)</text>
+   </g>
+   <g id="text_45">
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #213747" x="1001.232" y="363.089406" transform="rotate(-0 1001.232 363.089406)">Correct answer: Paris</text>
+   </g>
+   <g id="patch_16">
+    <path d="M 999.354911 378.946166 
+Q 959.614696 393.642482 920.923106 407.951007 
+" style="fill: none; stroke: #8da2af; stroke-linecap: round"/>
+    <path d="M 925.36849 408.439439 
+L 920.923106 407.951007 
+L 923.981082 404.68776 
+z
+" style="fill: #8da2af; stroke: #8da2af; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 1003.112002 378.927379 
+Q 1044.069609 393.641141 1083.975019 407.976908 
+" style="fill: none; stroke: #8da2af; stroke-linecap: round"/>
+    <path d="M 1080.886741 404.742323 
+L 1083.975019 407.976908 
+L 1079.534384 408.506779 
+z
+" style="fill: #8da2af; stroke: #8da2af; stroke-linecap: round"/>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="918" y="431.207469" transform="rotate(-0 918 431.207469)">Intended country</text>
+   </g>
+   <g id="text_47">
+    <text style="font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(868.726914 454.176594)">“Capital for France?”</text>
+    <text style="font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(906.692031 466.258219)">Paris</text>
+   </g>
+   <g id="text_48">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="1086.912" y="431.241062" transform="rotate(-0 1086.912 431.241062)">Same produced answer</text>
+   </g>
+   <g id="text_49">
+    <text style="font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(1031.602703 454.176594)">“Capital for Germany?”</text>
+    <text style="font-size: 9.5px; font-family: 'DejaVu Sans'; fill: #213747" transform="translate(1073.128094 466.258219)">Berlin</text>
+   </g>
+   <g id="text_50">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #667782" transform="translate(916.520867 497.628531)">Both comparison responses are correct.</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #667782" transform="translate(918.050867 508.438406)">Country list and A/B choices stay fixed.</text>
+   </g>
+   <g id="text_51">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #213747" x="42.84" y="639.112344" transform="rotate(-0 42.84 639.112344)">Shared graph features do not, by themselves, establish a correct answer.</text>
+   </g>
+   <g id="text_52">
+    <text style="font-size: 8.7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #667782" x="42.84" y="659.040656" transform="rotate(-0 42.84 659.040656)">Panel C shows the recorded user prompt with line breaks only; chat-template tokens are omitted. Other examples and control questions are shortened.</text>
+   </g>
+   <g id="text_53">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #667782" x="42.84" y="672.665469" transform="rotate(-0 42.84 672.665469)">Diagrams show comparisons, not causal pathways. Colors identify labeled categories, not measured amounts. Full details remain in the figure caption.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa4d0645045">
+   <rect x="0" y="0" width="1224" height="684"/>
+  </clipPath>
+ </defs>
+</svg>

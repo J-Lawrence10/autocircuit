@@ -1,0 +1,6 @@
+# Preserve exact packaged bytes so SHA-256 checks also pass after Git checkout.
+* -text
+# Matplotlib SVG paths and archived Markdown line breaks retain source whitespace.
+*.svg whitespace=-blank-at-eol
+*.md whitespace=-blank-at-eol
+*.log whitespace=-blank-at-eof
