@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-08",
+  "date": "2026-10-15",
   "status": "working_paper_review_package",
   "files": [
     {
@@ -109,8 +109,8 @@
     },
     {
       "path": "code/scripts/build_paper_share_package.py",
-      "bytes": 10904,
-      "sha256": "d68088bce162d442d9650abde9241ae7df4ce6b55121a35d18ef963a369c8166"
+      "bytes": 10690,
+      "sha256": "9e996d5a71fb0072b01edd7f1b49acfd8707823426dccd494556cc23452a285a"
     },
     {
       "path": "code/scripts/build_three_model_figure_pack.py",
@@ -303,6 +303,11 @@
       "sha256": "eddd0389d628ec6a8d8821de060b7b20e8f01d440aecab0ca32658ce81682f24"
     },
     {
+      "path": "code/tests/test_manuscript_narrative.py",
+      "bytes": 2687,
+      "sha256": "ac1252ca20130687ed0c6ef026ac52e0105dbdb2696f85f536277a3a77abf09e"
+    },
+    {
       "path": "code/tests/test_matched_choice_controls.py",
       "bytes": 4965,
       "sha256": "0c0dcd7fdb340f5e90c8bd075d8789b8a66cad472151b3560c011e601d6ab356"
@@ -469,18 +474,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 8672,
-      "sha256": "2bdc00555e2df68659d391f0cc1c5afc26c924b7c82b74f4f90260986b308eac"
+      "bytes": 9006,
+      "sha256": "ac946a2d16754ee52a038dd3f6c88ee8c78cb4cca113af41541a91310b5e3122"
     },
     {
       "path": "manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html",
-      "bytes": 69989,
-      "sha256": "9d26c794fad2e1389f8480c4e2c085e5d37144a026ff63754ea44fdb7e3b6c13"
+      "bytes": 72172,
+      "sha256": "768e77ccd855e37114eb53143c534de71b1d87283df18372d4b14045487874d9"
     },
     {
       "path": "manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md",
-      "bytes": 57175,
-      "sha256": "a08615d1df4cecc529e5cf5956d6c256a1361ad9ddbf108a7ec2b9391cd318c2"
+      "bytes": 59721,
+      "sha256": "c21455357f51f48d2b5b07a89e965d69ca1e3a102e15f33bc379fcee9dfed62f"
     },
     {
       "path": "manuscript/FINAL_FINDINGS_SUMMARY.md",
@@ -489,8 +494,13 @@
     },
     {
       "path": "manuscript/INTEGRATED_PAPER_OUTLINE.md",
-      "bytes": 22261,
-      "sha256": "7871bb67a09be0bfba383e4ec57851caff8790bd0deb5eddf8010723a8c0b891"
+      "bytes": 12033,
+      "sha256": "e52601989bbe5c8cfa50e94dcd248ba3ee18ece17fc723a21c8181a15d2a7f23"
+    },
+    {
+      "path": "manuscript/MANUSCRIPT_REVISION_NOTES.md",
+      "bytes": 3173,
+      "sha256": "626e6435cf93d7942abdd862e97d168910ed2f4032a8e017523f65f382a0f14d"
     },
     {
       "path": "manuscript/SAMPLE_ACCOUNTING.md",
@@ -580,12 +590,12 @@
     {
       "path": "provenance/link_audit.json",
       "bytes": 40,
-      "sha256": "263b9b07924c9b5f42ff05bd0db28a22ddea2fe3a4dd28805784f9facbd983bc"
+      "sha256": "6bc3af01b499e2744dd260b5eab9121f91b04ef5a5b60c38282c9e0338a993ce"
     },
     {
       "path": "README.md",
-      "bytes": 5398,
-      "sha256": "d2c08c222b658d2f8052011bccab42452b579624dcb70ede44b701a7d48486c0"
+      "bytes": 5716,
+      "sha256": "0a79d6ef712773457efad0133cfa81d430342b47bf92343f81f935b880644cdb"
     },
     {
       "path": "review.css",
@@ -867,12 +877,12 @@
     {
       "source": "docs/papers/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md",
       "destination": "manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md",
-      "source_sha256": "2dbafbd39ed290b325b57035b0c4d160295018b155eb5db951cc7f52db4cc220"
+      "source_sha256": "af53eff508f41e41fab50f173e4b2a0bcb199d23b3ba9cd01335a732377e9ba9"
     },
     {
       "source": "docs/papers/INTEGRATED_PAPER_OUTLINE.md",
       "destination": "manuscript/INTEGRATED_PAPER_OUTLINE.md",
-      "source_sha256": "88b066fc001aef402c35302763a42887f55ea45bb904c246d5ef94b19c4bd186"
+      "source_sha256": "2d018750dee80374aaaebefa2041f4e589b50698af870badbc9ff740f233fd1b"
     },
     {
       "source": "docs/papers/FINAL_FINDINGS_SUMMARY.md",
@@ -883,6 +893,11 @@
       "source": "docs/papers/SAMPLE_ACCOUNTING.md",
       "destination": "manuscript/SAMPLE_ACCOUNTING.md",
       "source_sha256": "59737b302bf037697f761adb2801ef9cf671a1466cd2719d7bc1512fbd57c32e"
+    },
+    {
+      "source": "docs/papers/MANUSCRIPT_REVISION_NOTES.md",
+      "destination": "manuscript/MANUSCRIPT_REVISION_NOTES.md",
+      "source_sha256": "3a18f5c739aff4dd4f51736f0887bbb5dd3b1d8373338cfce46d5bb958be4d3b"
     },
     {
       "source": "docs/papers/REANALYSIS_PROTOCOL.md",
@@ -988,6 +1003,11 @@
       "source": "tests/test_history_closeout.py",
       "destination": "code/tests/test_history_closeout.py",
       "source_sha256": "eddd0389d628ec6a8d8821de060b7b20e8f01d440aecab0ca32658ce81682f24"
+    },
+    {
+      "source": "tests/test_manuscript_narrative.py",
+      "destination": "code/tests/test_manuscript_narrative.py",
+      "source_sha256": "ac1252ca20130687ed0c6ef026ac52e0105dbdb2696f85f536277a3a77abf09e"
     },
     {
       "source": "tests/test_matched_choice_controls.py",
@@ -1257,7 +1277,7 @@
     {
       "source": "scripts/build_paper_share_package.py",
       "destination": "code/scripts/build_paper_share_package.py",
-      "source_sha256": "d68088bce162d442d9650abde9241ae7df4ce6b55121a35d18ef963a369c8166"
+      "source_sha256": "9e996d5a71fb0072b01edd7f1b49acfd8707823426dccd494556cc23452a285a"
     },
     {
       "source": "data/model_extension/final_closeout_20261005/reproduction/tests.log",

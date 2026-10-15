@@ -12,6 +12,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
+REVISION = '2026-10-15'
 FIG = ROOT / 'data/model_extension/paper_figures_plain_language_20261006'
 mapping = {}
 source_records = []
@@ -62,7 +63,7 @@ def main():
     for ext in ['png', 'svg']:
         copy(f'data/model_extension/paper_claims_map_20261007/paper_claims_map.{ext}', f'claims/paper_claims_map.{ext}')
         copy(f'data/model_extension/figure1_mockups_20261006/option_c_comparison_diagrams.{ext}', f'claims/figure1_option_c.{ext}')
-    docs = ['ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT', 'INTEGRATED_PAPER_OUTLINE', 'FINAL_FINDINGS_SUMMARY', 'SAMPLE_ACCOUNTING']
+    docs = ['ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT', 'INTEGRATED_PAPER_OUTLINE', 'FINAL_FINDINGS_SUMMARY', 'SAMPLE_ACCOUNTING', 'MANUSCRIPT_REVISION_NOTES']
     methods = ['REANALYSIS_PROTOCOL', 'WHOLE_GRAPH_ANALYSIS_PROTOCOL', 'MODEL_EXTENSION_PROTOCOL',
                'EXPLORATORY_CONFOUND_CHECKS_20260905', 'MATCHED_CHOICE_CHAT_V2_PROTOCOL',
                'MATCHED_CHOICE_CONTROL_PROTOCOL', 'MATCHED_CHOICE_POSITION_V3_PROTOCOL',
@@ -92,8 +93,6 @@ def main():
         return f'{m.group(1)}\n\n**Figure {prefix}. {f["title"]}.** {f["legend"]}\n'
     body, count = re.subn(pattern, caption, body)
     assert count == 12, count
-    body = body.replace('date: "5 October 2026"', 'date: "8 October 2026"')
-    body = body.replace('## Abstract', '> Sharing copy updated 8 October 2026: figures and captions match the current plain-language figure package. Scientific estimates and manuscript body are unchanged.\n\n## Abstract', 1)
     draft.write_text(body, encoding='utf-8')
     for p in [*OUT.glob('manuscript/*.md'), *OUT.glob('methods/*.md'), OUT/'figures/LEGENDS.md']:
         text = portable(p.read_text(encoding='utf-8'), p)
@@ -174,14 +173,15 @@ def main():
             assert not re.search(rb'\b(?:sk-[A-Za-z0-9_-]{24,}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})', raw), f'Possible credential in {p.name}'
     files = [{'path': p.relative_to(OUT).as_posix(), 'bytes': p.stat().st_size, 'sha256': sha(p)}
              for p in sorted(OUT.rglob('*')) if p.is_file() and p.name != 'package_manifest.json']
-    manifest = {'date': '2026-10-08', 'status': 'working_paper_review_package', 'files': files,
+    manifest = {'date': REVISION, 'status': 'working_paper_review_package', 'files': files,
                 'sources': source_records, 'caption_reconciliations': count,
                 'excluded': ['Raw exports', 'Tokenizer/model files', 'Credentials', 'Reference PDFs', 'Local release archive', 'Unrelated edits'],
                 'reproduction': 'Source inspection and figure tables only; full analysis requires excluded authorized archive'}
     (OUT/'provenance/package_manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
-    dest = ROOT/'data/model_extension/paper_share_20261008'
+    stamp = REVISION.replace('-', '')
+    dest = ROOT/f'data/model_extension/paper_share_{stamp}'
     dest.mkdir(exist_ok=True)
-    archive = dest/'attribution_graph_paper_review_20261008.zip'
+    archive = dest/f'attribution_graph_paper_review_{stamp}.zip'
     with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED) as z:
         for p in sorted(OUT.rglob('*')):
             if p.is_file():

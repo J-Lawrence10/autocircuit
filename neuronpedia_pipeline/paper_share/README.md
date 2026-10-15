@@ -1,6 +1,6 @@
 # Attribution graph paper review package
 
-Updated 8 October 2026. This is a working paper for PI and collaborator review, not a peer-reviewed publication or a submission-ready release.
+Updated 15 October 2026. This is a working paper for PI and collaborator review, not a peer-reviewed publication or a submission-ready release. The manuscript now follows the research question from the original association through stronger answer controls to selected failures; the findings and limitations are unchanged. See the [revision notes](manuscript/MANUSCRIPT_REVISION_NOTES.md).
 
 ## Research question
 
@@ -16,7 +16,7 @@ In these experiments, graph overlap varies with the prompt and the produced answ
 2. [Findings and changes](manuscript/FINAL_FINDINGS_SUMMARY.md) — what changed and what the data support.
 3. [Integrated outline](manuscript/INTEGRATED_PAPER_OUTLINE.md) — the argument and planned section structure.
 4. [Current figure guide](figures/LEGENDS.md) — six main figures and six supplements with self-contained captions. Open [the figure gallery](figures/index.html) locally in a browser.
-5. [Working manuscript](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md) — this sharing copy incorporates the current figures and captions. The prose remains a draft. A [browser-readable copy](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) is included for local viewing.
+5. [Working manuscript](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md) — revised logical flow, clearer comparisons, and current figures and captions. Detailed tokenizer, exporter, and failure-source audits remain in supporting analyses. A [browser-readable copy](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) is included for local viewing.
 6. [Questions included and excluded](manuscript/SAMPLE_ACCOUNTING.md) — counts and reasons, distinct from accuracy.
 
 GitHub renders Markdown and PNGs directly. Download the folder to view the HTML galleries locally; GitHub does not render these HTML files as a hosted website.

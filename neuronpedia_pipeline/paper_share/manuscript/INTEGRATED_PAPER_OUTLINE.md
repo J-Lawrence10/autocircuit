@@ -1,142 +1,118 @@
 # Paper outline and integrated argument
 
-Updated 5 October 2026. This outline accompanies the working manuscript, **What Sparse Attribution-Graph Feature Overlap Preserves Across Prompt Changes**. The failure-case analysis is a supporting result within the existing measurement study, not a standalone paper or a claim to have identified a new causal mechanism.
+Updated 15 October 2026. This outline follows the working manuscript, **What Sparse Attribution-Graph Feature Overlap Preserves Across Prompt Changes**. The study evaluates a measurement; the selected failures support that argument rather than forming a separate mechanism paper.
 
-## Central question and conclusion
+## Research question and central conclusion
 
-**Question:** When two attribution graphs share features, how much does that resemblance tell us about the requested fact, the prompt formulation, and the answer being produced?
+**Question:** Do similar attribution graphs reflect the fact being asked about—or the answer the model produces?
 
-**Conclusion:** Questions about the same fact share more graph features in the analyzed samples, but stronger controls show that this resemblance also depends on the answer being produced. Selected wrong answers resemble correct responses producing that same answer more than correct responses to the intended question. Feature overlap therefore cannot, on its own, certify correct factual processing or an answer-independent semantic circuit.
+These are not mutually exclusive explanations. The experiments ask whether shared facts remain associated with feature overlap when wording and answer labels vary.
 
-The argument proceeds from **observed factual overlap**, to **alternative explanations**, to **stronger answer controls**, to **a concrete failure case that illustrates the interpretation limit**.
+**Conclusion:** Reworded questions about the same fact share more features in the included samples. Stronger Qwen3-4B controls show answer-letter dependence, and selected wrong-answer graphs resemble correct responses producing the same answer more than correct responses to the intended country. Feature overlap alone therefore cannot certify correct factual processing or a representation independent of the answer.
 
-## Three findings that hold the paper together
+## Logical sequence
 
-1. **Related factual questions produce reproducible overlap in the analyzed three-model samples.** This establishes a measurement worth explaining, not a recovered semantic circuit.
-2. **The same-fact advantage depends on the answer label in the stronger Qwen3-4B controls.** Holding the available words constant does not make the measured association independent of the produced answer.
-3. **Wrong-answer graphs can resemble correct graphs producing the same answer.** Similarity alone therefore does not distinguish correct processing of the intended question from a response aligned with a different answer or referent.
+1. Establish the original association.
+2. Explain why the original controls cannot separate facts from shared words and expected answers.
+3. Preserve the available words while varying the queried country and produced answer letter.
+4. Ask what graph resemblance means when the selected answer is wrong.
+5. Report robustness checks and the boundaries imposed by incomplete coverage and failed pilots.
 
-The first finding motivates the second; the third shows why the distinction matters. Wording controls and sensitivity checks test alternative explanations. Export audits establish measurement limits. The failed pilots delimit which tasks were behaviorally supported. None needs a separate discovery narrative.
+The presentation follows this reasoning sequence, while Methods retains the actual study chronology and the distinction between rules fixed before collection and analyses designed after earlier outcomes.
 
-Closeout boundary: collection ended with the separately frozen history pilot. It passed 15/20 checks and failed the required 20/20 gate; no evaluation graphs were requested. Include that result once, with no further experimental round. The existing measurement argument is unchanged. See `FINAL_CLOSEOUT_SCOPE.md` for the handoff criteria.
+## 1 Introduction
 
-## Manuscript outline
+State the research question early. Use the example of reworded France-capital questions to show that a shared fact can also preserve country names and the expected answer. Define feature-set overlap as shared learned components, not similarity of every graph connection or recovery of a causal pathway.
 
-### 1 Introduction
+Preview the original three-model comparison, the Qwen3-4B answer-control experiment, and the selected-error comparison. Position the contribution as an evaluation of what this measurement supports, not as a validated traceback tool or the first discovery of prompt sensitivity.
 
-Open with the distinction between two questions: do related factual prompts produce similar graphs, and does that similarity establish that the intended fact was processed correctly? Explain why the second does not follow automatically from the first. A paraphrase can preserve the fact, words, and answer together; a graph generated around an answer can reflect that answer as well as the question.
+## 2 Methods
 
-State the measurement question and distinguish feature-set overlap from graph topology and causal validation. Preview the three findings above: the original association across three model pipelines, stronger controls in Qwen3-4B, and selected failures that test the interpretation. Do not frame the paper around a failed traceback tool or claim that prompt sensitivity itself is new.
+Figure 1 introduces the study design before the cohort and measurement details.
 
-### 2 Methods
+- **2.1 Cohorts and coverage:** distinguish graph collection from question inclusion; retain all three models, two families, uneven subject coverage, and the incomplete original Qwen3-4B extension.
+- **2.2 Measurement:** define Jaccard overlap and same-fact minus average other-fact overlap. State the four required prompt/control roles, next-token matching rule, and within-subject comparison requirements. Distinguish questions from graph pairs and repeated facts across models.
+- **2.3 Original controls:** explain fact-by-wording and made-up-name comparisons using concrete prompt relationships.
+- **2.4 Exploratory checks:** feature counts, word-matching support, expected answers, tokenization, and reconstruction of archived outcomes.
+- **2.5 Matched-choice follow-up:** six Qwen3-4B country pairs, eight prompts per pair, identical word/token inventories within pairs, and variation of query, answer mapping, and wording. The average of the same-letter and changed-letter fact differences remains the prespecified primary outcome.
+- **2.6 Position pilot and selected errors:** distinguish the failed 16-item pilot from the separate 20-preview diagnostic and its 16 graph prompts. State the deliberate selection of four France/Germany cases, two formats, and reused controls.
+- **2.7 Later audit and history pilot:** keep the added direct difference test exploratory. Explain saved-graph filters without treating them as causal interventions. Retain the final 20-check history gate and its planned, uncollected evaluation cohort.
 
-Describe the experiments in their actual sequence, with a separate evidential status for each.
+Protocols were frozen locally, not publicly preregistered. Earlier failed pilots remain reported; follow-ups do not replace original observations or alter original eligibility.
 
-| Study | Scope and comparison | Role in the paper |
-|---|---|---|
-| Original cohorts and third-model extension | Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B; paraphrases, nonce controls, and available crossed cohorts | Establish the original overlap associations; retain the incomplete extension status |
-| Exploratory audits | Feature counts, lexical comparator support, tokenization, and export integrity | Identify which alternative explanations the original data cannot separate |
-| Matched-choice follow-up | Qwen3-4B; 48 graphs in six country-pair blocks with identical token inventories within blocks | Test fact-associated overlap while crossing answer mapping and wording |
-| Position-balanced pilot | Qwen3-4B; 16 behavioral decisions | Report the failed gate and explain why its held-out graphs were not collected |
-| Failure-case diagnostic | Qwen3-4B; 16 graphs from four selected France/Germany cases and two response formats | Test how wrong-answer graphs compare with correct intended-country and same-output controls |
-| Final saved-data audit | Six matched-choice blocks and selected failure graphs; direct component difference and position/layer filters | Check the answer-dependence contrast without treating graph pairs as independent observations |
-| Final prospective history pilot | Qwen3-4B; 15/20 checks correct, including 4/4 literal checks, 7/8 document-history cells and 4/8 spaceflight cells | Report the failed behavioral gate; no evaluation graph effect was measured |
+## 3 Results
 
-Define feature-set Jaccard and the analysis unit before presenting results. Explain the positive controls, nonce controls, within-domain other-fact comparisons, and the two distinct correct comparators in the failure diagnostic. Keep local freezes distinct from public preregistration and outcome-informed follow-ups distinct from original hypotheses.
+### 3.1 Reworded questions about the same fact share more features
 
-### 3 Results
+Figure 2 establishes the association: means 0.170, 0.085, and 0.162 for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B, with 8, 5, and 10 included questions. Retain the archived intervals and tests. These are not 23 independent facts, and unequal subjects prevent a model ranking.
 
-**3.1 Related factual questions share more features in the analyzed samples.** Report the original same-fact margins of 0.170, 0.085, and 0.162 for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B, with 8, 5, and 10 included questions respectively. Preserve domains and incomplete collection. The same facts recur across models, so these are not 23 independent factual replications. Unequal subject coverage prevents ranking the models. Lead with the observed association rather than a semantic mechanism.
+**Next question:** Is the overlap specifically associated with the requested fact, or with the words and expected answer that travel with it?
 
-**3.2 The positive average survives equal feature counts.** The pooled direction remains positive after sampling equal numbers of features, although one Gemma question reverses. Unequal feature counts are therefore insufficient as the sole explanation under this sensitivity; lexical, answer, and feature-selection differences remain.
+### 3.2 Original controls do not separate facts from shared words and answers
 
-**3.3 The original comparisons cannot separate facts from shared words and answers.** None of the included questions has an other-fact comparator meeting the declared word-matching rules. All 86 directed other-fact comparisons differ in expected answer, whereas own-paraphrase pairs share it. This is a limitation of identification, not proof that words or answers explain the entire original effect.
+No included question has an other-fact comparator meeting the declared word-matching rules. All 86 directed other-fact comparisons differ in expected answer, whereas same-fact rewordings share it. This is missing comparison support, not proof that words or answers explain the full result.
 
-**3.4 A next-token mismatch is not always a wrong completed answer.** Separate whole-answer matches, compatible word prefixes, whitespace, and other continuations. These distinctions explain some exclusions without changing the original inclusion rules. Missing comparison support is unavailable, not zero overlap or evidence that a model lacks knowledge of a subject.
+Figures 3 and 4 describe the fact-by-wording and made-up-name controls. Their ordering varies across model pipelines and subjects. Only Qwen3-4B geography passes the strict expected-token rule in all nine crossed questions; its fact/wording differences are approximately 0.101/0.106. Do not infer equivalence, universal wording dominance, or model superiority. Supporting analysis A1 retains detailed output counts.
 
-**3.5 Wording matters, but it does not explain every cohort in the same way.** The crossed and made-up-name controls vary by pipeline and subject. Only Qwen3-4B geography meets the strict output rule in every crossed cell; its fact and wording contrasts are approximately 0.101 and 0.106. The close estimates do not establish equivalence, and the full cohorts do not establish universal wording dominance or a model ranking.
+**Next question:** Does the association remain when available words are matched and the answer letter changes?
 
-**3.6 Export quality limits interpretation of the retained graphs.** Retain identifier-collision rates, reconstruction-error contributions, and incomplete graph coverage as measurement qualifications. Clean later exports show that the answer-related findings are not restricted to collision-contaminated graphs. Neither clean identifiers nor reproducible arithmetic makes the decomposition complete. Keep technical audit detail primarily in the supplement.
+### 3.3 The overlap difference depends on the answer letter
 
-**Transition:** These limitations motivate comparisons that preserve the available words while varying which country is queried and which answer label is produced.
+Explain the four conditions before the estimates. All 48 Qwen3-4B decisions are correct, with six country pairs supplying the analysis units. Figure 5 presents:
 
-**3.7 Matched-choice controls show a small fact association with answer dependence.** All 48 top-label decisions are correct. Report the balanced contrast of 0.0303 and the descriptive output-label contrast of 0.2827. Crucially, present the 0.0628 same-label and -0.0022 changed-label components; the balanced mean does not demonstrate answer invariance. Six blocks, not 48 graphs, determine inferential replication.
-
-Explain the underlying comparison before the contrasts. Each cell below is the unweighted mean feature-set Jaccard across six country-pair blocks, rounded to three decimals. Word and token inventories are identical within each block; query role, order, and option mapping still vary.
-
-| Relationship between prompts | Same answer label | Different answer label |
+| Prompt relationship | Same answer letter | Different answer letter |
 |---|---:|---:|
 | Same queried country | 0.800 | 0.485 |
 | Different queried countries | 0.738 | 0.487 |
 
-**Interpretation:** Different-country prompts producing the same label have higher average overlap than same-country prompts producing different labels. The additional same-country overlap is apparent when the label is preserved, but not in the average changed-label comparison. These are similarity scores, not accuracy rates, causal contributions, or fractions of reasoning explained. The near-zero changed-label contrast does not establish equivalence or absence of factual knowledge. Use this table to explain Figure 5 in the text; it does not require an additional main figure.
+These are rounded mean Jaccard scores, not accuracy rates. Within the two columns, same-country minus different-country overlap is 0.0628 and -0.0022. Their average, 0.0303, remains the prespecified primary outcome. Preserve its interval and conditional correspondence test; do not promote the later exploratory component comparison to a prespecified endpoint.
 
-The added exploratory direct paired difference is 0.0650 (Student-t 95% interval 0.0553–0.0746; two-sided block sign-flip p=0.03125), positive in all six blocks. Report the six-block unit and the independence and null-symmetry assumptions. The original 4,096 correspondence assignments are conditional null configurations, not independent replications. Node-location filters preserve the measured difference but are not causal ablations. Keep the four-representation audit in Supplement S6 rather than adding another main-figure storyline.
+The descriptive answer-letter difference is 0.2827. It is not a fraction of reasoning or variance explained. The added exploratory paired comparison is 0.0650, with Student-t 95% interval 0.0553–0.0746 and two-sided sign-flip p=0.03125 under the stated six-block assumptions. A near-zero changed-letter estimate does not establish equivalence or absent factual knowledge. Graph-location filtering preserves the measured difference without providing causal evidence.
 
-**3.8 The position pilot fails its behavioral gate.** Report 8/16 correct labels and no held-out graph collection under that protocol. This is a task/behavior limitation, not a zero graph effect. Summarize the separate local computational audit and positive-control checks; neither constitutes independent human review.
+**Next question:** If resemblance is associated with the produced answer, can an incorrect response resemble a correct one?
 
-**Transition:** The failed pilot provides a bounded opportunity to ask whether graph resemblance follows the intended question or the answer actually produced.
+### 3.4 Selected wrong-answer graphs resemble correct responses with the same answer
 
-**3.9 Wrong-answer graphs resemble correct responses with the same output.** All eight selected errors reproduce, all eight named-country controls remain correct, and all eight comparisons favor the same-output control. Mean Jaccard differences are 0.1983 for labels and 0.2649 for capital names; feature-count sensitivity preserves the direction. Include the wrong-country token-location observation as exploratory supporting evidence, not a second headline discovery. State the unresolved position-versus-negation alternative in this section.
+Open with France–Berlin: a question identifying France by its list position produces Berlin; naming France produces Paris; naming Germany produces Berlin. The error graph resembles the correct Germany–Berlin graph more closely.
 
-Use one concrete example: an indirect question about France produces Berlin; directly naming France produces Paris; directly naming Germany produces Berlin. The failure graph is closer to the Germany/Berlin response than to the France/Paris response. This makes the interpretation limit understandable without implying that the graph proves how the wrong answer arose. The pattern occurs for both letters and capital names, so it is not restricted to A/B output tokens. The two response formats reuse selected cases, not independent populations.
+Explain why these cases were examined: the separate position pilot passed only 8/16 checks and stopped before its planned evaluation graphs. The subsequent diagnostic passed all four literal/replay checks. Its deliberately selected errors are not a population sample.
 
-**3.10 The final history pilot limits replication beyond the successful task.** Report 4/4 literal-label checks, 7/8 document-history decisions, and 4/8 spaceflight decisions: 15/20 against a fixed 20/20 requirement. Returned prompts and within-block token inventories passed their checks. No evaluation graphs were requested, so no historical graph-overlap effect was measured. Use a compact count table rather than a graph with empty or zero-valued effect marks. The two selected event pairs are not a general history-accuracy benchmark; the failed gate neither refutes the completed geography result nor extends it to history.
+Figure 6 reports 16 clean graphs, eight reproduced errors, eight correct named-country controls, and eight comparisons favoring the same-output control. Mean differences are 0.1983 for A/B responses and 0.2649 for capital names; equal-feature-count values are 0.1851 and 0.2361. Retain the graph-location checks and descriptive, dependent nature of the comparisons. Position matching, negation errors, and answer-associated graph construction remain alternatives. Supporting analysis A3 retains source-location observations and omitted-logit qualifications.
 
-### 4 Discussion
+### 3.5 Equal feature counts preserve positive averages but not every question
 
-**What the combined evidence supports.** The original association is reproducible in the archived data, stronger controls narrow its interpretation, and the failure cases demonstrate why resemblance does not certify correct factual processing. Feature overlap is informative about relationships among these prompts and outputs, but is not a standalone correctness test. Do not interpret the smaller matched-choice contrast as a percentage of the original signal explained: the studies use different prompts, populations, and contrasts.
+Report the original feature-count check after the main argument. Positive averages survive equalizing counts, but one Gemma question reverses. This narrows the feature-count explanation; it does not remove differences in words, answers, or feature selection. Keep the historical regression-intercept correction and Supplement S3. Cite Supporting analyses A1–A2 for output and export checks.
 
-**A possible failure to select the intended entity.** Some errors may arise when the model selects or associates the wrong entity with the question despite answering correctly when that entity is named directly. The selected capital-name failures and their wrong-country source locations are consistent with this hypothesis. History sensitivity to ordering and answer mapping is an additional behavioral clue, not evidence of a shared mechanism. Incorrect reference selection, option-position matching, mishandled negation, and answer-associated graph construction remain alternatives. Present the hypothesis here, not as an established result or an abstract headline.
+### 3.6 The history pilot limits extension beyond the tested geography task
 
-**What the sensitivity checks rule out.** Answer-related differences persist after equalizing feature counts and after removing final-position nodes, late-layer nodes, or both. This rules out confinement to the removed node sets under these filters. It does not isolate a distributed causal answer circuit: the retained graphs are still constructed in relation to the output. No intervention establishes feature necessity or sufficiency.
+Report 4/4 literal checks, 7/8 documentary-history checks, and 4/8 spaceflight checks: 15/20 against the fixed 20/20 requirement. No evaluation graphs were requested, so no historical graph-overlap effect was measured. Preserve the count table and the order/mapping-sensitive behavioral example without making a history-knowledge or causal-mechanism claim.
 
-**What is model behavior and what is a measurement property.** Wrong top-token choices are observed behavior in the hosted setup; graph resemblance is a property of the model-plus-decomposition, pruning, and similarity pipeline. Their agreement is meaningful but does not identify how much of the resemblance is intrinsic model organization versus the graph representation. Reconstruction-error weight, omitted correct logits, and incomplete source-to-output routes reinforce this boundary. The result is neither simply corrupt data nor a direct map of the model's full reasoning.
+This limits generalization; it neither refutes the completed geography comparison nor extends it to history. No further collection is part of this revision.
 
-**Scope and selection.** There are three models from two families overall, but only Qwen3-4B in the stronger matched-choice and failure diagnostics; selected domains and one country pair in the diagnostic; next-token, non-thinking hosted behavior; and unequal original coverage. Correct-response inclusion conditions the overlap estimates on supported behavior. Failed pilots show why that condition cannot be assumed for other tasks. Distinguish knowing an association, selecting the intended referent, obeying the response format, and satisfying our next-token rule. For example, Gemma's earlier correct capital names but incorrect response format do not establish factual errors. Treat a study separating negation, ordinal reference, and option position as an optional future extension, not a prerequisite for the present descriptive claim or an authorized new collection round.
+## 4 Discussion
 
-### 5 Conclusion
+Synthesize the evidence in the same order: original association, stronger answer controls, selected errors. Distinguish observed next-token behavior from properties of the model-plus-exporter and overlap measurement.
 
-End with the measurement lesson rather than the error itself: **related factual questions share graph features in the analyzed samples, but stronger controls and selected failures show that resemblance also follows the produced answer. Attribution-graph feature overlap therefore requires matched prompts, answers, and behavioral checks before it can support an interpretation of correct factual processing.** Do not conclude that facts are absent from the model, that the graphs are useless, or that a causal shortcut has been discovered.
+Explain what checks narrow and what they do not identify. Equal counts and saved-graph filters do not demonstrate a distributed causal circuit. The capital-name source-location pattern is an exploratory hypothesis about selecting the intended country; the A/B pattern differs, and position versus negation remains unresolved.
 
-## Figure placement
+Keep scope explicit: three models overall, one model in the stronger controls, six country pairs in the matched-choice study, one pair in the selected-error diagnostic, incomplete original collection, failed historical extension, and next-token outcomes under one hosted setup. Stronger causal or generalization claims would require different evidence; those studies are not implied to have been performed.
 
-Retain the existing figure numbering in the integrated manuscript.
+## 5 Conclusion
 
-The current [figure gallery](../figures/index.html) contains six main figures, six supplements, and the final history count table. All titles, labels, notes, and captions received a plain-language review on 6 October 2026. Every figure has a 300-dpi PNG and editable SVG; captions define the comparisons and explain necessary technical terms. Rebuild with `scripts/build_outline_figures_v2.py`. Wording changes are maintained in `scripts/figure_plain_language.py` and recorded in the gallery's `wording_audit.json`. Estimates, inclusion rules, earlier figures, and the sealed release are unchanged.
+End with the measurement lesson: shared graph features are associated with factual prompts in these samples, but the stronger comparisons show answer dependence and same-answer resemblance in selected errors. Similarity alone cannot establish correct factual processing or a representation independent of the answer.
 
-| Figure | Content | Purpose |
-|---|---|---|
-| 1 | Original comparison and the questions motivating follow-ups | Explain the study design without mixing it with sample accounting |
-| 2 | Reworded questions about the same fact share more features | Establish the initial observation |
-| 3 | Change the fact or change the wording | Show that both are linked to shared features |
-| 4 | Replace real names with made-up names | Show that keeping the wording gives different results across models |
-| 5 | Keep the available words; change the correct A/B answer | Test whether same-fact versus other-fact overlap depends on the answer letter |
-| 6 | Compare errors with two kinds of correct response | Show that similar graphs do not, by themselves, establish correct processing of the intended question |
+## Supporting analyses and availability
 
-The three central findings map to Figures 2, 5, and 6. Figure 1 establishes the questions; Figures 3 and 4 address alternative explanations. Supplement S6 supports the robustness discussion without adding another claim. Keep the final history pilot as a separate Results 3.10 count table. Do not add a new figure or reopen collection to fill its absent evaluation cohort.
+- **A1:** next-token matching, incomplete answers, and detailed crossed-output support.
+- **A2:** ambiguous identifiers, reconstruction-error contributions, and clean-export sensitivity.
+- **A3:** format-dependent source-location observations, missing correct logits, and unresolved position/negation alternatives.
 
-The revised Figure 5 has three panels: the four comparison conditions with a 0–1 overlap color scale, the same-label versus changed-label fact advantages, and the balanced fact versus output-label contrasts. Its behavioral check is expected top-label agreement, not verification of a complete reasoning process. Figure 1 now separates the three central comparisons: original related questions, answer-label controls, and selected wrong answers. The latter two are Qwen3-4B only. Figure 6 includes selected-case behavior and both response formats, with the France/Paris/Berlin example explained in its legend. Full headlines, self-contained legends, and editable figure links are collected in [the figure drafting guide](../figures/LEGENDS.md); earlier figure packages remain unchanged.
+The availability statement identifies the public curated review package and excludes raw exports, tokenizer/model files, credentials, and downloaded reference PDFs. The historical 82-test reproduction was a same-machine check, not independent review or a fresh hosted run.
 
-Keep the eight detailed failure neighborhood panels, token-role figure, all-case audit table, and complete edge/role data in the supplement. Explain that “chat frame” labels locate activations and do not name a formatting mechanism. The correct logit is unavailable in the failure exports, and reconstruction-error weight is not a causal percentage explained.
+## Figures and source maintenance
 
-Figure 1 no longer contains an inclusion heatmap. It explains the comparison and follow-up questions; collected graphs, questions used, questions not used, and exclusion reasons appear in the [sample-accounting table](SAMPLE_ACCOUNTING.md). Chemistry is the only subject shared by all three original test samples. Retain history as limited subject-specific evidence, not a three-model replication. The final frozen history follow-up superseded the earlier proposal and ended at its failed 15/20 pilot gate; it does not add an evaluation graph cohort or repair the original exclusions.
+Figure numbering is unchanged: 1 design, 2 original association, 3 fact/wording, 4 made-up names, 5 answer controls, 6 selected errors, plus S1–S6. Figure 1 option C remains a labeled alternative pending final author selection. The manuscript uses the current plain-language captions and figure package; no plotted values change.
 
-## Claim boundaries
+The editable source is `docs/papers/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md`. Rebuild the portable folder with `scripts/build_paper_share_package.py`; this reconciles captions, checks links, records hashes, and creates a dated ZIP. The review copy is `paper_share/manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md`. Earlier ZIPs, compiled PDFs, raw data, and frozen analyses remain unchanged.
 
-- The failure section is descriptive evidence from selected known failures, not an estimate of general failure prevalence.
-- Repetition across previews and graph exports strengthens reproducibility within the hosted setup, not independent deployment replication.
-- Stronger same-output similarity does not establish a position shortcut; the selected layouts also fit mishandled negation.
-- The capital-name role pattern does not consistently extend to A/B responses.
-- Neither absent correct logits nor a near-zero changed-label point estimate demonstrates absence of a representation.
-- The original incomplete Qwen3-4B extension remains incomplete; later completed studies do not repair that cohort retrospectively.
-
-## Working draft and evidence sources
-
-The integrated text is in [the three-model manuscript](ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md). This outline sets the emphasis for the next prose revision: the three central findings, the four-condition explanation in Results 3.7, the concrete example in Results 3.9, and the distinction between observations and candidate mechanisms in the discussion. The terminal history outcome remains in Results 3.10.
-
-The numerical bridge is documented in [the matched-choice results](../methods/MATCHED_CHOICE_RESULTS_FOR_MANUSCRIPT.md). Failure-case values are in the archived findings (author archive: `FINDINGS.md`; not included) and their linked run artifacts. No new graph requests, altered eligibility rules, or changes to frozen analyses are needed for this integration.
-
-The four-condition means and direct contrast come from the six-block source table (author archive: `matched_choice_sensitivity.csv`; not included) and the saved-data audit (author archive: `STATISTICAL_AUDIT.md`; not included). The history counts and prompt-order examples are in the archived pilot responses (author archive: `pilot_responses.csv`; not included). The four-condition table summarizes existing estimates; it introduces no new inferential test.
-
-Technical closeout is complete: figures and legends were assembled, the review PDF was visually checked, isolated same-machine reproduction passed 82 tests and reconstructed the original 23 margins, and the local versioned archive was checksum-verified. The monitor is paused. Independent scientific review, redistribution permissions, reference and author approval, and venue formatting remain human handoff items. This interpretation-focused outline revision follows the sealed local candidate; it does not modify the archived ZIP, compiled manuscript, source data, protocols, or frozen analyses.
+Scientific and reference review, author approval, redistribution permissions for excluded data, and venue formatting remain human handoff items.
