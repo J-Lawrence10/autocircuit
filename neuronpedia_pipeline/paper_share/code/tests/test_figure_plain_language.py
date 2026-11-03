@@ -47,3 +47,11 @@ def test_reviewed_labels_do_not_use_extra_as_a_metric():
     assert all(not re.search(r'\bextra\b', text, re.IGNORECASE) for text in visible)
     assert 'difference in feature overlap' in wording.CAPTIONS['figure2_fact_signal']
     assert 'minus similarity in that baseline' in wording.CAPTIONS['figure3_fact_and_wording']
+
+
+def test_invented_name_control_is_used_in_current_visible_wording():
+    import re
+    visible = [*wording.TITLES.values(), *wording.CAPTIONS.values(), *wording.REPLACE.values()]
+    assert all(not re.search(r'made.up|\bnonce\b|\ba invented\b', text, re.IGNORECASE) for text in visible)
+    assert 'Invented name controls' in wording.TITLES['figure4_control_comparisons']
+    assert wording.REPLACE['a  Made-up name, original wording'] == 'a  Invented name control, original wording'

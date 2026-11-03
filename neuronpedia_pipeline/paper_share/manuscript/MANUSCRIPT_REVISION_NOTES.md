@@ -1,5 +1,37 @@
 # Manuscript clarity and logical flow revision
 
+## 3 November 2026 public review-package update
+
+This release packages the author-approved 28 October editorial revision at the existing GitHub review-package and manuscript paths. The manuscript retains its editorial date and now carries an explicit working-manuscript, not-peer-reviewed label. No findings, estimates, eligibility rules, or experimental protocols were changed for this release. The archived reproduction evidence remains historical; the release checks concern editorial consistency, portable links, file integrity, and reported table values. Git history records the published revision.
+
+## 28 October 2026 reader-centered revision
+
+This editorial pass applies the author's grant-writing principle: build the reader's mental picture before introducing detail, explain why each comparison is needed, and connect its result to the next question. Findings are stated directly; qualifications are attached to the claims they constrain rather than repeated as general disclaimers.
+
+The principle was recovered from the October 27 discussion in **Review grant application docs** and its saved grant-project writing conventions. It is a writing preference, not scientific evidence or an external validation of this manuscript.
+
+### What changed
+
+- The author-approved term is now **invented name control**, with a concrete gold-to-zorium definition. Current manuscript, figure labels, captions, and Figure 1 mockups use it; archived `nonce` data identifiers and frozen protocols are unchanged. Results headings 3.2, 3.4, 3.5, and 3.6 use the author's approved finding-led wording. Section 3.5 retains its average-level interpretation and the individual reversal in the body.
+- The introduction opens with the France/Paris comparison so the reader can distinguish a shared fact, shared words, and a shared answer before encountering technical details.
+- Feature overlap is explicitly defined as shared features divided by distinct features, with repeated token-position occurrences counted once.
+- Results now connect the original association, the original controls, the answer-letter comparison, and selected errors. Each major comparison has a purpose before its estimates appear.
+- The abstract, discussion, conclusion, and findings summary foreground the observed answer-associated pattern. They distinguish this contribution from both a generic warning about similarity and a causal mechanism claim.
+- The two matched-choice tests have separate questions and reference distributions in Methods. The prespecified average remains primary; the later between-condition difference remains exploratory. The exchangeability and dependence assumptions remain open to independent statistical review.
+- Discussion separates interpretation from scope and remaining questions. Necessary limits are retained, including selected/dependent errors, one-model stronger controls, near-zero not being equivalence, incomplete collection, and the failed history gate.
+- All supplementary figures now follow the conclusion. S4, S3, S6 and the historical regression-intercept correction are in Supporting analysis A4 rather than interrupting the main result sequence.
+- Figures 5 and 6 use direct observational headlines. All six main captions are shorter while preserving definitions, sample units, uncertainties, and qualifications needed to read them independently.
+
+### Verification and release status
+
+No hosted requests, new experiments, re-estimation, eligibility changes, or new scientific results are part of this revision. The figure rebuild uses saved results; the source tables and plotted numerical values are checked against the prior package. The source manuscript, outline, local sharing folder and dated ZIP are synchronized after editorial tests and the package verifier pass. At completion on 28 October, this revision was local; Git history records subsequent release updates.
+
+Fourteen narrative and figure-wording tests passed after the approved terminology and heading updates. All 13 packaged data tables match the previously pushed package byte for byte, and every decimal value reported in the previous manuscript remains present. The package rebuild resolved 103 local links, and its offline verifier checked 133 file hashes and headline arithmetic. Figures 5 and 6 were visually checked after their headline changes; Figure 4 and the preferred Figure 1 option C were checked after the invented name control label update. These checks verify editorial consistency and packaging, not independent scientific validity.
+
+The October 5 82-test same-machine reproduction and the October 15 package checks below are historical evidence, not fresh independent scientific validation. The preferred Figure 1 option C remains a labeled alternative; its promotion is outside this prose revision.
+
+## 15 October 2026 revision
+
 15 October 2026. This revision changes presentation, not experiments, eligibility rules, estimates, uncertainty calculations, or scientific conclusions.
 
 ## Changes

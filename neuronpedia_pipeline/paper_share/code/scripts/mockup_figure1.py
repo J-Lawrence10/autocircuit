@@ -98,7 +98,7 @@ def journal():
     txt(ax, centers[0], .402, '“Gold has the chemical symbol ...” → Au', 10)
     txt(ax, centers[0], .359, 'Other fact', 10.2, True)
     txt(ax, centers[0], .328, '“Iron has the chemical symbol ...” → Fe', 10)
-    txt(ax, centers[0], .286, 'Made-up name: “...zorium...”', 10.2)
+    txt(ax, centers[0], .286, 'Invented name control: “...zorium...”', 10.2)
 
     txt(ax, centers[1], .639, 'A: Paris. B: Berlin.', 11, True)
     txt(ax, centers[1], .594, '“For France rather than Germany,\nwhat is the capital?”', 12, family='DejaVu Serif', style='italic')
@@ -131,7 +131,7 @@ def lanes():
         'A: Paris. B: Berlin.\n\n“For France rather than Germany,\nwhat is the capital?”\n\nCorrect answer: A',
         'Countries: France, Germany.\nA: Berlin. B: Paris.\n\n“Capital for the first country,\nnot the second?”\n→ Berlin (wrong)']
     comparisons = [
-        'Same fact, reworded\n“Gold has the chemical symbol ...” → Au\n\nOther fact\n“Iron has the chemical symbol ...” → Fe\n\nMade-up name: “...zorium...”',
+        'Same fact, reworded\n“Gold has the chemical symbol ...” → Au\n\nOther fact\n“Iron has the chemical symbol ...” → Fe\n\nInvented name control: “...zorium...”',
         'Same fact, changed letter\nA: Berlin. B: Paris. France → B\n\nDifferent fact, same letter\nA: Berlin. B: Paris. Germany → A\n\nAlso change the question wording.',
         'Correct response to intended country\n“Capital for France?” → Paris\n\nCorrect response with the same answer\n“Capital for Germany?” → Berlin\n\nCountry list and choices stay fixed.']
     prompts = [
@@ -179,7 +179,7 @@ def diagram():
     txt(ax, .182, .616, 'Expected answer: Au', 9.5, True, BLUE)
     labels = [('Same fact', '“Gold has the chemical symbol ...” → Au'),
               ('Other fact', '“Iron has the chemical symbol ...” → Fe'),
-              ('Made-up name', '“The chemical symbol for zorium is ...”')]
+              ('Invented name control', '“The chemical symbol for zorium is ...”')]
     ax.plot([.058, .058], [.329, .570], color='#A6B7C1', lw=.9)
     ax.plot([.058, .182, .182], [.570, .570, .585], color='#A6B7C1', lw=.9)
     for y, (label, prompt) in zip([.509, .419, .329], labels):

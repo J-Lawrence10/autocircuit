@@ -26,9 +26,9 @@ TITLES = {
     'figure1_design_and_coverage': 'Three tests ask what similar graphs can tell us',
     'figure2_fact_signal': 'Reworded questions about the same fact share more features in these samples',
     'figure3_fact_and_wording': 'Both the fact and the wording are linked to shared features',
-    'figure4_control_comparisons': 'Made-up-name controls give different results across models',
-    'figure5_matched_choice': 'Same-fact versus other-fact overlap depends on the A/B answer',
-    'figure6_failure_cases': 'In selected errors, graph similarity follows the answer more than the question',
+    'figure4_control_comparisons': 'Invented name controls give different results across models',
+    'figure5_matched_choice': 'Same-fact overlap is higher when the answer letter stays the same',
+    'figure6_failure_cases': 'Selected error graphs share more features with correct predictions giving the same answer',
     'figureS1_export_and_error': 'Graph files have two separate limits: ID conflicts and approximation error',
     'figureS2_robustness': 'Average overlap differences stay positive under alternative graph comparisons',
     'figureS3_equal_feature_counts': 'Average overlap differences stay positive with equal numbers of features',
@@ -39,88 +39,71 @@ TITLES = {
 
 CAPTIONS = {
 'figure1_design_and_coverage': (
-    'A, Compare a question with a reworded question about the same fact and with questions about other facts. '
-    'Comparisons stay within the same subject and evaluation group. Gold means the chemical element, not an ideal or gold-standard question. '
-    'The gold, iron, and made-up-name examples come from the development questions, not the test questions plotted in Figure 2. '
-    'The original samples cover three models, with different subjects available in each. '
-    'B, In Qwen3-4B, keep the same words and token counts within each country pair, but change which country is asked about, '
-    'which capital is assigned to A or B, and the wording. This tests whether questions about the same fact still share more features when the correct A/B answer changes. '
-    'All 48 predicted answer letters were correct. The France/Germany example illustrates the design using a pilot pair, not an additional test pair. '
-    'Displayed examples are shortened; full prompts preserve both country names and all other words within a pair. '
-    'Word order and the role of each country still differ, so this does not isolate meaning alone. '
-    'C, Compare a selected wrong-answer graph with two correct-answer graphs: one answering the intended country and one producing the same answer as the error. '
-    'This Qwen3-4B study contains 16 graphs from one country pair and two answer formats, not 16 independent tests. '
-    'Arrows show comparison steps, not causes. Box colors identify labeled steps, not quantities. '
-    'Collection counts, exclusions, and failed preliminary checks are reported separately.'),
+    'A, Compare rewordings of the same fact with other-fact questions in the same subject and evaluation group. '
+    'Gold is the chemical element. The examples use development questions, not the test questions plotted in Figure 2; '
+    'subject coverage differs across the three models. B, In Qwen3-4B, vary the queried country, capital-to-A/B mapping, '
+    'and wording while preserving the words and token counts within each country pair. All 48 predicted letters were correct. '
+    'France/Germany illustrates the design using a pilot pair excluded from that evaluation. '
+    'Displayed prompts are shortened; full prompts retain both countries and the other words, while word order and country roles vary. '
+    'C, Compare a selected wrong-answer graph with correct predictions for the intended country and for the answer actually produced. '
+    'This Qwen3-4B diagnostic has 16 graphs from one country pair and two response formats, with shared controls. '
+    'Answers refer to the highest-probability next token. Arrows indicate comparisons, not causes; box colors identify steps. '
+    'Sample accounting reports collection counts, exclusions, and failed preliminary checks.'),
 'figure2_fact_signal': (
-    'A, Each point represents one test question that passed the fixed inclusion rules. A test question was reserved for evaluation, '
-    'rather than for developing the analysis. The difference in feature overlap is the overlap with a reworded version of the same fact minus the average '
-    'overlap with reworded questions about other facts in the same subject and test set. '
-    'For illustration only, 0.50 overlap with the same fact minus 0.30 average overlap with other facts gives a difference of +0.20. '
-    'These example numbers are not measured results. A positive difference means more overlap with the same fact, zero means equal overlap, '
-    'and a negative difference means more overlap with the other-fact questions. The difference is not a percentage increase. '
-    'B, The same measure is averaged separately by subject. Colors and shapes identify subjects; diamonds show model averages. '
-    'Bars are saved 95% bootstrap intervals, obtained by resampling questions 10,000 times. n counts questions, not graph pairs. '
-    'Averages are 0.170 for Gemma-2-2B (8 questions), 0.085 for Qwen3-1.7B (5), and 0.162 for Qwen3-4B (10). '
-    'The same facts recur across models, and subject coverage differs, so these results do not rank the models. '
-    'Shared words and shared answers remain possible explanations. Missing subject groups are unavailable comparisons, not zero effects. '
-    '*The original Qwen3-4B collection is incomplete: 145 of 147 planned graphs are available.'),
+    'A, Points represent questions reserved for evaluation that passed the fixed inclusion rules. The difference in feature overlap '
+    'is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and test set. '
+    'The displayed arithmetic, 0.50 − 0.30 = +0.20, illustrates this subtraction. These example numbers are not measured results. '
+    'Positive, zero, and negative values indicate more, equal, and less overlap with the same fact; units are Jaccard differences, '
+    'not percentage increases. B, Subject averages. Colors and shapes identify subjects; diamonds show model averages and bars '
+    'show saved 95% intervals from 10,000 question-bootstrap resamples. n counts questions. Means are 0.170 for Gemma-2-2B '
+    '(8 questions), 0.085 for Qwen3-1.7B (5), and 0.162 for Qwen3-4B (10). Repeated facts and different subject coverage '
+    'preclude a model ranking; shared words and answers remain coupled to fact identity. Missing groups are unavailable, not zero. '
+    '*The original Qwen3-4B collection contains 145/147 planned graphs.'),
 'figure3_fact_and_wording': (
-    'A, Difference in feature overlap. B, Difference in similarity when each feature is weighted by its saved graph-influence score '
-    '(cosine similarity, which compares the direction of the weighted feature vectors). '
-    'For both panels, the baseline is a pair of questions differing in both fact and wording. '
-    'The same-fact comparison changes the wording; the same-wording comparison changes the fact. '
-    'For example, compare “The chemical symbol for gold is ...” with “Gold has the chemical symbol ...” to keep the fact but change the wording. '
-    'Compare the starting prompt with “The chemical symbol for iron is ...” to keep the wording pattern but change the fact. '
-    'Compare it with “Iron has the chemical symbol ...” to change both: this is the baseline. These examples illustrate the comparisons. '
-    '“Same wording” means the same sentence pattern, not an identical prompt; the element name must change. '
-    'Each difference is similarity in the labeled comparison minus similarity in that baseline, calculated within each subject. Panel A counts which features are shared; '
-    'panel B also considers their saved influence weights. Neither panel directly measures correctness. '
-    'Each model has 27 graphs: three facts, three wordings, and three subjects. Colored points are subject averages; black diamonds '
-    'average the subjects equally. Lines connect descriptive estimates, not confidence intervals. '
-    'Average fact/wording differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. '
-    'Some first predicted tokens are incomplete answers or not answers at all. Only Qwen3-4B geography matches the expected first token '
-    'in all nine questions; its fact/wording differences are 0.101/0.106. These results do not establish that one factor dominates '
-    'or that one model is better. Qwen3-1.7B was not tested in this design.'),
+    'A, Feature-set overlap differences. B, Saved-influence-weighted cosine differences, comparing the direction of weighted feature vectors. '
+    'The baseline changes both fact and wording. Each value is similarity in the labeled comparison minus similarity in that baseline, '
+    'calculated within subject. The illustrated gold/iron prompts show the comparisons: retain gold and reword the question, '
+    'replace gold with iron while retaining the pattern, or change both for the baseline. “Same wording” means the same sentence '
+    'pattern, not an identical prompt. Each tested model has 27 graphs: three facts × three wordings × three subjects. '
+    'Colored points are subject averages; black diamonds average subjects equally. Lines connect descriptive estimates, not intervals. '
+    'Mean fact/wording differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. Some predicted first tokens '
+    'are incomplete answers or non-answers. Only Qwen3-4B geography passes all nine expected-token checks; its differences are '
+    '0.101/0.106. These similarity measures do not measure correctness or establish factor dominance or model superiority. '
+    'Qwen3-1.7B was not tested here.'),
 'figure4_control_comparisons': (
-    'Replace the real name in a question with a made-up name, either keeping the original wording (A) or rewording the question (B). '
-    'For each target question, subtract its overlap with the made-up-name version from its overlap with a reworded factual version. '
-    'Above zero favors the factual version; below zero favors the made-up-name version. Colors identify models, points represent test questions, '
-    'diamonds show averages, and bars are saved 95% bootstrap intervals from resampling questions. n counts included questions. '
-    'The controls match only the kind of first token: letters/numbers, whitespace, or punctuation/symbols. They do not match the exact answer, '
-    'its meaning, confidence, or correctness. Averages in A are -0.069 (2 questions), -0.014 (4), and +0.096 (10) for Gemma-2-2B, '
-    'Qwen3-1.7B, and Qwen3-4B. Small samples and different subject coverage prevent a general claim that wording explains the original result. '
+    'Replace the real name with an invented name, retaining the starting wording (A) or rewording it (B). For each test question, '
+    'subtract overlap with the invented name prompt from overlap with the factual rewording. Positive values favor the factual '
+    'rewording; negative values favor the invented name control. Colors identify models, points show questions, diamonds show means, '
+    'and bars show saved 95% question-bootstrap intervals; n counts included questions. Panel A means are -0.069 (n=2), '
+    '-0.014 (n=4), and +0.096 (n=10) for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. Matching uses only broad first-token categories '
+    '(letters/numbers, whitespace, or punctuation/symbols), leaving exact answer, meaning, confidence, and correctness unmatched. '
+    'Small, differently composed samples support comparison-specific findings rather than a general explanation by wording. '
     '*The original Qwen3-4B collection is incomplete (145/147 graphs).'),
 'figure5_matched_choice': (
-    'Qwen3-4B only: six country pairs and 48 correct predicted A/B answers. This follow-up was designed after earlier results were seen; '
-    'its rules were fixed before collection. The words and token counts are identical within each country pair. '
-    'A, Average overlap for questions asking about the same or different countries and producing the same or different A/B letters. '
-    'All comparisons change the wording. The four averages are 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. '
-    'The color scale runs from no shared features (0) to identical feature sets (1); it is not an accuracy scale. '
-    'B, Subtract different-country overlap from same-country overlap, separately when the answer letter stays the same or changes. '
-    'The averages are 0.0628 and -0.0022. Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553–0.0746; '
-    'two-sided sign-flip p=0.03125, assuming independent country pairs and symmetric differences under the null). '
-    'C, Average the two fact differences in B: 0.0303, with a saved 95% bootstrap interval of 0.0265–0.0338. '
-    'For comparison, overlap with the same answer letter minus overlap with a different letter is 0.2827, averaged across same- and different-country comparisons. '
-    'Each line in B–C represents one country pair; diamonds mark averages. Only the fact average in C has an interval drawn. '
-    'Colors identify the labeled categories; B and C have different vertical scales. Six country pairs—not 48 graphs or 4,096 possible '
-    'reassignments in the earlier null test—supply the independent units assumed by the statistical tests. '
-    'A near-zero estimate does not prove no effect. These differences are not fractions of reasoning explained and do not establish a cause. '
-    'Word order and country roles remain possible explanations. Supplement S6 checks whether the differences remain after excluding some features.'),
+    'Qwen3-4B: six country pairs, 48 correct next-token A/B predictions, and identical word/token inventories within pairs. '
+    'Rules were fixed before collection in this outcome-informed follow-up. A, Mean feature overlap in the four cross-wording '
+    'comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The scale runs from no shared features (0) to identical sets (1). '
+    'B, Same-country minus different-country overlap is 0.0628 with the same letter and -0.0022 with a changed letter. '
+    'Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553–0.0746; two-sided sign-flip p=0.03125). '
+    'C, Their average is the prespecified primary outcome: 0.0303 (95% block-bootstrap interval 0.0265–0.0338). The descriptive '
+    'same-letter minus different-letter difference, averaged across country relationships, is 0.2827. Lines represent country pairs; '
+    'diamonds show means. Only the primary mean in C has an interval drawn. Colors identify labeled categories; B and C use different '
+    'vertical scales. Tests assume six independent country-pair blocks; the sign-flip test additionally assumes symmetric null differences. '
+    'The 48 graphs and 4,096 conditional-null reassignments are not independent replicates. Near zero is not equivalence. '
+    'Overlap differences are neither accuracy nor variance explained; query order, country roles, and output-conditioned graphs '
+    'remain alternatives to a causal interpretation. Supplement S6 reports graph-location checks.'),
 'figure6_failure_cases': (
-    'A, In 16 new Qwen3-4B graphs, all eight questions naming the country are answered correctly and all eight selected questions referring '
-    'to its position reproduce the error. Each answer format has four correct and four wrong responses. These selected cases do not estimate '
-    'how often the model makes errors in general. B–C, Compare each wrong-answer graph with a correct response to the intended country (blue) '
-    'and a correct response giving the same answer as the error (orange). The country-list order and A/B assignments stay fixed. '
-    'For example, with France first and A: Berlin, B: Paris, an indirect question about France produces Berlin. Naming France produces Paris; '
-    'naming Germany produces Berlin. The error graph is more similar to the Germany/Berlin graph. '
-    'Circles use all retained features; open squares use equal numbers of randomly sampled features, averaged over 200 repetitions. '
-    'Lines connect comparisons for the same error. The same-answer minus intended-country overlap averages 0.1983 for A/B answers and '
-    '0.2649 for capital names (0.1851 and 0.2361 after equalizing feature counts). All 16 exports and eight three-graph comparisons pass the '
-    'file-integrity and output checks. The cases share one country pair and overlapping controls, so no population confidence intervals or '
-    'confirmatory p-values are shown. These comparisons do not keep the exact words constant. Confusing list positions, mishandling negation, '
-    'or graph structure tied to the produced answer remain possible explanations—not established causes. '
-    'The correct-answer output node is missing from each error graph; its contribution is unknown, not zero.'),
+    'Qwen3-4B, one country pair and two response formats. A, All eight named-country prompts predict the correct first token; '
+    'all eight selected position-based prompts reproduce the error (four of each per format). B–C, Compare error graphs with '
+    'correct predictions for the intended country (blue) or giving the same answer (orange), holding list order and A/B mapping fixed. '
+    'With France first and A: Berlin, B: Paris, the indirect France question predicts Berlin; naming France predicts Paris and '
+    'naming Germany predicts Berlin. The error graph shares more features with Germany/Berlin. Circles use all retained features; '
+    'open squares average 200 equal-feature-count samples. Lines connect comparisons for the same error. Same-answer minus '
+    'intended-country overlap averages 0.1983 for letters and 0.2649 for capital names (0.1851 and 0.2361 with equal counts). '
+    'All 16 exports and eight comparison triples pass integrity and output checks. The selected cases share controls, so they '
+    'support descriptive comparisons, not error-frequency estimates or population tests. Words differ between prompt types; '
+    'position matching, negation errors, and output-conditioned graph structure remain unresolved explanations. The intended '
+    'correct-answer node is absent from each error graph, leaving its contribution unknown.'),
 'figureS1_export_and_error': (
     'A, The percentage of saved raw graph files in which the same node ID refers to conflicting node identities. Labels show affected files '
     'over files checked. Zero means no conflict was detected, not no graphs or no model errors. The original question sets include factual '
@@ -162,7 +145,7 @@ CAPTIONS = {
     'yellow means it is only a compatible beginning, so the completed answer is unverified; gray means a different token. '
     'Seven apparent mismatches across the two Qwen models are compatible beginnings of multi-token answers. '
     'Counts include development and test factual questions, including Qwen3-1.7B geography questions without complete controls; '
-    'they are not the question counts in Figure 2. Qwen3-4B is missing one factual graph and one made-up-name graph. '
+    'they are not the question counts in Figure 2. Qwen3-4B is missing one factual graph and one invented name control graph. '
     'Official Qwen tokenizer versions agree with all saved prompt pieces and decoded top tokens, but the exact versions used at the time '
     'of graph collection cannot be fully recovered. Gemma tokenizer access was denied, leaving that audit unresolved. '
     'B, In the fact/wording experiment, counts use the original exact first-token matching rule after trimming whitespace; that rule is unchanged. '
@@ -182,6 +165,8 @@ CAPTIONS = {
 
 # Exact text replacements avoid accidentally altering numerical annotations or identifiers.
 REPLACE = {
+    'a  Made-up name, original wording': 'a  Invented name control, original wording',
+    'b  Made-up name, reworded question': 'b  Invented name control, reworded question',
     'a  Related questions': 'a  Reword the same question',
     'Original three-model samples': 'Original samples: three models',
     'Compare with a gold paraphrase\nand with questions about other facts': 'Compare with a reworded gold question\nand questions about other facts',
@@ -203,7 +188,7 @@ REPLACE = {
     'Subject (color and shape); black diamonds show the mean': 'Subject; black diamonds show the average',
     'Across-domain mean': 'Average across subjects',
     'Baseline: different fact AND different wording. Includes non-answer outputs; Qwen3-1.7B was not collected here.': 'Baseline: different fact AND different wording. Some outputs are not answers. Qwen3-1.7B was not tested here.',
-    'Factual-paraphrase overlap minus\nmade-up-name overlap (Jaccard difference)': 'Overlap with reworded fact minus\noverlap with made-up-name question',
+    'Factual-paraphrase overlap minus\nmade-up-name overlap (Jaccard difference)': 'Overlap with reworded fact minus\noverlap with invented name control',
     'Above zero: the factual paraphrase shares more features. Controls match only the broad next-token class.': 'Above zero: more overlap with the reworded fact. Controls match only token type, not the exact answer (see caption).',
     'Model (color)': 'Model',
     'Same answer\nlabel': 'Same A/B\nanswer',

@@ -12,7 +12,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
-REVISION = '2026-10-15'
+REVISION = '2026-11-03'
 FIG = ROOT / 'data/model_extension/paper_figures_plain_language_20261006'
 mapping = {}
 source_records = []

@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-07T10:05:34.888469</dc:date>
+    <dc:date>2026-10-28T11:21:48.991735</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 42.84 153.3924 42.84 161.3304
 L 42.84 261.8784 
 Q 42.84 269.8164 48.216449 269.8164 
 z
-" clip-path="url(#p924b08d90d)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc5d951df9e)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 48.216449 497.9016 
@@ -53,7 +53,7 @@ Q 42.84 287.8092 42.84 295.7472
 L 42.84 489.9636 
 Q 42.84 497.9016 48.216449 497.9016 
 z
-" clip-path="url(#p924b08d90d)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc5d951df9e)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 48.216449 601.0956 
@@ -66,7 +66,7 @@ Q 42.84 520.128 42.84 528.066
 L 42.84 593.1576 
 Q 42.84 601.0956 48.216449 601.0956 
 z
-" clip-path="url(#p924b08d90d)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc5d951df9e)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <g id="patch_5">
@@ -151,7 +151,7 @@ z
     <text style="font-size: 10.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="221.696523" y="392.555175" transform="rotate(-0 221.696523 392.555175)">“Iron has the chemical symbol ...” → Fe</text>
    </g>
    <g id="text_17">
-    <text style="font-weight: 700; font-size: 10.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="221.696523" y="422.038406" transform="rotate(-0 221.696523 422.038406)">Made-up name (control)</text>
+    <text style="font-weight: 700; font-size: 10.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="221.696523" y="422.038406" transform="rotate(-0 221.696523 422.038406)">Invented name control</text>
    </g>
    <g id="text_18">
     <text style="font-size: 10.4px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(120.472023 438.066375)">“The chemical symbol for zorium is ...”</text>
@@ -170,7 +170,7 @@ Q 438.905047 153.3924 438.905047 161.3304
 L 438.905047 261.8784 
 Q 438.905047 269.8164 444.281495 269.8164 
 z
-" clip-path="url(#p29351e332e)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc8529339b2)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 444.281495 497.9016 
@@ -183,7 +183,7 @@ Q 438.905047 287.8092 438.905047 295.7472
 L 438.905047 489.9636 
 Q 438.905047 497.9016 444.281495 497.9016 
 z
-" clip-path="url(#p29351e332e)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc8529339b2)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 444.281495 601.0956 
@@ -196,7 +196,7 @@ Q 438.905047 520.128 438.905047 528.066
 L 438.905047 593.1576 
 Q 438.905047 601.0956 444.281495 601.0956 
 z
-" clip-path="url(#p29351e332e)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pc8529339b2)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_19">
     <g id="patch_11">
@@ -301,7 +301,7 @@ Q 834.970093 153.3924 834.970093 161.3304
 L 834.970093 261.8784 
 Q 834.970093 269.8164 840.346542 269.8164 
 z
-" clip-path="url(#p8a6c839374)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p5a64cedb74)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
     <path d="M 840.346542 497.9016 
@@ -314,7 +314,7 @@ Q 834.970093 287.8092 834.970093 295.7472
 L 834.970093 489.9636 
 Q 834.970093 497.9016 840.346542 497.9016 
 z
-" clip-path="url(#p8a6c839374)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p5a64cedb74)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
     <path d="M 840.346542 601.0956 
@@ -327,7 +327,7 @@ Q 834.970093 520.128 834.970093 528.066
 L 834.970093 593.1576 
 Q 834.970093 601.0956 840.346542 601.0956 
 z
-" clip-path="url(#p8a6c839374)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p5a64cedb74)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_37">
     <g id="patch_17">
@@ -436,13 +436,13 @@ L 1193.4 631.44
   </g>
  </g>
  <defs>
-  <clipPath id="p924b08d90d">
+  <clipPath id="pc5d951df9e">
    <rect x="42.84" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
-  <clipPath id="p29351e332e">
+  <clipPath id="pc8529339b2">
    <rect x="438.905047" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
-  <clipPath id="p8a6c839374">
+  <clipPath id="p5a64cedb74">
    <rect x="834.970093" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
  </defs>

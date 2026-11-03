@@ -30,8 +30,8 @@ TITLES = dict(draft.TITLES)
 CAPTIONS = dict(draft.CAPTIONS)
 TITLES['figure1_design_and_coverage'] = 'Three comparisons distinguish related questions from correct answers'
 TITLES['figure2_fact_signal'] = 'Questions about the same fact share more features in the analyzed samples'
-TITLES['figure5_matched_choice'] = 'The same-fact advantage depends on whether the answer label stays the same'
-TITLES['figure6_failure_cases'] = 'Selected wrong-answer graphs resemble correct graphs producing the same answer'
+TITLES['figure5_matched_choice'] = 'Same-fact overlap is higher when the answer letter stays the same'
+TITLES['figure6_failure_cases'] = 'Selected error graphs share more features with correct predictions giving the same answer'
 CAPTIONS['figure1_design_and_coverage'] = (
     'A, The original comparison asks whether a target shares more features with its own factual paraphrase '
     'than with other facts in the same subject and evaluation split. The gold/iron wording is schematic. '
@@ -153,7 +153,7 @@ def design():
     text(ax, .499, '“Gold has the chemical symbol ...” → Au')
     text(ax, .445, 'Other fact', 10.2, True)
     text(ax, .416, '“Iron has the chemical symbol ...” → Fe')
-    text(ax, .360, 'Made-up name (control)', 10.2, True)
+    text(ax, .360, 'Invented name control', 10.2, True)
     text(ax, .330, '“The chemical symbol for zorium is ...”\n“Zorium has the chemical symbol ...”')
 
     ax = axes[1]
@@ -264,7 +264,7 @@ def supplements():
 
 def gallery(supp,history):
     lines=['# Figures for the integrated paper outline','',
-           '6 October 2026. Plain-language review of all six main figures and six supplements. Saved estimates, inclusion rules, and conclusions are unchanged; no new model runs or statistical tests.','',
+           '28 October 2026. Findings-led wording for all six main figures; six supplements retain their detailed definitions. Saved estimates, inclusion rules, and conclusions are unchanged; no new model runs or statistical tests.','',
            '## How to read these figures','',
            'A feature is a learned component represented in the exported graph, not a verified concept or a complete reasoning step. Feature overlap counts which components appear in both graphs; it does not compare all their connections. Jaccard overlap divides the number shared by the total number of distinct features across the two graphs: 0 means none shared, and 1 means identical sets. A difference in feature overlap subtracts one overlap score from another; each figure specifies the comparison. It can be positive, zero, or negative. Zero means equal overlap, not missing data.','',
            'A test question was reserved for evaluation rather than for developing the analysis. A token is one unit of predicted text; it may be a whole word, part of a word, or a symbol. A/B answer means the letter produced, not necessarily the same capital city. Category colors are explained by labels or legends; numerical colors have a scale. An asterisk on Qwen3-4B marks the incomplete original collection (145/147 graphs), not the separate completed follow-ups.','']
@@ -290,7 +290,7 @@ def gallery(supp,history):
     (OUT/'LEGENDS.md').write_text('\n'.join(lines),encoding='utf-8')
     (ROOT/'docs/writing/FIGURE_HEADLINES_AND_LEGENDS.md').write_text('\n'.join(lines),encoding='utf-8')
     intro=''.join('<p>'+html.escape(lines[i])+'</p>' for i in [6,8])
-    (OUT/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Paper figures and legends</title><style>body{max-width:1350px;margin:32px auto;padding:0 24px;font:17px/1.55 system-ui;color:#203544}img{width:100%;height:auto}h1,h2{line-height:1.25}section{margin:45px 0;border-top:1px solid #d8e1e7;padding-top:20px}table{border-collapse:collapse}td,th{border:1px solid #ccd5dc;padding:8px 18px}p{max-width:1100px}</style><h1>Figures for the integrated paper outline</h1><p>Wording reviewed 6 October 2026. Six main figures, six supplements, and the stopped history pilot. Saved results only.</p>'+intro+''.join(sections)+'</html>',encoding='utf-8')
+    (OUT/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Paper figures and legends</title><style>body{max-width:1350px;margin:32px auto;padding:0 24px;font:17px/1.55 system-ui;color:#203544}img{width:100%;height:auto}h1,h2{line-height:1.25}section{margin:45px 0;border-top:1px solid #d8e1e7;padding-top:20px}table{border-collapse:collapse}td,th{border:1px solid #ccd5dc;padding:8px 18px}p{max-width:1100px}</style><h1>Figures for the integrated paper outline</h1><p>Wording reviewed 28 October 2026. Six main figures, six supplements, and the stopped history pilot. Saved results only.</p>'+intro+''.join(sections)+'</html>',encoding='utf-8')
 
 
 def main():
@@ -324,7 +324,7 @@ def main():
              'History pilot 15/20; no history graph effect plotted','All supplements rebuilt using the same saved-data plotting functions',
              'Plotted lines, points, heatmaps, and bars unchanged by wording edits in all 12 figures']
     (OUT/'wording_audit.json').write_text(json.dumps(wording.AUDIT,indent=2),encoding='utf-8')
-    manifest=dict(date='2026-10-06',figures=FIGURES,supplements=supp,checks=checks,
+    manifest=dict(date='2026-10-28',figures=FIGURES,supplements=supp,checks=checks,
                   source_hashes=base.SOURCES,script_sha256=base.digest(Path(__file__)),
                   helper_hashes={str(Path(m.__file__).relative_to(ROOT)):base.digest(Path(m.__file__)) for m in [draft,base,wording,exploratory_plots,closeout_plots]},
                   python=platform.python_version(),numpy=np.__version__,matplotlib=matplotlib.__version__,

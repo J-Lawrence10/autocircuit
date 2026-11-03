@@ -1,12 +1,12 @@
 # Attribution graph paper review package
 
-Updated 15 October 2026. This is a working paper for PI and collaborator review, not a peer-reviewed publication or a submission-ready release. The manuscript now follows the research question from the original association through stronger answer controls to selected failures; the findings and limitations are unchanged. See the [revision notes](manuscript/MANUSCRIPT_REVISION_NOTES.md).
+Review package updated 3 November 2026 with the approved 28 October manuscript revision. This is a working paper for PI and collaborator review, not a peer-reviewed publication or a submission-ready release. The manuscript builds a connected argument from the original association through answer-controlled comparisons to selected errors. Findings lead each section; essential qualifications remain beside their claims, with detailed audits in Supporting analyses. Estimates and experimental rules are unchanged. See the [revision notes](manuscript/MANUSCRIPT_REVISION_NOTES.md).
 
 ## Research question
 
 Do similar attribution graphs reflect the fact being asked about—or the answer the model produces?
 
-In these experiments, graph overlap varies with the prompt and the produced answer. It cannot, by itself, establish correct factual processing or an answer-independent representation.
+Same-fact questions share more features in the original three-model samples. In the stronger Qwen3-4B comparison, the same-fact difference is larger when the answer letter stays the same; selected error graphs also favor correct predictions giving the same answer. These findings connect graph overlap to both the prompt relationship and predicted answer, rather than correctness alone.
 
 ![Paper claims map](claims/paper_claims_map.png)
 
@@ -16,7 +16,7 @@ In these experiments, graph overlap varies with the prompt and the produced answ
 2. [Findings and changes](manuscript/FINAL_FINDINGS_SUMMARY.md) — what changed and what the data support.
 3. [Integrated outline](manuscript/INTEGRATED_PAPER_OUTLINE.md) — the argument and planned section structure.
 4. [Current figure guide](figures/LEGENDS.md) — six main figures and six supplements with self-contained captions. Open [the figure gallery](figures/index.html) locally in a browser.
-5. [Working manuscript](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md) — revised logical flow, clearer comparisons, and current figures and captions. Detailed tokenizer, exporter, and failure-source audits remain in supporting analyses. A [browser-readable copy](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) is included for local viewing.
+5. [Working manuscript](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md) — connected argument, defined measurements, direct findings, and current figures and captions. Detailed audits and all supplementary figures are collected after the conclusion. A [browser-readable copy](manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) is included for local viewing.
 6. [Questions included and excluded](manuscript/SAMPLE_ACCOUNTING.md) — counts and reasons, distinct from accuracy.
 
 GitHub renders Markdown and PNGs directly. Download the folder to view the HTML galleries locally; GitHub does not render these HTML files as a hosted website.
