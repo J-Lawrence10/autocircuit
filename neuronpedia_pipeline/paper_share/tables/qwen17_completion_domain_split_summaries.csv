@@ -1,0 +1,25 @@
+ci95,cohort,domain,exact_one_sided_sign_flip_p,mean,median,metric,n,positive_n,split,values,zero_n
+"[0.057585237841637896, 0.09526938960884038]",original50_reconstructed,chemistry,0.0625,0.07230608958997937,0.06406364131945984,feature_jaccard,4,4,development,"[0.10600663126155455, 0.06506961798822175, 0.05509044445944328, 0.06305766465069793]",0
+"[0.04963344803331454, 0.09624966040840886]",original50_reconstructed,chemistry,0.0625,0.06772080128568099,0.057279295415319564,feature_influence_cosine,4,4,development,"[0.10997840363403377, 0.05949516009910499, 0.04634621067805106, 0.055063430731534135]",0
+"[0.07559448862853517, 0.09526537124736285]",original50_reconstructed,chemistry,0.03125,0.08542266140474333,0.08542063184017479,feature_jaccard,5,5,held_out,"[0.06903834154026262, 0.10183626129676751, 0.08538128566479847, 0.08543678668171326, 0.08542063184017479]",0
+"[0.056099165667591364, 0.0927719972821468]",original50_reconstructed,chemistry,0.03125,0.0736036750559025,0.07098440801745659,feature_influence_cosine,5,5,held_out,"[0.04476888887036351, 0.10607591666482608, 0.06228644403317235, 0.07098440801745659, 0.08390271769369395]",0
+"[null, null]",original50_reconstructed,geography,nan,nan,nan,feature_jaccard,0,0,development,[],0
+"[null, null]",original50_reconstructed,geography,nan,nan,nan,feature_influence_cosine,0,0,development,[],0
+"[null, null]",original50_reconstructed,geography,nan,nan,nan,feature_jaccard,0,0,held_out,[],0
+"[null, null]",original50_reconstructed,geography,nan,nan,nan,feature_influence_cosine,0,0,held_out,[],0
+"[null, null]",original50_reconstructed,history,nan,nan,nan,feature_jaccard,0,0,development,[],0
+"[null, null]",original50_reconstructed,history,nan,nan,nan,feature_influence_cosine,0,0,development,[],0
+"[null, null]",original50_reconstructed,history,nan,nan,nan,feature_jaccard,0,0,held_out,[],0
+"[null, null]",original50_reconstructed,history,nan,nan,nan,feature_influence_cosine,0,0,held_out,[],0
+"[0.057585237841637896, 0.09526938960884038]",expanded91_late_observational,chemistry,0.0625,0.07230608958997937,0.06406364131945984,feature_jaccard,4,4,development,"[0.10600663126155455, 0.06506961798822175, 0.05509044445944328, 0.06305766465069793]",0
+"[0.04963344803331454, 0.09624966040840886]",expanded91_late_observational,chemistry,0.0625,0.06772080128568099,0.057279295415319564,feature_influence_cosine,4,4,development,"[0.10997840363403377, 0.05949516009910499, 0.04634621067805106, 0.055063430731534135]",0
+"[0.07559448862853517, 0.09526537124736285]",expanded91_late_observational,chemistry,0.03125,0.08542266140474333,0.08542063184017479,feature_jaccard,5,5,held_out,"[0.06903834154026262, 0.10183626129676751, 0.08538128566479847, 0.08543678668171326, 0.08542063184017479]",0
+"[0.056099165667591364, 0.0927719972821468]",expanded91_late_observational,chemistry,0.03125,0.0736036750559025,0.07098440801745659,feature_influence_cosine,5,5,held_out,"[0.04476888887036351, 0.10607591666482608, 0.06228644403317235, 0.07098440801745659, 0.08390271769369395]",0
+"[0.06346116266515715, 0.09068580622611484]",expanded91_late_observational,geography,0.03125,0.077073484445636,0.08020295559801141,feature_jaccard,5,5,development,"[0.09689694517580133, 0.0592030269655614, 0.08971609259048005, 0.05934840189832577, 0.08020295559801141]",0
+"[0.050059755679029636, 0.0678098173485284]",expanded91_late_observational,geography,0.03125,0.059134599007920716,0.06654183125329022,feature_influence_cosine,5,5,development,"[0.06654183125329022, 0.047620687265930384, 0.06794395709793483, 0.04491137801042766, 0.0686551414120205]",0
+"[0.08317300557597448, 0.1064652858100322]",expanded91_late_observational,geography,0.03125,0.09345674602206139,0.09239401392804625,feature_jaccard,5,5,held_out,"[0.07787529580076921, 0.11765600433433476, 0.09486098302738089, 0.0844974330197758, 0.09239401392804625]",0
+"[0.06502518685944245, 0.088556714560348]",expanded91_late_observational,geography,0.03125,0.07462321312097867,0.07026280772676646,feature_influence_cosine,5,5,held_out,"[0.07025603791325086, 0.10075265244940235, 0.07026280772676646, 0.07033528798798766, 0.06150927952748603]",0
+"[null, null]",expanded91_late_observational,history,nan,nan,nan,feature_jaccard,0,0,development,[],0
+"[null, null]",expanded91_late_observational,history,nan,nan,nan,feature_influence_cosine,0,0,development,[],0
+"[null, null]",expanded91_late_observational,history,nan,nan,nan,feature_jaccard,0,0,held_out,[],0
+"[null, null]",expanded91_late_observational,history,nan,nan,nan,feature_influence_cosine,0,0,held_out,[],0

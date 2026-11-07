@@ -1,7 +1,8 @@
-"""Build a PI-facing claims map from archived figure tables; no new analysis runs."""
+"""Build a PI-facing claims map from saved results; no model or analysis runs."""
 from pathlib import Path
 import csv
 import hashlib
+import io
 import json
 from statistics import mean
 
@@ -13,25 +14,37 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'data/model_extension/paper_figures_plain_language_20261006/tables'
 OUT = ROOT / 'data/model_extension/paper_claims_map_20261007'
+LATE = ROOT / 'data/model_extension/qwen17_completion_20261106/analysis/results.json'
+REVISION = '2026-11-07'
 INK, MUTED, BLUE, TEAL = '#193747', '#506774', '#256B91', '#247867'
 PALE, LINE, AMBER = '#F0F5F7', '#D5E0E5', '#8A522B'
-SOURCES = []
+SOURCES = {}
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_bytes(path):
+    raw = path.read_bytes()
+    SOURCES[path] = hashlib.sha256(raw).hexdigest()
+    return raw
 
 
 def rows(name):
     p = SOURCE / name
-    SOURCES.append(p)
-    with p.open(encoding='utf-8-sig', newline='') as f:
-        return list(csv.DictReader(f))
+    return list(csv.DictReader(io.StringIO(source_bytes(p).decode('utf-8-sig'))))
 
 
 def main():
-    original = rows('figure2_summary.csv')
+    SOURCES.clear()
+    current = rows('figure2_summary.csv')
     blocks = rows('figure5_block_contrasts.csv')
     failures = rows('figure6_comparisons.csv')
     behavior = rows('figure6_behavior.csv')
     history = rows('table_history_pilot.csv')
-    assert [int(r['n']) for r in original] == [8, 5, 10]
+    assert [int(r['n']) for r in current] == [8, 10, 10]
+    assert [round(float(r['mean']), 3) for r in current] == [.170, .089, .162]
     assert len(blocks) == 6
     same = mean(float(r['fact_same_label']) for r in blocks)
     changed = mean(float(r['fact_different_label']) for r in blocks)
@@ -43,98 +56,153 @@ def main():
     assert sum(int(r['correct']) for r in behavior if r['reference'] == 'named') == 8
     overall = next(r for r in history if r['component'] == 'Overall')
     assert int(overall['correct']) == 15 and int(overall['total']) == 20
+    late = json.loads(source_bytes(LATE))
+    assert late['status'] == 'completed' and late['original_reconstruction']['passed']
+    assert late['input_counts'] == dict(original_raw=50, new_raw=41, combined_raw=91, length_rejections=29)
+    qwen = late['cohorts']['expanded91_late_observational']
+    geography = qwen['heldout_domains']['geography']
+    pooled = qwen['heldout_primary']
+    assert qwen['heldout_domains']['chemistry']['n'] == geography['n'] == 5
+    assert pooled['n'] == 10
+    assert abs(pooled['mean'] - float(current[1]['mean'])) < 1e-12
+    assert geography['positive_n'] == 5 and pooled['positive_n'] == 10
+    controls = qwen['aggregates']['held_out']['feature_jaccard']['margin_same_template_nonce']
+    control_favored = controls['n'] - controls['positive_n'] - controls['zero_n']
+    assert control_favored == 8 and controls['n'] == 10
+    history_collection = next(r for r in late['collection_by_domain'] if r['domain'] == 'history')
+    assert history_collection['available_graphs'] == 11
+    assert history_collection['complete_four_role_sets'] == 0
+    assert history_collection['length_rejected_jobs'] == 29
+    for path in [ROOT/'docs/papers/INTEGRATED_PAPER_OUTLINE.md', ROOT/'scripts/figure_plain_language.py']:
+        source_bytes(path)
 
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'svg.fonttype': 'none'})
-    fig = plt.figure(figsize=(17, 11.5), facecolor='white')
+    fig = plt.figure(figsize=(17, 14), facecolor='white')
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set(xlim=(0, 1), ylim=(0, 1))
     ax.axis('off')
     texts = []
+    contained = []
 
-    def text(x, y, s, size=12, color=INK, weight='normal', ha='left', va='top'):
+    def text(x, y, s, size=12, color=INK, weight='normal', ha='left', va='top', bounds=None):
         t = ax.text(x, y, s, fontsize=size, color=color, weight=weight,
                     ha=ha, va=va, linespacing=1.4)
         texts.append(t)
+        if bounds is not None:
+            contained.append((t, bounds))
         return t
 
     def box(x, y, w, h, fill=PALE, edge='none'):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.008,rounding_size=0.010',
                                    facecolor=fill, edgecolor=edge, linewidth=.9))
 
-    text(.04, .970, 'Do similar attribution graphs reflect the fact being asked about—\nor the answer the model produces?', 24, weight='bold')
-    text(.04, .883, 'We compare reworded questions, controlled answer changes, and selected wrong answers to distinguish these possibilities.', 12, MUTED)
-    text(.96, .970, 'PI DISCUSSION\n8 October 2026', 10, MUTED, ha='right')
-    text(.04, .844, 'Feature overlap measures shared learned components in two saved graphs—not whether an answer is correct.', 12)
+    text(.04, .970, 'Do similar attribution graphs reflect the fact being asked about,\nor the answer the model produces?', 24, weight='bold')
+    text(.04, .902, 'Three models. We compare reworded questions, controlled answer changes, and selected wrong answers.', 12, MUTED)
+    text(.96, .970, 'PI DISCUSSION\n7 November 2026', 10, MUTED, ha='right')
+    text(.04, .866, 'Feature overlap measures shared learned components in saved graphs. It does not measure answer accuracy.', 12)
 
     xs, width = [.04, .355, .67], .29
     headers = [
-        ('01  OBSERVATION', 'Same-fact questions\nshare more features', 'Three models · n = test questions · Figure 2'),
-        ('02  STRONGER CONTROL', 'The difference depends\non the answer letter', 'Qwen3-4B only · six country pairs · Figure 5'),
+        ('01  SAME-FACT COMPARISON', 'Same-fact questions\nshare more features', 'Three models · current samples · Figure 2'),
+        ('02  STRONGER CONTROL', 'Higher same-fact overlap\nwith the same answer letter', 'Qwen3-4B only · six country pairs · Figure 5'),
         ('03  FAILURE CHECK', 'Wrong-answer graphs resemble\ncorrect same-answer graphs', 'Qwen3-4B only · selected errors · Figure 6'),
     ]
-    for x, (tag, title, scope) in zip(xs, headers):
-        box(x, .405, width, .395)
-        text(x+.016, .780, tag, 10, BLUE, 'bold')
-        text(x+.016, .747, title, 17, weight='bold')
-        text(x+.016, .682, scope, 9.5, MUTED)
+    cards = [(x+.005, .520, x+width-.005, .815) for x in xs]
+    for x, bounds, (tag, title, scope) in zip(xs, cards, headers):
+        box(x, .515, width, .305)
+        text(x+.016, .802, tag, 10, BLUE, 'bold', bounds=bounds)
+        text(x+.016, .775, title, 17, weight='bold', bounds=bounds)
+        text(x+.016, .721, scope, 9.5, MUTED, bounds=bounds)
 
     x = xs[0]+.016
-    text(x, .640, 'Same-fact minus average other-fact overlap', 10.5, weight='bold')
-    for y, r in zip([.603, .568, .533], original):
-        text(x, y, r['model'], 12)
-        text(xs[0]+width-.016, y, f"+{float(r['mean']):.3f}   (n={r['n']})", 12, BLUE, 'bold', ha='right')
-    text(x, .484, 'Supports an association with factual prompts.\nDoes not separate the fact from shared\nwords and the expected answer.', 11)
+    text(x, .691, 'Same-fact minus average other-fact overlap', 10.5, weight='bold', bounds=cards[0])
+    for y, r in zip([.659, .631, .603], current):
+        text(x, y, r['model'], 12, bounds=cards[0])
+        text(xs[0]+width-.016, y, f"+{float(r['mean']):.3f}   (n={r['n']})", 12, BLUE, 'bold', ha='right', bounds=cards[0])
+    text(x, .562, 'The fact, wording, and expected answer\nremain linked in these comparisons.', 11, bounds=cards[0])
 
     x = xs[1]+.016
-    text(x, .640, 'Same-country minus other-country overlap', 10.5, weight='bold')
-    for y, label, value in [(.601, 'Same A/B answer', same), (.555, 'Changed A/B answer', changed)]:
-        text(x, y, label, 12)
-        text(xs[1]+width-.016, y+.004, f'{value:+.4f}', 18, BLUE, 'bold', ha='right')
-    text(x, .507, 'Same words and token counts within each pair;\nall 48 predicted answer letters were correct.', 10.5, MUTED)
-    text(x, .455, 'Shared features are not independent\nof the answer being produced here.', 11, weight='bold')
+    text(x, .691, 'Same-country minus other-country overlap', 10.5, weight='bold', bounds=cards[1])
+    for y, label, value in [(.648, 'Same A/B answer', same), (.606, 'Changed A/B answer', changed)]:
+        text(x, y, label, 12, bounds=cards[1])
+        text(xs[1]+width-.016, y+.004, f'{value:+.4f}', 18, BLUE, 'bold', ha='right', bounds=cards[1])
+    text(x, .561, 'Same words and token counts within each pair;\nall 48 predicted answer letters were correct.', 10.5, MUTED, bounds=cards[1])
 
     x = xs[2]+.016
-    text(x, .641, f'{favored}/{len(pairs)} comparisons', 23, BLUE, 'bold')
-    text(x, .592, 'favor the correct response giving the same\nanswer as the error—not the correct response\nto the intended country.', 11.5)
-    text(x, .516, '16 graphs · one country pair · two answer formats', 10, MUTED)
-    text(x, .477, 'An incorrect Berlin answer resembles a\ncorrect Berlin response more than the\nintended Paris response.', 11)
+    text(x, .691, f'{favored}/{len(pairs)} comparisons', 23, BLUE, 'bold', bounds=cards[2])
+    text(x, .655, 'favor the correct response giving the same\nanswer as the error over the correct response\nfor the intended country.', 11.5, bounds=cards[2])
+    text(x, .595, '16 graphs · one country pair · shared controls', 10, MUTED, bounds=cards[2])
+    text(x, .566, 'An incorrect Berlin answer resembles a correct\nBerlin response more than the intended\nParis response.', 11, bounds=cards[2])
+
+    # Keep available graphs, included facts, and the control comparison distinct.
+    box(.04, .355, .92, .135, fill='#F3F6FA', edge=LINE)
+    text(.056, .477, 'CONTROLS AND COVERAGE', 10, BLUE, 'bold')
+    text(.944, .477, 'Available graphs and included facts are separate counts · Figure S7', 10, MUTED, ha='right')
+    strip_bounds = [(x+.005, .360, x+width-.005, .457) for x in xs]
+    x = xs[0]+.016
+    text(x, .448, 'Qwen3-1.7B: two included subjects', 11.5, weight='bold', bounds=strip_bounds[0])
+    text(x, .424, '91/120 graphs available.\nTen evaluation facts: five chemistry,\nfive geography.', 11.5, bounds=strip_bounds[0])
+    x = xs[1]+.016
+    text(x, .448, 'Qwen3-1.7B wording controls', 11.5, weight='bold', bounds=strip_bounds[1])
+    text(x, .424, f'{control_favored}/{controls["n"]} questions share more features with\nthe invented name control in the starting\nwording than with their factual rewording.', 11, bounds=strip_bounds[1])
+    x = xs[2]+.016
+    text(x, .448, 'History: two separate limits', 11.5, weight='bold', bounds=strip_bounds[2])
+    text(x, .424, 'Qwen3-1.7B: 11/40 graphs; no complete\ncontrol sets after 29 input-length rejections.\nQwen3-4B: 15/20 pilot; no evaluation graphs.', 10.5, bounds=strip_bounds[2])
 
     for x in xs:
-        ax.add_patch(FancyArrowPatch((x+width/2, .395), (x+width/2, .355),
+        ax.add_patch(FancyArrowPatch((x+width/2, .343), (x+width/2, .319),
                                      arrowstyle='-|>', mutation_scale=15, color=TEAL, linewidth=1.3))
-    box(.04, .225, .92, .12, fill='#EAF4F0')
-    text(.5, .325, 'CENTRAL CLAIM', 10, TEAL, 'bold', ha='center')
-    text(.5, .293, 'In these experiments, graph overlap varies with the prompt and the answer.', 18, weight='bold', ha='center')
-    text(.5, .254, 'On its own, it cannot certify correct factual processing or a representation independent of the answer.', 12, ha='center')
+    box(.04, .205, .92, .10, fill='#EAF4F0')
+    central = (.045, .210, .955, .300)
+    text(.5, .292, 'CENTRAL CLAIM', 10, TEAL, 'bold', ha='center', bounds=central)
+    text(.5, .268, 'In these experiments, graph overlap varies with the prompt and the answer.', 18, weight='bold', ha='center', bounds=central)
+    text(.5, .231, 'On its own, it cannot certify correct factual processing or a representation independent of the answer.', 12, ha='center', bounds=central)
 
-    text(.04, .194, 'SUPPORTING CHECKS', 10, TEAL, 'bold')
-    text(.04, .167, 'Positive averages survive equal feature counts.\nAnswer-related differences remain after removing\nsome final-position and late-layer features.', 10.5)
-    text(.355, .194, 'SCOPE LIMITS', 10, AMBER, 'bold')
-    text(.355, .167, 'Facts recur across models; no model ranking.\nQwen3-4B* original collection: 145/147 graphs.\nSelected errors do not estimate failure frequency.', 10.5)
-    text(.67, .194, 'NOT ESTABLISHED', 10, AMBER, 'bold')
-    text(.67, .167, 'No causal circuit or proven error mechanism.\nNear-zero does not prove no factual knowledge.\nHistory pilot: 15/20; no evaluation graph result.', 10.5)
+    text(.04, .179, 'SUPPORTING CHECKS', 10, TEAL, 'bold')
+    text(.04, .153, 'Positive averages survive equal feature counts.\nAnswer-related differences remain after removing\nsome final-position and late-layer features.', 10.5)
+    text(.355, .179, 'SCOPE LIMITS', 10, AMBER, 'bold')
+    text(.355, .153, 'Facts recur across models; no model ranking.\n*Qwen3-4B four-version + wording: 145/147.\nSelected errors do not estimate failure frequency.', 10.5)
+    text(.67, .179, 'NOT ESTABLISHED', 10, AMBER, 'bold')
+    text(.67, .153, 'No causal circuit or proven error mechanism.\nThe fact remains linked to words and answers.\nNear-zero does not establish absent knowledge.', 10.5)
 
     ax.plot([.04, .96], [.070, .070], color=LINE, lw=1)
-    text(.04, .053, 'Reading the map: arrows connect evidence to interpretation, not causes. Values are differences in Jaccard overlap, not percentages.', 9, MUTED)
-    text(.04, .031, 'Sources: integrated paper outline; Figure 2, 5 and 6 source tables; Supplements S3/S6; frozen history-pilot outcome. Follow-ups remain separate from original cohorts.', 8.5, MUTED)
+    text(.04, .053, 'Values are differences in Jaccard overlap, not percentages. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.', 9, MUTED)
+    text(.04, .031, 'Sources: current Figures 2, 5 and 6; Supplements S3/S6/S7; saved Qwen3-1.7B analysis and history-pilot outcome. One primary sample per model.', 8.5, MUTED)
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
     for t in texts:
+        assert '\u2014' not in t.get_text(), t.get_text()
         b = t.get_window_extent(renderer).transformed(ax.transAxes.inverted())
         assert 0 <= b.x0 <= b.x1 <= 1 and 0 <= b.y0 <= b.y1 <= 1, t.get_text()
+    for t, bounds in contained:
+        b = t.get_window_extent(renderer).transformed(ax.transAxes.inverted())
+        x0, y0, x1, y1 = bounds
+        assert x0 <= b.x0 <= b.x1 <= x1 and y0 <= b.y0 <= b.y1 <= y1, ('Text exceeds its box', t.get_text(), tuple(b.extents), bounds)
+    for i, (first, bounds) in enumerate(contained):
+        a = first.get_window_extent(renderer)
+        for second, other_bounds in contained[i+1:]:
+            if bounds != other_bounds:
+                continue
+            b = second.get_window_extent(renderer)
+            assert min(a.x1, b.x1) <= max(a.x0, b.x0) or min(a.y1, b.y1) <= max(a.y0, b.y0), ('Text overlap', first.get_text(), second.get_text())
+    for path, expected in SOURCES.items():
+        assert sha(path) == expected, f'Source changed while building: {path}'
     for extension in ['png', 'svg']:
         fig.savefig(OUT/f'paper_claims_map.{extension}', dpi=240, facecolor='white')
     plt.close(fig)
-    SOURCES.extend([ROOT/'docs/papers/INTEGRATED_PAPER_OUTLINE.md', ROOT/'scripts/figure_plain_language.py'])
-    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-    manifest = {'date': '2026-10-08', 'purpose': 'PI-facing evidence and claim summary; no new experiments',
-                'source_hashes': {str(p.relative_to(ROOT)): sha(p) for p in SOURCES},
+    manifest = {'date': REVISION, 'purpose': 'PI-facing evidence and claim summary with one current sample per model; no new model requests or statistical analysis',
+                'source_hashes': {str(p.relative_to(ROOT)): value for p, value in SOURCES.items()},
                 'script_sha256': sha(Path(__file__)),
                 'output_hashes': {p.name: sha(p) for p in OUT.iterdir() if p.suffix in ['.png', '.svg']},
-                'checks': ['Original question counts 8/5/10', 'Six matched-choice blocks',
+                'checks': ['Current evaluation-fact counts 8/10/10; model means 0.170/0.089/0.162', 'Six matched-choice blocks',
                            'Eight of eight selected failures favor same output', 'History pilot 15/20',
-                           'All rendered text within canvas']}
+                           'Three models retained; one primary sample per model',
+                           'Current Qwen3-1.7B n10 mean matches Figure 2 and saved analysis',
+                           'Eight of ten Qwen3-1.7B comparisons favor same-pattern invented name controls',
+                           'Qwen3-1.7B incomplete history controls distinguished from Qwen3-4B stopped pilot',
+                           'All rendered text within canvas and assigned boxes; no overlapping text within boxes',
+                           'No em dashes in figure text', 'Sources unchanged during build']}
     (OUT/'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
     print(OUT/'paper_claims_map.png')
 

@@ -12,7 +12,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
-REVISION = '2026-11-03'
+REVISION = '2026-11-07'
+EDITION = 'approved_methods'
 FIG = ROOT / 'data/model_extension/paper_figures_plain_language_20261006'
 mapping = {}
 source_records = []
@@ -20,6 +21,13 @@ source_records = []
 
 def sha(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def package_files():
+    """Keep local test/interpreter caches out of the review manifest and ZIP."""
+    return sorted(p for p in OUT.rglob('*') if p.is_file()
+                  and not {'__pycache__', '.pytest_cache'}.intersection(p.relative_to(OUT).parts)
+                  and p.suffix not in {'.pyc', '.pyo'})
 
 
 def copy(src, rel):
@@ -58,8 +66,6 @@ def main():
             copy(src, f'figures/{src.name}')
     for p in sorted((FIG/'tables').glob('*.csv')):
         copy(p, f'tables/{p.name}')
-    copy('data/model_extension/paper_figures_draft_20261005/tables/test_fact_inclusion_audit.csv',
-         'tables/test_fact_inclusion_audit.csv')
     for ext in ['png', 'svg']:
         copy(f'data/model_extension/paper_claims_map_20261007/paper_claims_map.{ext}', f'claims/paper_claims_map.{ext}')
         copy(f'data/model_extension/figure1_mockups_20261006/option_c_comparison_diagrams.{ext}', f'claims/figure1_option_c.{ext}')
@@ -68,10 +74,34 @@ def main():
                'EXPLORATORY_CONFOUND_CHECKS_20260905', 'MATCHED_CHOICE_CHAT_V2_PROTOCOL',
                'MATCHED_CHOICE_CONTROL_PROTOCOL', 'MATCHED_CHOICE_POSITION_V3_PROTOCOL',
                'MATCHED_CHOICE_RESULTS_FOR_MANUSCRIPT', 'FAILURE_CASE_GRAPH_ANALYSIS_PLAN',
-               'HISTORY_CHOICE_FINAL_PROTOCOL', 'POSITION_PILOT_ARTIFACT_DIAGNOSTIC']
+               'HISTORY_CHOICE_FINAL_PROTOCOL', 'POSITION_PILOT_ARTIFACT_DIAGNOSTIC',
+               'QWEN17_COMPLETION_ATTEMPT_20261106']
     for folder, names in [('manuscript', docs), ('methods', methods)]:
         for name in names:
             copy(f'docs/papers/{name}.md', f'{folder}/{name}.md')
+    # Include derived late-completion evidence, never the raw graph/feature caches.
+    late = ROOT/'data/model_extension/qwen17_completion_20261106/analysis'
+    for name in ['analysis_plan.json', 'results.json', 'execution_record.json', 'verification_summary.json',
+                 'integration_verification_20261107.json']:
+        p = copy(late/name, f'provenance/qwen17_completion_{name}')
+        value = p.read_text(encoding='utf-8')
+        for prefix in [str(ROOT).replace('\\', '\\\\'), ROOT.as_posix(), str(ROOT)]:
+            value = value.replace(prefix, '<AUTHOR_WORKSPACE>')
+        p.write_text(value, encoding='utf-8')
+    for name in ['eligibility_audit.csv', 'domain_split_summaries.csv',
+                 'original50_reconstructed_per_fact.csv', 'expanded91_late_observational_per_fact.csv',
+                 'expanded91_late_observational_equal_count_per_fact.csv']:
+        copy(late/name, f'tables/qwen17_completion_{name}')
+    display_audit = ROOT/'data/model_extension/qwen17_completion_20261106/figure_audit'
+    for name in ['analysis_plan.json', 'results.json', 'execution_record.json']:
+        p = copy(display_audit/name, f'provenance/qwen17_figure_audit_{name}')
+        value = p.read_text(encoding='utf-8')
+        for prefix in [str(ROOT).replace('\\', '\\\\'), ROOT.as_posix(), str(ROOT)]:
+            value = value.replace(prefix, '<AUTHOR_WORKSPACE>')
+        p.write_text(value, encoding='utf-8')
+    for name in ['quality_graphs.csv', 'lexical_pairs.csv', 'lexical_per_fact.csv',
+                 'lexical_scatter.csv', 'answer_audit.csv']:
+        copy(display_audit/name, f'tables/qwen17_figure_audit_{name}')
     copy('docs/writing/references/README.md', 'methods/WRITING_REFERENCES.md')
     copy(FIG/'LEGENDS.md', 'figures/LEGENDS.md')
     copy(FIG/'index.html', 'figures/index.html')
@@ -85,14 +115,14 @@ def main():
         assert current.exists(), target
         mapping[Path(target).resolve()] = current
     by_stem = {f['stem']: f for f in fs}
-    # Reconcile all twelve captions to the exact figure package, in the sharing copy only.
+    # Reconcile every caption to the exact figure package, in the sharing copy only.
     pattern = r'(!\[[^\]]*\]\([^\n]+/(figure[^/]+)\.png\))\n\n\*\*[^\n]+\n'
     def caption(m):
         f = by_stem[m.group(2)]
         prefix = re.match(r'figure(S?\d+)', f['stem']).group(1)
         return f'{m.group(1)}\n\n**Figure {prefix}. {f["title"]}.** {f["legend"]}\n'
     body, count = re.subn(pattern, caption, body)
-    assert count == 12, count
+    assert count == len(fs) == len(by_stem), (count, len(fs), len(by_stem))
     draft.write_text(body, encoding='utf-8')
     for p in [*OUT.glob('manuscript/*.md'), *OUT.glob('methods/*.md'), OUT/'figures/LEGENDS.md']:
         text = portable(p.read_text(encoding='utf-8'), p)
@@ -109,7 +139,11 @@ def main():
              'validate_experiment_controls', 'validate_publication_analysis', 'plot_failure_case_graphs',
              'plot_model_extension', 'plot_publication_analysis', 'generate_model_extension',
              'run_failure_case_graphs', 'run_history_closeout', 'run_matched_choice_controls',
-             'run_position_controls', 'diagnose_position_artifact', '2_convert_graph']
+             'run_position_controls', 'diagnose_position_artifact', '2_convert_graph',
+             'complete_qwen17_controls', 'audit_qwen17_completion',
+             'analyze_qwen17_completion', 'plot_qwen17_completion',
+             'audit_qwen17_completion_figures', 'plot_updated_cohort_figures',
+             'sync_manuscript_figure_captions']
     selected = set()
     todo = list(seeds)
     tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name]
@@ -117,7 +151,7 @@ def main():
         copy(p, f'code/tests/{p.name}')
     def dependencies(p):
         for node in ast.walk(ast.parse(p.read_text(encoding='utf-8-sig'))):
-            names = ([node.module] if isinstance(node, ast.ImportFrom) else
+            names = ([node.module, *[n.name for n in node.names]] if isinstance(node, ast.ImportFrom) else
                      [n.name for n in node.names] if isinstance(node, ast.Import) else [])
             for name in names:
                 if name and (ROOT/'scripts'/f'{name.split(".")[0]}.py').exists():
@@ -167,23 +201,23 @@ def main():
     assert not missing, missing
     (OUT/'provenance/link_audit.json').write_text(json.dumps({'checked': checked, 'missing': missing}, indent=2), encoding='utf-8')
     # Scan contents without printing potential credentials.
-    for p in OUT.rglob('*'):
+    for p in package_files():
         if p.is_file() and p.suffix not in ['.png']:
             raw = p.read_bytes()
             assert not re.search(rb'\b(?:sk-[A-Za-z0-9_-]{24,}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})', raw), f'Possible credential in {p.name}'
     files = [{'path': p.relative_to(OUT).as_posix(), 'bytes': p.stat().st_size, 'sha256': sha(p)}
-             for p in sorted(OUT.rglob('*')) if p.is_file() and p.name != 'package_manifest.json']
-    manifest = {'date': REVISION, 'status': 'working_paper_review_package', 'files': files,
+             for p in package_files() if p.name != 'package_manifest.json']
+    manifest = {'date': REVISION, 'edition': EDITION, 'status': 'working_paper_review_package', 'files': files,
                 'sources': source_records, 'caption_reconciliations': count,
                 'excluded': ['Raw exports', 'Tokenizer/model files', 'Credentials', 'Reference PDFs', 'Local release archive', 'Unrelated edits'],
                 'reproduction': 'Source inspection and figure tables only; full analysis requires excluded authorized archive'}
     (OUT/'provenance/package_manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
     stamp = REVISION.replace('-', '')
-    dest = ROOT/f'data/model_extension/paper_share_{stamp}'
+    dest = ROOT/f'data/model_extension/paper_share_{stamp}_{EDITION}'
     dest.mkdir(exist_ok=True)
-    archive = dest/f'attribution_graph_paper_review_{stamp}.zip'
+    archive = dest/f'attribution_graph_paper_review_{stamp}_{EDITION}.zip'
     with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED) as z:
-        for p in sorted(OUT.rglob('*')):
+        for p in package_files():
             if p.is_file():
                 z.write(p, 'paper_share/'+p.relative_to(OUT).as_posix())
     with zipfile.ZipFile(archive) as z:

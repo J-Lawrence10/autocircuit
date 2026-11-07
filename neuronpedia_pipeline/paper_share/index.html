@@ -39,11 +39,14 @@ review package</a>
 <li><a href="#research-question" id="toc-research-question">Research
 question</a></li>
 <li><a href="#start-here" id="toc-start-here">Start here</a></li>
-<li><a href="#figure-1-preferred-layout"
-id="toc-figure-1-preferred-layout">Figure 1 preferred layout</a></li>
 <li><a href="#main-findings-and-boundaries"
 id="toc-main-findings-and-boundaries">Main findings and
 boundaries</a></li>
+<li><a href="#data-coverage" id="toc-data-coverage">Data
+coverage</a></li>
+<li><a href="#interpretation-and-future-research"
+id="toc-interpretation-and-future-research">Interpretation and future
+research</a></li>
 <li><a href="#what-is-in-the-folder" id="toc-what-is-in-the-folder">What
 is in the folder</a></li>
 <li><a href="#reproducibility-and-exclusions"
@@ -54,77 +57,108 @@ exclusions</a></li>
 </nav>
 <h1 id="attribution-graph-paper-review-package">Attribution graph paper
 review package</h1>
-<p>Review package updated 3 November 2026 with the approved 28 October
-manuscript revision. This is a working paper for PI and collaborator
-review, not a peer-reviewed publication or a submission-ready release.
-The manuscript builds a connected argument from the original association
-through answer-controlled comparisons to selected errors. Findings lead
-each section; essential qualifications remain beside their claims, with
-detailed audits in Supporting analyses. Estimates and experimental rules
-are unchanged. See the <a
+<p>Review package updated 7 November 2026 with the current available
+datasets and approved manuscript revisions. This is a working paper for
+PI and collaborator review, not a peer-reviewed publication or a
+submission-ready release. The manuscript, figures, and summaries use one
+current dataset per model. See the <a
 href="manuscript/MANUSCRIPT_REVISION_NOTES.md">revision notes</a>.</p>
 <h2 id="research-question">Research question</h2>
-<p>Do similar attribution graphs reflect the fact being asked about—or
+<p>Do similar attribution graphs reflect the fact being asked about, or
 the answer the model produces?</p>
-<p>Same-fact questions share more features in the original three-model
-samples. In the stronger Qwen3-4B comparison, the same-fact difference
-is larger when the answer letter stays the same; selected error graphs
-also favor correct predictions giving the same answer. These findings
-connect graph overlap to both the prompt relationship and predicted
-answer, rather than correctness alone.</p>
+<p>Same-fact questions share more features across the three analyzed
+models. In the stronger Qwen3-4B comparison, the same-country overlap
+difference is larger when the answer letter stays the same. Selected
+wrong-answer graphs also favor correct predictions giving the same
+answer. These findings connect overlap to both the question relationship
+and predicted response, rather than correctness alone.</p>
 <figure>
 <img src="claims/paper_claims_map.png" alt="Paper claims map" />
 <figcaption aria-hidden="true">Paper claims map</figcaption>
 </figure>
 <h2 id="start-here">Start here</h2>
 <ol type="1">
-<li><a href="claims/paper_claims_map.png">Claims map</a> — the three
-main findings and their limits. <a
+<li><a href="claims/paper_claims_map.png">Claims map</a>: the current
+three-model findings, control results, and limits. <a
 href="claims/paper_claims_map.svg">Editable SVG</a>.</li>
 <li><a href="manuscript/FINAL_FINDINGS_SUMMARY.md">Findings and
-changes</a> — what changed and what the data support.</li>
+interpretation</a>: the results and what they support.</li>
 <li><a href="manuscript/INTEGRATED_PAPER_OUTLINE.md">Integrated
-outline</a> — the argument and planned section structure.</li>
-<li><a href="figures/LEGENDS.md">Current figure guide</a> — six main
-figures and six supplements with self-contained captions. Open <a
-href="figures/index.html">the figure gallery</a> locally in a
-browser.</li>
+outline</a>: the paper’s logical argument and section structure.</li>
+<li><a href="figures/LEGENDS.md">Figure guide</a>: six main figures and
+eight supplements with self-contained captions. <a
+href="figures/index.html">Open the figure gallery</a> locally in a
+browser. <a href="figures/figureS8_feature_overlap_workflow.png">Methods
+diagram (Figure S8)</a> explains the primary feature-overlap
+calculation.</li>
 <li><a href="manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md">Working
-manuscript</a> — connected argument, defined measurements, direct
-findings, and current figures and captions. Detailed audits and all
-supplementary figures are collected after the conclusion. A <a
+manuscript</a>: current methods, results, discussion, and supporting
+analyses. A <a
 href="manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html">browser-readable
-copy</a> is included for local viewing.</li>
+copy</a> is included.</li>
 <li><a href="manuscript/SAMPLE_ACCOUNTING.md">Questions included and
-excluded</a> — counts and reasons, distinct from accuracy.</li>
+excluded</a>: current graph counts, evaluation facts, and exclusion
+reasons, distinct from accuracy.</li>
 </ol>
 <p>GitHub renders Markdown and PNGs directly. Download the folder to
 view the HTML galleries locally; GitHub does not render these HTML files
 as a hosted website.</p>
-<h2 id="figure-1-preferred-layout">Figure 1 preferred layout</h2>
-<p>The preferred <a href="claims/figure1_option_c.png">option C</a>
-includes the recorded failure prompt. It is retained as a clearly
-labeled layout alternative, not silently substituted into the main
-figure set. Its final promotion and caption reconciliation remain an
-author decision.</p>
 <h2 id="main-findings-and-boundaries">Main findings and boundaries</h2>
 <ul>
-<li>Included same-fact comparisons have positive average feature-overlap
-differences in three models: Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. The
-same facts recur across models, and subject coverage differs; this is
-not a model ranking.</li>
-<li>Stronger controls are Qwen3-4B only. Across six country pairs, the
-same-fact difference is 0.0628 with the same A/B answer and −0.0022 with
-a changed answer. Near zero does not prove absence of factual
-knowledge.</li>
+<li>Mean same-fact minus other-fact overlap is 0.170 for Gemma-2-2B (8
+evaluation facts), 0.089 for Qwen3-1.7B (10), and 0.162 for Qwen3-4B
+(10). All included facts have positive differences. Repeated facts and
+different subject coverage prevent a model ranking.</li>
+<li>In Qwen3-1.7B, eight of ten evaluation questions share more features
+with the same-pattern invented name control than with their factual
+rewording. All ten favor the factual rewording over the reworded
+control. Matching broad next-token categories gives differences of
+-0.0109 (n=9) and +0.1059 (n=10). The controls do not isolate factual
+meaning from wording and the expected answer.</li>
+<li>In the stronger Qwen3-4B study, the same-country overlap difference
+is 0.0628 with the same A/B answer and -0.0022 with a changed answer.
+All 48 predictions across six country pairs are correct. Near zero does
+not establish absent factual knowledge.</li>
 <li>All eight selected error comparisons favor the correct response
-giving the same answer over the correct response to the intended
+giving the same answer over the correct response for the intended
 country. These dependent cases do not estimate general failure frequency
 or prove an error mechanism.</li>
-<li>The original Qwen3-4B collection remains incomplete at 145/147
-graphs. The final history pilot passed 15/20 checks against a 20/20
-gate, so no evaluation graphs were collected.</li>
+<li>Average feature-sharing differences remain positive after equalizing
+feature counts. The Qwen3-4B answer-related differences also remain
+after the specified graph-location filters. The coarser Qwen3-1.7B
+edge-flow comparison is inconclusive, so the result does not cover every
+graph property.</li>
 </ul>
+<h2 id="data-coverage">Data coverage</h2>
+<p>The four-version question design contains 120/120 graphs for
+Gemma-2-2B, 91/120 for Qwen3-1.7B, and 118/120 for Qwen3-4B. Gemma and
+Qwen3-4B each have another 27 fact-by-wording graphs. The separate
+Qwen3-4B answer-letter and selected-error studies contain 48 and 16
+graphs, respectively.</p>
+<p>Qwen3-1.7B has all 40 chemistry and 40 geography graphs. Its 11/40
+history graphs provide no complete four-version sets after 29
+input-length rejections. These are collection failures, not wrong
+answers. Qwen3-4B is missing two Columbus graphs, leaving 145/147 graphs
+in its four-version and fact-by-wording collections. Its separate
+history pilot passes 15/20 checks against a 20/20 gate, so that study
+has no evaluation graphs. Gemma contributes three history facts to the
+primary comparison.</p>
+<p>No shortened history prompts were generated or substituted. The
+proposal is deferred from this paper.</p>
+<h2 id="interpretation-and-future-research">Interpretation and future
+research</h2>
+<p>The observed answer-associated overlap could reflect shared model
+activity, answer-dependent selection of features into the exported
+graph, or both. Discussion Section 4.3 explains this unresolved
+distinction and proposes future fixed-activity attribution comparisons,
+activation-based measurements, and controlled interventions. Those
+studies have not been performed or initiated.</p>
+<p>The main figures consistently use the current Qwen3-1.7B sample of 91
+graphs and ten included evaluation facts, with comparison-specific
+subsets where required. The fact-by-wording, answer-letter,
+selected-error, and graph-location studies retain their own samples.
+Figure S7 distinguishes collection counts from included facts; missing
+groups are unavailable, not zero effects.</p>
 <h2 id="what-is-in-the-folder">What is in the folder</h2>
 <table>
 <colgroup>
@@ -140,17 +174,17 @@ gate, so no evaluation graphs were collected.</li>
 <tbody>
 <tr>
 <td><code>claims/</code></td>
-<td>Current claims map and preferred Figure 1 layout, PNG and editable
+<td>Current claims map and a Figure 1 layout reference, PNG and editable
 SVG</td>
 </tr>
 <tr>
 <td><code>figures/</code></td>
-<td>Current six main figures, six supplements, captions, and local
-browser gallery</td>
+<td>Six main figures, eight supplements, captions, and local browser
+gallery</td>
 </tr>
 <tr>
 <td><code>tables/</code></td>
-<td>Figure source tables and question-inclusion audit</td>
+<td>Current figure source tables and question-inclusion audit</td>
 </tr>
 <tr>
 <td><code>manuscript/</code></td>
@@ -168,39 +202,44 @@ dependency pins</td>
 </tr>
 <tr>
 <td><code>provenance/</code></td>
-<td>File checksums, source mapping, and archived verification
-evidence</td>
+<td>File checksums, source mapping, analysis records, and archived
+verification evidence</td>
 </tr>
 </tbody>
 </table>
+<p>The <a href="claims/figure1_option_c.png">Figure 1 option C file</a>
+is retained as a design reference, not as a substitute for the current
+Figure 1 in the figure gallery.</p>
 <h2 id="reproducibility-and-exclusions">Reproducibility and
 exclusions</h2>
-<p>The code snapshots preserve the original project-relative paths. They
-are for method inspection and use with the full authorized research
-archive; this compact folder does <strong>not</strong> reproduce the
-complete analysis by itself. Most original figure builders require saved
-analysis JSON files or raw graphs that are not redistributed here. The
-included CSV files support inspection of reported figure values, but do
-not replace the raw-data audit. No collection script has been run to
-prepare this package.</p>
-<p>The archived 5 October same-machine reproduction passed 82 tests and
-reconstructed the 23 original margins. That is historical verification,
-not a new independent replication. Later figure wording checks are
-documented separately. <code>provenance/package_manifest.json</code>
-records checksums for this package;
-<code>provenance/link_audit.json</code> records portable-link
-checks.</p>
-<p>To verify the downloaded files and headline arithmetic without
-installing additional packages, run
-<code>python code/verify_package.py</code> from this folder. This checks
-file hashes and the included tables, not the excluded raw graphs.</p>
-<p>Excluded: raw Neuronpedia graph exports, tokenizer/model files,
-private API configuration, credentials, downloaded reference PDFs,
-environments, caches, unrelated project changes, and the large
-local-only release archive. Their redistribution permissions are not
-established. The earlier compiled PDF is omitted because its figures and
-captions predate this revision. Links to the original writing-reference
-papers appear in <a href="methods/WRITING_REFERENCES.md">the reference
+<p>The code snapshots preserve project-relative paths. They are for
+method inspection and use with the full authorized research archive;
+this compact folder does <strong>not</strong> reproduce the complete
+raw-data analysis by itself. The included CSV and derived JSON files
+support inspection of reported values, but do not replace raw-data
+access.</p>
+<p>The current Qwen3-1.7B analysis was specified after earlier findings
+were known, using unchanged prompts, expected answers, and inclusion
+rules. Earlier subset results remain in the audit archive, not as extra
+observations or an independent replication. Methods Section 2.8
+preserves the distinction between those analyses and later retrospective
+display audits. Input hashes, representation checks, and reconstruction
+of archived results are recorded alongside the current analysis.</p>
+<p>Automated reproduction and review records are not independent
+scientific validation. The package manifest records the included file
+hashes, and the link audit checks local references. To verify the
+downloaded files and headline arithmetic without installing additional
+packages, run <code>python code/verify_package.py</code> from this
+folder. This checks hashes and included tables, not excluded raw
+graphs.</p>
+<p>No hosted generation or local model inference is part of this
+presentation update. Excluded materials include raw Neuronpedia exports,
+tokenizer/model files, private API configuration, credentials,
+downloaded reference PDFs, environments, caches, unrelated changes, and
+the large local release archive. Their redistribution permissions are
+not established. The earlier compiled PDF is omitted because it predates
+the current figures and captions. Links to the writing-reference papers
+appear in <a href="methods/WRITING_REFERENCES.md">the reference
 guide</a>; their PDFs are not bundled.</p>
 <p>Independent scientific review, author approval, reference
 verification, and venue formatting remain outstanding. This package

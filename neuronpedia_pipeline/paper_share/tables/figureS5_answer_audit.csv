@@ -1,0 +1,7 @@
+model,category,count,unit,total
+qwen3-1.7b,whole_answer_next_token,42,available factual-question graphs,50
+qwen3-1.7b,multi_token_prefix_only,4,available factual-question graphs,50
+qwen3-1.7b,next_token_mismatch,4,available factual-question graphs,50
+qwen3-4b,whole_answer_next_token,49,available factual-question graphs,59
+qwen3-4b,multi_token_prefix_only,5,available factual-question graphs,59
+qwen3-4b,next_token_mismatch,5,available factual-question graphs,59

@@ -1,0 +1,16 @@
+best_other_word_overlap,cohort,domain,fact,other_fact_candidates,other_fact_same_expected_answer_n,own_expected_answer_matches,own_word_overlap
+0.375,original50,chemistry,copper_symbol,4,0,True,0.5714285714285714
+0.375,original50,chemistry,potassium_symbol,4,0,True,0.5714285714285714
+0.375,original50,chemistry,silver_symbol,4,0,True,0.5714285714285714
+0.375,original50,chemistry,sodium_symbol,4,0,True,0.5714285714285714
+0.375,original50,chemistry,tungsten_symbol,4,0,True,0.5714285714285714
+0.4444444444444444,expanded91,geography,canada_capital,4,0,True,0.625
+0.375,expanded91,chemistry,copper_symbol,4,0,True,0.5714285714285714
+0.375,expanded91,chemistry,potassium_symbol,4,0,True,0.5714285714285714
+0.375,expanded91,chemistry,silver_symbol,4,0,True,0.5714285714285714
+0.375,expanded91,chemistry,sodium_symbol,4,0,True,0.5714285714285714
+0.4,expanded91,geography,south_korea_capital,4,0,True,0.6666666666666666
+0.4444444444444444,expanded91,geography,spain_capital,4,0,True,0.625
+0.4444444444444444,expanded91,geography,thailand_capital,4,0,True,0.625
+0.375,expanded91,chemistry,tungsten_symbol,4,0,True,0.5714285714285714
+0.4444444444444444,expanded91,geography,turkey_capital,4,0,True,0.625

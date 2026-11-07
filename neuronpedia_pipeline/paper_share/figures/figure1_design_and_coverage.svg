@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-28T11:21:48.991735</dc:date>
+    <dc:date>2026-11-07T11:26:19.517572</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 42.84 153.3924 42.84 161.3304
 L 42.84 261.8784 
 Q 42.84 269.8164 48.216449 269.8164 
 z
-" clip-path="url(#pc5d951df9e)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p87f4dc1d89)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 48.216449 497.9016 
@@ -53,7 +53,7 @@ Q 42.84 287.8092 42.84 295.7472
 L 42.84 489.9636 
 Q 42.84 497.9016 48.216449 497.9016 
 z
-" clip-path="url(#pc5d951df9e)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p87f4dc1d89)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 48.216449 601.0956 
@@ -66,7 +66,7 @@ Q 42.84 520.128 42.84 528.066
 L 42.84 593.1576 
 Q 42.84 601.0956 48.216449 601.0956 
 z
-" clip-path="url(#pc5d951df9e)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p87f4dc1d89)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <g id="patch_5">
@@ -94,7 +94,7 @@ z
     <text style="font-size: 8.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="139.616075" y="117.439088" transform="rotate(-0 139.616075 117.439088)">Gemma-2-2B / Qwen3-1.7B / Qwen3-4B</text>
    </g>
    <g id="text_5">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="45.707439" y="134.300194" transform="rotate(-0 45.707439 134.300194)">Original question and control sets</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="45.707439" y="134.300194" transform="rotate(-0 45.707439 134.300194)">Test questions: 8 / 10 / 10 across the three models</text>
    </g>
    <g id="text_6">
     <text style="font-weight: 700; font-size: 8.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #236c88" x="221.696523" y="175.423134" transform="rotate(-0 221.696523 175.423134)">STARTING QUESTION</text>
@@ -170,7 +170,7 @@ Q 438.905047 153.3924 438.905047 161.3304
 L 438.905047 261.8784 
 Q 438.905047 269.8164 444.281495 269.8164 
 z
-" clip-path="url(#pc8529339b2)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pb1b741fa35)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 444.281495 497.9016 
@@ -183,7 +183,7 @@ Q 438.905047 287.8092 438.905047 295.7472
 L 438.905047 489.9636 
 Q 438.905047 497.9016 444.281495 497.9016 
 z
-" clip-path="url(#pc8529339b2)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pb1b741fa35)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 444.281495 601.0956 
@@ -196,7 +196,7 @@ Q 438.905047 520.128 438.905047 528.066
 L 438.905047 593.1576 
 Q 438.905047 601.0956 444.281495 601.0956 
 z
-" clip-path="url(#pc8529339b2)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#pb1b741fa35)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_19">
     <g id="patch_11">
@@ -301,7 +301,7 @@ Q 834.970093 153.3924 834.970093 161.3304
 L 834.970093 261.8784 
 Q 834.970093 269.8164 840.346542 269.8164 
 z
-" clip-path="url(#p5a64cedb74)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p85ea37b50b)" style="fill: #f1f6f9; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
     <path d="M 840.346542 497.9016 
@@ -314,7 +314,7 @@ Q 834.970093 287.8092 834.970093 295.7472
 L 834.970093 489.9636 
 Q 834.970093 497.9016 840.346542 497.9016 
 z
-" clip-path="url(#p5a64cedb74)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p85ea37b50b)" style="fill: #ffffff; stroke: #d8e2e9; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
     <path d="M 840.346542 601.0956 
@@ -327,7 +327,7 @@ Q 834.970093 520.128 834.970093 528.066
 L 834.970093 593.1576 
 Q 834.970093 601.0956 840.346542 601.0956 
 z
-" clip-path="url(#p5a64cedb74)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p85ea37b50b)" style="fill: #eaf3ef; stroke: #c9ddd3; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_37">
     <g id="patch_17">
@@ -423,26 +423,26 @@ L 1193.4 631.44
 " style="fill: none; stroke: #d8e2e9; stroke-width: 0.8; stroke-linecap: square"/>
   </g>
   <g id="text_54">
-   <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203544" x="42.84" y="652.32" transform="rotate(-0 42.84 652.32)">Feature overlap measures shared graph components—not answer correctness.</text>
+   <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203544" x="42.84" y="652.32" transform="rotate(-0 42.84 652.32)">Feature overlap measures shared graph components, not answer correctness.</text>
   </g>
   <g id="text_55">
    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="42.84" y="674.64" transform="rotate(-0 42.84 674.64)">Gold means the chemical element. Examples are shortened: A uses development questions; B uses a pilot country pair; C shows a collected failure.</text>
   </g>
   <g id="text_56">
-   <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="42.84" y="692.64" transform="rotate(-0 42.84 692.64)">Arrows show comparison steps, not causes. Full prompts and collection/exclusion counts are provided in the saved data and captions.</text>
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5b6d7a" x="42.84" y="692.64" transform="rotate(-0 42.84 692.64)">Qwen3-1.7B: five chemistry + five geography test questions; no complete history question/control sets. Graph collection and exclusion counts are reported separately.</text>
   </g>
   <g id="text_57">
    <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203544" x="42.84" y="32.437031" transform="rotate(-0 42.84 32.437031)">Three tests ask what similar graphs can tell us</text>
   </g>
  </g>
  <defs>
-  <clipPath id="pc5d951df9e">
+  <clipPath id="p87f4dc1d89">
    <rect x="42.84" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
-  <clipPath id="pc8529339b2">
+  <clipPath id="pb1b741fa35">
    <rect x="438.905047" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
-  <clipPath id="p5a64cedb74">
+  <clipPath id="p85ea37b50b">
    <rect x="834.970093" y="75.6" width="358.429907" height="529.2"/>
   </clipPath>
  </defs>

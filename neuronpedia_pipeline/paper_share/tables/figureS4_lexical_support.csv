@@ -1,0 +1,10 @@
+model,rule,eligible_n,n,mean,positive_n,ci95_descriptive
+gemma-2-2b,at_least_own_overlap,8,0,,0,
+gemma-2-2b,word_caliper_0.05,8,0,,0,
+gemma-2-2b,word_and_size_caliper,8,0,,0,
+qwen3-1.7b,at_least_own_overlap,10,0,,0,
+qwen3-1.7b,word_caliper_0.05,10,0,,0,
+qwen3-1.7b,word_and_size_caliper,10,0,,0,
+qwen3-4b,at_least_own_overlap,10,0,,0,
+qwen3-4b,word_caliper_0.05,10,0,,0,
+qwen3-4b,word_and_size_caliper,10,0,,0,

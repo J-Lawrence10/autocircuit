@@ -8,6 +8,7 @@ import csv
 import html
 import json
 import platform
+import re
 import shutil
 import textwrap
 
@@ -21,11 +22,16 @@ import build_three_model_figure_pack as base
 import figure_plain_language as wording
 import plot_exploratory_confound_checks as exploratory_plots
 import plot_closeout_audit as closeout_plots
+import plot_updated_cohort_figures as updated_plots
+import current_cohort_accounting as accounting
+import plot_methods_workflow as methods_plots
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT/'data/model_extension/paper_figures_plain_language_20261006'
 BLUE, ORANGE, INK = draft.BLUE, draft.ORANGE, draft.INK
 FIGURES = []
+CURRENT = None
+REVISION = '2026-11-07'
 TITLES = dict(draft.TITLES)
 CAPTIONS = dict(draft.CAPTIONS)
 TITLES['figure1_design_and_coverage'] = 'Three comparisons distinguish related questions from correct answers'
@@ -78,14 +84,38 @@ def source(path):
     return path
 
 
+def archive_superseded_tables():
+    """Move only known generated comparison-view tables to a bounded archive."""
+    names=['figure2_fact_level_expanded','figure2_summary_expanded','figure4_controls_expanded',
+           'figureS1_influence_values_expanded','figureS1_quality_expanded','figureS2_robustness_expanded',
+           'figureS3_equal_counts_expanded','figureS3_per_fact_expanded','figureS4_lexical_scatter_expanded',
+           'figureS4_lexical_support_expanded','figureS5_answer_audit_expanded']
+    table_dir=(OUT/'tables').resolve()
+    archive=(ROOT/'data/model_extension/figure_table_archive_20261107_separate_expansion').resolve()
+    assert table_dir.is_relative_to(ROOT.resolve()) and archive.is_relative_to(ROOT.resolve())
+    for name in names:
+        path=(table_dir/f'{name}.csv').resolve();dest=(archive/path.name).resolve()
+        assert path.parent==table_dir and dest.parent==archive
+        if not path.exists():continue
+        archive.mkdir(exist_ok=True)
+        if dest.exists():
+            assert base.digest(dest)==base.digest(path),f'Archive collision: {dest}'
+            path.unlink()
+        else:shutil.move(str(path),str(dest))
+
+
 def save(fig, stem, *unused):
     numbers_before = wording.numeric_signature(fig)
-    if stem not in ['figure1_design_and_coverage', 'figure5_matched_choice']:
+    if stem not in ['figure1_design_and_coverage', 'figure5_matched_choice', 'figureS8_feature_overlap_workflow']:
         draft.clarify_labels(fig, stem)
     wording.clarify(fig, stem)
-    fig.suptitle(textwrap.fill(TITLES[stem], 93), x=.035 if stem=='figure1_design_and_coverage' else .055,
+    # Cohort assembly precedes wording edits; presentation cannot change values.
+    assert wording.numeric_signature(fig) == numbers_before, f'Wording changed plotted values: {stem}'
+    if stem=='figureS4_lexical_support':
+        updated_plots.add_bottom_padding(fig,.20)
+    fig.suptitle(textwrap.fill(TITLES[stem], 93), x=.035 if stem=='figure1_design_and_coverage' else .025 if stem=='figureS8_feature_overlap_workflow' else .055,
                  y=.975 if stem=='figure1_design_and_coverage' else .985, ha='left', va='top',
-                 fontsize=19 if stem=='figure1_design_and_coverage' else 14, fontweight='bold', color=INK)
+                 fontsize=19 if stem=='figure1_design_and_coverage' else 20 if stem=='figureS8_feature_overlap_workflow' else 14, fontweight='bold', color=INK)
     fig.canvas.draw()
     if stem == 'figure1_design_and_coverage':
         renderer = fig.canvas.get_renderer()
@@ -93,10 +123,11 @@ def save(fig, stem, *unused):
             for label in ax.texts:
                 bounds = label.get_window_extent(renderer)
                 assert bounds.x0 >= ax.bbox.x0 - 2 and bounds.x1 <= ax.bbox.x1 + 2, label.get_text()
-    assert wording.numeric_signature(fig) == numbers_before, f'Wording changed plotted values: {stem}'
     for ext in ['png', 'svg']:
         fig.savefig(OUT/f'{stem}.{ext}', dpi=300, facecolor='white')
-    FIGURES.append(dict(number=len(FIGURES)+1, stem=stem, title=TITLES[stem], legend=CAPTIONS[stem]))
+    label = re.fullmatch(r'figure(S?\d+)_.+', stem).group(1)
+    FIGURES.append(dict(number=int(label.removeprefix('S')), label=label,
+                        stem=stem, title=TITLES[stem], legend=CAPTIONS[stem]))
     plt.close(fig)
 
 
@@ -119,7 +150,7 @@ def design():
 
     headers = [
         ('a', 'Reword a factual question', 'Gemma-2-2B / Qwen3-1.7B / Qwen3-4B',
-         'Original question and control sets'),
+         'Test questions: 8 / 10 / 10 across the three models'),
         ('b', 'Change the correct A/B answer', 'Qwen3-4B', '48 graphs · six country pairs'),
         ('c', 'Examine selected wrong answers', 'Qwen3-4B', '16 graphs · one country pair · two answer formats')]
     questions = [
@@ -179,9 +210,9 @@ def design():
 
     fig.add_artist(plt.Line2D([.035, .975], [.123, .123], transform=fig.transFigure,
                              color=border, linewidth=.8))
-    fig.text(.035, .094, 'Feature overlap measures shared graph components—not answer correctness.', fontsize=11, fontweight='bold', color=INK)
+    fig.text(.035, .094, 'Feature overlap measures shared graph components, not answer correctness.', fontsize=11, fontweight='bold', color=INK)
     fig.text(.035, .063, 'Gold means the chemical element. Examples are shortened: A uses development questions; B uses a pilot country pair; C shows a collected failure.', fontsize=9, color=muted)
-    fig.text(.035, .038, 'Arrows show comparison steps, not causes. Full prompts and collection/exclusion counts are provided in the saved data and captions.', fontsize=9, color=muted)
+    fig.text(.035, .038, 'Qwen3-1.7B: five chemistry + five geography test questions; no complete history question/control sets. Graph collection and exclusion counts are reported separately.', fontsize=9, color=muted)
     save(fig, 'figure1_design_and_coverage')
 
 
@@ -247,30 +278,39 @@ def supplements():
     base.save=save_supp
     original=base.load(base.ORIGINAL/'whole_graph_results.json')
     ext=base.load(base.EXTENSION/'analysis/model_extension_results.json')
-    base.quality_figure(base.load(base.ORIGINAL/'raw_graph_audit.json'),
+    CURRENT.quality(base.load(base.ORIGINAL/'raw_graph_audit.json'),
                        base.load(base.ORIGINAL/'format_graph_audit.json'),
                        base.load(base.EXTENSION/'analysis/conversion_audit.json'),
-                       base.load(base.EXTENSION/'analysis/graph_audit.json'))
-    base.robustness_figure([original['models']['gemma'],original['models']['qwen'],ext['controlled']])
+                       base.load(base.EXTENSION/'analysis/graph_audit.json'),save_supp)
+    results=[original['models']['gemma'],CURRENT.current,ext['controlled']]
+    base.robustness_figure(results)
     for p in [exploratory_plots.OUT/'results.json', exploratory_plots.OUT/'size_per_fact.csv',
               exploratory_plots.OUT/'pairwise_lexical_and_size.csv', closeout_plots.OUT/'matched_choice_sensitivity.csv',
               closeout_plots.OUT/'failure_sensitivity.csv', closeout_plots.OUT/'statistics_audit.json']:
         source(p)
-    exploratory_plots.main(save_callback=save_supp)
+    CURRENT.exploratory(results,base.load(exploratory_plots.OUT/'results.json'),
+                        exploratory_plots.csv_rows('size_per_fact'),
+                        exploratory_plots.csv_rows('pairwise_lexical_and_size'),save_supp)
     closeout_plots.main(save_callback=save_supp)
+    CURRENT.collection(save_supp)
+    for path in methods_plots.INPUT_PATHS:
+        source(ROOT/path)
+    methods_figure = methods_plots.build_figure()
+    methods_plots.validate_figure(methods_figure)
+    save_supp(methods_figure, 'figureS8_feature_overlap_workflow')
     base.save=save
     return result
 
 
 def gallery(supp,history):
     lines=['# Figures for the integrated paper outline','',
-           '28 October 2026. Findings-led wording for all six main figures; six supplements retain their detailed definitions. Saved estimates, inclusion rules, and conclusions are unchanged; no new model runs or statistical tests.','',
+           '7 November 2026. Six main figures and eight supplements present the current three-model dataset and its analysis workflow. The primary comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 10 Qwen3-4B test questions. Qwen3-1.7B has 91 available graphs and five chemistry plus five geography test questions. S8 is an illustrative methods diagram, not an additional result. This plotting script makes no model calls or statistical tests.','',
            '## How to read these figures','',
            'A feature is a learned component represented in the exported graph, not a verified concept or a complete reasoning step. Feature overlap counts which components appear in both graphs; it does not compare all their connections. Jaccard overlap divides the number shared by the total number of distinct features across the two graphs: 0 means none shared, and 1 means identical sets. A difference in feature overlap subtracts one overlap score from another; each figure specifies the comparison. It can be positive, zero, or negative. Zero means equal overlap, not missing data.','',
            'A test question was reserved for evaluation rather than for developing the analysis. A token is one unit of predicted text; it may be a whole word, part of a word, or a symbol. A/B answer means the letter produced, not necessarily the same capital city. Category colors are explained by labels or legends; numerical colors have a scale. An asterisk on Qwen3-4B marks the incomplete original collection (145/147 graphs), not the separate completed follow-ups.','']
     sections=[]
     for i,f in enumerate(FIGURES+supp):
-        prefix=f'Figure {i+1}' if i<6 else f'Supplement S{i-5}'
+        prefix=f'Supplement {f["label"]}' if f['label'].startswith('S') else f'Figure {f["label"]}'
         lines.extend([f'## {prefix} {f["title"]}','',f'![{prefix}]({(OUT/(f["stem"]+".png")).as_posix()})','',f['legend'],'',f'[Editable SVG]({(OUT/(f["stem"]+".svg")).as_posix()})',''])
         sections.append(f'<section><h2>{html.escape(prefix+": "+f["title"])}</h2><img src="{f["stem"]}.png" alt="{html.escape(f["title"])}"><p>{html.escape(f["legend"])}</p><a href="{f["stem"]}.svg">Editable SVG</a></section>')
     pilot=[dict(component='Literal A/B instructions',correct=4,total=4),
@@ -284,17 +324,25 @@ def gallery(supp,history):
     table='<table><tr><th>Pilot checks</th><th>Correct</th><th>Required</th></tr>'+''.join(f'<tr><td>{r["component"]}</td><td>{r["correct"]}/{r["total"]}</td><td>{r["total"]}/{r["total"]}</td></tr>' for r in pilot)+'<tr><td>Overall</td><td>15/20</td><td>20/20</td></tr></table>'
     sections.append('<section><h2>Final history pilot</h2>'+table+'<p>The fixed pilot failed. No evaluation graphs were requested. There is no new historical graph-overlap estimate, not a measured zero effect.</p></section>')
     lines.extend(['## Reproduction and source data','',
-                  'Run `.venv-final-reproduction/Scripts/python.exe scripts/build_outline_figures_v2.py`. All 12 figures are rebuilt from saved data as 300-dpi PNGs and editable SVGs. The wording is maintained in `scripts/figure_plain_language.py`; the label review is recorded in `wording_audit.json`.','',
+                  'Run `.venv-final-reproduction/Scripts/python.exe scripts/build_outline_figures_v2.py`. All 14 figures are rebuilt from saved results or declared methods illustrations as 300-dpi PNGs and editable SVGs. The wording is maintained in `scripts/figure_plain_language.py`; the methods diagram is drawn by `scripts/plot_methods_workflow.py`, and the label review is recorded in `wording_audit.json`.','',
                   'The manifest records input, builder, helper, and output hashes; plotted source tables are in `tables`. Figure 5 shows six blocks, not 48 independent observations. Category colors are directly labeled or keyed in legends; the numerical heatmap has a 0–1 color scale. Missing groups are unavailable, never effect-size zeros.','',
-                  'Earlier figures, the compiled manuscript, and the sealed release archive remain unchanged. This is a figure revision for author review, not a new scientific analysis.',''])
+                  'Current figures use the full available Qwen3-1.7B cohort; S7 reports its collection and subject coverage. Figures 3, 5, 6, and S6 retain their fact/wording or Qwen3-4B-only study scope. Collection batches and earlier estimates remain available in archived provenance and prior releases, without duplicate groups in the current presentation.',''])
     (OUT/'LEGENDS.md').write_text('\n'.join(lines),encoding='utf-8')
     (ROOT/'docs/writing/FIGURE_HEADLINES_AND_LEGENDS.md').write_text('\n'.join(lines),encoding='utf-8')
     intro=''.join('<p>'+html.escape(lines[i])+'</p>' for i in [6,8])
-    (OUT/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Paper figures and legends</title><style>body{max-width:1350px;margin:32px auto;padding:0 24px;font:17px/1.55 system-ui;color:#203544}img{width:100%;height:auto}h1,h2{line-height:1.25}section{margin:45px 0;border-top:1px solid #d8e1e7;padding-top:20px}table{border-collapse:collapse}td,th{border:1px solid #ccd5dc;padding:8px 18px}p{max-width:1100px}</style><h1>Figures for the integrated paper outline</h1><p>Wording reviewed 28 October 2026. Six main figures, six supplements, and the stopped history pilot. Saved results only.</p>'+intro+''.join(sections)+'</html>',encoding='utf-8')
+    (OUT/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Paper figures and legends</title><style>body{max-width:1350px;margin:32px auto;padding:0 24px;font:17px/1.55 system-ui;color:#203544}img{width:100%;height:auto}h1,h2{line-height:1.25}section{margin:45px 0;border-top:1px solid #d8e1e7;padding-top:20px}table{border-collapse:collapse}td,th{border:1px solid #ccd5dc;padding:8px 18px}p{max-width:1100px}</style><h1>Figures for the integrated paper outline</h1><p>Updated 7 November 2026. Six main figures and eight supplements present the current three-model dataset and its analysis workflow. The primary comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 10 Qwen3-4B test questions. S8 explains the method using illustrative feature sets and scores.</p>'+intro+''.join(sections)+'</html>',encoding='utf-8')
 
 
 def main():
+    global CURRENT
     OUT.mkdir(parents=True,exist_ok=True);base.OUT=OUT;draft.OUT=OUT
+    # Studies unrelated to this Qwen cohort remain exactly as previously drawn.
+    retained_names = [
+        'figure3_crossed_effects',
+        'figure5_block_contrasts', 'figure5_four_conditions_by_block', 'figure5_four_condition_means',
+        'figure6_behavior', 'figure6_comparisons', 'table_history_pilot']
+    retained_hashes = {name:base.digest(OUT/'tables'/f'{name}.csv') for name in retained_names
+                       if (OUT/'tables'/f'{name}.csv').exists()}
     base.SOURCES.clear();base.TABLES.clear();FIGURES.clear();wording.AUDIT.clear();base.style()
     plt.rcParams.update({'axes.titleweight':'semibold','text.color':INK,'axes.labelcolor':INK})
     original=base.load(base.ORIGINAL/'whole_graph_results.json')
@@ -304,7 +352,8 @@ def main():
     jobs=base.load(ROOT/'data/model_extension/failure_case_graphs_v1/jobs.json')
     history=base.load(ROOT/'data/model_extension/history_choice_final_v1/pilot_gate.json')
     source(ROOT/'docs/papers/INTEGRATED_PAPER_OUTLINE.md')
-    results=[original['models']['gemma'],original['models']['qwen'],ext['controlled']]
+    CURRENT=updated_plots.CurrentFigures(source,base.table)
+    results=[original['models']['gemma'],CURRENT.current,ext['controlled']]
     crossed=[('Gemma-2-2B',original['format_variation']),('Qwen3-4B',ext['crossed'])]
     checks=base.validate_arithmetic(results,crossed)
     assert len(matched['blocks'])==6 and sum(b['correct_n'] for b in matched['blocks'])==48
@@ -315,22 +364,33 @@ def main():
     design();base.signal_figure(results);base.crossed_figure(crossed);base.control_figure(results)
     matched_figure(matched);draft.failure_figure(failure,jobs)
     supp=supplements();gallery(supp,history)
-    assert len(FIGURES)==6 and len(supp)==6
+    base.table('test_fact_inclusion_audit',accounting.current_rows(ROOT))
+    for name,digest in accounting.input_hashes(ROOT).items():
+        base.SOURCES[str(Path(name))]=digest
+    archive_superseded_tables()
+    for name, digest in retained_hashes.items():
+        assert base.digest(OUT/'tables'/f'{name}.csv') == digest, f'Retained source table changed: {name}'
+    assert [f['label'] for f in FIGURES] == [str(i) for i in range(1, 7)]
+    assert [f['label'] for f in supp] == [f'S{i}' for i in range(1, 9)]
     for path,digest in base.SOURCES.items():assert base.digest(ROOT/path)==digest
     for f in FIGURES+supp:
         for extn in ['png','svg']:assert (OUT/f'{f["stem"]}.{extn}').stat().st_size>1000
     checks+=['Six-block four-condition means reconcile with frozen contrasts to 1e-12',
              '48/48 matched-choice decisions, 16 clean failure graphs, eight valid comparisons',
              'History pilot 15/20; no history graph effect plotted','All supplements rebuilt using the same saved-data plotting functions',
-             'Plotted lines, points, heatmaps, and bars unchanged by wording edits in all 12 figures']
+             'Current plotted numbers are fingerprinted before and after wording edits',
+             'S7 current collection and domain estimates reconcile with the full available Qwen3-1.7B cohort',
+             'S8 uses exact saved development prompts and explicitly illustrative feature sets and scores']
+    checks+=CURRENT.checks
+    checks.append(f'{len(retained_hashes)} unaffected study tables remain byte-identical; canonical tables describe current cohorts')
     (OUT/'wording_audit.json').write_text(json.dumps(wording.AUDIT,indent=2),encoding='utf-8')
-    manifest=dict(date='2026-10-28',figures=FIGURES,supplements=supp,checks=checks,
+    manifest=dict(date=REVISION,figures=FIGURES,supplements=supp,checks=checks,
                   source_hashes=base.SOURCES,script_sha256=base.digest(Path(__file__)),
-                  helper_hashes={str(Path(m.__file__).relative_to(ROOT)):base.digest(Path(m.__file__)) for m in [draft,base,wording,exploratory_plots,closeout_plots]},
+                  helper_hashes={str(Path(m.__file__).relative_to(ROOT)):base.digest(Path(m.__file__)) for m in [draft,base,wording,exploratory_plots,closeout_plots,updated_plots,accounting,methods_plots]},
                   python=platform.python_version(),numpy=np.__version__,matplotlib=matplotlib.__version__,
                   output_hashes={str(p.relative_to(OUT)):base.digest(p) for p in OUT.rglob('*') if p.is_file() and p.name not in ['figure_manifest.json','VISUAL_QA.md']})
     (OUT/'figure_manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
-    print(f'Built six main figures, six supplements, source tables and legends: {OUT}')
+    print(f'Built six main figures, eight supplements, source tables and legends: {OUT}')
 
 
 if __name__=='__main__':main()
