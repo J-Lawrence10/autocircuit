@@ -4,7 +4,7 @@
 
 [Read the paper online](https://j-lawrence10.github.io/autocircuit/manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) | [Website and figures](https://j-lawrence10.github.io/autocircuit/) | [Review package](neuronpedia_pipeline/paper_share/)
 
-The current paper asks whether attribution-graph feature sharing reflects the fact being asked about or the answer the model produces. The package includes the final corrected results, manuscript, figures, derived tables, analysis code snapshots, and audit records. It is a working manuscript, not a peer-reviewed publication. Raw Neuronpedia exports, credentials, model files, and third-party reference PDFs are not included.
+**Feature sharing in attribution graphs tracks predicted responses.** The paper asks whether graph feature sharing reflects the fact being asked about or the answer the model produces. This reviewed edition includes the approved manuscript and abstract, six main figures, ten supplements, derived tables, analysis code snapshots, and audit records. It is a working manuscript, not a peer-reviewed publication. Raw Neuronpedia exports, credentials, model files, and third-party reference PDFs are not included.
 
 **Historical correction:** Earlier traceback, bottleneck, redundancy, and causal claims are withdrawn. The archived research overview below is not the current paper or its conclusions.
 

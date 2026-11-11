@@ -1,0 +1,7 @@
+model,domain,matching,total
+Gemma-2-2B,chemistry,7,9
+Gemma-2-2B,geography,4,9
+Gemma-2-2B,history,0,9
+Qwen3-4B,chemistry,8,9
+Qwen3-4B,geography,9,9
+Qwen3-4B,history,0,9

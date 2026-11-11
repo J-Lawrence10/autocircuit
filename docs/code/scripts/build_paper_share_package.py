@@ -13,10 +13,11 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
 REVISION = '2026-11-11'
-EDITION = 'final_corrected_results'
+EDITION = 'reviewed_publication'
 SPELLING = ROOT / 'data/model_extension/answer_spelling_20261111'
 FINAL = ROOT / 'data/model_extension/final_corrected_scoring_20261111'
-FIG = FINAL / 'paper_figures'
+REVIEW = ROOT / 'data/model_extension/paper_review_20261111'
+FIG = REVIEW / 'figures'
 QWEN4_COMPLETION = ROOT / 'data/model_extension/qwen4_completion_20261110'
 HISTORY = ROOT / 'data/model_extension/history_pilot_graphs_20261110'
 HISTORY_FIG = HISTORY / 'paper_figure_v1'
@@ -63,34 +64,40 @@ def portable(text, dst):
 
 def write_figure_guide(figures):
     """Assemble the current gallery without rewriting either archived figure set."""
-    intro = ('Seven main figures and nine supplements present the final results. The main comparison includes 8 Gemma-2-2B, '
+    intro = ('Six main figures and ten supplements present the final results. The main comparison includes 8 Gemma-2-2B, '
              '10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Figure S9 details the included Qwen3-4B history facts. '
-             'Figure 7 shows the historical-date A/B comparisons. '
+             'Figure 6 shows the historical-date A/B comparisons. Supplement S10 contains the descriptive question-version comparison. '
              'The panels retain their own samples; the history comparisons reuse 16 graphs from two event pairs.')
     definition = ('Jaccard overlap is the number of shared features divided by the number present in either graph: '
                   '0 means none are shared and 1 means the feature sets are identical. A difference in overlap '
-                  'subtracts one overlap score from another. Missing comparisons are unavailable, not zero effects.')
+                  'subtracts one overlap score from another. Missing comparisons are unavailable, not zero effects. '
+                  'Source filenames retain their archived numbers; the links below map each current figure to its source tables. '
+                  'All figures are 180 mm wide with text of at least 7 points at that size.')
     lines = ['# Figures and legends', '', intro, '', definition, '']
     sections = []
     for f in figures:
         prefix = ('Supplement ' if f['label'].startswith('S') else 'Figure ') + f['label']
         heading = f'{prefix}: {f["title"]}'
         stem = f['stem']
+        sources = f.get('source_tables', [])
+        schematic_note = 'Methods schematic; see manuscript Section 2.2. Example feature sets and scores are illustrative.'
+        source_links = ', '.join(f'[{name}](../tables/{name})' for name in sources) or schematic_note
+        html_sources = ', '.join(f'<a href="../tables/{html.escape(name)}">{html.escape(name)}</a>' for name in sources) or schematic_note
         lines.extend([f'## {heading}', '', f'![{heading}]({stem}.png)', '', f['legend'], '',
-                      f'[Editable SVG]({stem}.svg)', ''])
+                      f'[Editable SVG]({stem}.svg)', '', f'Source tables: {source_links}', ''])
         legend = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html.escape(f['legend']))
         sections.append(f'<section><h2>{html.escape(heading)}</h2><img src="{stem}.png" '
                         f'alt="{html.escape(f["title"])}"><p>{legend}</p>'
-                        f'<a href="{stem}.svg">Editable SVG</a></section>')
+                        f'<a href="{stem}.svg">Editable SVG</a><p>Source tables: {html_sources}</p></section>')
     note = ('The original history study stopped after 15/20 preliminary checks against a 20/20 requirement; '
-            'its 160 evaluation graphs remain uncollected. Figure 7 instead includes all 16 historical prompts '
+            'its 160 evaluation graphs remain uncollected. Figure 6 instead includes all 16 historical prompts '
             'from that check, including incorrect predictions. Supporting analysis A7 reports both records.')
     lines.extend(['## History study accounting', '', note, '',
-                  'Figure 7 source data: [plotted pairs](../tables/figure7_history_answers_source.csv), '
+                  'Figure 6 source data: [plotted pairs](../tables/figure7_history_answers_source.csv), '
                   '[exact prompt examples](../provenance/history_prompt_examples.json), '
                   '[all 56 comparisons](../tables/history_all_pairs.csv).', '',
-                  'Run `scripts/finalize_corrected_scoring.py` and `scripts/build_final_corrected_figures.py` with the authorized saved-data archive. '
-                  'Run `scripts/build_paper_claims_map.py` for the claims map and `scripts/build_history_multipanel.py` for Figure 7. These steps use saved data. '
+                  'Run `scripts/build_reviewed_paper_figures.py` with the authorized saved-data archive for all current figures. '
+                  'Run `scripts/build_paper_claims_map.py` for the claims map. These presentation steps read saved results, without new model calls or statistical re-estimation. '
                   'Then run `scripts/build_paper_share_package.py` to assemble this review gallery.', ''])
     (OUT/'figures/LEGENDS.md').write_text('\n'.join(lines), encoding='utf-8')
     author_guide = '\n'.join(lines)
@@ -113,6 +120,22 @@ def write_figure_guide(figures):
 
 def main():
     OUT.mkdir(exist_ok=True)
+    # Archive only superseded presentation files, never source measurements.
+    from review_figure_catalog import STEM_MAP
+    for stem in STEM_MAP:
+        for extension in ['png', 'svg']:
+            path = OUT/'figures'/f'{stem}.{extension}'
+            if not path.exists():
+                continue
+            target = REVIEW/'superseded_share_figures'/path.name
+            assert path.resolve().is_relative_to((OUT/'figures').resolve())
+            assert target.resolve().is_relative_to(REVIEW.resolve())
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists():
+                assert sha(target) == sha(path)
+                path.unlink()
+            else:
+                shutil.move(str(path), str(target))
     # Retire only known generated scoring-history displays. Preserve their bytes
     # outside the current sharing folder, with resolved workspace boundaries.
     obsolete = [OUT/'tables/figureS9_pooled_estimates.csv',
@@ -136,16 +159,17 @@ def main():
     assert history_figure['stem'] == 'figure7_history_answers' and history_figure['graph_count'] == 16
     for row in history_figure['files']:
         assert sha(HISTORY_FIG/row['path']) == row['sha256'], row['path']
-    fs = manifest['figures'] + [history_figure] + manifest['supplements']
+    fs = manifest['figures'] + manifest['supplements']
+    assert len(manifest['figures']) == 6 and len(manifest['supplements']) == 10
     for f in fs:
         for ext in ['png', 'svg']:
-            directory = HISTORY_FIG if f is history_figure else FIG
-            src = directory/f'{f["stem"]}.{ext}'
+            src = FIG/f'{f["stem"]}.{ext}'
             copy(src, f'figures/{src.name}')
-    for p in sorted((FIG/'tables').glob('*.csv')):
+    for p in sorted((FIG/'tables').iterdir()):
+        assert p.suffix in {'.csv', '.json'}, p
         copy(p, f'tables/{p.name}')
     for ext in ['png', 'svg']:
-        copy(FINAL/f'claims/paper_claims_map.{ext}', f'claims/paper_claims_map.{ext}')
+        copy(REVIEW/f'claims/paper_claims_map.{ext}', f'claims/paper_claims_map.{ext}')
         copy(f'data/model_extension/figure1_mockups_20261006/option_c_comparison_diagrams.{ext}', f'claims/figure1_option_c.{ext}')
     docs = ['ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT', 'INTEGRATED_PAPER_OUTLINE', 'FINAL_FINDINGS_SUMMARY', 'SAMPLE_ACCOUNTING', 'MANUSCRIPT_REVISION_NOTES']
     methods = ['REANALYSIS_PROTOCOL', 'WHOLE_GRAPH_ANALYSIS_PROTOCOL', 'MODEL_EXTENSION_PROTOCOL',
@@ -165,7 +189,7 @@ def main():
     for name in ['results.json', 'execution_record.json', 'validation.json']:
         copy(FINAL/name, f'provenance/final_scoring_{name}')
     copy(FIG/'figure_manifest.json', 'provenance/final_figure_manifest.json')
-    copy(FINAL/'claims/manifest.json', 'provenance/claims_manifest.json')
+    copy(REVIEW/'claims/manifest.json', 'provenance/claims_manifest.json')
     for path in sorted(FINAL.glob('*.csv')):
         copy(path, f'tables/final_scoring_{path.name}')
     # Completed original Qwen3-4B collection; derived records only, no raw graphs.
@@ -257,7 +281,8 @@ def main():
              'plot_history_pilot_graphs', 'validate_history_pilot_graphs', 'reproduce_history_pilot_graphs',
              'complete_qwen4_controls', 'analyze_qwen4_completion', 'build_qwen4_completion_figures',
              'validate_qwen4_completion', 'analyze_answer_spelling', 'build_answer_spelling_figures', 'validate_answer_spelling',
-             'finalize_corrected_scoring', 'build_final_corrected_figures', 'validate_final_corrected_scoring']
+             'finalize_corrected_scoring', 'build_final_corrected_figures', 'validate_final_corrected_scoring',
+             'build_reviewed_paper_figures', 'review_figure_catalog']
     selected = set()
     todo = list(seeds)
     tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name]
@@ -298,8 +323,9 @@ def main():
     for md in [OUT/'README.md', draft]:
         dst = OUT/'index.html' if md.name == 'README.md' else md.with_suffix('.html')
         style = 'review.css' if md.name == 'README.md' else '../review.css'
+        metadata = ['--metadata', 'title=Attribution graph paper review'] if md.name == 'README.md' else []
         subprocess.run([pandoc, str(md), '--standalone', '--toc', '--css', style,
-                        '--metadata', 'title=Attribution graph paper review', '-o', str(dst)], check=True)
+                        *metadata, '-o', str(dst)], check=True)
     # Verify all Markdown and HTML file links resolve after relocation.
     checked = 0
     missing = []

@@ -20,7 +20,7 @@ def test_results_follow_question_controls_answer_errors_checks_scope():
         'Same-fact questions share words and expected answers',
         'Same-fact overlap is higher when the answer letter stays the same',
         'Error graphs show greater overlap with answer-matched controls',
-        'Greater feature sharing between same-fact questions',
+        'Greater same-fact feature sharing persists after matching feature counts',
         'History graphs can remain similar when the selected year changes',
     ]
     assert text.index('## Supporting analyses') > text.index('## 5. Conclusion')
@@ -40,7 +40,7 @@ def test_answer_letter_contrast_is_explicit_and_separate_from_primary_outcome():
     results = text.split('### 3.3 Same-fact overlap is higher when the answer letter stays the same\n\n', 1)[1].split('### 3.4 ', 1)[0]
     paragraphs = results.split('\n\n')
     paragraph = next(p for p in paragraphs if p.startswith('Attribution graphs shared substantially more features'))
-    assert '0.8005 with the same answer letter and 0.4853 with different letters, a difference of 0.3152 (Figure 5a)' in paragraph
+    assert '0.8005 with the same answer letter and 0.4853 with different letters, a difference of 0.3152 (Figure 4a)' in paragraph
     assert 'Questions about different countries showed the same pattern, with overlaps of 0.7377 and 0.4874, respectively' in paragraph
     assert 'letter-associated difference of 0.2827, positive in all six country pairs' in paragraph
     assert 'All 48 predictions were correct' in paragraph
@@ -57,16 +57,16 @@ def test_selected_error_results_explain_controls_and_preserve_scope():
     first, second, third = results.strip().split('\n\n')[:3]
     assert 'whether graph similarity also followed the predicted answer when that answer was wrong' in first
     assert 'Naming France directly produced the correct B or Paris response; naming Germany produced the correct A or Berlin response' in first
-    assert 'correct France prediction for the intended country (Figure 6b,c)' in first
+    assert 'correct France prediction for the intended country (Figure 5b,c)' in first
     assert '8/16 correct A/B predictions and stopped at its fixed accuracy requirement' in second
     assert '20-question diagnostic passed all four checks using direct instructions or previously successful questions' in second
     assert 'All eight questions naming the country directly produced the intended next token' in second
     assert 'all eight selected questions identifying the country by its list position reproduced errors' in second
-    assert '(Figure 6a)' in second
+    assert '(Figure 5a)' in second
     assert 'The planned evaluation following the failed preliminary check was not conducted' in second
     assert 'All 16 diagnostic graphs passed integrity checks and reproduced their archived preview answers' in third
     assert 'two correct-answer graphs: one for the intended country and one producing the same answer as the error' in third
-    assert 'Every comparison favored the graph sharing the error’s answer (Figure 6b,c)' in third
+    assert 'Every comparison favored the graph sharing the error’s answer (Figure 5b,c)' in third
     for value in ['0.1983', '0.2649', '0.1851', '0.2361']:
         assert value in third
     assert 'influence-weighted cosine similarity preserved the direction in all eight comparisons' in third
@@ -88,7 +88,7 @@ def test_filtered_error_results_and_graph_size_bridge_preserve_scope():
     assert 'Both explanations predict the same errors' in limits
     assert 'Supporting analysis A3' in limits
     assert 'missing output nodes for the intended correct answers' in limits
-    size = text.split('### 3.5 Greater feature sharing between same-fact questions\n\n', 1)[1].split('\n\n', 1)[0]
+    size = text.split('### 3.5 Greater same-fact feature sharing persists after matching feature counts\n\n', 1)[1].split('\n\n', 1)[0]
     assert 'original three-model pattern' in size
     assert 'Within each model and subject area' in size
     assert 'sampling equal numbers of features from the starting and reworded factual graphs' in size
@@ -98,7 +98,7 @@ def test_filtered_error_results_and_graph_size_bridge_preserve_scope():
 
 def test_equal_count_results_define_table_units_and_sampling_limits():
     text = manuscript()
-    results = text.split('### 3.5 Greater feature sharing between same-fact questions\n\n', 1)[1].split('### 3.6 ', 1)[0]
+    results = text.split('### 3.5 Greater same-fact feature sharing persists after matching feature counts\n\n', 1)[1].split('### 3.6 ', 1)[0]
     assert 'K is the smallest number of distinct features among the included starting and reworded factual graphs within each model and subject area' in results
     assert 'K/2 is half that number, rounded down' in results
     assert 'mean same-fact-minus-other-fact Jaccard differences, not raw overlap scores' in results
@@ -125,7 +125,9 @@ def test_original_results_and_limitations_are_retained():
         assert value in text
     for phrase in ['rather than eight independent replications', 'not an equivalence',
                    'not causal ablations', 'no evaluation graphs were requested',
-                   'observationally indistinguishable', 'predicting the correct beginning does not necessarily establish the complete answer']:
+                   'observationally indistinguishable',
+                   'Partial answer tokens did not qualify.',
+                   'No subsequent-token generation is archived to verify completed answers.']:
         assert phrase in text
 
 
@@ -133,7 +135,7 @@ def test_current_figures_and_public_availability_are_consistent():
     text = manuscript()
     assert '**Working manuscript. Not peer reviewed.**' in text
     images = re.findall(r'!\[Figure (S?\d+):', text)
-    assert set(images) == {str(i) for i in range(1, 8)} | {f'S{i}' for i in range(1, 10)}
+    assert set(images) == {str(i) for i in range(1, 7)} | {f'S{i}' for i in range(1, 11)}
     assert len(images) == 16
     assert 'No data were published or submitted externally' not in text
     assert 'GitHub main branch' in text
@@ -192,7 +194,7 @@ def test_supporting_figures_do_not_interrupt_main_results():
     main = text.split('## Supporting analyses')[0]
     assert not re.search(r'!\[Figure S\d+:', main)
     assert '### A4 Comparison and sensitivity figures' in text
-    assert '### 4.2 Scope and remaining questions' in text
+    assert '### 4.2 Graph similarity and factual correctness can diverge' in text
     assert 'ordinary least-squares intercept with centered predictors equals' in text
 
 
@@ -316,13 +318,19 @@ def test_current_qwen_sample_and_negative_controls_are_used_consistently():
 
 def test_figure_captions_match_authoritative_wording():
     import sys
+    import json
     sys.path.insert(0, str(ROOT/'scripts'))
-    import figure_plain_language as wording
+    if (ROOT/'data/model_extension/paper_review_20261111').exists():
+        from review_figure_catalog import catalog
+        entries = catalog()
+    else:
+        manifest = json.loads((ROOT.parent/'provenance/final_figure_manifest.json').read_text(encoding='utf-8'))
+        entries = manifest['figures'] + manifest['supplements']
     text = manuscript()
-    for stem, title in wording.TITLES.items():
-        number = re.match(r'figure(S?\d+)', stem).group(1)
+    for row in entries:
+        number, title, caption = row['label'], row['title'], row['legend']
         assert f'![Figure {number}: {title}]' in text
-        assert f'**Figure {number}. {title}.** {wording.CAPTIONS[stem]}' in text
+        assert f'**Figure {number}. {title}.** {caption}' in text
 
 
 def test_history_results_retain_errors_and_follow_figure_panel_order():
@@ -330,10 +338,10 @@ def test_history_results_retain_errors_and_follow_figure_panel_order():
     results = text.split('### 3.6 ', 1)[1].split('## 4. Discussion', 1)[0]
     assert 'including 11 correct and five incorrect predictions' in results
     assert 'changed the selected year from 1776 to 1783' in results
-    assert 'retained the correct year, 1776; overlap was 0.512 (Figure 7a)' in results
-    assert '0.795–0.911' in results and '0.512–0.532 (Figure 7b)' in results
-    assert '0.766–0.808' in results and '0.527–0.602 (Figure 7c)' in results
-    assert results.index('(Figure 7a)') < results.index('(Figure 7b)') < results.index('(Figure 7c)')
+    assert 'retained the correct year, 1776; overlap was 0.512 (Figure 6a)' in results
+    assert '0.795–0.911' in results and '0.512–0.532 (Figure 6b)' in results
+    assert '0.766–0.808' in results and '0.527–0.602 (Figure 6c)' in results
+    assert results.index('(Figure 6a)') < results.index('(Figure 6b)') < results.index('(Figure 6c)')
     assert 'Supporting analysis A7' in results
     methods = text.split('### 2.7 ', 1)[1].split('### 2.8 ', 1)[0]
     assert "after the prompts' behavioral outcomes were known" in methods
@@ -350,27 +358,38 @@ def test_discussion_connects_fact_response_and_correctness_without_changing_scop
     text = manuscript()
     section = text.split('### 4.1 What the comparisons establish\n\n', 1)[1].split('### 4.2 ', 1)[0]
     paragraphs = section.strip().split('\n\n')
-    assert len(paragraphs) == 3
-    assert paragraphs[0].startswith('Feature overlap was associated with both the requested fact')
+    assert len(paragraphs) == 2
+    assert paragraphs[0].startswith('Rewordings of the same fact shared more attribution-graph features')
     assert 'all three analyzed model samples (Figure 2)' in paragraphs[0]
-    assert 'mainly when their predicted answer letters matched (Figure 5)' in paragraphs[0]
-    assert 'correct prediction for the intended country (Figure 6)' in paragraphs[1]
-    assert 'changing the letter to retain the correct year was accompanied by lower overlap (Figure 7)' in paragraphs[1]
-    assert 'after equalizing feature counts (Supplementary Figure S3)' in paragraphs[2]
-    assert 'Qwen3-4B geography comparisons' in paragraphs[2]
-    assert '(Supplementary Figure S6)' in paragraphs[2]
-    assert 'match the predicted response and explicitly check answer correctness' in paragraphs[2]
+    assert 'persisted after equalizing feature counts' in paragraphs[0]
+    assert '(Supplementary Figure S3)' in paragraphs[0]
+    assert 'combined association, rather than a measure specific to the requested fact' in paragraphs[0]
+    assert 'concentrated in comparisons sharing an answer letter' in paragraphs[1]
+    assert 'selected error graphs favored correct predictions giving the same response (Figures 4 and 5)' in paragraphs[1]
+    assert 'response letter from agreement on the selected year (Figure 6)' in paragraphs[1]
+    assert 'predicted response must be considered when interpreting feature overlap' in paragraphs[1]
 
 
-def test_discussion_answer_verification_distinguishes_letters_from_prefixes():
-    section = manuscript().split('### 4.2 Scope and remaining questions\n\n', 1)[1].split('### 4.3 ', 1)[0]
-    paragraph = next(p for p in section.split('\n\n') if p.startswith('Our graphs explain'))
-    assert 'In the A/B experiments, that token identifies the selected option' in paragraph
-    assert 'some expected answers span several tokens' in paragraph
-    assert 'The primary comparison required a complete accepted answer' in paragraph
-    assert 'accepted-spelling sensitivity' not in paragraph
-    assert 'partial beginnings remained unverified and excluded (Supporting analysis A1)' in paragraph
-    assert 'exchangeability' not in paragraph and 'invented name' not in paragraph
+def test_discussion_interprets_overlap_without_repeating_scoring_accounting():
+    text = manuscript()
+    section = text.split('### 4.2 Graph similarity and factual correctness can diverge\n\n', 1)[1].split('### 4.3 ', 1)[0]
+    paragraphs = section.strip().split('\n\n')
+    assert len(paragraphs) == 4
+    assert 'Graph similarity therefore changed without a loss of factual accuracy' in paragraphs[0]
+    assert all(f'(Figure {number})' in paragraphs[0] for number in (4, 5, 6))
+    assert 'Jaccard overlap quantifies feature sharing' in paragraphs[1]
+    assert 'requested fact, predicted response, and answer correctness together' in paragraphs[1]
+    assert 'all three analyzed model samples' in paragraphs[2]
+    assert 'experiments separating fact identity from the answer letter were conducted in Qwen3-4B' in paragraphs[2]
+    assert 'small samples and shared comparison graphs do not establish how frequently' in paragraphs[2]
+    assert 'Both could contribute.' in paragraphs[3]
+    assert 'model’s computation, the way that computation is measured, or their interaction' in paragraphs[3]
+    methods = text.split('### 2.2 ', 1)[1].split('### 2.3 ', 1)[0]
+    assert 'highest-probability next token had to give the complete accepted answer' in methods
+    assert 'Partial answer tokens did not qualify.' in methods
+    supplement = text.split('### A1 ', 1)[1].split('### A2 ', 1)[0]
+    assert 'No subsequent-token generation is archived to verify completed answers.' in supplement
+    assert 'Independent statistical review should' not in section
 
 
 def test_invented_name_controls_are_defined_and_legacy_terms_are_absent():
@@ -426,7 +445,7 @@ def test_methods_defines_error_graph_before_using_the_term():
     assert text.index(definition) < text.index('Each error graph was compared')
     assert 'swapped the capitals assigned to A and B' in overview
     assert 'one giving the same answer as the error, but in a context where that answer was correct' in overview
-    assert 'The three analyses used distinct question sets and were evaluated separately.' in overview
+    assert 'The four analyses used distinct question sets and were evaluated separately.' in overview
 
 
 def test_model_description_distinguishes_common_analysis_from_model_ranking():
@@ -464,17 +483,54 @@ def test_collection_totals_distinguish_question_designs_from_analyzed_samples():
 
 def test_future_research_distinguishes_selection_from_computation_and_completed_work():
     text = manuscript()
-    future = text.split('### 4.3 Future research: separating computation from graph selection\n\n', 1)[1].split('## 5. Conclusion', 1)[0]
-    assert 'Both processes could contribute.' in future
-    assert 'same recorded model run' in future
-    assert 'holding the prompt and model activity fixed' in future
-    assert 'feature activity recorded before answer-dependent selection' in future
-    assert 'would not by themselves quantify its contribution to the cross-question result' in future
+    future = text.split('### 4.3 Future research: separating model activity from graph construction\n\n', 1)[1].split('## 5. Conclusion', 1)[0]
+    paragraphs = future.strip().split('\n\n')
+    assert len(paragraphs) == 4
+    assert 'From one recorded model run' in paragraphs[0]
+    assert 'one graph could explain the A token and another the B token' in paragraphs[0]
+    assert 'prompt, model activity, and graph settings unchanged' in paragraphs[0]
+    assert 'would not by itself establish how much of the similarity across questions comes from that choice' in paragraphs[0]
+    assert 'activity recorded before features are selected for a particular output' in paragraphs[1]
+    assert 'keeping feature definitions fixed and checking sensitivity to feature counts' in paragraphs[1]
+    assert 'would support a contribution from shared model activity' in paragraphs[1]
+    assert 'graph construction also shapes the measured relationship' in paragraphs[1]
     assert 'saved exports contain only retained features' in future
+    assert 'do not consistently include those alternative outputs' in paragraphs[3]
     assert 'facts and wordings not used to select the features' in future
-    assert 'unchanged-model controls' in future and 'randomly selected feature sets matched in number, layer, and activation' in future
-    assert 'multiple intervention strengths' in future
-    assert 'future work, not experiments performed in this study' in future
+    assert 'unchanged-model baseline' in future and 'randomly selected features matched in number, layer, and activation' in future
+    assert 'Testing several intervention strengths' in paragraphs[2]
+    assert 'distinguish selective effects from general disruption' in paragraphs[2]
+    assert 'the proposed tests would move the investigation' in paragraphs[3]
+
+
+def test_approved_abstract_preserves_results_and_ends_with_scientific_takeaway():
+    text = manuscript()
+    abstract = text.split('## Abstract\n\n', 1)[1].split('## 1. Introduction', 1)[0].strip()
+    assert len(abstract.split('\n\n')) == 1
+    assert 'Jaccard overlap in Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B' in abstract
+    assert 'including after equalizing feature counts' in abstract
+    assert 'six country pairs' in abstract and 'All 48 predicted letters were correct.' in abstract
+    assert 'prespecified mean difference between same-country and different-country overlap was 0.0303' in abstract
+    assert '95% block-bootstrap interval 0.0265–0.0338' in abstract
+    assert 'with 8, 10, and 12 included evaluation facts, respectively' in abstract
+    assert 'The same-country overlap advantage was 0.0628 when answer letters matched but near zero (-0.0022) when different letters represented the correct answers.' in abstract
+    assert 'including five incorrect predictions' in abstract
+    assert 'eight selected error comparisons from one country pair' in abstract
+    assert '16 historical-date graphs from two event pairs' in abstract
+    assert abstract.endswith('Together, these findings show that graph similarity can track the predicted response without establishing correct factual processing.')
+    assert 'Attribution-graph comparisons should therefore distinguish' not in abstract
+
+
+def test_conclusion_connects_findings_to_interpretation_without_expanding_scope():
+    text = manuscript()
+    conclusion = text.split('## 5. Conclusion\n\n', 1)[1].split('## Supporting analyses', 1)[0].strip()
+    assert len(conclusion.split('\n\n')) == 1
+    assert conclusion.startswith('Reworded questions about the same fact shared more attribution-graph features across the three analyzed model samples.')
+    assert 'In Qwen3-4B, that advantage was concentrated in comparisons sharing the answer letter' in conclusion
+    assert 'selected errors and historical-date comparisons' in conclusion
+    assert 'without agreement on the correct factual answer' in conclusion
+    assert 'the fact being queried, the response produced, and whether that response is correct' in conclusion
+    assert 'causal mechanism' not in conclusion
 
 
 def test_expanded_sample_methods_are_concise_and_retain_core_limits():

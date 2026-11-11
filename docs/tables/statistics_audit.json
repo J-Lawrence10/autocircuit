@@ -1,0 +1,798 @@
+{
+  "analysis_status": "exploratory_after_outcome_inspection",
+  "filter_caveat": "Remove nodes at the final prediction context position and/or the last quarter of observed feature layers before collapsing feature identity. Not causal ablation; retained graphs remain output-conditioned.",
+  "inference_caveat": "Six block contrasts are the sample; original 4096 correspondence assignments are null configurations, not independent observations.",
+  "matched_choice": {
+    "exclude_both/jaccard": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.006153527517497361,
+          0.0006108046573943723
+        ],
+        "mean": -0.002697379778403184,
+        "n": 6,
+        "positive_n": 3,
+        "sd": 0.004783477292359139,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.007717331331638008,
+          0.0023225717748316392
+        ],
+        "two_sided_sign_flip_p": 0.25
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.029494452117859653,
+          0.03763296409496646
+        ],
+        "mean": 0.03391813452383432,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005677510398264068,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.027959952766015962,
+          0.039876316281652675
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.062378479440188574,
+          0.07749490136987118
+        ],
+        "mean": 0.07053364882607183,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.010533296396731376,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.05947963218175397,
+          0.08158766547038969
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.06466851985268163,
+          0.08168005765896066
+        ],
+        "mean": 0.07323102860447502,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.011778262974065106,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.060870499663423824,
+          0.0855915575455262
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.27002809303910147,
+          0.2790503916397428
+        ],
+        "mean": 0.27465955426503647,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.006325310064171079,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.26802154845030257,
+          0.28129756007977036
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "exclude_both/weighted_cosine": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.0034283644569801006,
+          -0.00021342648213410845
+        ],
+        "mean": -0.0018428871772386095,
+        "n": 6,
+        "positive_n": 1,
+        "sd": 0.0021956280979789464,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.004147057555214748,
+          0.0004612832007375291
+        ],
+        "two_sided_sign_flip_p": 0.09375
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.012821357477324583,
+          0.01669560837419215
+        ],
+        "mean": 0.015079404969808566,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0027245642865510304,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.01222015010431414,
+          0.017938659835302993
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.027686632833093732,
+          0.03482358231600177
+        ],
+        "mean": 0.03200169711685574,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005050100258658702,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.026701941920371373,
+          0.03730145231334012
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.029549417055425353,
+          0.03764144469563335
+        ],
+        "mean": 0.03384458429409435,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0055637746654660074,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.028005760867803965,
+          0.039683407720384735
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.15611927018258295,
+          0.16021112242653704
+        ],
+        "mean": 0.15818166551782373,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0028739650104956343,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.15516562420799557,
+          0.1611977068276519
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "exclude_final_position/jaccard": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.005292275718800328,
+          0.0006376327547334415
+        ],
+        "mean": -0.002240315909725408,
+        "n": 6,
+        "positive_n": 3,
+        "sd": 0.0041697285986093385,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.0066161777097995846,
+          0.002135545890348769
+        ],
+        "two_sided_sign_flip_p": 0.28125
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.029306276252792616,
+          0.03734361266288907
+        ],
+        "mean": 0.03373765823351856,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005724518963161022,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.02773014401231698,
+          0.039745172454720146
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.0614125853401821,
+          0.07689307943957446
+        ],
+        "mean": 0.06971563237676254,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.010736476137256895,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.058448391671432384,
+          0.08098287308209269
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.0632957982920364,
+          0.08003356194971313
+        ],
+        "mean": 0.07195594828648795,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.011586053833188161,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.05979713046818681,
+          0.08411476610478909
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.2789839008566262,
+          0.2894704978226536
+        ],
+        "mean": 0.28454075005745316,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0073127141749688915,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.27686652717786825,
+          0.2922149729370381
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "exclude_final_position/weighted_cosine": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.0031296288956320084,
+          -0.00030883048638911487
+        ],
+        "mean": -0.001680372950118821,
+        "n": 6,
+        "positive_n": 1,
+        "sd": 0.001945900839101269,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.0037224706423751933,
+          0.0003617247421375516
+        ],
+        "two_sided_sign_flip_p": 0.09375
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.012897209580263238,
+          0.016919523885010102
+        ],
+        "mean": 0.015274093487412719,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0028441842984310768,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.01228930511820659,
+          0.018258881856618846
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.02775979407194984,
+          0.03531648290260497
+        ],
+        "mean": 0.03222855992494426,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005379472849092077,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.026583149393254242,
+          0.03787397045663427
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.029466947574043428,
+          0.03769841371794893
+        ],
+        "mean": 0.03390893287506308,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005752649748220398,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.027871897205441934,
+          0.03994596854468423
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.16708482974868058,
+          0.17151457051462604
+        ],
+        "mean": 0.169413210694954,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0030157416006135187,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.1662483839785532,
+          0.17257803741135477
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "exclude_last_quarter_layers/jaccard": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.005496233420872215,
+          0.0005405122328691522
+        ],
+        "mean": -0.0024556433459076987,
+        "n": 6,
+        "positive_n": 3,
+        "sd": 0.004364064609580198,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.0070354482820099125,
+          0.002124161590194515
+        ],
+        "two_sided_sign_flip_p": 0.25
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.028009382917825173,
+          0.035374823423328074
+        ],
+        "mean": 0.0319656243143726,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005155468296299323,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.02655529214388226,
+          0.03737595648486294
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.05922140167037415,
+          0.07276307028675895
+        ],
+        "mean": 0.0663868919746529,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.00940378478715139,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.05651822506910456,
+          0.07625555888020125
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.06127970706868482,
+          0.07629031797132559
+        ],
+        "mean": 0.0688425353205606,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.010422909529623232,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.05790436258876249,
+          0.0797807080523587
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.26082967273584323,
+          0.27066267891097545
+        ],
+        "mean": 0.26622562978007386,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.006903286426125616,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.25898107497208744,
+          0.27347018458806027
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "exclude_last_quarter_layers/weighted_cosine": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.0032426658558756816,
+          -8.933324471431063e-05
+        ],
+        "mean": -0.0017101422087746343,
+        "n": 6,
+        "positive_n": 1,
+        "sd": 0.0021335402888237745,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.003949155427020275,
+          0.0005288710094710066
+        ],
+        "two_sided_sign_flip_p": 0.125
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.0122800386919286,
+          0.01587500703886835
+        ],
+        "mean": 0.014380162630189439,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0025176838118324044,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.011738015508063339,
+          0.01702230975231554
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.02666709142056045,
+          0.03303080216240739
+        ],
+        "mean": 0.030470467469153512,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.004494114361916901,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.025754183687989516,
+          0.035186751250317505
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.0284098983781577,
+          0.035539045726909635
+        ],
+        "mean": 0.03218060967792815,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.004913571920567785,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.027024132185292156,
+          0.037337087170564144
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.15158198461319675,
+          0.1560828675390751
+        ],
+        "mean": 0.15404443409196067,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0031443755443889177,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.1507446143304616,
+          0.15734425385345974
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "full/jaccard": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.004394875286328324,
+          0.00021649147283673656
+        ],
+        "mean": -0.002157063887003541,
+        "n": 6,
+        "positive_n": 3,
+        "sd": 0.0033392309523717486,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.005661371858266264,
+          0.0013472440842591821
+        ],
+        "two_sided_sign_flip_p": 0.25
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.02645935094413981,
+          0.03355721803786775
+        ],
+        "mean": 0.030319246701048918,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.005011672354248973,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.02505981911701863,
+          0.0355786742850792
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.05600898434966576,
+          0.06888202378460447
+        ],
+        "mean": 0.06279555728910137,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.009040749731067155,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.05330787230993946,
+          0.07228324226826327
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.05821803901740979,
+          0.07154536714384231
+        ],
+        "mean": 0.06495262117610491,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.009236005573881116,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.0552600277565961,
+          0.07464521459561371
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.27635077812897196,
+          0.2873444197944146
+        ],
+        "mean": 0.28273238305542375,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.007719044421216605,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.27463174273385876,
+          0.29083302337698874
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    },
+    "full/weighted_cosine": {
+      "fact_different_label": {
+        "bootstrap_ci95": [
+          -0.0028937967243209592,
+          -0.0003884081306099185
+        ],
+        "mean": -0.0016722439668782247,
+        "n": 6,
+        "positive_n": 1,
+        "sd": 0.0017193000314433173,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          -0.003476538695549128,
+          0.00013205076179267873
+        ],
+        "two_sided_sign_flip_p": 0.0625
+      },
+      "fact_effect": {
+        "bootstrap_ci95": [
+          0.012173608348070112,
+          0.01595936028931726
+        ],
+        "mean": 0.014385705379528204,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0026441318790795146,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.011610859149037023,
+          0.017160551610019385
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "fact_same_label": {
+        "bootstrap_ci95": [
+          0.026574037027107072,
+          0.03333181533363094
+        ],
+        "mean": 0.030443654725934632,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.004787282711468799,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.02541970963026139,
+          0.035467599821607874
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_condition_difference": {
+        "bootstrap_ci95": [
+          0.028279229038220204,
+          0.035406422149379245
+        ],
+        "mean": 0.03211589869281286,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.004876720531201253,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.026998094361557787,
+          0.03723370302406793
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      },
+      "label_effect": {
+        "bootstrap_ci95": [
+          0.16436011547606896,
+          0.16931620446296794
+        ],
+        "mean": 0.16714178167033059,
+        "n": 6,
+        "positive_n": 6,
+        "sd": 0.0033970298124509856,
+        "sign_flip_assumption": "Independent blocks with symmetric block contrasts under the zero-centered null; not a randomized causal test.",
+        "t_ci95": [
+          0.16357681751535535,
+          0.17070674582530582
+        ],
+        "two_sided_sign_flip_p": 0.03125
+      }
+    }
+  },
+  "script_sha256": "f3d2724b9f0b5c4a850dbb3da05d62e0d3086530ef3650e5d8cc991bb6494ee3",
+  "sources": {
+    "data\\model_extension\\failure_case_graphs_v1\\analysis\\results.json": "d73c00949a5fe4884625f517bd738691a840dcbe5db67947a7a99e0ce10da269",
+    "data\\model_extension\\failure_case_graphs_v1\\jobs.json": "8bd3fe48ca477f992f0cdaab5dc704f02e30b4da390fa0acd81fb1b57d8f491d",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_named_capital\\converted_graph.json": "1c25a2474557db229c1d38588f6616a549aa2596e6e7117bb64261a9d98dc82f",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_named_capital\\raw_graph.json": "b492eee6a2c6380e6bebbc85ab59b1eb61c87d4992278e3bd4590eddb984f03a",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_named_label\\converted_graph.json": "87f45cbf9f47db48840050b91f3465ec989d57a58e28c7f089c7b09ee66a5595",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_named_label\\raw_graph.json": "0b8c5d70ecf69ddde09f225e2a26939ab76f7f1b2db10ced3fdaf8c1242892c9",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_ordinal_capital\\converted_graph.json": "0a092e3e2d49e78ef440647e5db214768a86e0c56210934dff7f1682fe950a57",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_ordinal_capital\\raw_graph.json": "0c9b761d1aac446edf89357a51d7051279e5ec24538fd9ca0a1548b776f6f39d",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_ordinal_label\\converted_graph.json": "568e37f326c8e62b7787549b328cc9e918ff1cd179e93f9ac11da4e2f82ad340",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m0p1w0_ordinal_label\\raw_graph.json": "c268a6e30edad55bbbe6837a273d4e2b5d237ebd1026bcff70efea1dcb8092fa",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_named_capital\\converted_graph.json": "e24d8a003185e5a0f9cf69079be426ab246bfa4987e675daba503e3594bc6a3e",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_named_capital\\raw_graph.json": "d777fa3ae13b6bd0ed7326acd3511430630be0025b66c2dce3dc3095a73ce9d2",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_named_label\\converted_graph.json": "bbfbddf024ccf7d33935e507949af43c74081d248c61b4000699e25155cb10e0",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_named_label\\raw_graph.json": "9f8e670e2caffbbc64d7c8357d193a79f1e06695c1afbdb21016184c49a705cd",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_ordinal_capital\\converted_graph.json": "f48ec97b555270407313245d50a406585f442f5deddaac090174712ef343f620",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_ordinal_capital\\raw_graph.json": "f39b4b786bfddd1a0088ce55b172433df12c99d392c85f79f2b0d55d694d285e",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_ordinal_label\\converted_graph.json": "2271aa7a817879d1362135a9c1b06e753d4f8b05cce57f98778d68a3841487e0",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f0m1p0w0_ordinal_label\\raw_graph.json": "4e67dfe8fd8dc4205be1df30446d5e0ce9e1095dc6969bb9567714efb475a90a",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_named_capital\\converted_graph.json": "2ec940441f34a06b079ed43aa238e0d7a549b6d0f079fc9104caa31cd8086d69",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_named_capital\\raw_graph.json": "daab8c292d5dcd19aa1c65d4800cbd79f8a76f4126e00ae347920ecfc3590d8b",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_named_label\\converted_graph.json": "94f08b03bf1233dfc1a539978f69be233be97ed7ceda8c864179cd1ebf2a5b21",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_named_label\\raw_graph.json": "ea5ee2499d993f4d2865cb59be7f0cfb9559b9c1f6cc0423ba44750ddf3c4bd0",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_ordinal_capital\\converted_graph.json": "9cc1367cb9962e33ddec9a2bc05b09a2a96ec81c4ccf4a72b92dce023af4889d",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_ordinal_capital\\raw_graph.json": "8a800f0cb64be0e513a6fa3f00aff22cc839fd02dbf51891d5252f28d79e29d0",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_ordinal_label\\converted_graph.json": "33c68f49db2d752766c44c4f71aa73922a47ec06bf9ad4c883c98699984bada4",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m0p0w0_ordinal_label\\raw_graph.json": "07c1e86d7628bd17b5a8e588381928e553dfaf04d70da365c16ea153bcdfbade",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_named_capital\\converted_graph.json": "742865a257c3e405307e7cdc0118e278ba5d102ba4dac52eab4662c37b94b188",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_named_capital\\raw_graph.json": "13dbd9b6fb5268120ecdab17590fadceb75eb86b60f4db8f7d5d1c96823e029c",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_named_label\\converted_graph.json": "8d00b221287c7e3d4c1719facc2f603ecc32a99d70ac2122172ce3d3a1978248",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_named_label\\raw_graph.json": "d99ac459a3c3aeacb1c8fe39fadf68c079c109c3d1fa33b746dfc0c2a40aa113",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_ordinal_capital\\converted_graph.json": "f1283dda1f4ae5b79966e408bf8297ff5252a898e19f2ccd5eb26e38b0306545",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_ordinal_capital\\raw_graph.json": "cb26dae13d03e5373a8199d5508b83ab58073f20a2cf8ceb636eb804923fb646",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_ordinal_label\\converted_graph.json": "d381d86663baf1d2c3fb48ca45067f34c84d35a2f27643d48e7a0985466ed257",
+    "data\\model_extension\\failure_case_graphs_v1\\qwen3-4b\\graphs\\f1m1p1w0_ordinal_label\\raw_graph.json": "5372485896f7e8a82252edb6201fac795ac788c0a6fc4f3a3c7a9a37616f967f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\analysis\\results.json": "a71abe7ba74bcc80438017d78e1ed042add09a7d5a627554be0326012e86c969",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m0w0\\converted_graph.json": "fbe94448674e8d4a3d39266035cc02c3f5ec125f7a358ae304ae2ab02ea95d95",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m0w0\\raw_graph.json": "5de8b32682b37d17706dc3277c95520c2fce74adfa9cafe015abf35bb290340c",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m0w1\\converted_graph.json": "946031d332fbed3e982b7bf450a0a506e296974500e9d3e442fd1821e6972460",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m0w1\\raw_graph.json": "f757a74af3626b80290d11fd299db149dca1df2f8aaf6f0ea3b81514d0ac9247",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m1w0\\converted_graph.json": "174265aa62b6d4ab15dd0e2b7b463ed360cac0eadce50c7a3da4a1eb5266d7b8",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m1w0\\raw_graph.json": "5ae73459a758bde8872feac939ccbb26bfc8d7d2bcfa270bf280944742c9d7f2",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m1w1\\converted_graph.json": "78c6d5b5ef7172b995b110c476008cb56f7bb157d8326aab73835e36aaca3c59",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f0m1w1\\raw_graph.json": "fe797f45a308a786b90d690c441bf8009ad71f83ed95a6793332efaf5b670b6c",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m0w0\\converted_graph.json": "a2d04a4ef9102d53881df4caae56fa02d4476e754a121324ee85db864962dbc4",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m0w0\\raw_graph.json": "0d24a29a16953d4559006deaa18ffd2cf86a82489881027c4d37950944bf94fb",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m0w1\\converted_graph.json": "d0caa82ff107facd6de5508b44066864b02798806ed441524193550af56fe0d3",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m0w1\\raw_graph.json": "d9aacb3378084b5b047661441681078424f20b28c2498035cc34b20d59210ef4",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m1w0\\converted_graph.json": "c695af91cd50bf5c185c3147baa4851d9c3574833fffa80ad8d149d463ccb4dc",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m1w0\\raw_graph.json": "90996540a5517f19bf67262accbdeb809adca91994ead10720d35c4904c4bf84",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m1w1\\converted_graph.json": "deae73b0053679bcaa2734b8a8c1c0ceb3d691e776d004effb84c8cb292d4916",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\canada_australia__f1m1w1\\raw_graph.json": "987d4e855d5581e50c0c08c14fd58fa7f7811f3374d1bb3860e2a065a2613b0c",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m0w0\\converted_graph.json": "666caeb7c3ea55589b6e82aac8fa3b0ee9325db73f206e3d65b1b822d497a928",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m0w0\\raw_graph.json": "c3e10cbb5ea4ee2252fdcf1aeda3a5bb15ecb54750c9b155d8d7d30a86ecea18",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m0w1\\converted_graph.json": "d0dda32d00b5c6b021a35427a8658f5b7ddb7f7363730d3a55a7568fdf73ee49",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m0w1\\raw_graph.json": "23a188b9d94c1ae2fa5c9e7f1db589202feadf18235d7dfa8a6a97c0ae1ba800",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m1w0\\converted_graph.json": "e2fac8c15d69d625958a758db30b470671a58b80350e5fd2ae34732f4e76c235",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m1w0\\raw_graph.json": "0a98f155f52cbf07ae34c5eba746c480f50d75c301e8f867e40da940821db957",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m1w1\\converted_graph.json": "15a1ccbbfe39f2cc8c97368f374d4c77152cad621654b9caca39c7351c73692d",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f0m1w1\\raw_graph.json": "eabeaa8fae3974981585ae96e31dca566907c89ff155802d7b021b2284f21822",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m0w0\\converted_graph.json": "7734b31c03d2bef6d0297ac68b6c9699d555f726bcfe5dcebfa107639b3f21d1",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m0w0\\raw_graph.json": "ba93bb3b6ba1540bf8b754ebcda150a3a6339de6a6faa559957c3544ec26db07",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m0w1\\converted_graph.json": "8aee2071a117807f40293a1c129b32c75efba9cf61830891b4b4c457201335f5",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m0w1\\raw_graph.json": "35eaf3addba29fd873cee3b7588366ef328566d73c19802b71aeb7b5a16ab53d",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m1w0\\converted_graph.json": "9f94a4d05b0a745a9148532630d4a757442d1792e9642aaac00e8749d9155036",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m1w0\\raw_graph.json": "ced314e5f7b80829852239be7ad2e081e0e93ca8fe35934ff31211135234b876",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m1w1\\converted_graph.json": "57758417861ccb058cda394101061afe3660c642c5e1803a43e366361bdd55d1",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\egypt_kenya__f1m1w1\\raw_graph.json": "ddc0769ca4e8c2d1341c290d6c498a035560d015dbf8ec2f8c6c83cabc2da766",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m0w0\\converted_graph.json": "d04ddd7d4256860a127e2ced3be23bf0c5baa02ebc755e3f47410238d9a8b6fc",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m0w0\\raw_graph.json": "004ff5ce2c488af7845dbadb6e07ef9cf12949bae97dd309af8a0065aa3f5621",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m0w1\\converted_graph.json": "8941e1f4e4bb8a626d43e5bdf4722e44e730fbdcf2cd58eb3e939dd8fed07444",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m0w1\\raw_graph.json": "021fbf4d7f08b793e0880eb9ac0766a709338bd306e93969e1f2541adeaf7db1",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m1w0\\converted_graph.json": "56f541f8f148181a22c2c785af36e3e25c2adcfa8ff282a41f01e316d5166eae",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m1w0\\raw_graph.json": "c0e1ecbeb9e8bc610d1942e39e9e9fb550de4fb18e01da39b1a1677ddfc55932",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m1w1\\converted_graph.json": "ef8ed3968a971ec16dcb828c249fd16cf291b5c5ae04a0db9767cb0f01573287",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f0m1w1\\raw_graph.json": "1df655d189f70c99d8bbafe1c7e2c0cd4df69e3d8d37906213bdbfa8cc780a29",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m0w0\\converted_graph.json": "475f7125e16ad88635cc511c625fc33c4390802e9d3757ff58189e6a3af0fefa",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m0w0\\raw_graph.json": "ec1b418935145bd1bb4cc43c10dcd8c20b8163b2afdb5997c93dd61aaf041a4b",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m0w1\\converted_graph.json": "60f47ea456a09c9fb083872eaf828727bc935f8e56ba113b834c26579db4c82f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m0w1\\raw_graph.json": "b58b3a0e327dd005f56968f6c511b200d1f4d78c02d41c50ae0e7d2a93073227",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m1w0\\converted_graph.json": "c31a65a600f7a83b4dc7b966269fd01f08260e00183f1b5b5f01cd6fafdee7b8",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m1w0\\raw_graph.json": "3426a61516eee16e56ed9bd909a5a01b2e9014125b7118863571ae79ae96972f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m1w1\\converted_graph.json": "d0ab5daea62a3ce06b01abfe493a751dea87c921d0352c5b6a2190915b0ba0f9",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\greece_austria__f1m1w1\\raw_graph.json": "fa336c83491d73ad9c2ee67255dc98de86812e0eb3a5de1f11200e7bf1beb620",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m0w0\\converted_graph.json": "f4731a096be243913762e6b6ed09938747ee4cd887bf8b8fd487804af6199bd9",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m0w0\\raw_graph.json": "7a1b2da1b13da406cf90b5c6a8cdfc753f8ac9064d82caf312091df145ff48de",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m0w1\\converted_graph.json": "42d8aebac34c9877621f2410aa5c953faa5603775a56f40b4a2cbefc074be30d",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m0w1\\raw_graph.json": "1533416701db33fd84c06ba95e68bee38fce61df02de77f17874573926278b0f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m1w0\\converted_graph.json": "835de2ea7dc9040569b9ed9d1de78e74f90e8d11eee754fe2bf7741345b2ecfe",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m1w0\\raw_graph.json": "9bedd34e3e0c516c62befa498dfe0d5fdc6db61ce6f2c76f7b8a10cdd3d3c288",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m1w1\\converted_graph.json": "90e9e8465c12000bfa779b747e3831b380f6ec63f0901c60495e352aa7621958",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f0m1w1\\raw_graph.json": "77281439476cbdca0942771c6ea69de641a9a3bbdbb45a4ca95a68752c1e83c6",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m0w0\\converted_graph.json": "fda009841880eb2e4820c201b11b27cb635941ff612f9e44e284b5e6d76ea131",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m0w0\\raw_graph.json": "4b4a40f9633a6048a1fe2028fa990f65d2b6ac0044ad92e643076f54673fa705",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m0w1\\converted_graph.json": "0909398f15fe1fd934046945772d4fa5285e82e02dc20b1c0faf9ce0b1489080",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m0w1\\raw_graph.json": "e09b0ddf4f8e5f7e77a38e719198901f4f2145029c42ccb8e7855ac6afd9069b",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m1w0\\converted_graph.json": "e8da821e84297ba6d47f73ad5fb19c210d1f0a39122e781c19a9deb82bfc1961",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m1w0\\raw_graph.json": "c2ec3e4eefd2df9bd5c1c9a47a55a7f54651b0cab6b4daa4aa7cb428be0b41c8",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m1w1\\converted_graph.json": "2f5e2685b3cb40d0e9ad8d14963e1d1f01f7bde7a55b0e0c6d1d2a80343afc15",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\japan_italy__f1m1w1\\raw_graph.json": "46dcf3183626d8e35f2b3f7dfd61c468cff70ef98d17d52d07c7a6a9898d507b",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m0w0\\converted_graph.json": "485adb22f5395313d1ff38937b7172e267291cbfb296948bc1e49262e21577ca",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m0w0\\raw_graph.json": "95553312754acae672d14e7132a090da0cf3bcffc640ffd95fe01167f5a16d7f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m0w1\\converted_graph.json": "bfbf5f860075b9818b284b7fdbc55d35fc5f42b2c53f93cc0b01ec16b8b625f5",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m0w1\\raw_graph.json": "3df5fb7cc0a9e80f2892b16475337178ca9d71e2d885eee480f7b47ce173c21e",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m1w0\\converted_graph.json": "dc421ba46f253a4d8ff9f4125ed4cc6f970c393f5e6993ac9b8a9021e4346ec0",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m1w0\\raw_graph.json": "fc08271d994795258163d2f55352bbd5d8e7b11fe6da8fc5269e870763dca37c",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m1w1\\converted_graph.json": "a4ab3bb114b2d9b1aa40ee8acbd7fcc96b9b93055a5ce9b09e57d0e88bbfbe93",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f0m1w1\\raw_graph.json": "94b990a883df82db4ca661fb368930d38fc3eaf4a0dcdd152a9f5d0a354182ba",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m0w0\\converted_graph.json": "f27a018a79240e6b01c31919d25302ced1541fe81f2692f53c831d63230fb158",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m0w0\\raw_graph.json": "233a4f83857587687ff27044642bb74e36a7a546904ac3da59a254044121310a",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m0w1\\converted_graph.json": "388bcb0d4ec5ffba1223c5cf1b0a4c011945db033c88e879d48fa20fc2fa264b",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m0w1\\raw_graph.json": "31dc03d2d7ef9909d41679bfae9208bf0f6c9cd2c0b6586e1c854de599772427",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m1w0\\converted_graph.json": "82c143f6a2dc1664a39333a8ce3676b1bd83d04372daf22a7a5cb47618192339",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m1w0\\raw_graph.json": "fa824bd639f5bcb5d37f3e276cfb1e8a40fb77fd563f5e4d0b7bca1333bfc80d",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m1w1\\converted_graph.json": "6875ee36c33c540e0543ddb184dd70d82d960d95f9fea0db7cd4269fc727b44f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\norway_sweden__f1m1w1\\raw_graph.json": "3b58863a81dbc7a64427f37f7e925ecde1d652e09ca73447543fe7b7e94a7a57",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m0w0\\converted_graph.json": "74d3eb2344adf35a958ec7c1805aefe7eebb8ab12e17ec79d8d3bef38a85f98a",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m0w0\\raw_graph.json": "0705fdcd59fb7c6b29f745fcecdfa3ee1ebc89bd26f5d2d02cc4c30ff99713bd",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m0w1\\converted_graph.json": "f61361882e14a2f0fc76d6523b34098b6a6fc0e29d0d39b848c4c8632099e965",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m0w1\\raw_graph.json": "ea62b17a2b9b27734a72cb37cabd4808a7dd7ed5175c3911484eefc29b54f5a8",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m1w0\\converted_graph.json": "61dc3bdae45f33e85a94183f218e233e0cf863ef082644cb12155aaaa3ed863f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m1w0\\raw_graph.json": "2765a0da263b43d31f384416f24a083e9688e539966388fce51aa63c6676655b",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m1w1\\converted_graph.json": "474d66d15b9ba0b81e0bef76235e45b905f1aa9c5f648770fda686bfa9a54fe0",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f0m1w1\\raw_graph.json": "ceed33b4d29bcc7bef70d71a27a99ed450787694cded516a952e8595cdd4898f",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m0w0\\converted_graph.json": "be94fb1352b61053774d6fb903a4462df617e97e2b58f20cdf7bc1bf1b09e73a",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m0w0\\raw_graph.json": "539db33beeb02fe18df4c4dac81cc661fc7da9872683bdcadfd9859ca55b06ba",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m0w1\\converted_graph.json": "19d903a34802688cb7c0ad29b38dd2c71ddcde5aa0acbccc6613dfb19a43c44e",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m0w1\\raw_graph.json": "5e828dff209c70fe4849a4ee0a924117ec2640828885251bf431f121ab9422d0",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m1w0\\converted_graph.json": "a0d86d342198fe3424c39b0023bbc13d5a6595ef78d726c097938eab945807d1",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m1w0\\raw_graph.json": "28d25faf9b87fd72538f07c6ffccf395f896b641efa263f4e858769429573066",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m1w1\\converted_graph.json": "1e4595956eb0c73b81536e4fa5a30fa96a96821af61714f03aee38d356aa23d4",
+    "data\\model_extension\\matched_choice_chat_v2\\qwen3-4b\\graphs\\spain_portugal__f1m1w1\\raw_graph.json": "f942b94bf51bc940037dab01be1929bd669a06794e565acd4086e65d29d8a97a"
+  },
+  "status": "complete"
+}

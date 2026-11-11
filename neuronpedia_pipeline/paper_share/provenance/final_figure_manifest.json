@@ -1,89 +1,434 @@
 {
-  "checks": [
-    "One final sample per model: 8/10/12 evaluation facts",
-    "No before/after scoring cohorts displayed",
-    "Output-type matched Qwen3-4B controls retain ten facts",
-    "History raw comparisons and equal-count points agree with saved corrected analysis"
-  ],
   "date": "2026-11-11",
+  "presentation": "Approved end-to-end review; print-sized figures",
   "figures": [
     {
       "label": "1",
-      "legend": "A, Compare rewordings of the same fact with other-fact questions in the same subject and evaluation group. The analysis includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B test questions. Qwen3-4B includes five chemistry, five geography, and two history questions. Qwen3-1.7B includes five chemistry and five geography questions; no history fact has a complete question/control set. Gold is the chemical element. The examples use development questions, not the test questions plotted in Figure 2. B, In Qwen3-4B, vary the queried country, capital-to-A/B mapping, and wording while preserving the words and token counts within each country pair. All 48 predicted letters were correct. France/Germany illustrates the design using a pilot pair excluded from that evaluation. Displayed prompts are shortened; full prompts retain both countries and the other words, while word order and country roles vary. C, Compare a selected wrong-answer graph with correct predictions for the intended country and for the answer actually produced. This Qwen3-4B diagnostic has 16 graphs from one country pair and two response formats, with shared controls. Answers refer to the highest-probability next token. Arrows indicate comparisons, not causes; box colors identify steps. Sample accounting reports collection counts, exclusions, and failed preliminary checks.",
+      "legend": "A, Compare a factual question with its rewording and with other-fact questions in the same subject and evaluation set. The final samples contain 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Gold is the chemical element. Gold, iron, and invented name zorium are development examples, not the evaluation questions plotted in Figure 2. B, In Qwen3-4B, vary the queried country, capital-to-A/B mapping, and wording while preserving word and token counts within each country pair. All 48 predictions across six evaluation pairs were correct. The France/Germany design example is a pilot pair excluded from evaluation. C, Compare a selected error graph with correct predictions for the intended country and for another country giving the same answer as the error. This diagnostic includes 16 graphs from one country pair and two response formats, with shared controls. D, Swap dates assigned to A and B or reverse question/context order. All 16 history graphs from two event pairs are included, with 11 correct and five incorrect predictions. The displayed Declaration of Independence example retains A while selecting 1776 or 1783. Prompts in this overview are abridged to show the comparison; Figure 6 gives exact history prompts. Answers denote highest-probability next tokens. Arrows show comparisons, not causes. Each analysis retains its own question set, inclusion rules, and unit of analysis.",
       "number": 1,
       "stem": "figure1_design_and_coverage",
-      "title": "Three tests ask what similar graphs can tell us"
+      "title": "Four comparisons connect feature sharing, responses, and correctness",
+      "archive_stem": "figure1_design_and_coverage",
+      "source_tables": [
+        "figure1_coverage.csv"
+      ]
     },
     {
       "label": "2",
-      "legend": "A, Points represent questions reserved for evaluation that meet the complete-set and accepted-answer criteria. The difference in feature overlap is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and test set. The displayed arithmetic, 0.50 \u2212 0.30 = +0.20, illustrates this subtraction. These example numbers are not measured results. Positive, zero, and negative values indicate more, equal, and less overlap with the same fact; units are Jaccard differences, not percentage increases. B, Subject averages. Colors and shapes identify subjects; diamonds show averages and bars show descriptive 95% intervals from 10,000 question-bootstrap resamples. n counts questions. Qwen3-4B history has two facts sharing their only comparison partner, so its subject mean is shown without an interval. Means are 0.170 for Gemma-2-2B (8 questions), 0.089 for Qwen3-1.7B (10), and 0.218 for Qwen3-4B (12; pooled interval 0.150\u20130.307). Qwen3-1.7B includes five chemistry and five geography questions, with a descriptive pooled interval of 0.082\u20130.098. Repeated facts and different subject coverage preclude a model ranking; shared words and answers remain coupled to fact identity. Missing groups are unavailable, not zero. Figure S9 details the two Qwen3-4B history comparisons.",
+      "legend": "A, Points represent questions reserved for evaluation that meet the complete-set and accepted-answer criteria. The difference in feature overlap is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and test set. For example, overlaps of 0.50 and 0.30 give a difference of +0.20. These example numbers are not measured results. Positive, zero, and negative values indicate more, equal, and less overlap with the same fact; units are Jaccard differences, not percentage increases. B, Subject averages. Colors and shapes identify subjects; diamonds show averages and bars show descriptive 95% intervals from 10,000 question-bootstrap resamples. n counts questions. Qwen3-4B history has two facts sharing their only comparison partner, so its subject mean is shown without an interval. Means are 0.170 for Gemma-2-2B (8 questions), 0.089 for Qwen3-1.7B (10), and 0.218 for Qwen3-4B (12; pooled interval 0.150\u20130.307). Qwen3-1.7B includes five chemistry and five geography questions, with a descriptive pooled interval of 0.082\u20130.098. Repeated facts and different subject coverage preclude a model ranking; shared words and answers remain coupled to fact identity. Missing groups are unavailable, not zero. Figure S9 details the two Qwen3-4B history comparisons.",
       "number": 2,
       "stem": "figure2_fact_signal",
-      "title": "Reworded questions about the same fact share more features in these samples"
+      "title": "Reworded questions about the same fact share more features in the analyzed samples",
+      "archive_stem": "figure2_fact_signal",
+      "source_tables": [
+        "figure2_domain_summary.csv",
+        "figure2_fact_level.csv",
+        "figure2_summary.csv"
+      ]
     },
     {
       "label": "3",
-      "legend": "A, Feature-set overlap differences. B, Saved-influence-weighted cosine differences, comparing the direction of weighted feature vectors. Question versions were labeled original, alternative 1, or alternative 2. The baseline differs in both fact and version label. Each value is similarity in the labeled comparison minus similarity in that baseline, calculated within subject area. The gold/iron examples use exact saved prompts. Starting from gold alternative 1, gold original shares the fact, iron alternative 1 shares the version label, and iron original differs in both. Shared version labels did not imply identical sentence patterns across facts; this is not an exact-wording control. Each tested model has 27 graphs: three facts \u00d7 three versions \u00d7 three subject areas. Colored points are subject averages; black diamonds average subjects equally. Lines connect descriptive estimates, not intervals. Mean same-fact/same-version-label differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. Some predicted first tokens are incomplete answers or non-answers. Only Qwen3-4B geography passes all nine expected-token checks; its differences are 0.101/0.106. These similarity measures do not measure correctness or establish factor dominance or model superiority. Qwen3-1.7B was not tested here.",
+      "legend": "Replace the real name with an invented name, retaining the starting wording (A) or rewording it (B). For each test question, subtract overlap with the invented name prompt from overlap with the factual rewording. Positive values favor the factual rewording; negative values favor the invented name control. Colors identify models, points show questions, diamonds show means, and bars show saved 95% question-bootstrap intervals; n counts included questions. Panel A means are -0.069 (n=2), -0.011 (n=9), and +0.096 (n=10) for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. For Qwen3-1.7B, the interval in A is -0.021\u20130.001; B has mean 0.106 (n=10; interval 0.092\u20130.119). The original-wording control has more overlap in 8/10 Qwen3-1.7B questions before token-type matching and 7/9 in the plotted matched subset. Matching uses only broad first-token categories (letters/numbers, whitespace, or punctuation/symbols), leaving exact answer, meaning, confidence, and correctness unmatched. Qwen3-4B has twelve primary facts but ten here: both history facts' invented name controls predict commas rather than name tokens. Small, differently composed samples support comparison-specific findings rather than a general explanation by wording.",
       "number": 3,
-      "stem": "figure3_fact_and_wording",
-      "title": "Questions sharing a fact or version label have higher average overlap"
+      "stem": "figure3_control_comparisons",
+      "title": "The invented name comparison changes the observed overlap difference",
+      "archive_stem": "figure4_control_comparisons",
+      "source_tables": [
+        "figure2_fact_level.csv",
+        "figure4_controls.csv"
+      ]
     },
     {
       "label": "4",
-      "legend": "Replace the real name with an invented name, retaining the starting wording (A) or rewording it (B). For each test question, subtract overlap with the invented name prompt from overlap with the factual rewording. Positive values favor the factual rewording; negative values favor the invented name control. Colors identify models, points show questions, diamonds show means, and bars show saved 95% question-bootstrap intervals; n counts included questions. Panel A means are -0.069 (n=2), -0.011 (n=9), and +0.096 (n=10) for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. For Qwen3-1.7B, the interval in A is -0.021\u20130.001; B has mean 0.106 (n=10; interval 0.092\u20130.119). The original-wording control has more overlap in 8/10 Qwen3-1.7B questions before token-type matching and 7/9 in the plotted matched subset. Matching uses only broad first-token categories (letters/numbers, whitespace, or punctuation/symbols), leaving exact answer, meaning, confidence, and correctness unmatched. Qwen3-4B has twelve primary facts but ten here: both history facts' invented name controls predict commas rather than name tokens. Small, differently composed samples support comparison-specific findings rather than a general explanation by wording.",
+      "legend": "Qwen3-4B: six country pairs, 48 correct next-token A/B predictions, and identical word/token inventories within pairs. Rules were fixed before collection in this outcome-informed follow-up. A, Mean feature overlap in the four cross-wording comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The scale runs from no shared features (0) to identical sets (1). B, Same-country minus different-country overlap is 0.0628 with the same letter and -0.0022 with a changed letter. Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553\u20130.0746; two-sided sign-flip p=0.03125). C, The average same-country overlap difference is the mean of the two contrasts in B and is the prespecified primary outcome: 0.0303 (95% block-bootstrap interval 0.0265\u20130.0338). The descriptive same-letter minus different-letter difference, averaged across country relationships, is 0.2827. Lines represent country pairs; diamonds show means. Only the primary mean in C has an interval drawn. Colors identify labeled categories; B and C use different vertical scales. Tests assume six independent country-pair blocks; the sign-flip test additionally assumes symmetric null differences. The 48 graphs and 4,096 conditional-null reassignments are not independent replicates. Near zero is not equivalence. Overlap differences are neither accuracy nor variance explained; query order, country roles, and output-conditioned graphs remain alternatives to a causal interpretation. Supplement S6 reports graph-location checks.",
       "number": 4,
-      "stem": "figure4_control_comparisons",
-      "title": "Invented name controls give different results across models"
+      "stem": "figure4_matched_choice",
+      "title": "Same-fact overlap is higher when the answer letter stays the same",
+      "archive_stem": "figure5_matched_choice",
+      "source_tables": [
+        "figure5_block_contrasts.csv",
+        "matched_choice_primary.json"
+      ]
     },
     {
       "label": "5",
-      "legend": "Qwen3-4B: six country pairs, 48 correct next-token A/B predictions, and identical word/token inventories within pairs. Rules were fixed before collection in this outcome-informed follow-up. A, Mean feature overlap in the four cross-wording comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The scale runs from no shared features (0) to identical sets (1). B, Same-country minus different-country overlap is 0.0628 with the same letter and -0.0022 with a changed letter. Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553\u20130.0746; two-sided sign-flip p=0.03125). C, Their average is the prespecified primary outcome: 0.0303 (95% block-bootstrap interval 0.0265\u20130.0338). The descriptive same-letter minus different-letter difference, averaged across country relationships, is 0.2827. Lines represent country pairs; diamonds show means. Only the primary mean in C has an interval drawn. Colors identify labeled categories; B and C use different vertical scales. Tests assume six independent country-pair blocks; the sign-flip test additionally assumes symmetric null differences. The 48 graphs and 4,096 conditional-null reassignments are not independent replicates. Near zero is not equivalence. Overlap differences are neither accuracy nor variance explained; query order, country roles, and output-conditioned graphs remain alternatives to a causal interpretation. Supplement S6 reports graph-location checks.",
+      "legend": "Qwen3-4B, one country pair and two response formats. A, All eight named-country prompts predict the correct first token; all eight selected position-based prompts reproduce the error (four of each per format). B\u2013C, Compare error graphs with correct predictions for the intended country (blue) or giving the same answer (orange), holding list order and A/B mapping fixed. With France first and A: Berlin, B: Paris, the indirect France question predicts Berlin; naming France predicts Paris and naming Germany predicts Berlin. The error graph shares more features with Germany/Berlin. Circles use all retained features; open squares average 200 equal-feature-count samples. Lines connect comparisons for the same error. Same-answer minus intended-country overlap averages 0.1983 for letters and 0.2649 for capital names (0.1851 and 0.2361 with equal counts). All 16 exports and eight comparison triples pass integrity and output checks. The selected cases share controls, so they support descriptive comparisons, not error-frequency estimates or population tests. Words differ between prompt types; position matching, negation errors, and output-conditioned graph structure remain unresolved explanations. The intended correct-answer node is absent from each error graph, leaving its contribution unknown.",
       "number": 5,
-      "stem": "figure5_matched_choice",
-      "title": "Same-fact overlap is higher when the answer letter stays the same"
+      "stem": "figure5_failure_cases",
+      "title": "Error graphs share more features with correct predictions giving the same response",
+      "archive_stem": "figure6_failure_cases",
+      "source_tables": [
+        "figure6_behavior.csv",
+        "figure6_comparisons.csv"
+      ]
     },
     {
       "label": "6",
-      "legend": "Qwen3-4B, one country pair and two response formats. A, All eight named-country prompts predict the correct first token; all eight selected position-based prompts reproduce the error (four of each per format). B\u2013C, Compare error graphs with correct predictions for the intended country (blue) or giving the same answer (orange), holding list order and A/B mapping fixed. With France first and A: Berlin, B: Paris, the indirect France question predicts Berlin; naming France predicts Paris and naming Germany predicts Berlin. The error graph shares more features with Germany/Berlin. Circles use all retained features; open squares average 200 equal-feature-count samples. Lines connect comparisons for the same error. Same-answer minus intended-country overlap averages 0.1983 for letters and 0.2649 for capital names (0.1851 and 0.2361 with equal counts). All 16 exports and eight comparison triples pass integrity and output checks. The selected cases share controls, so they support descriptive comparisons, not error-frequency estimates or population tests. Words differ between prompt types; position matching, negation errors, and output-conditioned graph structure remain unresolved explanations. The intended correct-answer node is absent from each error graph, leaving its contribution unknown.",
+      "stem": "figure6_history_answers",
+      "title": "History: similar graphs can accompany different selected years",
+      "legend": "Qwen3-4B attribution graphs for 16 historical-date prompts, including 11 correct and five incorrect predictions. **a,** Two real pairs asking for the year of adoption of the US Declaration of Independence. Within each row, the dates assigned to A and B are swapped while the question and context remain unchanged. When the question comes first, the model predicts A in both prompts, selecting 1776 in one and 1783 in the other; feature overlap is 0.795. When context comes first, the model changes from A to B to retain the correct year, 1776; overlap is 0.512. The exact user-prompt text is shown with added line breaks; the model chat wrapper is not shown. **b,** All eight comparisons that swap the A/B date assignments while holding the queried event and question/context order fixed. The five same-letter comparisons select different years, with one correct and one incorrect prediction per pair (Jaccard 0.795\u20130.911). The three different-letter comparisons retain the same correct year (0.512\u20130.532). **c,** All eight comparisons that reverse question/context order while holding the event and A/B date assignments fixed. Overlap is 0.766\u20130.808 when predictions retain the same letter and 0.527\u20130.602 when the letter changes. Each point represents a pair of graphs; marker shapes and colors identify the queried event. Panels b and c reuse the same 16 graphs from two event pairs. Jaccard overlap is the number of shared feature identities divided by the number present in either graph; 0 means none are shared and 1 means the feature sets are identical. Feature identities exclude embeddings, output nodes, and reconstruction-error nodes. The panels report descriptive comparisons without treating graph pairs as independent replications.",
+      "model": "qwen3-4b",
+      "source_results_sha256": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
+      "source_jobs_sha256": "f42124c2109f44fce6b937216afbd857bf4d7faa9263e1769f22b3d5e59a43d7",
+      "graph_count": 16,
+      "wrong_graphs_included": 5,
+      "panels": {
+        "a": 2,
+        "b": 8,
+        "c": 8
+      },
+      "data_changed": false,
+      "archive_files": [
+        {
+          "path": "build_history_multipanel.py",
+          "sha256": "b262c2fb2ee430dd5fe0a80fe153279123c1c11a92b070e60296463726f01ea3"
+        },
+        {
+          "path": "CAPTION.md",
+          "sha256": "21e945fc3baa6e58388bc8cca1c6f177c92f9e01a1d4cd4fae528e97055ad8a7"
+        },
+        {
+          "path": "figure7_history_answers.png",
+          "sha256": "6ae420969d1814fa3c5c801dcd89d8215add46048cb2489d1be0f51675206912"
+        },
+        {
+          "path": "figure7_history_answers.svg",
+          "sha256": "2220295745783b71bafcc4d0cb0981ea69de38da4ad3d7a1fc22f5c686dcebb1"
+        },
+        {
+          "path": "figure7_history_answers_source.csv",
+          "sha256": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84"
+        },
+        {
+          "path": "history_answers_multipanel.png",
+          "sha256": "8d92e058603a64101323abd1a4f2f78909928d27d9ca10d493547c21dfcc9182"
+        },
+        {
+          "path": "history_answers_multipanel.svg",
+          "sha256": "cb7c0af75798474f7a11e88c921924dd72cadd9b7c43c07ed813ebafd70ef6fd"
+        },
+        {
+          "path": "history_answers_multipanel_source.csv",
+          "sha256": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84"
+        },
+        {
+          "path": "index.html",
+          "sha256": "7ea520cea1e7ee1f4d3810f2b310faf7fa99f42877fe38ede2261292209c4616"
+        },
+        {
+          "path": "prompt_examples.json",
+          "sha256": "9b489445ff2fb43fc61942eae54eac356accf00e79253fcca6a6510fd95bcb51"
+        },
+        {
+          "path": "test_history_multipanel.py",
+          "sha256": "7d22a8051e7ca4f0f4ef2f7995f8806637258608884f375261e7aa5e927d1fad"
+        }
+      ],
+      "archive_script_sha256": "b262c2fb2ee430dd5fe0a80fe153279123c1c11a92b070e60296463726f01ea3",
+      "archive_stem": "figure7_history_answers",
       "number": 6,
-      "stem": "figure6_failure_cases",
-      "title": "Selected error graphs share more features with correct predictions giving the same answer"
+      "source_tables": [
+        "figure7_history_answers_source.csv"
+      ]
     }
   ],
-  "helper_hashes": {},
-  "matplotlib": "3.10.8",
-  "numpy": "2.2.5",
+  "supplements": [
+    {
+      "label": "S1",
+      "legend": "A, The percentage of saved raw graph files in which the same node ID refers to conflicting node identities. Labels show affected files over files checked. Qwen3-1.7B has 0/91 detected conflicts. Zero means no conflict was detected, not no graphs or no model errors. Question/control sets include factual questions and controls; the fact/wording sets vary both factors. B, Reconstruction-error nodes record part of the model computation not captured by the feature approximation. The axis gives their share of absolute nonterminal-node influence, using the saved audit definitions. This is not the percentage of wrong answers or of reasoning explained. Box centers mark medians; boxes span the middle 50%, whiskers extend to values within 1.5 box lengths, and dots show values beyond the whiskers. Qwen3-1.7B has median reconstruction-error influence 6.06%. Counts include all available graphs, including controls and partial sets, not only included evaluation questions. Gemma and Qwen3-1.7B distributions use raw-file audits; Qwen3-4B uses converted graphs with no ambiguous IDs removed. Differences combine model, exporter, and approximation choices; they do not isolate model size or architecture.",
+      "number": 1,
+      "stem": "figureS1_export_and_error",
+      "title": "Graph files have two separate limits: ID conflicts and approximation error",
+      "archive_stem": "figureS1_export_and_error",
+      "source_tables": [
+        "figureS1_influence_values.csv",
+        "figureS1_quality.csv"
+      ]
+    },
+    {
+      "label": "S2",
+      "legend": "The difference in feature overlap is same-fact overlap minus other-fact overlap, using the comparison specified for each check. Compare the main analysis with three alternatives: include reconstruction-error nodes; use only files without detected node-ID conflicts; or compare with the most similar other-fact question rather than the average other-fact question. Reconstruction-error nodes represent approximation error, not wrong model answers. Points are saved averages; bars are 95% bootstrap intervals from resampling test questions. n counts questions. Qwen3-1.7B means are 0.089, 0.089, 0.089, and 0.078, respectively (n=10 each). Restricting files requires rebuilding the comparison groups and leaves only two Gemma questions, so that positive result is weak evidence on its own. The size-regression intercept is not plotted: with centered predictors it equals the unadjusted mean and is not an independent check. This figure concerns feature-set overlap, not every graph metric; the Qwen3-1.7B edge-flow cosine result is inconclusive.",
+      "number": 2,
+      "stem": "figureS2_robustness",
+      "title": "Average feature-overlap differences stay positive in the displayed checks",
+      "archive_stem": "figureS2_robustness",
+      "source_tables": [
+        "figureS2_robustness.csv"
+      ]
+    },
+    {
+      "label": "S3",
+      "legend": "The difference in feature overlap is same-fact overlap minus average other-fact overlap within the same subject and test set. Within each model, subject, and test set, randomly sample the same number of features from every graph. K is the number of features in the smallest graph in that group; the second check uses half that number, rounded down. Repeat 200 times, reusing each sampled graph across comparisons within a repetition. Lines show individual test questions; diamonds show averages. Bars are descriptive 95% bootstrap intervals from resampling questions, not from the 200 feature samples. Seven of eight Gemma questions, all ten Qwen3-1.7B questions, and all twelve Qwen3-4B questions retain positive average differences. Qwen3-1.7B means are 0.089 for the full feature sets, 0.084 at K, and 0.033 at K/2. Qwen3-4B means are 0.218 for full sets, 0.181 at K, and 0.072 at K/2. Equalizing counts does not remove differences in shared words, answers, or which features the exporter retains. A smaller overlap score after sampling is not a percentage of signal explained.",
+      "number": 3,
+      "stem": "figureS3_equal_feature_counts",
+      "title": "Average overlap differences stay positive with equal numbers of features",
+      "archive_stem": "figureS3_equal_feature_counts",
+      "source_tables": [
+        "figureS3_equal_counts.csv",
+        "figureS3_per_fact.csv"
+      ]
+    },
+    {
+      "label": "S4",
+      "legend": "For each test question, compare word overlap with its same-fact rewording (horizontal axis) against the highest word overlap with any other-fact rewording (vertical axis). Word overlap uses unique letter/number words, ignores letter case, and keeps common words. Both axes use Jaccard overlap: shared words divided by all distinct words across the pair. The dashed line means equal overlap; the shaded band allows a difference of 0.05 in either direction. Every other-fact comparison lies more than 0.05 below its same-fact comparison. No test question has a matched control under any of the three saved word/size matching rules: 0/8 for Gemma-2-2B, 0/10 for Qwen3-1.7B, and 0/12 for Qwen3-4B. This is a missing comparison, not a measured zero effect or proof that words explain all feature overlap. Same-fact questions also share their expected answer, so the data do not isolate meaning from words or answers.",
+      "number": 4,
+      "stem": "figureS4_lexical_support",
+      "title": "Other-fact questions share fewer words, leaving a gap in the controls",
+      "archive_stem": "figureS4_lexical_support",
+      "source_tables": [
+        "figureS4_lexical_scatter.csv",
+        "figureS4_lexical_support.csv"
+      ]
+    },
+    {
+      "label": "S5",
+      "legend": "A, Audit the first predicted text unit, or token, using the Qwen tokenizers. Green means the token gives the complete accepted answer, including registered spelling variants; yellow means only a compatible beginning, leaving the completed answer unverified; gray means another first token. Qwen3-1.7B has 42 complete accepted answers, four compatible beginnings, and four other tokens among 50 available factual-question graphs. Qwen3-4B has 50, five, and five, respectively, among 60 available factual graphs. Maria and Mar\u00eda are accepted as the same ship name. Counts include development and test questions and partial Qwen3-1.7B history sets; they are not the included evaluation counts in Figure 2. Official Qwen tokenizer versions agree with all saved prompt pieces and decoded top tokens, but the exact versions used at the time of graph collection cannot be fully recovered. Gemma tokenizer access was denied, leaving that audit unresolved. B, In the fact/wording experiment, counts use the exact first-token matching rule after trimming whitespace; that rule is unchanged. Only Qwen3-4B geography matches in all nine questions. Its fact/wording differences are 0.101/0.106, which do not establish that either factor dominates. A zero in history means zero matches under this rule, not zero history knowledge.",
+      "number": 5,
+      "stem": "figureS5_answer_audit",
+      "title": "A matching first token does not always verify the whole answer",
+      "archive_stem": "figureS5_answer_audit",
+      "source_tables": [
+        "figureS5_answer_audit.csv",
+        "figureS5_crossed_expected_tokens.csv"
+      ]
+    },
+    {
+      "label": "S6",
+      "legend": "Qwen3-4B only. Repeat the saved comparisons after removing features at the last token position, in the last quarter of observed feature layers, or both. Removal happens before combining feature identities across positions. A, Plot the difference between the same-letter and changed-letter fact comparisons in Figure 4B. Each line represents one of six country pairs; black diamonds show averages. B, Plot overlap with the correct same-answer response minus overlap with the correct intended-country response in the selected errors from Figure 5. Lines show the individual comparisons; colored diamonds show format averages. All filtered feature sets are nonempty. Zero means equal overlap, not missing data. These checks were chosen after seeing earlier results. No confidence intervals or new population tests are attached. Removing features from saved graphs is not an intervention on the model and does not establish a cause. The remaining graphs are still constructed around the answer being produced.",
+      "number": 6,
+      "stem": "figureS6_graph_location_sensitivity",
+      "title": "The answer-related differences remain after removing some graph features",
+      "archive_stem": "figureS6_graph_location_sensitivity",
+      "source_tables": [
+        "failure_sensitivity.csv",
+        "matched_choice_sensitivity.csv",
+        "statistics_audit.json"
+      ]
+    },
+    {
+      "label": "S7",
+      "legend": "Qwen3-1.7B collection and subject coverage. A, Available raw graphs, including development and evaluation prompts: 40/40 chemistry, 40/40 geography, and 11/40 history graphs, for 91 graphs total. Bar colors identify subjects. The 29 unavailable history jobs were rejected for exceeding the hosted token limit, not counted as wrong model answers. No history fact has all four required prompt roles. B, Included test questions: five chemistry and five geography questions. Each point is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and evaluation set. Diamonds show means and bars show descriptive 95% question-bootstrap intervals: chemistry 0.085 (0.076\u20130.095) and geography 0.093 (0.083\u20130.106). All ten differences are positive. History has no plotted estimate, not a zero effect. Inclusion retains the complete four-role and expected-next-token rules. Shared words and expected answers remain coupled to fact identity.",
+      "number": 7,
+      "stem": "figureS7_qwen17_completion",
+      "title": "Qwen3-1.7B includes chemistry and geography; history sets are incomplete",
+      "archive_stem": "figureS7_qwen17_completion",
+      "source_tables": [
+        "figureS7_collection.csv",
+        "figureS7_domain_summary.csv",
+        "figureS7_per_fact.csv"
+      ]
+    },
+    {
+      "label": "S8",
+      "legend": "Primary feature-overlap workflow for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual, same fact reworded, invented name in the starting sentence pattern, and invented name reworded. Gold and invented name zorium refer to development examples from the manifest, not evaluation questions. Hosted Neuronpedia graph exports are analyzed locally without local model inference. Eligibility requires four available representations after export/integrity checks, both factual highest-probability next tokens matching a complete accepted answer after trimming whitespace, and another eligible fact in the same model, subject, and development/evaluation set. Accepted spellings include Maria and Mar\u00eda for the flagship answer; partial answers do not qualify. Unique learned-feature identities are (family, layer, feature ID): positions collapse, but layers remain distinct. Embeddings, logits, reconstruction-error nodes, and nodes with missing or duplicated node IDs are omitted. Jaccard overlap J is shared unique features divided by distinct features in either set. Each starting set T_i is compared with its own rewording P_i and every other included factual rewording P_j in the same model/subject/set. The baseline is the mean of all those Jaccard overlaps, excluding i. Subtraction yields one difference per fact, M_i. Summaries, bootstrap intervals, and permutations within the same subject area concern facts, not graph pairs. Invented-name comparisons are separate controls, not the other-fact baseline; broad output-token-type matching is not the primary eligibility rule. Illustrative feature sets and scores, not measured results: {a,b,c} and {a,b,d} share a and b, while c and d are unshared, giving 2/4=0.50; an illustrative baseline of 0.30 gives +0.20. These values do not describe measured graphs. Letters denote identities, not concepts. The numbered steps describe the analysis, not causal pathways; overlap alone does not establish causal use or answer correctness.",
+      "number": 8,
+      "stem": "figureS8_feature_overlap_workflow",
+      "title": "How questions become a feature-overlap comparison",
+      "archive_stem": "figureS8_feature_overlap_workflow",
+      "source_tables": []
+    },
+    {
+      "label": "S9",
+      "legend": "Qwen3-4B history facts included in the main comparison in Figure 2. Both factual versions and both invented name controls are available for each fact. A, Starting-question overlap with its own rewording (blue circles) versus the other history fact\u2019s rewording (orange squares). Columbus: 0.624 versus 0.023; Archduke Franz Ferdinand: 0.427 versus 0.032. These give differences of 0.601 and 0.395, averaging 0.498. The Columbus predictions differ in spelling, Maria versus Mar\u00eda; the Franz predictions both give Ferdinand. B, History differences with full feature sets, equal counts K, and half counts K/2. Subsampled points average 200 repetitions, not independent observations. Differences remain positive: 0.543/0.370 at K and 0.210/0.151 at K/2. The two history facts use each other as comparators, so their mean describes these questions rather than an independently replicated history effect. Both invented name controls predict punctuation for both facts, excluding these controls from the output-type-matched comparison in Figure 3. Figure 6 concerns historical dates in a different A/B question design.",
+      "number": 9,
+      "stem": "figureS9_answer_spelling",
+      "title": "History rewordings share more features than questions about another fact",
+      "archive_stem": "figureS9_answer_spelling",
+      "source_tables": [
+        "figureS9_history_comparisons.csv",
+        "figureS9_history_equal_counts.csv"
+      ]
+    },
+    {
+      "label": "S10",
+      "legend": "A, Feature-set overlap differences. B, Saved-influence-weighted cosine differences, comparing the direction of weighted feature vectors. Question versions were labeled original, alternative 1, or alternative 2. The baseline differs in both fact and version label. Each value is similarity in the labeled comparison minus similarity in that baseline, calculated within subject area. Shared version labels did not imply identical sentence patterns across facts; this is not an exact-wording control. Each tested model has 27 graphs: three facts \u00d7 three versions \u00d7 three subject areas. Colored points are subject averages; black diamonds average subjects equally. Lines connect descriptive estimates, not intervals. Mean same-fact/same-version-label differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. Some predicted first tokens are incomplete answers or non-answers. Only Qwen3-4B geography passes all nine expected-token checks; its differences are 0.101/0.106. These similarity measures do not measure correctness or establish factor dominance or model superiority. Qwen3-1.7B was not tested here.",
+      "number": 10,
+      "stem": "figureS10_fact_and_wording",
+      "title": "Feature overlap varies across facts and question versions",
+      "archive_stem": "figure3_fact_and_wording",
+      "source_tables": [
+        "figure3_crossed_effects.csv"
+      ]
+    }
+  ],
+  "source_hashes": {
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure1_coverage.csv": "3a0c4fb1d9b3ad78d6c8cce86e2318ec1f56aab17405c6e53bdc7e693f35407a",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure2_domain_summary.csv": "d0e1bb7c968e5fb10b971eed80a4e4151f348d0e62302042dee98ee97a459319",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure2_fact_level.csv": "a15657f419565ff689da7984ca42f5411ebb67ba6837fc1258784fd3866a6672",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure2_summary.csv": "d0a372f29e22e2fa1cef750f450cd173a772883d2ddc9d01a43d932d5e478ece",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure3_crossed_effects.csv": "af41132844f74c4733d2dad5b92894a9d45fc4cd22f8444adeebae121c5fa8ac",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure4_controls.csv": "31e153b89cf4c3c70e73cf3da6a2bb1124097690b71b0681e5d4626dbd95142d",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure5_block_contrasts.csv": "4d8811307ef6c25949a5b2be25cd88db7eb80d8b216961d9cef51ea15cd55079",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure5_four_condition_means.csv": "b0ab12a3a5711426b3da0b8a18048c5d301e65768183ee7479133312b773e021",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure5_four_conditions_by_block.csv": "fb2254e23d64288925438a0cda2ea368d3d2f632df3724fe1bfbaa64dbeeff88",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure6_behavior.csv": "72e3f5d96ca9805877148601466451c867006b9b62ba334fd782d0a497d4a489",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figure6_comparisons.csv": "62bdaca2cc0cb3576b670da88ca0260861e32bb999acb02c8a578c934a622689",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS1_influence_values.csv": "0d28b8325abcaae83166c2923da9b3a90a51cef39e27af473f30ba64e2afd8a5",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS1_quality.csv": "9e3467630fa34172315c1ad46fb732df071319dbf9e0f589dad56112f9800003",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS2_robustness.csv": "968b393e515a31200fae5d105dbc071071a3620f6bf584c60104fc9dfb9fe4a5",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS3_equal_counts.csv": "4d142191ca14d2d8d9931e8e4994cf066e5003fa2aa3349fe56f75adfd134eb2",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS3_per_fact.csv": "70d3f69863915592a1aa5b338e47ad2c71aed89f281fe04ef3609cec30936bfb",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS4_lexical_scatter.csv": "dede90ed20c4ce23179cbe3f7dcc6d8756eedbda59f163318df3696964d6b094",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS4_lexical_support.csv": "f5fab77b3c2ebaf4cfcf8496c6f9b7e85c81c00a34ce3c426bb41d57a9143bd5",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS5_answer_audit.csv": "153248fcf81cf9db574e4364b4278324ff5c24938d39a852524a9ea69d431895",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS7_collection.csv": "136d2f69aab0b2485a438b77a01ab95c65f1c57836c70d676bef5f98962fef32",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS7_domain_summary.csv": "10ce338863bd78d0eac2b3deaad49326cd42e64eac20dd48ce036719f88d28ad",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS7_per_fact.csv": "ae44af7021bad87766927f818bd6df8fe05155cc69ac170798649ee4c3e7aca0",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS9_history_comparisons.csv": "2736baa490a49292c1683dbac73db9d95e4b40932b4232f32111f192a13d3df6",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/figureS9_history_equal_counts.csv": "b6c0aedab02c6e3dc5817e6d59b3a4fae784366bf41c05f26d4e8dd940af77ac",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/tables/test_fact_inclusion_audit.csv": "07207aaba65fb98721530e50321820180189185b053cb4528e7f42a0dc39d882",
+    "data/model_extension/final_closeout_20261005/matched_choice_sensitivity.csv": "1184b94a2a6f5d2a2841871dba3b34954bdae6bd63760b9a3c1827e1c81571ba",
+    "data/model_extension/final_closeout_20261005/failure_sensitivity.csv": "381864d4bda5844f4108ffcb2684f6401af5864c2738ca62b80ef6d3a8a130b4",
+    "data/model_extension/final_closeout_20261005/statistics_audit.json": "9850331994cdbf1a0a505e5051e0be1ba97cc08f57cba88656528b66050f9c22",
+    "data/model_extension/history_pilot_graphs_20261110/paper_figure_v1/figure7_history_answers_source.csv": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84",
+    "data/model_extension/matched_choice_chat_v2/qwen3-4b/analysis/results.json": "a71abe7ba74bcc80438017d78e1ed042add09a7d5a627554be0326012e86c969",
+    "data/model_extension/history_pilot_graphs_20261110/paper_figure_v1/prompt_examples.json": "9b489445ff2fb43fc61942eae54eac356accf00e79253fcca6a6510fd95bcb51",
+    "data/model_extension/exploratory_20260905/results.json": "6b9238e58394fc20ef1b61d30d5490f406e51fb585e6316d9250040106932e0a",
+    "scripts/build_reviewed_paper_figures.py": "d6305b0e59b454ea9d0304738f244ba173dd32016f6436a95958ed7a38b818ce",
+    "scripts/review_figure_catalog.py": "2919fd071ec756c042f8f4e66d075e11ba3297dc55ac2457f8cfba3d9e9a42d6",
+    "data/model_extension/final_corrected_scoring_20261111/paper_figures/figure_manifest.json": "15ea60fda89be8a49f1a84a1a3b680e493f276baf0fcfa3b6fb4f9e6973e19c1",
+    "data/model_extension/history_pilot_graphs_20261110/paper_figure_v1/figure_manifest.json": "69d1e7c1c6cb6be4add082fa28682256399a6ce354eb1d3b540443f010d36c6d"
+  },
+  "checks": [
+    "Source measurements unchanged",
+    "Six main figures and ten supplements",
+    "Current sample counts read from tables",
+    "Every figure is 180 mm wide",
+    "All visible text at least 7 pt"
+  ],
+  "layout_checks": {
+    "figure1_design_and_coverage": {
+      "width_mm": 180,
+      "height_mm": 212.1,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figure2_fact_signal": {
+      "width_mm": 180,
+      "height_mm": 119.4,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figure3_control_comparisons": {
+      "width_mm": 180,
+      "height_mm": 114.3,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figure4_matched_choice": {
+      "width_mm": 180,
+      "height_mm": 152.4,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figure5_failure_cases": {
+      "width_mm": 180,
+      "height_mm": 152.4,
+      "minimum_font_pt": 7.5,
+      "text_outside_canvas": []
+    },
+    "figure6_history_answers": {
+      "width_mm": 180,
+      "height_mm": 218.4,
+      "minimum_font_pt": 7.5,
+      "text_outside_canvas": []
+    },
+    "figureS1_export_and_error": {
+      "width_mm": 180,
+      "height_mm": 116.8,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS2_robustness": {
+      "width_mm": 180,
+      "height_mm": 108.0,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS3_equal_feature_counts": {
+      "width_mm": 180,
+      "height_mm": 106.7,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS4_lexical_support": {
+      "width_mm": 180,
+      "height_mm": 105.4,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS5_answer_audit": {
+      "width_mm": 180,
+      "height_mm": 119.4,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS6_graph_location_sensitivity": {
+      "width_mm": 180,
+      "height_mm": 111.8,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS7_qwen17_completion": {
+      "width_mm": 180,
+      "height_mm": 111.8,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS8_feature_overlap_workflow": {
+      "width_mm": 180,
+      "height_mm": 182.9,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS9_answer_spelling": {
+      "width_mm": 180,
+      "height_mm": 119.4,
+      "minimum_font_pt": 7.0,
+      "text_outside_canvas": []
+    },
+    "figureS10_fact_and_wording": {
+      "width_mm": 180,
+      "height_mm": 119.4,
+      "minimum_font_pt": 7.5,
+      "text_outside_canvas": []
+    }
+  },
   "output_hashes": {
-    "figure1_design_and_coverage.png": "6bb036dd964dbfbd8117f77504086a2fbcc1ae03b8786864be7d404fe12beee1",
-    "figure1_design_and_coverage.svg": "5809612f2a1caed049a0a9e5beca16237627dfb24b60d532eded84022e2a5a62",
-    "figure2_fact_signal.png": "f2d972b29a8b21353544a3bcc7170011a67e62802b3b6c22615546fcdf3325ee",
-    "figure2_fact_signal.svg": "55816fa1522b12915bce398cc0c215471d15a61610b22de0c8bb024751ad8d21",
-    "figure3_fact_and_wording.png": "ff11c99d764ddda2ce28ab5fbf1504b8c953e30f7f6916170b1f7e88e9193758",
-    "figure3_fact_and_wording.svg": "e1d978743ea68c724766f3e870f153ccbae5415be41da266997fc663754288c0",
-    "figure4_control_comparisons.png": "ca59035e9c4f2b362b6ff24003f3211793199310d2691bc151f396a5828ba56e",
-    "figure4_control_comparisons.svg": "b45a7774a2d3ee209832acdf83a1b82369c4fedb4cae21726c0ba257c1611a48",
-    "figure5_matched_choice.png": "e6ad392bd0ee4b4c067e22a53cb43ba6fa37d2f62e252e57704f1b8720485050",
-    "figure5_matched_choice.svg": "812a72d61ab7502b20b48d79cd8afadcde5bc88d7b8f4782a8fa5a20713aea07",
-    "figure6_failure_cases.png": "bcc1453fed51ff2623b7144c1e8b86e35a4ee906841c05f65b84e46ebd237a0d",
-    "figure6_failure_cases.svg": "9591c8a060d0104f38016f2dee91c993f68660e2165bbe7c6c2313eb63596702",
-    "figureS1_export_and_error.png": "077dd50570159143e4e741362527f664f3f0968203ad21401eb22885193ab8b0",
-    "figureS1_export_and_error.svg": "40522495ed3886cbb54e8030857bcfc42bc67e0c6f952630ff625237e472ee90",
-    "figureS2_robustness.png": "9de46aa7a1676546b7b742e0bf03ad68454dc8253f36182b5d235dc31e03c9f2",
-    "figureS2_robustness.svg": "ce7fbf041004c737c64bce7855ac4ad52dd08388243474f175fe486e6a38f3fe",
-    "figureS3_equal_feature_counts.png": "0b930b9c2e49dc8aa95c26496d0c4cfa01a6942f28818ba7c180e32b9ee35737",
-    "figureS3_equal_feature_counts.svg": "3c246c84f5390b1d497484897d67ad4fa78c2c6de44042112b2fa8e08aceca95",
-    "figureS4_lexical_support.png": "3d392ebc4be36d60c8c2c3e005c6267395f0e02e99f5b9fc87ec40b70b3f9191",
-    "figureS4_lexical_support.svg": "8ff4baa3a2df5f86632c5c18914ac61487583da58a716d92f4878107317e917b",
-    "figureS5_answer_audit.png": "deeeda71a61ad3297fca2a75971e2508341914673fa23a9645cbe8d7f75ab6f9",
-    "figureS5_answer_audit.svg": "e9f8393d7c141cae5a5f73df6bf57b6dc0fc689f07bec93b8a8956ca6feee062",
-    "figureS6_graph_location_sensitivity.png": "4b625110d10ce748a43e70e89d870ae911a57081908c95138f56526ad412fe0b",
-    "figureS6_graph_location_sensitivity.svg": "b285d1964bde5148694666f8865dbf39ce343ce5e6732433330bdb35bb4b0bfd",
-    "figureS7_qwen17_completion.png": "b29e0bd9b1831fdffddfb93e275a2e416f3d4c9f18b5cc3a81f96762ac0effb0",
-    "figureS7_qwen17_completion.svg": "4b348336673ad367fa0eb00cc4e9c39fffbdcd734d87c7124c642b64f0b5384b",
-    "figureS8_feature_overlap_workflow.png": "4fb18b9e68bf0dd42b377512b1e11783833234cb68e0f62a2935dd185f74b892",
-    "figureS8_feature_overlap_workflow.svg": "0f1883ef4a3978daf977196ddf5085e5a9aa7e150be970c0beb7d4c3662ee5a3",
-    "figureS9_answer_spelling.png": "4795b88cefd5f7e86c39d170bccb203bdcac219f869ccdbe9ff119903df7ab47",
-    "figureS9_answer_spelling.svg": "3c1e711402a1f75863a569adffbebeebd5c0710094fb3f003772e5bfc4efc27b",
+    "figure1_design_and_coverage.png": "31366e9edb6775d815c0f86285fa851f06fb564c5e4f3dc427a4101d39ac3224",
+    "figure1_design_and_coverage.svg": "6621afce5c874581b5dcbcb8ab06056576741d96f33eedb8849d5818678afcd5",
+    "figure2_fact_signal.png": "1d2b5be85a1582b58196a1d7876058a31a15801c1def6c83196421cc4692d7d2",
+    "figure2_fact_signal.svg": "1751624703413ac9c55e63b088bf43ba2df946af3d93768f6e3a06ff181dffba",
+    "figure3_control_comparisons.png": "42b07755b859a087f78255a4b44a9aed34e1ef906a6107e9be01566fe6107a4e",
+    "figure3_control_comparisons.svg": "314afa2e76d338c4292fe18904164ad68cc77be1e6705ab8c68c9a3df3546005",
+    "figure4_matched_choice.png": "a5eb4a55fbf26550493a84baccc906f5e41de07ebc14f2d4dacb718f4c135bc8",
+    "figure4_matched_choice.svg": "e3c853f8761650529f3498941b9024bc5e47e80408dd9b7d6976d21744a18efb",
+    "figure5_failure_cases.png": "c62689f0c1fbfea7a79aeae57b35091bf68698c6202ce4936c83b7bf69ee1adf",
+    "figure5_failure_cases.svg": "cd9ef04fae7a7b4faef0452d3dd7fc1c890851318d5e2a1f143e87b7dbbb38f3",
+    "figure6_history_answers.png": "b41b4af2c155c2509a012c7a5d519a8c5490c776cc84ca6e03e653867b51ee0d",
+    "figure6_history_answers.svg": "c418d33269cc0384c4ae5d4a1da4e0f1cc1b0a39e0d8ccb49a845d471b93cc76",
+    "figureS10_fact_and_wording.png": "42e52e34624807df85a52f742a456b43ccee79b389cfa283f5aee7216c30ff0a",
+    "figureS10_fact_and_wording.svg": "e54c1744085d89a75f48b54317515a9905fe7bcbe8c5753ca901b14a4f44c077",
+    "figureS1_export_and_error.png": "575fd24f109ec977e10eda4cb0e80624046547ccaec77a6c681d673b13f0ea44",
+    "figureS1_export_and_error.svg": "ee4a9266ce7ad824cfd228d9c38b756a33b7d9c359c3aaab55c05aeeba7a7cbf",
+    "figureS2_robustness.png": "a13b0af4acf51cd6378d1ea6dd1627c6c939d6a5c15d9f208e64c951eb5c95dc",
+    "figureS2_robustness.svg": "053eaccff1926fd27079499f678e7bce9d894bb2756d1164073d917b8992252a",
+    "figureS3_equal_feature_counts.png": "d4820304409f97167003b03fc839e7a1fa0bf103c2c9304c1d63e13f6b8ee5c0",
+    "figureS3_equal_feature_counts.svg": "3f33dbead7abc099d0c231e1aee5d59ba91e8edfc90c057e73247677fce4d558",
+    "figureS4_lexical_support.png": "8d438c121cdeaf58d23ee110fed99c47de06356551fd167b69dc1fa1dba96afe",
+    "figureS4_lexical_support.svg": "79d60e0bf0da279fe415f4d48fad3a0a91809560fe62085c87809fa1b19ed308",
+    "figureS5_answer_audit.png": "93747edf5dd77b2a55ad62f9214c142c488354d6b05b9dda8865758c4670d5dd",
+    "figureS5_answer_audit.svg": "684c29059def5aab9a9a7b63b61bf82ae9e70ccf9f2ea346bd66f39ac77fa208",
+    "figureS6_graph_location_sensitivity.png": "124be01b7737434a41e49fdc42166e9061ee34eac56fdf3bdef2900670b7dd6d",
+    "figureS6_graph_location_sensitivity.svg": "a3d13d1614d5c921f49cbfb4f55c1aacad5219e55b289856cc85a52b5d1c59fc",
+    "figureS7_qwen17_completion.png": "4ea716b0792a05bbf484f8a922ea81823362cbaa3f97b63b704f7d828c6e072d",
+    "figureS7_qwen17_completion.svg": "9138e50454042799ecf39cd6df578051370230a650d4925de8ea9682af756aaf",
+    "figureS8_feature_overlap_workflow.png": "43a6b7dabdeab7089e6c4e356985827525ea82f438bee0cc2b76d0fcec05cd4d",
+    "figureS8_feature_overlap_workflow.svg": "64155d3988f12e60bc9585dfac1a1654750cce2113e098b68d1648230c335584",
+    "figureS9_answer_spelling.png": "e3c648a9a097df02e123f6cbb8f8905ba4ce8c829810b8ca0e16225389c69a13",
+    "figureS9_answer_spelling.svg": "bd9b10d57fd319da9e891f4aeccd4fdd028c30d3b56770271ec9a434471271d1",
+    "tables/failure_sensitivity.csv": "381864d4bda5844f4108ffcb2684f6401af5864c2738ca62b80ef6d3a8a130b4",
     "tables/figure1_coverage.csv": "3a0c4fb1d9b3ad78d6c8cce86e2318ec1f56aab17405c6e53bdc7e693f35407a",
     "tables/figure2_domain_summary.csv": "d0e1bb7c968e5fb10b971eed80a4e4151f348d0e62302042dee98ee97a459319",
     "tables/figure2_fact_level.csv": "a15657f419565ff689da7984ca42f5411ebb67ba6837fc1258784fd3866a6672",
@@ -91,10 +436,11 @@
     "tables/figure3_crossed_effects.csv": "af41132844f74c4733d2dad5b92894a9d45fc4cd22f8444adeebae121c5fa8ac",
     "tables/figure4_controls.csv": "31e153b89cf4c3c70e73cf3da6a2bb1124097690b71b0681e5d4626dbd95142d",
     "tables/figure5_block_contrasts.csv": "4d8811307ef6c25949a5b2be25cd88db7eb80d8b216961d9cef51ea15cd55079",
-    "tables/figure5_four_condition_means.csv": "b0ab12a3a5711426b3da0b8a18048c5d301e65768183ee7479133312b773e021",
     "tables/figure5_four_conditions_by_block.csv": "fb2254e23d64288925438a0cda2ea368d3d2f632df3724fe1bfbaa64dbeeff88",
+    "tables/figure5_four_condition_means.csv": "b0ab12a3a5711426b3da0b8a18048c5d301e65768183ee7479133312b773e021",
     "tables/figure6_behavior.csv": "72e3f5d96ca9805877148601466451c867006b9b62ba334fd782d0a497d4a489",
     "tables/figure6_comparisons.csv": "62bdaca2cc0cb3576b670da88ca0260861e32bb999acb02c8a578c934a622689",
+    "tables/figure7_history_answers_source.csv": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84",
     "tables/figureS1_influence_values.csv": "0d28b8325abcaae83166c2923da9b3a90a51cef39e27af473f30ba64e2afd8a5",
     "tables/figureS1_quality.csv": "9e3467630fa34172315c1ad46fb732df071319dbf9e0f589dad56112f9800003",
     "tables/figureS2_robustness.csv": "968b393e515a31200fae5d105dbc071071a3620f6bf584c60104fc9dfb9fe4a5",
@@ -103,137 +449,16 @@
     "tables/figureS4_lexical_scatter.csv": "dede90ed20c4ce23179cbe3f7dcc6d8756eedbda59f163318df3696964d6b094",
     "tables/figureS4_lexical_support.csv": "f5fab77b3c2ebaf4cfcf8496c6f9b7e85c81c00a34ce3c426bb41d57a9143bd5",
     "tables/figureS5_answer_audit.csv": "153248fcf81cf9db574e4364b4278324ff5c24938d39a852524a9ea69d431895",
+    "tables/figureS5_crossed_expected_tokens.csv": "bf6d7163ddb9b3aea7314908e20ae881364ba2bba8a44b75cd372b5e34800fc5",
     "tables/figureS7_collection.csv": "136d2f69aab0b2485a438b77a01ab95c65f1c57836c70d676bef5f98962fef32",
     "tables/figureS7_domain_summary.csv": "10ce338863bd78d0eac2b3deaad49326cd42e64eac20dd48ce036719f88d28ad",
     "tables/figureS7_per_fact.csv": "ae44af7021bad87766927f818bd6df8fe05155cc69ac170798649ee4c3e7aca0",
     "tables/figureS9_history_comparisons.csv": "2736baa490a49292c1683dbac73db9d95e4b40932b4232f32111f192a13d3df6",
     "tables/figureS9_history_equal_counts.csv": "b6c0aedab02c6e3dc5817e6d59b3a4fae784366bf41c05f26d4e8dd940af77ac",
+    "tables/matched_choice_primary.json": "340ea74fb3d86f3dee400483b383fd05f0baf51df0a1c774b70a9243a1bf368c",
+    "tables/matched_choice_sensitivity.csv": "1184b94a2a6f5d2a2841871dba3b34954bdae6bd63760b9a3c1827e1c81571ba",
+    "tables/statistics_audit.json": "9850331994cdbf1a0a505e5051e0be1ba97cc08f57cba88656528b66050f9c22",
     "tables/table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
     "tables/test_fact_inclusion_audit.csv": "07207aaba65fb98721530e50321820180189185b053cb4528e7f42a0dc39d882"
-  },
-  "presentation": "Final corrected answer scoring in all primary displays",
-  "previous_figure_manifest_sha256": "fcffa98ef921bc9b0f0c0d9949d33766dcaace5a69b256f7ecd198e9c14ca31e",
-  "python": "3.13.3",
-  "script_sha256": "937a456c6f1714783adad995874c5d14efd31440804c18fdaff1f644612a89fb",
-  "source_hashes": {
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure1_design_and_coverage.png": "6bb036dd964dbfbd8117f77504086a2fbcc1ae03b8786864be7d404fe12beee1",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure1_design_and_coverage.svg": "5809612f2a1caed049a0a9e5beca16237627dfb24b60d532eded84022e2a5a62",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure3_fact_and_wording.png": "ff11c99d764ddda2ce28ab5fbf1504b8c953e30f7f6916170b1f7e88e9193758",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure3_fact_and_wording.svg": "e1d978743ea68c724766f3e870f153ccbae5415be41da266997fc663754288c0",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure4_control_comparisons.png": "ca59035e9c4f2b362b6ff24003f3211793199310d2691bc151f396a5828ba56e",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure4_control_comparisons.svg": "b45a7774a2d3ee209832acdf83a1b82369c4fedb4cae21726c0ba257c1611a48",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure5_matched_choice.png": "e6ad392bd0ee4b4c067e22a53cb43ba6fa37d2f62e252e57704f1b8720485050",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure5_matched_choice.svg": "812a72d61ab7502b20b48d79cd8afadcde5bc88d7b8f4782a8fa5a20713aea07",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure6_failure_cases.png": "bcc1453fed51ff2623b7144c1e8b86e35a4ee906841c05f65b84e46ebd237a0d",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure6_failure_cases.svg": "9591c8a060d0104f38016f2dee91c993f68660e2165bbe7c6c2313eb63596702",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS1_export_and_error.png": "077dd50570159143e4e741362527f664f3f0968203ad21401eb22885193ab8b0",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS1_export_and_error.svg": "40522495ed3886cbb54e8030857bcfc42bc67e0c6f952630ff625237e472ee90",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS6_graph_location_sensitivity.png": "4b625110d10ce748a43e70e89d870ae911a57081908c95138f56526ad412fe0b",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS6_graph_location_sensitivity.svg": "b285d1964bde5148694666f8865dbf39ce343ce5e6732433330bdb35bb4b0bfd",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS7_qwen17_completion.png": "b29e0bd9b1831fdffddfb93e275a2e416f3d4c9f18b5cc3a81f96762ac0effb0",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figureS7_qwen17_completion.svg": "4b348336673ad367fa0eb00cc4e9c39fffbdcd734d87c7124c642b64f0b5384b",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/figure_manifest.json": "6378ef142e4f8e76ca42bfa0a78b5d19ffcb2812562e33560ba11c6b28a0a244",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure2_fact_level.csv": "18adfdd5881ec49f892459e0c3bede2fcb4fe369c5404ea13b39adad34e1f3b0",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure2_summary.csv": "387e16024244907b8045dc06df079ef8898ad45a3f4d873fcd3bf97cdb0ca8a2",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure3_crossed_effects.csv": "af41132844f74c4733d2dad5b92894a9d45fc4cd22f8444adeebae121c5fa8ac",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure4_controls.csv": "31e153b89cf4c3c70e73cf3da6a2bb1124097690b71b0681e5d4626dbd95142d",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure5_block_contrasts.csv": "4d8811307ef6c25949a5b2be25cd88db7eb80d8b216961d9cef51ea15cd55079",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure5_four_condition_means.csv": "b0ab12a3a5711426b3da0b8a18048c5d301e65768183ee7479133312b773e021",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure5_four_conditions_by_block.csv": "fb2254e23d64288925438a0cda2ea368d3d2f632df3724fe1bfbaa64dbeeff88",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure6_behavior.csv": "72e3f5d96ca9805877148601466451c867006b9b62ba334fd782d0a497d4a489",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figure6_comparisons.csv": "62bdaca2cc0cb3576b670da88ca0260861e32bb999acb02c8a578c934a622689",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS1_influence_values.csv": "0d28b8325abcaae83166c2923da9b3a90a51cef39e27af473f30ba64e2afd8a5",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS1_quality.csv": "9e3467630fa34172315c1ad46fb732df071319dbf9e0f589dad56112f9800003",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS2_robustness.csv": "49f152fa55f46d2a137beb1b5b8f3783268aba90525135d096b0c68c7c7b09de",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS3_equal_counts.csv": "ef3dd0cdfc18f3895d395f68e46da9ebac91d136c15578a21487590ba8219d83",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS3_per_fact.csv": "3b7618854d651e8504df627e381bd06c0c3d941e1075374a0adc5f9c2d604129",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS4_lexical_scatter.csv": "a121cadf7ff5f6d4009d868cbb6456842f86529ed1f85070478852a69ffcdf4e",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS4_lexical_support.csv": "d54cb871b696387aa192b3c7df248295779fe160aa3bc11769d63e394dc667d6",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS5_answer_audit.csv": "2fb4d155957167d1303baebb2a0eb3c93b68ca2c8d26aaa208d23495e3a501f6",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS7_collection.csv": "136d2f69aab0b2485a438b77a01ab95c65f1c57836c70d676bef5f98962fef32",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS7_domain_summary.csv": "10ce338863bd78d0eac2b3deaad49326cd42e64eac20dd48ce036719f88d28ad",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/figureS7_per_fact.csv": "ae44af7021bad87766927f818bd6df8fe05155cc69ac170798649ee4c3e7aca0",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
-    "data/model_extension/answer_spelling_20261111/paper_figures_v1/tables/test_fact_inclusion_audit.csv": "57f2959d5d671d913a568a17995e199c0d48a540aab8db0028252ade6b3bbb69",
-    "data/model_extension/exploratory_20260905/pairwise_lexical_and_size.csv": "ac4d4e56eb31506125828a5e107bd370387a3db0c008e410174eabd427805686",
-    "data/model_extension/exploratory_20260905/results.json": "6b9238e58394fc20ef1b61d30d5490f406e51fb585e6316d9250040106932e0a",
-    "data/model_extension/exploratory_20260905/size_per_fact.csv": "3c336ccdde5c5f4fd7c1db57d0c957c7f0eac78eb6ba887b2a36e060a6474f2d",
-    "data/model_extension/final_corrected_scoring_20261111/lexical_pairs.csv": "8200e4ee0abec8e65de0c50db8ef6a4f76e827fc10b15220c1cd08af809ac296",
-    "data/model_extension/final_corrected_scoring_20261111/results.json": "3059ff6d8b060a7b0599c78fb8fcd25f52d6bcba7cefada5d5d1d0934457e48a",
-    "data/model_extension/final_corrected_scoring_20261111/test_fact_inclusion_audit.csv": "07207aaba65fb98721530e50321820180189185b053cb4528e7f42a0dc39d882",
-    "data/model_extension/qwen17_completion_20261106/analysis/results.json": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
-    "data/model_extension/qwen17_completion_20261106/figure_audit/results.json": "351d33385edf8c773b4d4cd85b1ea00b58e28a69c5699c21185a1614f0941f62",
-    "data/publication_analysis/whole_graph_results.json": "7002c0a82f66a31dd20ba49f35ba723e0cadefc53d07a3a25be9e9daaf5d15d7",
-    "scripts/build_final_corrected_figures.py": "937a456c6f1714783adad995874c5d14efd31440804c18fdaff1f644612a89fb",
-    "scripts/build_outline_figures.py": "3b40d1ed932f70725a7960748476e7122f3497aff2aaeea896cf86888b050bd6",
-    "scripts/build_three_model_figure_pack.py": "484caf2d1100ba69565753390ec37b5a4df3815da083177e30ac6c5e670ea634",
-    "scripts/figure_plain_language.py": "c118e1b17ade1504a62f8c085c4c5f8ef520497bb36532143fd236a878065928",
-    "scripts/plot_methods_workflow.py": "b20b17108132c405dfcfdaf980c5edb5ba51b29f83c8d03444a2c60b327a5d53",
-    "scripts/plot_updated_cohort_figures.py": "15edca6c00bea133b9b6414a4ac4f5d95454aba983d1774d8830dbf5b909405d"
-  },
-  "supplements": [
-    {
-      "label": "S1",
-      "legend": "A, The percentage of saved raw graph files in which the same node ID refers to conflicting node identities. Labels show affected files over files checked. Qwen3-1.7B has 0/91 detected conflicts. Zero means no conflict was detected, not no graphs or no model errors. Question/control sets include factual questions and controls; the fact/wording sets vary both factors. B, Reconstruction-error nodes record part of the model computation not captured by the feature approximation. The axis gives their share of absolute nonterminal-node influence, using the saved audit definitions. This is not the percentage of wrong answers or of reasoning explained. Box centers mark medians; boxes span the middle 50%, whiskers extend to values within 1.5 box lengths, and dots show values beyond the whiskers. Qwen3-1.7B has median reconstruction-error influence 6.06%. Counts include all available graphs, including controls and partial sets, not only included evaluation questions. Gemma and Qwen3-1.7B distributions use raw-file audits; Qwen3-4B uses converted graphs with no ambiguous IDs removed. Differences combine model, exporter, and approximation choices; they do not isolate model size or architecture.",
-      "number": 1,
-      "stem": "figureS1_export_and_error",
-      "title": "Graph files have two separate limits: ID conflicts and approximation error"
-    },
-    {
-      "label": "S2",
-      "legend": "The difference in feature overlap is same-fact overlap minus other-fact overlap, using the comparison specified for each check. Compare the main analysis with three alternatives: include reconstruction-error nodes; use only files without detected node-ID conflicts; or compare with the most similar other-fact question rather than the average other-fact question. Reconstruction-error nodes represent approximation error, not wrong model answers. Points are saved averages; bars are 95% bootstrap intervals from resampling test questions. n counts questions. Qwen3-1.7B means are 0.089, 0.089, 0.089, and 0.078, respectively (n=10 each). Restricting files requires rebuilding the comparison groups and leaves only two Gemma questions, so that positive result is weak evidence on its own. The size-regression intercept is not plotted: with centered predictors it equals the unadjusted mean and is not an independent check. This figure concerns feature-set overlap, not every graph metric; the Qwen3-1.7B edge-flow cosine result is inconclusive.",
-      "number": 2,
-      "stem": "figureS2_robustness",
-      "title": "Average feature-overlap differences stay positive in the displayed checks"
-    },
-    {
-      "label": "S3",
-      "legend": "The difference in feature overlap is same-fact overlap minus average other-fact overlap within the same subject and test set. Within each model, subject, and test set, randomly sample the same number of features from every graph. K is the number of features in the smallest graph in that group; the second check uses half that number, rounded down. Repeat 200 times, reusing each sampled graph across comparisons within a repetition. Lines show individual test questions; diamonds show averages. Bars are descriptive 95% bootstrap intervals from resampling questions, not from the 200 feature samples. Seven of eight Gemma questions, all ten Qwen3-1.7B questions, and all twelve Qwen3-4B questions retain positive average differences. Qwen3-1.7B means are 0.089 for the full feature sets, 0.084 at K, and 0.033 at K/2. Qwen3-4B means are 0.218 for full sets, 0.181 at K, and 0.072 at K/2. Equalizing counts does not remove differences in shared words, answers, or which features the exporter retains. A smaller overlap score after sampling is not a percentage of signal explained.",
-      "number": 3,
-      "stem": "figureS3_equal_feature_counts",
-      "title": "Average overlap differences stay positive with equal numbers of features"
-    },
-    {
-      "label": "S4",
-      "legend": "For each test question, compare word overlap with its same-fact rewording (horizontal axis) against the highest word overlap with any other-fact rewording (vertical axis). Word overlap uses unique letter/number words, ignores letter case, and keeps common words. Both axes use Jaccard overlap: shared words divided by all distinct words across the pair. The dashed line means equal overlap; the shaded band allows a difference of 0.05 in either direction. Every other-fact comparison lies more than 0.05 below its same-fact comparison. No test question has a matched control under any of the three saved word/size matching rules: 0/8 for Gemma-2-2B, 0/10 for Qwen3-1.7B, and 0/12 for Qwen3-4B. This is a missing comparison, not a measured zero effect or proof that words explain all feature overlap. Same-fact questions also share their expected answer, so the data do not isolate meaning from words or answers.",
-      "number": 4,
-      "stem": "figureS4_lexical_support",
-      "title": "Other-fact questions share fewer words, leaving a gap in the controls"
-    },
-    {
-      "label": "S5",
-      "legend": "A, Audit the first predicted text unit, or token, using the Qwen tokenizers. Green means the token gives the complete accepted answer, including registered spelling variants; yellow means only a compatible beginning, leaving the completed answer unverified; gray means another first token. Qwen3-1.7B has 42 complete accepted answers, four compatible beginnings, and four other tokens among 50 available factual-question graphs. Qwen3-4B has 50, five, and five, respectively, among 60 available factual graphs. Maria and Mar\u00eda are accepted as the same ship name. Counts include development and test questions and partial Qwen3-1.7B history sets; they are not the included evaluation counts in Figure 2. Official Qwen tokenizer versions agree with all saved prompt pieces and decoded top tokens, but the exact versions used at the time of graph collection cannot be fully recovered. Gemma tokenizer access was denied, leaving that audit unresolved. B, In the fact/wording experiment, counts use the exact first-token matching rule after trimming whitespace; that rule is unchanged. Only Qwen3-4B geography matches in all nine questions. Its fact/wording differences are 0.101/0.106, which do not establish that either factor dominates. A zero in history means zero matches under this rule, not zero history knowledge.",
-      "number": 5,
-      "stem": "figureS5_answer_audit",
-      "title": "A matching first token does not always verify the whole answer"
-    },
-    {
-      "label": "S6",
-      "legend": "Qwen3-4B only. Repeat the saved comparisons after removing features at the last token position, in the last quarter of observed feature layers, or both. Removal happens before combining feature identities across positions. A, Plot the difference between the same-letter and changed-letter fact comparisons in Figure 5B. Each line represents one of six country pairs; black diamonds show averages. B, Plot overlap with the correct same-answer response minus overlap with the correct intended-country response in the selected errors from Figure 6. Lines show the individual comparisons; colored diamonds show format averages. All filtered feature sets are nonempty. Zero means equal overlap, not missing data. These checks were chosen after seeing earlier results. No confidence intervals or new population tests are attached. Removing features from saved graphs is not an intervention on the model and does not establish a cause. The remaining graphs are still constructed around the answer being produced.",
-      "number": 6,
-      "stem": "figureS6_graph_location_sensitivity",
-      "title": "The answer-related differences remain after removing some graph features"
-    },
-    {
-      "label": "S7",
-      "legend": "Qwen3-1.7B collection and subject coverage. A, Available raw graphs, including development and evaluation prompts: 40/40 chemistry, 40/40 geography, and 11/40 history graphs, for 91 graphs total. Bar colors identify subjects. The 29 unavailable history jobs were rejected for exceeding the hosted token limit, not counted as wrong model answers. No history fact has all four required prompt roles. B, Included test questions: five chemistry and five geography questions. Each point is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and evaluation set. Diamonds show means and bars show descriptive 95% question-bootstrap intervals: chemistry 0.085 (0.076\u20130.095) and geography 0.093 (0.083\u20130.106). All ten differences are positive. History has no plotted estimate, not a zero effect. Inclusion retains the complete four-role and expected-next-token rules. Shared words and expected answers remain coupled to fact identity.",
-      "number": 7,
-      "stem": "figureS7_qwen17_completion",
-      "title": "Qwen3-1.7B includes chemistry and geography; history sets are incomplete"
-    },
-    {
-      "label": "S8",
-      "legend": "Primary feature-overlap workflow for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual, same fact reworded, invented name in the starting sentence pattern, and invented name reworded. Exact chemistry prompts about gold and iron, plus invented name zorium, are development examples from the manifest, not evaluation questions. Hosted Neuronpedia graph exports are analyzed locally without local model inference. Eligibility requires four available representations after export/integrity checks, both factual highest-probability next tokens matching a complete accepted answer after trimming whitespace, and another eligible fact in the same model, subject, and development/evaluation set. Accepted spellings include Maria and Mar\u00eda for the flagship answer; partial answers do not qualify. Unique learned-feature identities are (family, layer, feature ID): positions collapse, but layers remain distinct. Embeddings, logits, reconstruction-error nodes, and nodes with missing or duplicated node IDs are omitted. Jaccard overlap J is shared unique features divided by distinct features in either set. Each starting set T_i is compared with its own rewording P_i and every other included factual rewording P_j in the same model/subject/set. The baseline is the mean of all those Jaccard overlaps, excluding i; iron illustrates one comparator, not the whole pool. Subtraction yields one difference per fact, M_i. Summaries, bootstrap intervals, and permutations within the same subject area concern facts, not graph pairs. Invented-name comparisons are separate controls, not the other-fact baseline; broad output-token-type matching is not the primary eligibility rule. Illustrative feature sets and scores, not measured results: {a,b,c} and {a,b,d} share a and b (green), while c and d are unshared (white), giving 2/4=0.50; an illustrative baseline of 0.30 gives +0.20. These values do not describe the gold or iron graphs. Letters denote identities, not concepts. Arrows show analysis steps, not causal pathways; overlap alone does not establish causal use or answer correctness.",
-      "number": 8,
-      "stem": "figureS8_feature_overlap_workflow",
-      "title": "How questions become a feature-overlap comparison"
-    },
-    {
-      "label": "S9",
-      "legend": "Qwen3-4B history facts included in the main comparison in Figure 2. Both factual versions and both invented name controls are available for each fact. A, Starting-question overlap with its own rewording (blue circles) versus the other history fact\u2019s rewording (orange squares). Columbus: 0.624 versus 0.023; Archduke Franz Ferdinand: 0.427 versus 0.032. These give differences of 0.601 and 0.395, averaging 0.498. The Columbus predictions differ in spelling, Maria versus Mar\u00eda; the Franz predictions both give Ferdinand. B, History differences with full feature sets, equal counts K, and half counts K/2. Subsampled points average 200 repetitions, not independent observations. Differences remain positive: 0.543/0.370 at K and 0.210/0.151 at K/2. The two history facts use each other as comparators, so their mean describes these questions rather than an independently replicated history effect. Both invented name controls predict punctuation for both facts, excluding these controls from the output-type-matched comparison in Figure 4. Figure 7 concerns historical dates in a different A/B question design.",
-      "number": 9,
-      "stem": "figureS9_answer_spelling",
-      "title": "History rewordings share more features than questions about another fact"
-    }
-  ]
+  }
 }

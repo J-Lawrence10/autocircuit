@@ -13,7 +13,7 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'data/model_extension/final_corrected_scoring_20261111/paper_figures/tables'
-OUT = ROOT / 'data/model_extension/final_corrected_scoring_20261111/claims'
+OUT = ROOT / 'data/model_extension/paper_review_20261111/claims'
 LATE = ROOT / 'data/model_extension/qwen17_completion_20261106/analysis/results.json'
 REVISION = '2026-11-11'
 INK, MUTED, BLUE, TEAL = '#193747', '#506774', '#256B91', '#247867'
@@ -107,8 +107,8 @@ def main():
     xs, width = [.04, .355, .67], .29
     headers = [
         ('01  SAME-FACT COMPARISON', 'Same-fact questions\nshare more features', 'Three models · current samples · Figure 2'),
-        ('02  STRONGER CONTROL', 'Higher same-fact overlap\nwith the same answer letter', 'Qwen3-4B only · six country pairs · Figure 5'),
-        ('03  FAILURE CHECK', 'Wrong-answer graphs resemble\ncorrect same-answer graphs', 'Qwen3-4B only · selected errors · Figure 6'),
+        ('02  STRONGER CONTROL', 'Higher same-fact overlap\nwith the same answer letter', 'Qwen3-4B only · six country pairs · Figure 4'),
+        ('03  FAILURE CHECK', 'Wrong-answer graphs resemble\ncorrect same-answer graphs', 'Qwen3-4B only · selected errors · Figure 5'),
     ]
     cards = [(x+.005, .520, x+width-.005, .815) for x in xs]
     for x, bounds, (tag, title, scope) in zip(xs, cards, headers):
@@ -170,7 +170,7 @@ def main():
 
     ax.plot([.04, .96], [.070, .070], color=LINE, lw=1)
     text(.04, .053, 'Values are differences in Jaccard overlap, not percentages. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.', 9, MUTED)
-    text(.04, .031, 'Sources: Figures 2 and 5–7; Supplements S3/S6/S7/S9; final corrected scoring. One primary sample per model.', 8.5, MUTED)
+    text(.04, .031, 'Sources: Figures 2 and 4–6; Supplements S3/S6/S7/S9; final corrected scoring. One primary sample per model.', 8.5, MUTED)
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
     for t in texts:

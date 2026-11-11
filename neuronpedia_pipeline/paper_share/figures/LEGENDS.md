@@ -1,64 +1,68 @@
 # Figures and legends
 
-Seven main figures and nine supplements present the final results. The main comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Figure S9 details the included Qwen3-4B history facts. Figure 7 shows the historical-date A/B comparisons. The panels retain their own samples; the history comparisons reuse 16 graphs from two event pairs.
+Six main figures and ten supplements present the final results. The main comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Figure S9 details the included Qwen3-4B history facts. Figure 6 shows the historical-date A/B comparisons. Supplement S10 contains the descriptive question-version comparison. The panels retain their own samples; the history comparisons reuse 16 graphs from two event pairs.
 
-Jaccard overlap is the number of shared features divided by the number present in either graph: 0 means none are shared and 1 means the feature sets are identical. A difference in overlap subtracts one overlap score from another. Missing comparisons are unavailable, not zero effects.
+Jaccard overlap is the number of shared features divided by the number present in either graph: 0 means none are shared and 1 means the feature sets are identical. A difference in overlap subtracts one overlap score from another. Missing comparisons are unavailable, not zero effects. Source filenames retain their archived numbers; the links below map each current figure to its source tables. All figures are 180 mm wide with text of at least 7 points at that size.
 
-## Figure 1: Three tests ask what similar graphs can tell us
+## Figure 1: Four comparisons connect feature sharing, responses, and correctness
 
-![Figure 1: Three tests ask what similar graphs can tell us](figure1_design_and_coverage.png)
+![Figure 1: Four comparisons connect feature sharing, responses, and correctness](figure1_design_and_coverage.png)
 
-A, Compare rewordings of the same fact with other-fact questions in the same subject and evaluation group. The analysis includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B test questions. Qwen3-4B includes five chemistry, five geography, and two history questions. Qwen3-1.7B includes five chemistry and five geography questions; no history fact has a complete question/control set. Gold is the chemical element. The examples use development questions, not the test questions plotted in Figure 2. B, In Qwen3-4B, vary the queried country, capital-to-A/B mapping, and wording while preserving the words and token counts within each country pair. All 48 predicted letters were correct. France/Germany illustrates the design using a pilot pair excluded from that evaluation. Displayed prompts are shortened; full prompts retain both countries and the other words, while word order and country roles vary. C, Compare a selected wrong-answer graph with correct predictions for the intended country and for the answer actually produced. This Qwen3-4B diagnostic has 16 graphs from one country pair and two response formats, with shared controls. Answers refer to the highest-probability next token. Arrows indicate comparisons, not causes; box colors identify steps. Sample accounting reports collection counts, exclusions, and failed preliminary checks.
+A, Compare a factual question with its rewording and with other-fact questions in the same subject and evaluation set. The final samples contain 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Gold is the chemical element. Gold, iron, and invented name zorium are development examples, not the evaluation questions plotted in Figure 2. B, In Qwen3-4B, vary the queried country, capital-to-A/B mapping, and wording while preserving word and token counts within each country pair. All 48 predictions across six evaluation pairs were correct. The France/Germany design example is a pilot pair excluded from evaluation. C, Compare a selected error graph with correct predictions for the intended country and for another country giving the same answer as the error. This diagnostic includes 16 graphs from one country pair and two response formats, with shared controls. D, Swap dates assigned to A and B or reverse question/context order. All 16 history graphs from two event pairs are included, with 11 correct and five incorrect predictions. The displayed Declaration of Independence example retains A while selecting 1776 or 1783. Prompts in this overview are abridged to show the comparison; Figure 6 gives exact history prompts. Answers denote highest-probability next tokens. Arrows show comparisons, not causes. Each analysis retains its own question set, inclusion rules, and unit of analysis.
 
 [Editable SVG](figure1_design_and_coverage.svg)
 
-## Figure 2: Reworded questions about the same fact share more features in these samples
+Source tables: [figure1_coverage.csv](../tables/figure1_coverage.csv)
 
-![Figure 2: Reworded questions about the same fact share more features in these samples](figure2_fact_signal.png)
+## Figure 2: Reworded questions about the same fact share more features in the analyzed samples
 
-A, Points represent questions reserved for evaluation that meet the complete-set and accepted-answer criteria. The difference in feature overlap is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and test set. The displayed arithmetic, 0.50 − 0.30 = +0.20, illustrates this subtraction. These example numbers are not measured results. Positive, zero, and negative values indicate more, equal, and less overlap with the same fact; units are Jaccard differences, not percentage increases. B, Subject averages. Colors and shapes identify subjects; diamonds show averages and bars show descriptive 95% intervals from 10,000 question-bootstrap resamples. n counts questions. Qwen3-4B history has two facts sharing their only comparison partner, so its subject mean is shown without an interval. Means are 0.170 for Gemma-2-2B (8 questions), 0.089 for Qwen3-1.7B (10), and 0.218 for Qwen3-4B (12; pooled interval 0.150–0.307). Qwen3-1.7B includes five chemistry and five geography questions, with a descriptive pooled interval of 0.082–0.098. Repeated facts and different subject coverage preclude a model ranking; shared words and answers remain coupled to fact identity. Missing groups are unavailable, not zero. Figure S9 details the two Qwen3-4B history comparisons.
+![Figure 2: Reworded questions about the same fact share more features in the analyzed samples](figure2_fact_signal.png)
+
+A, Points represent questions reserved for evaluation that meet the complete-set and accepted-answer criteria. The difference in feature overlap is same-fact rewording overlap minus average other-fact rewording overlap within the same subject and test set. For example, overlaps of 0.50 and 0.30 give a difference of +0.20. These example numbers are not measured results. Positive, zero, and negative values indicate more, equal, and less overlap with the same fact; units are Jaccard differences, not percentage increases. B, Subject averages. Colors and shapes identify subjects; diamonds show averages and bars show descriptive 95% intervals from 10,000 question-bootstrap resamples. n counts questions. Qwen3-4B history has two facts sharing their only comparison partner, so its subject mean is shown without an interval. Means are 0.170 for Gemma-2-2B (8 questions), 0.089 for Qwen3-1.7B (10), and 0.218 for Qwen3-4B (12; pooled interval 0.150–0.307). Qwen3-1.7B includes five chemistry and five geography questions, with a descriptive pooled interval of 0.082–0.098. Repeated facts and different subject coverage preclude a model ranking; shared words and answers remain coupled to fact identity. Missing groups are unavailable, not zero. Figure S9 details the two Qwen3-4B history comparisons.
 
 [Editable SVG](figure2_fact_signal.svg)
 
-## Figure 3: Questions sharing a fact or version label have higher average overlap
+Source tables: [figure2_domain_summary.csv](../tables/figure2_domain_summary.csv), [figure2_fact_level.csv](../tables/figure2_fact_level.csv), [figure2_summary.csv](../tables/figure2_summary.csv)
 
-![Figure 3: Questions sharing a fact or version label have higher average overlap](figure3_fact_and_wording.png)
+## Figure 3: The invented name comparison changes the observed overlap difference
 
-A, Feature-set overlap differences. B, Saved-influence-weighted cosine differences, comparing the direction of weighted feature vectors. Question versions were labeled original, alternative 1, or alternative 2. The baseline differs in both fact and version label. Each value is similarity in the labeled comparison minus similarity in that baseline, calculated within subject area. The gold/iron examples use exact saved prompts. Starting from gold alternative 1, gold original shares the fact, iron alternative 1 shares the version label, and iron original differs in both. Shared version labels did not imply identical sentence patterns across facts; this is not an exact-wording control. Each tested model has 27 graphs: three facts × three versions × three subject areas. Colored points are subject averages; black diamonds average subjects equally. Lines connect descriptive estimates, not intervals. Mean same-fact/same-version-label differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. Some predicted first tokens are incomplete answers or non-answers. Only Qwen3-4B geography passes all nine expected-token checks; its differences are 0.101/0.106. These similarity measures do not measure correctness or establish factor dominance or model superiority. Qwen3-1.7B was not tested here.
-
-[Editable SVG](figure3_fact_and_wording.svg)
-
-## Figure 4: Invented name controls give different results across models
-
-![Figure 4: Invented name controls give different results across models](figure4_control_comparisons.png)
+![Figure 3: The invented name comparison changes the observed overlap difference](figure3_control_comparisons.png)
 
 Replace the real name with an invented name, retaining the starting wording (A) or rewording it (B). For each test question, subtract overlap with the invented name prompt from overlap with the factual rewording. Positive values favor the factual rewording; negative values favor the invented name control. Colors identify models, points show questions, diamonds show means, and bars show saved 95% question-bootstrap intervals; n counts included questions. Panel A means are -0.069 (n=2), -0.011 (n=9), and +0.096 (n=10) for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. For Qwen3-1.7B, the interval in A is -0.021–0.001; B has mean 0.106 (n=10; interval 0.092–0.119). The original-wording control has more overlap in 8/10 Qwen3-1.7B questions before token-type matching and 7/9 in the plotted matched subset. Matching uses only broad first-token categories (letters/numbers, whitespace, or punctuation/symbols), leaving exact answer, meaning, confidence, and correctness unmatched. Qwen3-4B has twelve primary facts but ten here: both history facts' invented name controls predict commas rather than name tokens. Small, differently composed samples support comparison-specific findings rather than a general explanation by wording.
 
-[Editable SVG](figure4_control_comparisons.svg)
+[Editable SVG](figure3_control_comparisons.svg)
 
-## Figure 5: Same-fact overlap is higher when the answer letter stays the same
+Source tables: [figure2_fact_level.csv](../tables/figure2_fact_level.csv), [figure4_controls.csv](../tables/figure4_controls.csv)
 
-![Figure 5: Same-fact overlap is higher when the answer letter stays the same](figure5_matched_choice.png)
+## Figure 4: Same-fact overlap is higher when the answer letter stays the same
 
-Qwen3-4B: six country pairs, 48 correct next-token A/B predictions, and identical word/token inventories within pairs. Rules were fixed before collection in this outcome-informed follow-up. A, Mean feature overlap in the four cross-wording comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The scale runs from no shared features (0) to identical sets (1). B, Same-country minus different-country overlap is 0.0628 with the same letter and -0.0022 with a changed letter. Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553–0.0746; two-sided sign-flip p=0.03125). C, Their average is the prespecified primary outcome: 0.0303 (95% block-bootstrap interval 0.0265–0.0338). The descriptive same-letter minus different-letter difference, averaged across country relationships, is 0.2827. Lines represent country pairs; diamonds show means. Only the primary mean in C has an interval drawn. Colors identify labeled categories; B and C use different vertical scales. Tests assume six independent country-pair blocks; the sign-flip test additionally assumes symmetric null differences. The 48 graphs and 4,096 conditional-null reassignments are not independent replicates. Near zero is not equivalence. Overlap differences are neither accuracy nor variance explained; query order, country roles, and output-conditioned graphs remain alternatives to a causal interpretation. Supplement S6 reports graph-location checks.
+![Figure 4: Same-fact overlap is higher when the answer letter stays the same](figure4_matched_choice.png)
 
-[Editable SVG](figure5_matched_choice.svg)
+Qwen3-4B: six country pairs, 48 correct next-token A/B predictions, and identical word/token inventories within pairs. Rules were fixed before collection in this outcome-informed follow-up. A, Mean feature overlap in the four cross-wording comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The scale runs from no shared features (0) to identical sets (1). B, Same-country minus different-country overlap is 0.0628 with the same letter and -0.0022 with a changed letter. Their paired difference is 0.0650 (exploratory Student-t 95% interval 0.0553–0.0746; two-sided sign-flip p=0.03125). C, The average same-country overlap difference is the mean of the two contrasts in B and is the prespecified primary outcome: 0.0303 (95% block-bootstrap interval 0.0265–0.0338). The descriptive same-letter minus different-letter difference, averaged across country relationships, is 0.2827. Lines represent country pairs; diamonds show means. Only the primary mean in C has an interval drawn. Colors identify labeled categories; B and C use different vertical scales. Tests assume six independent country-pair blocks; the sign-flip test additionally assumes symmetric null differences. The 48 graphs and 4,096 conditional-null reassignments are not independent replicates. Near zero is not equivalence. Overlap differences are neither accuracy nor variance explained; query order, country roles, and output-conditioned graphs remain alternatives to a causal interpretation. Supplement S6 reports graph-location checks.
 
-## Figure 6: Selected error graphs share more features with correct predictions giving the same answer
+[Editable SVG](figure4_matched_choice.svg)
 
-![Figure 6: Selected error graphs share more features with correct predictions giving the same answer](figure6_failure_cases.png)
+Source tables: [figure5_block_contrasts.csv](../tables/figure5_block_contrasts.csv), [matched_choice_primary.json](../tables/matched_choice_primary.json)
+
+## Figure 5: Error graphs share more features with correct predictions giving the same response
+
+![Figure 5: Error graphs share more features with correct predictions giving the same response](figure5_failure_cases.png)
 
 Qwen3-4B, one country pair and two response formats. A, All eight named-country prompts predict the correct first token; all eight selected position-based prompts reproduce the error (four of each per format). B–C, Compare error graphs with correct predictions for the intended country (blue) or giving the same answer (orange), holding list order and A/B mapping fixed. With France first and A: Berlin, B: Paris, the indirect France question predicts Berlin; naming France predicts Paris and naming Germany predicts Berlin. The error graph shares more features with Germany/Berlin. Circles use all retained features; open squares average 200 equal-feature-count samples. Lines connect comparisons for the same error. Same-answer minus intended-country overlap averages 0.1983 for letters and 0.2649 for capital names (0.1851 and 0.2361 with equal counts). All 16 exports and eight comparison triples pass integrity and output checks. The selected cases share controls, so they support descriptive comparisons, not error-frequency estimates or population tests. Words differ between prompt types; position matching, negation errors, and output-conditioned graph structure remain unresolved explanations. The intended correct-answer node is absent from each error graph, leaving its contribution unknown.
 
-[Editable SVG](figure6_failure_cases.svg)
+[Editable SVG](figure5_failure_cases.svg)
 
-## Figure 7: History: similar graphs can accompany different selected years
+Source tables: [figure6_behavior.csv](../tables/figure6_behavior.csv), [figure6_comparisons.csv](../tables/figure6_comparisons.csv)
 
-![Figure 7: History: similar graphs can accompany different selected years](figure7_history_answers.png)
+## Figure 6: History: similar graphs can accompany different selected years
+
+![Figure 6: History: similar graphs can accompany different selected years](figure6_history_answers.png)
 
 Qwen3-4B attribution graphs for 16 historical-date prompts, including 11 correct and five incorrect predictions. **a,** Two real pairs asking for the year of adoption of the US Declaration of Independence. Within each row, the dates assigned to A and B are swapped while the question and context remain unchanged. When the question comes first, the model predicts A in both prompts, selecting 1776 in one and 1783 in the other; feature overlap is 0.795. When context comes first, the model changes from A to B to retain the correct year, 1776; overlap is 0.512. The exact user-prompt text is shown with added line breaks; the model chat wrapper is not shown. **b,** All eight comparisons that swap the A/B date assignments while holding the queried event and question/context order fixed. The five same-letter comparisons select different years, with one correct and one incorrect prediction per pair (Jaccard 0.795–0.911). The three different-letter comparisons retain the same correct year (0.512–0.532). **c,** All eight comparisons that reverse question/context order while holding the event and A/B date assignments fixed. Overlap is 0.766–0.808 when predictions retain the same letter and 0.527–0.602 when the letter changes. Each point represents a pair of graphs; marker shapes and colors identify the queried event. Panels b and c reuse the same 16 graphs from two event pairs. Jaccard overlap is the number of shared feature identities divided by the number present in either graph; 0 means none are shared and 1 means the feature sets are identical. Feature identities exclude embeddings, output nodes, and reconstruction-error nodes. The panels report descriptive comparisons without treating graph pairs as independent replications.
 
-[Editable SVG](figure7_history_answers.svg)
+[Editable SVG](figure6_history_answers.svg)
+
+Source tables: [figure7_history_answers_source.csv](../tables/figure7_history_answers_source.csv)
 
 ## Supplement S1: Graph files have two separate limits: ID conflicts and approximation error
 
@@ -68,6 +72,8 @@ A, The percentage of saved raw graph files in which the same node ID refers to c
 
 [Editable SVG](figureS1_export_and_error.svg)
 
+Source tables: [figureS1_influence_values.csv](../tables/figureS1_influence_values.csv), [figureS1_quality.csv](../tables/figureS1_quality.csv)
+
 ## Supplement S2: Average feature-overlap differences stay positive in the displayed checks
 
 ![Supplement S2: Average feature-overlap differences stay positive in the displayed checks](figureS2_robustness.png)
@@ -75,6 +81,8 @@ A, The percentage of saved raw graph files in which the same node ID refers to c
 The difference in feature overlap is same-fact overlap minus other-fact overlap, using the comparison specified for each check. Compare the main analysis with three alternatives: include reconstruction-error nodes; use only files without detected node-ID conflicts; or compare with the most similar other-fact question rather than the average other-fact question. Reconstruction-error nodes represent approximation error, not wrong model answers. Points are saved averages; bars are 95% bootstrap intervals from resampling test questions. n counts questions. Qwen3-1.7B means are 0.089, 0.089, 0.089, and 0.078, respectively (n=10 each). Restricting files requires rebuilding the comparison groups and leaves only two Gemma questions, so that positive result is weak evidence on its own. The size-regression intercept is not plotted: with centered predictors it equals the unadjusted mean and is not an independent check. This figure concerns feature-set overlap, not every graph metric; the Qwen3-1.7B edge-flow cosine result is inconclusive.
 
 [Editable SVG](figureS2_robustness.svg)
+
+Source tables: [figureS2_robustness.csv](../tables/figureS2_robustness.csv)
 
 ## Supplement S3: Average overlap differences stay positive with equal numbers of features
 
@@ -84,6 +92,8 @@ The difference in feature overlap is same-fact overlap minus average other-fact 
 
 [Editable SVG](figureS3_equal_feature_counts.svg)
 
+Source tables: [figureS3_equal_counts.csv](../tables/figureS3_equal_counts.csv), [figureS3_per_fact.csv](../tables/figureS3_per_fact.csv)
+
 ## Supplement S4: Other-fact questions share fewer words, leaving a gap in the controls
 
 ![Supplement S4: Other-fact questions share fewer words, leaving a gap in the controls](figureS4_lexical_support.png)
@@ -91,6 +101,8 @@ The difference in feature overlap is same-fact overlap minus average other-fact 
 For each test question, compare word overlap with its same-fact rewording (horizontal axis) against the highest word overlap with any other-fact rewording (vertical axis). Word overlap uses unique letter/number words, ignores letter case, and keeps common words. Both axes use Jaccard overlap: shared words divided by all distinct words across the pair. The dashed line means equal overlap; the shaded band allows a difference of 0.05 in either direction. Every other-fact comparison lies more than 0.05 below its same-fact comparison. No test question has a matched control under any of the three saved word/size matching rules: 0/8 for Gemma-2-2B, 0/10 for Qwen3-1.7B, and 0/12 for Qwen3-4B. This is a missing comparison, not a measured zero effect or proof that words explain all feature overlap. Same-fact questions also share their expected answer, so the data do not isolate meaning from words or answers.
 
 [Editable SVG](figureS4_lexical_support.svg)
+
+Source tables: [figureS4_lexical_scatter.csv](../tables/figureS4_lexical_scatter.csv), [figureS4_lexical_support.csv](../tables/figureS4_lexical_support.csv)
 
 ## Supplement S5: A matching first token does not always verify the whole answer
 
@@ -100,13 +112,17 @@ A, Audit the first predicted text unit, or token, using the Qwen tokenizers. Gre
 
 [Editable SVG](figureS5_answer_audit.svg)
 
+Source tables: [figureS5_answer_audit.csv](../tables/figureS5_answer_audit.csv), [figureS5_crossed_expected_tokens.csv](../tables/figureS5_crossed_expected_tokens.csv)
+
 ## Supplement S6: The answer-related differences remain after removing some graph features
 
 ![Supplement S6: The answer-related differences remain after removing some graph features](figureS6_graph_location_sensitivity.png)
 
-Qwen3-4B only. Repeat the saved comparisons after removing features at the last token position, in the last quarter of observed feature layers, or both. Removal happens before combining feature identities across positions. A, Plot the difference between the same-letter and changed-letter fact comparisons in Figure 5B. Each line represents one of six country pairs; black diamonds show averages. B, Plot overlap with the correct same-answer response minus overlap with the correct intended-country response in the selected errors from Figure 6. Lines show the individual comparisons; colored diamonds show format averages. All filtered feature sets are nonempty. Zero means equal overlap, not missing data. These checks were chosen after seeing earlier results. No confidence intervals or new population tests are attached. Removing features from saved graphs is not an intervention on the model and does not establish a cause. The remaining graphs are still constructed around the answer being produced.
+Qwen3-4B only. Repeat the saved comparisons after removing features at the last token position, in the last quarter of observed feature layers, or both. Removal happens before combining feature identities across positions. A, Plot the difference between the same-letter and changed-letter fact comparisons in Figure 4B. Each line represents one of six country pairs; black diamonds show averages. B, Plot overlap with the correct same-answer response minus overlap with the correct intended-country response in the selected errors from Figure 5. Lines show the individual comparisons; colored diamonds show format averages. All filtered feature sets are nonempty. Zero means equal overlap, not missing data. These checks were chosen after seeing earlier results. No confidence intervals or new population tests are attached. Removing features from saved graphs is not an intervention on the model and does not establish a cause. The remaining graphs are still constructed around the answer being produced.
 
 [Editable SVG](figureS6_graph_location_sensitivity.svg)
+
+Source tables: [failure_sensitivity.csv](../tables/failure_sensitivity.csv), [matched_choice_sensitivity.csv](../tables/matched_choice_sensitivity.csv), [statistics_audit.json](../tables/statistics_audit.json)
 
 ## Supplement S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete
 
@@ -116,26 +132,42 @@ Qwen3-1.7B collection and subject coverage. A, Available raw graphs, including d
 
 [Editable SVG](figureS7_qwen17_completion.svg)
 
+Source tables: [figureS7_collection.csv](../tables/figureS7_collection.csv), [figureS7_domain_summary.csv](../tables/figureS7_domain_summary.csv), [figureS7_per_fact.csv](../tables/figureS7_per_fact.csv)
+
 ## Supplement S8: How questions become a feature-overlap comparison
 
 ![Supplement S8: How questions become a feature-overlap comparison](figureS8_feature_overlap_workflow.png)
 
-Primary feature-overlap workflow for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual, same fact reworded, invented name in the starting sentence pattern, and invented name reworded. Exact chemistry prompts about gold and iron, plus invented name zorium, are development examples from the manifest, not evaluation questions. Hosted Neuronpedia graph exports are analyzed locally without local model inference. Eligibility requires four available representations after export/integrity checks, both factual highest-probability next tokens matching a complete accepted answer after trimming whitespace, and another eligible fact in the same model, subject, and development/evaluation set. Accepted spellings include Maria and María for the flagship answer; partial answers do not qualify. Unique learned-feature identities are (family, layer, feature ID): positions collapse, but layers remain distinct. Embeddings, logits, reconstruction-error nodes, and nodes with missing or duplicated node IDs are omitted. Jaccard overlap J is shared unique features divided by distinct features in either set. Each starting set T_i is compared with its own rewording P_i and every other included factual rewording P_j in the same model/subject/set. The baseline is the mean of all those Jaccard overlaps, excluding i; iron illustrates one comparator, not the whole pool. Subtraction yields one difference per fact, M_i. Summaries, bootstrap intervals, and permutations within the same subject area concern facts, not graph pairs. Invented-name comparisons are separate controls, not the other-fact baseline; broad output-token-type matching is not the primary eligibility rule. Illustrative feature sets and scores, not measured results: {a,b,c} and {a,b,d} share a and b (green), while c and d are unshared (white), giving 2/4=0.50; an illustrative baseline of 0.30 gives +0.20. These values do not describe the gold or iron graphs. Letters denote identities, not concepts. Arrows show analysis steps, not causal pathways; overlap alone does not establish causal use or answer correctness.
+Primary feature-overlap workflow for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual, same fact reworded, invented name in the starting sentence pattern, and invented name reworded. Gold and invented name zorium refer to development examples from the manifest, not evaluation questions. Hosted Neuronpedia graph exports are analyzed locally without local model inference. Eligibility requires four available representations after export/integrity checks, both factual highest-probability next tokens matching a complete accepted answer after trimming whitespace, and another eligible fact in the same model, subject, and development/evaluation set. Accepted spellings include Maria and María for the flagship answer; partial answers do not qualify. Unique learned-feature identities are (family, layer, feature ID): positions collapse, but layers remain distinct. Embeddings, logits, reconstruction-error nodes, and nodes with missing or duplicated node IDs are omitted. Jaccard overlap J is shared unique features divided by distinct features in either set. Each starting set T_i is compared with its own rewording P_i and every other included factual rewording P_j in the same model/subject/set. The baseline is the mean of all those Jaccard overlaps, excluding i. Subtraction yields one difference per fact, M_i. Summaries, bootstrap intervals, and permutations within the same subject area concern facts, not graph pairs. Invented-name comparisons are separate controls, not the other-fact baseline; broad output-token-type matching is not the primary eligibility rule. Illustrative feature sets and scores, not measured results: {a,b,c} and {a,b,d} share a and b, while c and d are unshared, giving 2/4=0.50; an illustrative baseline of 0.30 gives +0.20. These values do not describe measured graphs. Letters denote identities, not concepts. The numbered steps describe the analysis, not causal pathways; overlap alone does not establish causal use or answer correctness.
 
 [Editable SVG](figureS8_feature_overlap_workflow.svg)
+
+Source tables: Methods schematic; see manuscript Section 2.2. Example feature sets and scores are illustrative.
 
 ## Supplement S9: History rewordings share more features than questions about another fact
 
 ![Supplement S9: History rewordings share more features than questions about another fact](figureS9_answer_spelling.png)
 
-Qwen3-4B history facts included in the main comparison in Figure 2. Both factual versions and both invented name controls are available for each fact. A, Starting-question overlap with its own rewording (blue circles) versus the other history fact’s rewording (orange squares). Columbus: 0.624 versus 0.023; Archduke Franz Ferdinand: 0.427 versus 0.032. These give differences of 0.601 and 0.395, averaging 0.498. The Columbus predictions differ in spelling, Maria versus María; the Franz predictions both give Ferdinand. B, History differences with full feature sets, equal counts K, and half counts K/2. Subsampled points average 200 repetitions, not independent observations. Differences remain positive: 0.543/0.370 at K and 0.210/0.151 at K/2. The two history facts use each other as comparators, so their mean describes these questions rather than an independently replicated history effect. Both invented name controls predict punctuation for both facts, excluding these controls from the output-type-matched comparison in Figure 4. Figure 7 concerns historical dates in a different A/B question design.
+Qwen3-4B history facts included in the main comparison in Figure 2. Both factual versions and both invented name controls are available for each fact. A, Starting-question overlap with its own rewording (blue circles) versus the other history fact’s rewording (orange squares). Columbus: 0.624 versus 0.023; Archduke Franz Ferdinand: 0.427 versus 0.032. These give differences of 0.601 and 0.395, averaging 0.498. The Columbus predictions differ in spelling, Maria versus María; the Franz predictions both give Ferdinand. B, History differences with full feature sets, equal counts K, and half counts K/2. Subsampled points average 200 repetitions, not independent observations. Differences remain positive: 0.543/0.370 at K and 0.210/0.151 at K/2. The two history facts use each other as comparators, so their mean describes these questions rather than an independently replicated history effect. Both invented name controls predict punctuation for both facts, excluding these controls from the output-type-matched comparison in Figure 3. Figure 6 concerns historical dates in a different A/B question design.
 
 [Editable SVG](figureS9_answer_spelling.svg)
 
+Source tables: [figureS9_history_comparisons.csv](../tables/figureS9_history_comparisons.csv), [figureS9_history_equal_counts.csv](../tables/figureS9_history_equal_counts.csv)
+
+## Supplement S10: Feature overlap varies across facts and question versions
+
+![Supplement S10: Feature overlap varies across facts and question versions](figureS10_fact_and_wording.png)
+
+A, Feature-set overlap differences. B, Saved-influence-weighted cosine differences, comparing the direction of weighted feature vectors. Question versions were labeled original, alternative 1, or alternative 2. The baseline differs in both fact and version label. Each value is similarity in the labeled comparison minus similarity in that baseline, calculated within subject area. Shared version labels did not imply identical sentence patterns across facts; this is not an exact-wording control. Each tested model has 27 graphs: three facts × three versions × three subject areas. Colored points are subject averages; black diamonds average subjects equally. Lines connect descriptive estimates, not intervals. Mean same-fact/same-version-label differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for Qwen3-4B. Some predicted first tokens are incomplete answers or non-answers. Only Qwen3-4B geography passes all nine expected-token checks; its differences are 0.101/0.106. These similarity measures do not measure correctness or establish factor dominance or model superiority. Qwen3-1.7B was not tested here.
+
+[Editable SVG](figureS10_fact_and_wording.svg)
+
+Source tables: [figure3_crossed_effects.csv](../tables/figure3_crossed_effects.csv)
+
 ## History study accounting
 
-The original history study stopped after 15/20 preliminary checks against a 20/20 requirement; its 160 evaluation graphs remain uncollected. Figure 7 instead includes all 16 historical prompts from that check, including incorrect predictions. Supporting analysis A7 reports both records.
+The original history study stopped after 15/20 preliminary checks against a 20/20 requirement; its 160 evaluation graphs remain uncollected. Figure 6 instead includes all 16 historical prompts from that check, including incorrect predictions. Supporting analysis A7 reports both records.
 
-Figure 7 source data: [plotted pairs](../tables/figure7_history_answers_source.csv), [exact prompt examples](../provenance/history_prompt_examples.json), [all 56 comparisons](../tables/history_all_pairs.csv).
+Figure 6 source data: [plotted pairs](../tables/figure7_history_answers_source.csv), [exact prompt examples](../provenance/history_prompt_examples.json), [all 56 comparisons](../tables/history_all_pairs.csv).
 
-Run `scripts/finalize_corrected_scoring.py` and `scripts/build_final_corrected_figures.py` with the authorized saved-data archive. Run `scripts/build_paper_claims_map.py` for the claims map and `scripts/build_history_multipanel.py` for Figure 7. These steps use saved data. Then run `scripts/build_paper_share_package.py` to assemble this review gallery.
+Run `scripts/build_reviewed_paper_figures.py` with the authorized saved-data archive for all current figures. Run `scripts/build_paper_claims_map.py` for the claims map. These presentation steps read saved results, without new model calls or statistical re-estimation. Then run `scripts/build_paper_share_package.py` to assemble this review gallery.

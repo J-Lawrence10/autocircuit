@@ -18,7 +18,7 @@ A failed next-token check does not necessarily mean a wrong completed answer: pa
 
 The primary comparisons include eight facts for Gemma-2-2B, ten for Qwen3-1.7B, and twelve for Qwen3-4B. Facts recur across models and share comparison questions within subjects, so these counts are not independent replicates that can be pooled to rank models. Inclusion requires all four graphs, a complete accepted answer in the next token on both factual prompts, and another qualifying fact in the same subject and evaluation set. Maria and María are accepted spellings for the flagship answer.
 
-[Per-question inclusion audit](../tables/test_fact_inclusion_audit.csv)
+Per-question inclusion audit (author archive: `test_fact_inclusion_audit.csv`; not included)
 
 ## Available graphs across development and evaluation
 

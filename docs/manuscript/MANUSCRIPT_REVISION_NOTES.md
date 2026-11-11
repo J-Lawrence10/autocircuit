@@ -1,5 +1,52 @@
 # Manuscript clarity and logical flow revision
 
+## Reviewed working-paper release, 11 November 2026
+
+The user authorized publishing the approved manuscript, Abstract, and figure package to GitHub main and the existing GitHub Pages site. The release uses identical manifest-verified package and website files, with superseded figure filenames removed from the current public edition. Earlier analysis records remain in provenance. This is a public working-paper update, not journal submission or peer-reviewed publication. No new model calls, statistical analyses, or scientific claims are part of this release.
+
+Earlier entries below describe the state at each editorial step; their statements that changes were local apply to those earlier steps, not this release.
+
+## Abstract approved after end-to-end review, 11 November 2026
+
+Added exactly the approved abstract wording to the manuscript and sharing copy. It now states the 8/10/12 included evaluation-fact counts, names the same-country overlap advantage explicitly, and identifies the five incorrect predictions retained in the historical-date analysis. The estimates, uncertainty, experimental scope, and final scientific takeaway are unchanged. No other manuscript paragraphs or figures changed in this step.
+
+The title, main-text editorial pass, figures, and Abstract are approved locally. Supporting-material and reference review, PI/coauthor review, and any venue-specific formatting remain. GitHub main and the live site still contain the earlier edition; this local update does not include a push or deployment.
+
+## Approved end-to-end revision, 11 November 2026
+
+The user approved the title, narrative, figure, and package recommendations before implementation. The title is now **Feature sharing in attribution graphs tracks predicted responses**, without a subtitle. The Introduction asks whether same-fact feature overlap persists when the response changes and acknowledges output-dependent pruning as established graph construction. Methods 2.7 no longer places numerical outcomes in its design table. Section 3.5 explicitly identifies the feature-count check. Discussion 4.1 and the Conclusion are shorter, and detailed reproduction records are preserved in Supporting analysis A8.
+
+The overview includes all four comparisons and reads the final 8/10/12 evaluation counts from saved tables. The descriptive question-version comparison moved to Supplement S10; main figures are now 1–6. All 16 figures were rebuilt at 180 mm width with text of at least 7 points, editable SVGs, figure-to-table mappings, and retained uncertainty and exclusion labels. Figure S6's source tables and statistics record are included. Original measurement filenames and source hashes remain unchanged. No new observations, tests, or statistical re-estimation were introduced. The original figure editions remain archived.
+
+The approved Abstract is unchanged, pending the next user review. Local manuscript, outline, captions, claims map, and sharing copy are synchronized; this revision has not been pushed or deployed. Automated and visual checks are author-workspace checks, not independent scientific review.
+
+
+## 11 November 2026 Abstract approved (local)
+
+Added the author's approved revised Abstract, omitting the proposed final recommendation as requested. The Abstract now closes with: "Together, these findings show that graph similarity can track the predicted response without establishing correct factual processing." It retains the three-model comparison, Jaccard measure, equal-count finding, six-country-pair/48-correct-answer design, primary mean and interval, conditional answer-letter differences, and selected error/history scope. No numerical findings, scientific artifacts, or manuscript text after the Abstract changed in this step.
+
+The local manuscript, outline, and sharing copy are synchronized. The remaining review covers the title/subtitle, whole-paper flow, figures and captions, supporting analyses A1–A7, references and availability, and PI/coauthor and independent scientific/statistical assessment. Approved prose is not a claim of independent scientific validation or submission readiness. No new experiments, GitHub push, or website deployment are included.
+
+## 11 November 2026 Conclusion approved (local)
+
+Added the author's approved two-paragraph Conclusion. It connects the three-model same-fact association to Qwen3-4B answer-letter, selected-error, and historical-date findings, then states why graph comparisons should distinguish the requested fact, predicted response, and correctness. The wording follows the Discussion's interpretation-first structure without changing findings, sample sizes, statistical claims, figures, or limitations in Methods and supporting analyses.
+
+The local manuscript, outline, and sharing package are synchronized. The Abstract is the next review block; its full proposed rewrite is presented for review before insertion and the existing Abstract remains unchanged. No model requests, new analyses, GitHub push, or website deployment are included in this step.
+
+## 11 November 2026 Section 4.3 approved (local)
+
+Added the author's approved four-paragraph rewrite, titled "Future research: separating model activity from graph construction." Each paragraph connects a proposed test to what it would reveal: alternative explained outputs at fixed model activity, feature sharing before output-dependent selection, and interventions testing functional roles. The section preserves the distinction between attribution-target sensitivity and explanation of the full cross-question pattern, fixed feature definitions, feature-count checks, held-out facts and wordings, unchanged-model and matched-random controls, multiple intervention strengths, and the limits of retained-feature exports.
+
+The local manuscript, outline, and sharing package are synchronized. These remain future proposals; no analysis, model requests, or interventions were initiated. The numerical findings, scientific figures and tables, Methods, and Conclusion are unchanged. The Conclusion is the next review block, with proposed wording presented for approval before insertion. No GitHub push or website deployment is included in this step.
+
+## 11 November 2026 Section 4.2 approved (local)
+
+Added the author's approved four-paragraph rewrite, titled "Graph similarity and factual correctness can diverge." The section now connects the answer-letter, selected-error, and history observations to the interpretation of feature overlap, states the practical comparison requirement, preserves the three-model versus Qwen3-4B-only scope and dependent-sample limits, and transitions to the unresolved source of answer-associated overlap. The numerical findings, figures, eligibility rules, Methods, and supporting analyses are unchanged.
+
+The Discussion editorial principle is now explicit in the outline: state an interpretation, connect it to evidence, and explain its consequence instead of repeating sample accounting. Next-token scoring and exclusion details remain in Methods and supporting analysis A1; study accounting remains in Methods, the sample table, and supporting analysis A7; alternative error explanations remain in the results and supporting analysis A3. Statistical assumptions remain in Methods. Independent scientific and statistical review remain outstanding author tasks, not scientific findings.
+
+The local sharing copy is refreshed. Proposed Section 4.3 wording is shown to the author for review only and has not been applied. No GitHub push, website deployment, new analysis, or model request is included in this step.
+
 ## 11 November 2026 main-branch review edition
 
 The author requested publication of the approved paper updates on the GitHub main branch and the paper website. The curated package uses the final corrected results, current figures, code snapshots, and derived tables. Availability links now identify the main branch and the 11 November review edition. Raw exports, credentials, model files, and third-party reference PDFs remain excluded. Proposed new Section 4.2 wording is awaiting author review and is not included in this edition. Hosting configuration is handled separately from the manuscript; no scientific claims or results change in this release step.
