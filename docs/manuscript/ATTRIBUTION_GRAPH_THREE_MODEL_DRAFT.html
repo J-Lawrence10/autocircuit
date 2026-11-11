@@ -243,13 +243,10 @@ Fourth, we used historical-date questions to distinguish the predicted
 A/B letter from the year it selected, retaining both correct and
 incorrect predictions. The four analyses used distinct question sets and
 were evaluated separately.</p>
-<figure>
-<img src="../figures/figure1_design_and_coverage.png"
-alt="Figure 1: Four comparisons connect feature sharing, responses, and correctness" />
-<figcaption aria-hidden="true">Figure 1: Four comparisons connect
-feature sharing, responses, and correctness</figcaption>
-</figure>
-<p><strong>Figure 1. Four comparisons connect feature sharing,
+<figure class="paper-figure" id="figure-1" aria-labelledby="figure-1-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-1-label">Figure 1</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure1_design_and_coverage.svg" data-figure-open aria-label="Enlarge Figure 1">Enlarge figure</a><a href="../figures/figure1_design_and_coverage.svg" download>SVG</a><a href="../figures/figure1_design_and_coverage.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure1_design_and_coverage.svg" data-figure-open aria-label="Enlarge Figure 1: Figure 1: Four comparisons connect feature sharing, responses, and correctness"><img src="../figures/figure1_design_and_coverage.svg" alt="Figure 1: Four comparisons connect feature sharing, responses, and correctness" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 1. Four comparisons connect feature sharing,
 responses, and correctness.</strong> A, Compare a factual question with
 its rewording and with other-fact questions in the same subject and
 evaluation set. The final samples contain 8 Gemma-2-2B, 10 Qwen3-1.7B,
@@ -270,7 +267,8 @@ Declaration of Independence example retains A while selecting 1776 or
 1783. Prompts in this overview are abridged to show the comparison;
 Figure 6 gives exact history prompts. Answers denote highest-probability
 next tokens. Arrows show comparisons, not causes. Each analysis retains
-its own question set, inclusion rules, and unit of analysis.</p>
+its own question set, inclusion rules, and unit of analysis.</p></figcaption>
+</figure>
 <h3 id="models-questions-and-collected-data">2.1 Models, questions, and
 collected data</h3>
 <p>We analyzed attribution graphs from three language models:
@@ -743,13 +741,10 @@ than independent replications across history.</p>
 reworded questions may also share words and the expected answer. We
 therefore examined whether these similarities could explain the
 pattern.</p>
-<figure>
-<img src="../figures/figure2_fact_signal.png"
-alt="Figure 2: Reworded questions about the same fact share more features in the analyzed samples" />
-<figcaption aria-hidden="true">Figure 2: Reworded questions about the
-same fact share more features in the analyzed samples</figcaption>
-</figure>
-<p><strong>Figure 2. Reworded questions about the same fact share more
+<figure class="paper-figure" id="figure-2" aria-labelledby="figure-2-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-2-label">Figure 2</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure2_fact_signal.svg" data-figure-open aria-label="Enlarge Figure 2">Enlarge figure</a><a href="../figures/figure2_fact_signal.svg" download>SVG</a><a href="../figures/figure2_fact_signal.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure2_fact_signal.svg" data-figure-open aria-label="Enlarge Figure 2: Figure 2: Reworded questions about the same fact share more features in the analyzed samples"><img src="../figures/figure2_fact_signal.svg" alt="Figure 2: Reworded questions about the same fact share more features in the analyzed samples" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 2. Reworded questions about the same fact share more
 features in the analyzed samples.</strong> A, Points represent questions
 reserved for evaluation that meet the complete-set and accepted-answer
 criteria. The difference in feature overlap is same-fact rewording
@@ -769,7 +764,8 @@ chemistry and five geography questions, with a descriptive pooled
 interval of 0.082–0.098. Repeated facts and different subject coverage
 preclude a model ranking; shared words and answers remain coupled to
 fact identity. Missing groups are unavailable, not zero. Figure S9
-details the two Qwen3-4B history comparisons.</p>
+details the two Qwen3-4B history comparisons.</p></figcaption>
+</figure>
 <h3 id="same-fact-questions-share-words-and-expected-answers">3.2
 Same-fact questions share words and expected answers</h3>
 <p>To separate factual identity from shared wording, we looked for
@@ -800,13 +796,10 @@ follow-up that preserves the available words while varying the requested
 country and the answer letter. The descriptive question-version
 comparison is reported in Supporting analysis A4 (Supplementary Figure
 S10).</p>
-<figure>
-<img src="../figures/figure3_control_comparisons.png"
-alt="Figure 3: The invented name comparison changes the observed overlap difference" />
-<figcaption aria-hidden="true">Figure 3: The invented name comparison
-changes the observed overlap difference</figcaption>
-</figure>
-<p><strong>Figure 3. The invented name comparison changes the observed
+<figure class="paper-figure" id="figure-3" aria-labelledby="figure-3-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-3-label">Figure 3</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure3_control_comparisons.svg" data-figure-open aria-label="Enlarge Figure 3">Enlarge figure</a><a href="../figures/figure3_control_comparisons.svg" download>SVG</a><a href="../figures/figure3_control_comparisons.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure3_control_comparisons.svg" data-figure-open aria-label="Enlarge Figure 3: Figure 3: The invented name comparison changes the observed overlap difference"><img src="../figures/figure3_control_comparisons.svg" alt="Figure 3: The invented name comparison changes the observed overlap difference" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 3. The invented name comparison changes the observed
 overlap difference.</strong> Replace the real name with an invented
 name, retaining the starting wording (A) or rewording it (B). For each
 test question, subtract overlap with the invented name prompt from
@@ -825,7 +818,8 @@ answer, meaning, confidence, and correctness unmatched. Qwen3-4B has
 twelve primary facts but ten here: both history facts’ invented name
 controls predict commas rather than name tokens. Small, differently
 composed samples support comparison-specific findings rather than a
-general explanation by wording.</p>
+general explanation by wording.</p></figcaption>
+</figure>
 <h3
 id="same-fact-overlap-is-higher-when-the-answer-letter-stays-the-same">3.3
 Same-fact overlap is higher when the answer letter stays the same</h3>
@@ -873,13 +867,10 @@ Figure S6). The association therefore extends beyond the removed node
 sets. These comparisons establish an answer-associated pattern in this
 task; word order, answer mapping, country roles, and output-conditioned
 graph construction remain possible contributors.</p>
-<figure>
-<img src="../figures/figure4_matched_choice.png"
-alt="Figure 4: Same-fact overlap is higher when the answer letter stays the same" />
-<figcaption aria-hidden="true">Figure 4: Same-fact overlap is higher
-when the answer letter stays the same</figcaption>
-</figure>
-<p><strong>Figure 4. Same-fact overlap is higher when the answer letter
+<figure class="paper-figure" id="figure-4" aria-labelledby="figure-4-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-4-label">Figure 4</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure4_matched_choice.svg" data-figure-open aria-label="Enlarge Figure 4">Enlarge figure</a><a href="../figures/figure4_matched_choice.svg" download>SVG</a><a href="../figures/figure4_matched_choice.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure4_matched_choice.svg" data-figure-open aria-label="Enlarge Figure 4: Figure 4: Same-fact overlap is higher when the answer letter stays the same"><img src="../figures/figure4_matched_choice.svg" alt="Figure 4: Same-fact overlap is higher when the answer letter stays the same" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 4. Same-fact overlap is higher when the answer letter
 stays the same.</strong> Qwen3-4B: six country pairs, 48 correct
 next-token A/B predictions, and identical word/token inventories within
 pairs. Rules were fixed before collection in this outcome-informed
@@ -902,7 +893,8 @@ test additionally assumes symmetric null differences. The 48 graphs and
 Near zero is not equivalence. Overlap differences are neither accuracy
 nor variance explained; query order, country roles, and
 output-conditioned graphs remain alternatives to a causal
-interpretation. Supplement S6 reports graph-location checks.</p>
+interpretation. Supplement S6 reports graph-location checks.</p></figcaption>
+</figure>
 <h3
 id="error-graphs-show-greater-overlap-with-answer-matched-controls">3.4
 Error graphs show greater overlap with answer-matched controls</h3>
@@ -958,13 +950,10 @@ not the second.” Both explanations predict the same errors in these
 cases. Supporting analysis A3 provides the input-position and
 reconstruction-error analyses and documents the missing output nodes for
 the intended correct answers.</p>
-<figure>
-<img src="../figures/figure5_failure_cases.png"
-alt="Figure 5: Error graphs share more features with correct predictions giving the same response" />
-<figcaption aria-hidden="true">Figure 5: Error graphs share more
-features with correct predictions giving the same response</figcaption>
-</figure>
-<p><strong>Figure 5. Error graphs share more features with correct
+<figure class="paper-figure" id="figure-5" aria-labelledby="figure-5-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-5-label">Figure 5</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure5_failure_cases.svg" data-figure-open aria-label="Enlarge Figure 5">Enlarge figure</a><a href="../figures/figure5_failure_cases.svg" download>SVG</a><a href="../figures/figure5_failure_cases.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure5_failure_cases.svg" data-figure-open aria-label="Enlarge Figure 5: Figure 5: Error graphs share more features with correct predictions giving the same response"><img src="../figures/figure5_failure_cases.svg" alt="Figure 5: Error graphs share more features with correct predictions giving the same response" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 5. Error graphs share more features with correct
 predictions giving the same response.</strong> Qwen3-4B, one country
 pair and two response formats. A, All eight named-country prompts
 predict the correct first token; all eight selected position-based
@@ -984,7 +973,8 @@ descriptive comparisons, not error-frequency estimates or population
 tests. Words differ between prompt types; position matching, negation
 errors, and output-conditioned graph structure remain unresolved
 explanations. The intended correct-answer node is absent from each error
-graph, leaving its contribution unknown.</p>
+graph, leaving its contribution unknown.</p></figcaption>
+</figure>
 <h3
 id="greater-same-fact-feature-sharing-persists-after-matching-feature-counts">3.5
 Greater same-fact feature sharing persists after matching feature
@@ -1093,13 +1083,10 @@ overlaps of 0.527–0.602 (Figure 6c). Feature overlap thus tracked the
 predicted letter without guaranteeing that the same year was selected or
 that the answer was correct. Supporting analysis A7 reports the
 event-pair summaries and required-letter contrasts.</p>
-<figure>
-<img src="../figures/figure6_history_answers.png"
-alt="Figure 6: History: similar graphs can accompany different selected years" />
-<figcaption aria-hidden="true">Figure 6: History: similar graphs can
-accompany different selected years</figcaption>
-</figure>
-<p><strong>Figure 6. History: similar graphs can accompany different
+<figure class="paper-figure" id="figure-6" aria-labelledby="figure-6-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-6-label">Figure 6</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure6_history_answers.svg" data-figure-open aria-label="Enlarge Figure 6">Enlarge figure</a><a href="../figures/figure6_history_answers.svg" download>SVG</a><a href="../figures/figure6_history_answers.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figure6_history_answers.svg" data-figure-open aria-label="Enlarge Figure 6: Figure 6: History: similar graphs can accompany different selected years"><img src="../figures/figure6_history_answers.svg" alt="Figure 6: History: similar graphs can accompany different selected years" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure 6. History: similar graphs can accompany different
 selected years.</strong> Qwen3-4B attribution graphs for 16
 historical-date prompts, including 11 correct and five incorrect
 predictions. <strong>a,</strong> Two real pairs asking for the year of
@@ -1126,7 +1113,8 @@ divided by the number present in either graph; 0 means none are shared
 and 1 means the feature sets are identical. Feature identities exclude
 embeddings, output nodes, and reconstruction-error nodes. The panels
 report descriptive comparisons without treating graph pairs as
-independent replications.</p>
+independent replications.</p></figcaption>
+</figure>
 <h2 id="discussion">4. Discussion</h2>
 <h3 id="what-the-comparisons-establish">4.1 What the comparisons
 establish</h3>
@@ -1267,13 +1255,10 @@ fact therefore entered the output-type-matched control comparison in
 Figure 3, which uses ten Qwen3-4B facts. The history pair supports a
 descriptive same-fact association, but does not separate shared wording
 and answers from factual content.</p>
-<figure>
-<img src="../figures/figureS9_answer_spelling.png"
-alt="Figure S9: History rewordings share more features than questions about another fact" />
-<figcaption aria-hidden="true">Figure S9: History rewordings share more
-features than questions about another fact</figcaption>
-</figure>
-<p><strong>Figure S9. History rewordings share more features than
+<figure class="paper-figure" id="figure-s9" aria-labelledby="figure-s9-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s9-label">Figure S9</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS9_answer_spelling.svg" data-figure-open aria-label="Enlarge Figure S9">Enlarge figure</a><a href="../figures/figureS9_answer_spelling.svg" download>SVG</a><a href="../figures/figureS9_answer_spelling.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS9_answer_spelling.svg" data-figure-open aria-label="Enlarge Figure S9: Figure S9: History rewordings share more features than questions about another fact"><img src="../figures/figureS9_answer_spelling.svg" alt="Figure S9: History rewordings share more features than questions about another fact" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S9. History rewordings share more features than
 questions about another fact.</strong> Qwen3-4B history facts included
 in the main comparison in Figure 2. Both factual versions and both
 invented name controls are available for each fact. A, Starting-question
@@ -1290,7 +1275,8 @@ so their mean describes these questions rather than an independently
 replicated history effect. Both invented name controls predict
 punctuation for both facts, excluding these controls from the
 output-type-matched comparison in Figure 3. Figure 6 concerns historical
-dates in a different A/B question design.</p>
+dates in a different A/B question design.</p></figcaption>
+</figure>
 <p>All 50 Qwen3-1.7B prompt-token and logit-decoding checks agree with
 the archived tokenizer. Its compatible beginnings are the two mercury
 outputs (<code>H</code> for <code>Hg</code>), the Berlin Wall rewording
@@ -1317,13 +1303,10 @@ retrieval. Only Qwen3-4B geography qualified as a fully balanced
 strict-output subset. There, binary fact and wording effects were 0.1014
 and 0.1063: close point estimates from one small domain, without a
 formal dominance test.</p>
-<figure>
-<img src="../figures/figureS5_answer_audit.png"
-alt="Figure S5: A matching first token does not always verify the whole answer" />
-<figcaption aria-hidden="true">Figure S5: A matching first token does
-not always verify the whole answer</figcaption>
-</figure>
-<p><strong>Figure S5. A matching first token does not always verify the
+<figure class="paper-figure" id="figure-s5" aria-labelledby="figure-s5-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s5-label">Figure S5</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS5_answer_audit.svg" data-figure-open aria-label="Enlarge Figure S5">Enlarge figure</a><a href="../figures/figureS5_answer_audit.svg" download>SVG</a><a href="../figures/figureS5_answer_audit.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS5_answer_audit.svg" data-figure-open aria-label="Enlarge Figure S5: Figure S5: A matching first token does not always verify the whole answer"><img src="../figures/figureS5_answer_audit.svg" alt="Figure S5: A matching first token does not always verify the whole answer" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S5. A matching first token does not always verify the
 whole answer.</strong> A, Audit the first predicted text unit, or token,
 using the Qwen tokenizers. Green means the token gives the complete
 accepted answer, including registered spelling variants; yellow means
@@ -1343,7 +1326,8 @@ rule after trimming whitespace; that rule is unchanged. Only Qwen3-4B
 geography matches in all nine questions. Its fact/wording differences
 are 0.101/0.106, which do not establish that either factor dominates. A
 zero in history means zero matches under this rule, not zero history
-knowledge.</p>
+knowledge.</p></figcaption>
+</figure>
 <h3 id="a2-export-integrity-and-approximation-error">A2 Export integrity
 and approximation error</h3>
 <p>Ambiguous IDs occurred in 84/120 Gemma question/control exports and
@@ -1356,13 +1340,10 @@ an answer explained. The clean-export Gemma evaluation sensitivity has
 only two facts. Differences across pipelines combine prompt coverage,
 model, exporter, and approximation choices, rather than isolating
 architecture or answer accuracy.</p>
-<figure>
-<img src="../figures/figureS1_export_and_error.png"
-alt="Figure S1: Graph files have two separate limits: ID conflicts and approximation error" />
-<figcaption aria-hidden="true">Figure S1: Graph files have two separate
-limits: ID conflicts and approximation error</figcaption>
-</figure>
-<p><strong>Figure S1. Graph files have two separate limits: ID conflicts
+<figure class="paper-figure" id="figure-s1" aria-labelledby="figure-s1-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s1-label">Figure S1</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS1_export_and_error.svg" data-figure-open aria-label="Enlarge Figure S1">Enlarge figure</a><a href="../figures/figureS1_export_and_error.svg" download>SVG</a><a href="../figures/figureS1_export_and_error.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS1_export_and_error.svg" data-figure-open aria-label="Enlarge Figure S1: Figure S1: Graph files have two separate limits: ID conflicts and approximation error"><img src="../figures/figureS1_export_and_error.svg" alt="Figure S1: Graph files have two separate limits: ID conflicts and approximation error" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S1. Graph files have two separate limits: ID conflicts
 and approximation error.</strong> A, The percentage of saved raw graph
 files in which the same node ID refers to conflicting node identities.
 Labels show affected files over files checked. Qwen3-1.7B has 0/91
@@ -1380,14 +1361,12 @@ include all available graphs, including controls and partial sets, not
 only included evaluation questions. Gemma and Qwen3-1.7B distributions
 use raw-file audits; Qwen3-4B uses converted graphs with no ambiguous
 IDs removed. Differences combine model, exporter, and approximation
-choices; they do not isolate model size or architecture.</p>
-<figure>
-<img src="../figures/figureS2_robustness.png"
-alt="Figure S2: Average feature-overlap differences stay positive in the displayed checks" />
-<figcaption aria-hidden="true">Figure S2: Average feature-overlap
-differences stay positive in the displayed checks</figcaption>
+choices; they do not isolate model size or architecture.</p></figcaption>
 </figure>
-<p><strong>Figure S2. Average feature-overlap differences stay positive
+<figure class="paper-figure" id="figure-s2" aria-labelledby="figure-s2-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s2-label">Figure S2</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS2_robustness.svg" data-figure-open aria-label="Enlarge Figure S2">Enlarge figure</a><a href="../figures/figureS2_robustness.svg" download>SVG</a><a href="../figures/figureS2_robustness.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS2_robustness.svg" data-figure-open aria-label="Enlarge Figure S2: Figure S2: Average feature-overlap differences stay positive in the displayed checks"><img src="../figures/figureS2_robustness.svg" alt="Figure S2: Average feature-overlap differences stay positive in the displayed checks" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S2. Average feature-overlap differences stay positive
 in the displayed checks.</strong> The difference in feature overlap is
 same-fact overlap minus other-fact overlap, using the comparison
 specified for each check. Compare the main analysis with three
@@ -1403,7 +1382,8 @@ only two Gemma questions, so that positive result is weak evidence on
 its own. The size-regression intercept is not plotted: with centered
 predictors it equals the unadjusted mean and is not an independent
 check. This figure concerns feature-set overlap, not every graph metric;
-the Qwen3-1.7B edge-flow cosine result is inconclusive.</p>
+the Qwen3-1.7B edge-flow cosine result is inconclusive.</p></figcaption>
+</figure>
 <h3 id="a3-source-location-observations-in-selected-errors">A3
 Source-location observations in selected errors</h3>
 <p>An additional inspection of token-location summaries provided a
@@ -1439,13 +1419,10 @@ each pipeline (0.090/0.114 and 0.105/0.075). This ordering is
 descriptive because output quality and subject coverage vary: only
 Qwen3-4B geography passed the strict expected-token rule in all nine
 questions (Supporting analysis A1).</p>
-<figure>
-<img src="../figures/figureS10_fact_and_wording.png"
-alt="Figure S10: Feature overlap varies across facts and question versions" />
-<figcaption aria-hidden="true">Figure S10: Feature overlap varies across
-facts and question versions</figcaption>
-</figure>
-<p><strong>Figure S10. Feature overlap varies across facts and question
+<figure class="paper-figure" id="figure-s10" aria-labelledby="figure-s10-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s10-label">Figure S10</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS10_fact_and_wording.svg" data-figure-open aria-label="Enlarge Figure S10">Enlarge figure</a><a href="../figures/figureS10_fact_and_wording.svg" download>SVG</a><a href="../figures/figureS10_fact_and_wording.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS10_fact_and_wording.svg" data-figure-open aria-label="Enlarge Figure S10: Figure S10: Feature overlap varies across facts and question versions"><img src="../figures/figureS10_fact_and_wording.svg" alt="Figure S10: Feature overlap varies across facts and question versions" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S10. Feature overlap varies across facts and question
 versions.</strong> A, Feature-set overlap differences. B,
 Saved-influence-weighted cosine differences, comparing the direction of
 weighted feature vectors. Question versions were labeled original,
@@ -1462,18 +1439,16 @@ Qwen3-4B. Some predicted first tokens are incomplete answers or
 non-answers. Only Qwen3-4B geography passes all nine expected-token
 checks; its differences are 0.101/0.106. These similarity measures do
 not measure correctness or establish factor dominance or model
-superiority. Qwen3-1.7B was not tested here.</p>
+superiority. Qwen3-1.7B was not tested here.</p></figcaption>
+</figure>
 <p>The word-matching audit, equal-feature-count sampling, and
 graph-location filters support the comparisons in Results §§3.2–3.5.
 They test different aspects of the measurement: available comparison
 support, representation size, and retained node locations.</p>
-<figure>
-<img src="../figures/figureS4_lexical_support.png"
-alt="Figure S4: Other-fact questions share fewer words, leaving a gap in the controls" />
-<figcaption aria-hidden="true">Figure S4: Other-fact questions share
-fewer words, leaving a gap in the controls</figcaption>
-</figure>
-<p><strong>Figure S4. Other-fact questions share fewer words, leaving a
+<figure class="paper-figure" id="figure-s4" aria-labelledby="figure-s4-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s4-label">Figure S4</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS4_lexical_support.svg" data-figure-open aria-label="Enlarge Figure S4">Enlarge figure</a><a href="../figures/figureS4_lexical_support.svg" download>SVG</a><a href="../figures/figureS4_lexical_support.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS4_lexical_support.svg" data-figure-open aria-label="Enlarge Figure S4: Figure S4: Other-fact questions share fewer words, leaving a gap in the controls"><img src="../figures/figureS4_lexical_support.svg" alt="Figure S4: Other-fact questions share fewer words, leaving a gap in the controls" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S4. Other-fact questions share fewer words, leaving a
 gap in the controls.</strong> For each test question, compare word
 overlap with its same-fact rewording (horizontal axis) against the
 highest word overlap with any other-fact rewording (vertical axis). Word
@@ -1487,19 +1462,17 @@ three saved word/size matching rules: 0/8 for Gemma-2-2B, 0/10 for
 Qwen3-1.7B, and 0/12 for Qwen3-4B. This is a missing comparison, not a
 measured zero effect or proof that words explain all feature overlap.
 Same-fact questions also share their expected answer, so the data do not
-isolate meaning from words or answers.</p>
+isolate meaning from words or answers.</p></figcaption>
+</figure>
 <p>An earlier regression check does not supply independent evidence
 against graph-size confounding: the ordinary least-squares intercept
 with centered predictors equals the original sample mean by
 construction. Sampling equal numbers of features provides a more direct
 but still limited check.</p>
-<figure>
-<img src="../figures/figureS3_equal_feature_counts.png"
-alt="Figure S3: Average overlap differences stay positive with equal numbers of features" />
-<figcaption aria-hidden="true">Figure S3: Average overlap differences
-stay positive with equal numbers of features</figcaption>
-</figure>
-<p><strong>Figure S3. Average overlap differences stay positive with
+<figure class="paper-figure" id="figure-s3" aria-labelledby="figure-s3-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s3-label">Figure S3</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS3_equal_feature_counts.svg" data-figure-open aria-label="Enlarge Figure S3">Enlarge figure</a><a href="../figures/figureS3_equal_feature_counts.svg" download>SVG</a><a href="../figures/figureS3_equal_feature_counts.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS3_equal_feature_counts.svg" data-figure-open aria-label="Enlarge Figure S3: Figure S3: Average overlap differences stay positive with equal numbers of features"><img src="../figures/figureS3_equal_feature_counts.svg" alt="Figure S3: Average overlap differences stay positive with equal numbers of features" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S3. Average overlap differences stay positive with
 equal numbers of features.</strong> The difference in feature overlap is
 same-fact overlap minus average other-fact overlap within the same
 subject and test set. Within each model, subject, and test set, randomly
@@ -1516,14 +1489,12 @@ Qwen3-1.7B means are 0.089 for the full feature sets, 0.084 at K, and
 0.072 at K/2. Equalizing counts does not remove differences in shared
 words, answers, or which features the exporter retains. A smaller
 overlap score after sampling is not a percentage of signal
-explained.</p>
-<figure>
-<img src="../figures/figureS6_graph_location_sensitivity.png"
-alt="Figure S6: The answer-related differences remain after removing some graph features" />
-<figcaption aria-hidden="true">Figure S6: The answer-related differences
-remain after removing some graph features</figcaption>
+explained.</p></figcaption>
 </figure>
-<p><strong>Figure S6. The answer-related differences remain after
+<figure class="paper-figure" id="figure-s6" aria-labelledby="figure-s6-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s6-label">Figure S6</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS6_graph_location_sensitivity.svg" data-figure-open aria-label="Enlarge Figure S6">Enlarge figure</a><a href="../figures/figureS6_graph_location_sensitivity.svg" download>SVG</a><a href="../figures/figureS6_graph_location_sensitivity.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS6_graph_location_sensitivity.svg" data-figure-open aria-label="Enlarge Figure S6: Figure S6: The answer-related differences remain after removing some graph features"><img src="../figures/figureS6_graph_location_sensitivity.svg" alt="Figure S6: The answer-related differences remain after removing some graph features" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S6. The answer-related differences remain after
 removing some graph features.</strong> Qwen3-4B only. Repeat the saved
 comparisons after removing features at the last token position, in the
 last quarter of observed feature layers, or both. Removal happens before
@@ -1538,7 +1509,8 @@ Zero means equal overlap, not missing data. These checks were chosen
 after seeing earlier results. No confidence intervals or new population
 tests are attached. Removing features from saved graphs is not an
 intervention on the model and does not establish a cause. The remaining
-graphs are still constructed around the answer being produced.</p>
+graphs are still constructed around the answer being produced.</p></figcaption>
+</figure>
 <h3 id="a5-qwen3-1.7b-subject-results-and-sensitivity-analyses">A5
 Qwen3-1.7B subject results and sensitivity analyses</h3>
 <p>The 91-graph Qwen3-1.7B dataset was analyzed using the four-version,
@@ -1662,13 +1634,10 @@ same-fact rewording exceeded the best other-fact overlap by
 of the 40 directed other-fact pairs did. The chemistry and geography
 observations therefore leave a gap in word- and answer-matched controls.
 These audits do not alter the inclusion rules or primary estimates.</p>
-<figure>
-<img src="../figures/figureS7_qwen17_completion.png"
-alt="Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete" />
-<figcaption aria-hidden="true">Figure S7: Qwen3-1.7B includes chemistry
-and geography; history sets are incomplete</figcaption>
-</figure>
-<p><strong>Figure S7. Qwen3-1.7B includes chemistry and geography;
+<figure class="paper-figure" id="figure-s7" aria-labelledby="figure-s7-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s7-label">Figure S7</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS7_qwen17_completion.svg" data-figure-open aria-label="Enlarge Figure S7">Enlarge figure</a><a href="../figures/figureS7_qwen17_completion.svg" download>SVG</a><a href="../figures/figureS7_qwen17_completion.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS7_qwen17_completion.svg" data-figure-open aria-label="Enlarge Figure S7: Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete"><img src="../figures/figureS7_qwen17_completion.svg" alt="Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S7. Qwen3-1.7B includes chemistry and geography;
 history sets are incomplete.</strong> Qwen3-1.7B collection and subject
 coverage. A, Available raw graphs, including development and evaluation
 prompts: 40/40 chemistry, 40/40 geography, and 11/40 history graphs, for
@@ -1683,7 +1652,8 @@ question-bootstrap intervals: chemistry 0.085 (0.076–0.095) and
 geography 0.093 (0.083–0.106). All ten differences are positive. History
 has no plotted estimate, not a zero effect. Inclusion retains the
 complete four-role and expected-next-token rules. Shared words and
-expected answers remain coupled to fact identity.</p>
+expected answers remain coupled to fact identity.</p></figcaption>
+</figure>
 <h4 id="a5.1-additional-methods-and-audit-history">A5.1 Additional
 methods and audit history</h4>
 <p><strong>Graph settings and export checks.</strong> Graphs used the
@@ -1771,13 +1741,10 @@ analysis workflow</h3>
 question/control analysis in Section 2.2. Figure 1 describes the wider
 study design; the fact/wording, answer-letter, and selected-error
 experiments retain their own comparisons and inclusion rules.</p>
-<figure>
-<img src="../figures/figureS8_feature_overlap_workflow.png"
-alt="Figure S8: How questions become a feature-overlap comparison" />
-<figcaption aria-hidden="true">Figure S8: How questions become a
-feature-overlap comparison</figcaption>
-</figure>
-<p><strong>Figure S8. How questions become a feature-overlap
+<figure class="paper-figure" id="figure-s8" aria-labelledby="figure-s8-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-s8-label">Figure S8</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS8_feature_overlap_workflow.svg" data-figure-open aria-label="Enlarge Figure S8">Enlarge figure</a><a href="../figures/figureS8_feature_overlap_workflow.svg" download>SVG</a><a href="../figures/figureS8_feature_overlap_workflow.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="../figures/figureS8_feature_overlap_workflow.svg" data-figure-open aria-label="Enlarge Figure S8: Figure S8: How questions become a feature-overlap comparison"><img src="../figures/figureS8_feature_overlap_workflow.svg" alt="Figure S8: How questions become a feature-overlap comparison" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p><strong>Figure S8. How questions become a feature-overlap
 comparison.</strong> Primary feature-overlap workflow for Gemma-2-2B,
 Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual,
 same fact reworded, invented name in the starting sentence pattern, and
@@ -1807,7 +1774,8 @@ Illustrative feature sets and scores, not measured results: {a,b,c} and
 illustrative baseline of 0.30 gives +0.20. These values do not describe
 measured graphs. Letters denote identities, not concepts. The numbered
 steps describe the analysis, not causal pathways; overlap alone does not
-establish causal use or answer correctness.</p>
+establish causal use or answer correctness.</p></figcaption>
+</figure>
 <h3 id="a7-historical-date-comparisons-and-original-study-accounting">A7
 Historical-date comparisons and original study accounting</h3>
 <p>All 16 historical-date exports passed the prompt, token-inventory,
@@ -2138,5 +2106,6 @@ of the Nao Santa María</a>. Accessed 11 November 2026.</p></li>
 </ol>
 <p>The references support the methods and comparisons discussed here;
 they do not constitute an exhaustive novelty review.</p>
+<script defer src="../figure-viewer.js"></script>
 </body>
 </html>

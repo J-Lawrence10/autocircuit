@@ -9,11 +9,12 @@ import re
 import shutil
 import subprocess
 import zipfile
+from paper_web_presentation import enhance_document, figure_markup, with_viewer
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
 REVISION = '2026-11-11'
-EDITION = 'reviewed_publication'
+EDITION = 'reviewed_web_figures'
 SPELLING = ROOT / 'data/model_extension/answer_spelling_20261111'
 FINAL = ROOT / 'data/model_extension/final_corrected_scoring_20261111'
 REVIEW = ROOT / 'data/model_extension/paper_review_20261111'
@@ -86,9 +87,10 @@ def write_figure_guide(figures):
         lines.extend([f'## {heading}', '', f'![{heading}]({stem}.png)', '', f['legend'], '',
                       f'[Editable SVG]({stem}.svg)', '', f'Source tables: {source_links}', ''])
         legend = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', html.escape(f['legend']))
-        sections.append(f'<section><h2>{html.escape(heading)}</h2><img src="{stem}.png" '
-                        f'alt="{html.escape(f["title"])}"><p>{legend}</p>'
-                        f'<a href="{stem}.svg">Editable SVG</a><p>Source tables: {html_sources}</p></section>')
+        card = figure_markup(f'{stem}.svg', f'{stem}.png', heading,
+                             f'<p><strong>{html.escape(heading)}.</strong> {legend}</p>', f['label'])
+        sections.append(f'<section class="gallery-section"><h2>{html.escape(heading)}</h2>{card}'
+                        f'<p class="figure-sources">Source tables: {html_sources}</p></section>')
     note = ('The original history study stopped after 15/20 preliminary checks against a 20/20 requirement; '
             'its 160 evaluation graphs remain uncollected. Figure 6 instead includes all 16 historical prompts '
             'from that check, including incorrect predictions. Supporting analysis A7 reports both records.')
@@ -108,14 +110,17 @@ def write_figure_guide(figures):
     author_guide = author_guide.replace('(../tables/', f'({(OUT/"tables").as_posix()}/')
     author_guide = author_guide.replace('(../provenance/', f'({(OUT/"provenance").as_posix()}/')
     (ROOT/'docs/writing/FIGURE_HEADLINES_AND_LEGENDS.md').write_text(author_guide, encoding='utf-8')
-    (OUT/'figures/index.html').write_text(
-        '<!doctype html><html lang="en"><meta charset="utf-8"><title>Paper figures and legends</title>'
-        '<meta name="viewport" content="width=device-width,initial-scale=1"><style>'
-        'body{max-width:1350px;margin:32px auto;padding:0 24px;font:17px/1.55 system-ui;color:#203544}'
-        'img{width:100%;height:auto}section{margin:45px 0;border-top:1px solid #d8e1e7;padding-top:20px}'
-        'h1,h2{line-height:1.25}p{max-width:1100px}</style><h1>Paper figures and legends</h1>'
+    gallery = (
+        '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Paper figures and legends</title>'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<link rel="stylesheet" href="../review.css"></head><body class="figure-gallery">'
+        '<nav class="gallery-nav"><a href="../manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html">Back to the paper</a></nav>'
+        '<h1>Paper figures and legends</h1>'
+        '<p>Click a figure to enlarge it. Vector artwork stays sharp at every zoom level. '
+        'SVG and high-resolution PNG downloads are available above each figure.</p>'
         f'<p>{html.escape(intro)}</p><p>{html.escape(definition)}</p>' + ''.join(sections) +
-        f'<section><h2>History study accounting</h2><p>{html.escape(note)}</p></section></html>', encoding='utf-8')
+        f'<section><h2>History study accounting</h2><p>{html.escape(note)}</p></section></body></html>')
+    (OUT/'figures/index.html').write_text(with_viewer(gallery, '../'), encoding='utf-8')
 
 
 def main():
@@ -282,7 +287,7 @@ def main():
              'complete_qwen4_controls', 'analyze_qwen4_completion', 'build_qwen4_completion_figures',
              'validate_qwen4_completion', 'analyze_answer_spelling', 'build_answer_spelling_figures', 'validate_answer_spelling',
              'finalize_corrected_scoring', 'build_final_corrected_figures', 'validate_final_corrected_scoring',
-             'build_reviewed_paper_figures', 'review_figure_catalog']
+             'build_reviewed_paper_figures', 'review_figure_catalog', 'paper_web_presentation']
     selected = set()
     todo = list(seeds)
     tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name]
@@ -309,6 +314,10 @@ def main():
                  'config/answer_spelling_aliases_20261111.json']:
         copy(name, f'code/{name}')
     copy('scripts/build_paper_share_package.py', 'code/scripts/build_paper_share_package.py')
+    copy('scripts/check_paper_web_presentation.cjs', 'code/scripts/check_paper_web_presentation.cjs')
+    for name in ['review.css', 'figure-viewer.js']:
+        copy(f'scripts/web_assets/{name}', name)
+        copy(f'scripts/web_assets/{name}', f'code/scripts/web_assets/{name}')
     # Preserve archived evidence; do not misrepresent it as a new test run.
     for name in ['tests.log', 'environment.log', 'verification.json']:
         p = copy(f'data/model_extension/final_closeout_20261005/reproduction/{name}', f'provenance/archived_20261005_{name}')
@@ -326,6 +335,10 @@ def main():
         metadata = ['--metadata', 'title=Attribution graph paper review'] if md.name == 'README.md' else []
         subprocess.run([pandoc, str(md), '--standalone', '--toc', '--css', style,
                         *metadata, '-o', str(dst)], check=True)
+        rendered, converted = enhance_document(dst.read_text(encoding='utf-8'),
+                                               '' if md.name == 'README.md' else '../')
+        assert converted == (1 if md.name == 'README.md' else len(fs)), (dst, converted)
+        dst.write_text(rendered, encoding='utf-8')
     # Verify all Markdown and HTML file links resolve after relocation.
     checked = 0
     missing = []

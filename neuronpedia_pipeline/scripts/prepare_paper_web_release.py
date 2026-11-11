@@ -34,6 +34,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', default='origin/main')
     parser.add_argument('--branch', default='codex/paper-reviewed-20261111')
+    parser.add_argument('--message', default='Publish reviewed manuscript, abstract, and print-ready figures')
+    parser.add_argument('--report', default='data/model_extension/paper_review_20261111/main_release_preparation.json')
     args = parser.parse_args()
     assert args.branch.startswith('codex/'), 'Use a dedicated release branch'
     git('check-ref-format', '--branch', args.branch)
@@ -122,8 +124,7 @@ def main():
             z.extractall(Path(temporary)/'export')
         exported = Path(temporary)/'export'/PREFIX
         subprocess.run([sys.executable, str(exported/'code/verify_package.py')], check=True)
-        commit = git('commit-tree', tree, '-p', base, '-m',
-                     'Publish reviewed manuscript, abstract, and print-ready figures').decode().strip()
+        commit = git('commit-tree', tree, '-p', base, '-m', args.message).decode().strip()
         git('update-ref', f'refs/heads/{args.branch}', commit, '0'*40)
     assert git('rev-parse', 'HEAD').decode().strip() == head
     assert index.read_bytes() == index_before, 'Original index changed'
@@ -133,7 +134,8 @@ def main():
               'website_matches_package': True, 'fresh_git_export_verified': True,
               'original_head_and_index_unchanged': True, 'pushed': False,
               'site_source': {'branch': 'main', 'path': '/docs'}}
-    destination = PIPELINE/'data/model_extension/paper_review_20261111/main_release_preparation.json'
+    destination = (PIPELINE/args.report).resolve()
+    assert destination.is_relative_to((PIPELINE/'data/model_extension').resolve()), 'Keep release reports in the local archive'
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
