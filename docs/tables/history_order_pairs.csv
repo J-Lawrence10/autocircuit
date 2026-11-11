@@ -1,0 +1,9 @@
+block,a,b,same_event,same_required_letter,same_mapping,same_order,correct_a,correct_b,observed_a,observed_b,same_predicted_letter,same_predicted_year,order_only,mapping_only,event_only,status,jaccard,weighted_cosine
+pilot_documents,pilot_documents__f0m0w0,pilot_documents__f0m0w1,True,True,True,False,True,True,A,A,True,True,True,False,False,ok,0.7656794425087108,0.8943864710748105
+pilot_documents,pilot_documents__f0m1w0,pilot_documents__f0m1w1,True,True,True,False,False,True,A,B,False,False,True,False,False,ok,0.5267924528301887,0.7420914499407717
+pilot_documents,pilot_documents__f1m0w0,pilot_documents__f1m0w1,True,True,True,False,True,True,B,B,True,True,True,False,False,ok,0.8076923076923077,0.9099781402340477
+pilot_documents,pilot_documents__f1m1w0,pilot_documents__f1m1w1,True,True,True,False,True,True,A,A,True,True,True,False,False,ok,0.7825327510917031,0.9000424341772306
+pilot_space,pilot_space__f0m0w0,pilot_space__f0m0w1,True,True,True,False,True,False,A,B,False,False,True,False,False,ok,0.598159509202454,0.8004382700791933
+pilot_space,pilot_space__f0m1w0,pilot_space__f0m1w1,True,True,True,False,False,True,A,B,False,False,True,False,False,ok,0.6021671826625387,0.7964107254510782
+pilot_space,pilot_space__f1m0w0,pilot_space__f1m0w1,True,True,True,False,False,False,A,A,True,True,True,False,False,ok,0.7747205503009458,0.8998892973756908
+pilot_space,pilot_space__f1m1w0,pilot_space__f1m1w1,True,True,True,False,True,True,A,A,True,True,True,False,False,ok,0.7907986111111112,0.9033482808850378

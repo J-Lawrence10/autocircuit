@@ -1,0 +1,4 @@
+domain,included_evaluation_facts,mean,ci95_low,ci95_high,status
+chemistry,5,0.08542266140474333,0.07559448862853517,0.09526537124736285,estimated
+geography,5,0.09345674602206139,0.08259686068989287,0.10597189199016528,estimated
+history,0,,,,unavailable

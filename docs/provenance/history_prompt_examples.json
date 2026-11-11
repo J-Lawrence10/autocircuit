@@ -1,0 +1,42 @@
+[
+  {
+    "group": "Same letter, different selected year",
+    "jaccard": 0.7945804195804196,
+    "prompts": [
+      {
+        "job_id": "pilot_documents__f0m0w0",
+        "exact_prompt": "Reply only A or B. A: 1776. B: 1783. question: year of US Declaration of Independence adoption; context: American Revolutionary Treaty of Paris signing.",
+        "predicted_letter": "A",
+        "selected_year": 1776,
+        "correct": true
+      },
+      {
+        "job_id": "pilot_documents__f0m1w0",
+        "exact_prompt": "Reply only A or B. A: 1783. B: 1776. question: year of US Declaration of Independence adoption; context: American Revolutionary Treaty of Paris signing.",
+        "predicted_letter": "A",
+        "selected_year": 1783,
+        "correct": false
+      }
+    ]
+  },
+  {
+    "group": "Different letter, same selected year",
+    "jaccard": 0.5117335352006056,
+    "prompts": [
+      {
+        "job_id": "pilot_documents__f0m0w1",
+        "exact_prompt": "Reply only A or B. A: 1776. B: 1783. context: American Revolutionary Treaty of Paris signing; question: year of US Declaration of Independence adoption.",
+        "predicted_letter": "A",
+        "selected_year": 1776,
+        "correct": true
+      },
+      {
+        "job_id": "pilot_documents__f0m1w1",
+        "exact_prompt": "Reply only A or B. A: 1783. B: 1776. context: American Revolutionary Treaty of Paris signing; question: year of US Declaration of Independence adoption.",
+        "predicted_letter": "B",
+        "selected_year": 1776,
+        "correct": true
+      }
+    ]
+  }
+]

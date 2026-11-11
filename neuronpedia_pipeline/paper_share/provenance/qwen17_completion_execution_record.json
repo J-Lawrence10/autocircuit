@@ -1,0 +1,51 @@
+{
+  "schema_version": "qwen17-late-analysis-execution-v1",
+  "status": "completed",
+  "analysis_command": ".venv-final-reproduction/Scripts/python.exe -B -u scripts/analyze_qwen17_completion.py",
+  "analysis_terminal_exit_code": 0,
+  "analysis_process_created_local": "2026-11-06T23:41:41-05:00",
+  "result_created_at": "2026-11-07T04:53:42.993041+00:00",
+  "post_run_verification_at": "2026-11-07T04:55:35.103829+00:00",
+  "test_command": ".venv-final-reproduction/Scripts/python.exe -B -m unittest tests.test_qwen17_completion_analysis -v",
+  "test_terminal_exit_code": 0,
+  "synthetic_tests_passed": 10,
+  "synthetic_tests_failed": 0,
+  "analysis_plan_sha256": "a901d37b50649cd4c0c1566dfa19d86be173aef96323299373520bde2d232674",
+  "results_sha256": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
+  "analysis_script_sha256": "49afce4f3e9ac1d18b309a7a5780d14da31f0e2a03e6b84ef8c39ce9263f7643",
+  "analysis_test_sha256": "d938547a2e1dccc77a07e1f9b7b5575c498b01b68b627392c3a762f56dfe40b2",
+  "terminal_completion_summary": "Verified 91 raw inputs, matched all 50 original raw/converted representations, reconstructed all original per-fact primary and influence-cosine contrasts to 1e-12, and completed separate original50 and expanded91 analyses plus fixed-parameter sensitivities.",
+  "post_run_file_checks": {
+    "original_raw_files_unchanged": 50,
+    "representation_cache_hashes_verified": 91,
+    "script_generated_output_hashes_verified": 14,
+    "failures": []
+  },
+  "same_host_automated_review": {
+    "independent_machine_reproduction": false,
+    "highest_probability_logit_decodable": "91/91",
+    "missing_or_nonnumeric_logit_probability_cases": 0,
+    "null_or_missing_influence_nodes": 0,
+    "top_probability_ties": [
+      {
+        "job_id": "germany_capital__negative_same_template",
+        "tokens": [" a", " the"],
+        "probability_each": 0.29296875,
+        "handling": "Stable raw archive order chooses ' a', matching the historical converter. Both tokens have the same broad output type. This is an invented-name control, so no factual eligibility gate is affected. Do not describe the selected token as uniquely preferred."
+      }
+    ],
+    "independent_human_review": false
+  },
+  "interpretation_notes": [
+    "This is a late expanded observational analysis, not a new confirmatory sample or an independent replication. Original50 is nested within expanded91.",
+    "In eligibility tables, collection_rejections means November completion-attempt statuses for roles missing from the named cohort. Original50 rows can therefore show later saved/rejected statuses; this field is not evidence for why those original prompts were unscheduled in July.",
+    "leave_one_fact_out_primary_means deletes one already-computed fact margin while holding all comparator definitions fixed. It does not remove that fact from every remaining target's comparison pool and recompute the statistic.",
+    "Use cohort heldout_primary for the pooled primary interval and heldout_domains for the canonical domain-specific intervals. domain_split_summaries uses another fixed bootstrap seed; small Monte Carlo interval differences do not represent different estimates or cohorts.",
+    "The inherited empty-heldout permutation edge case was identified in machine code review but cannot affect this run: unchanged original chemistry contributes five included evaluation facts. Future reuse with an empty evaluation cohort must guard that case.",
+    "Failure of the exact expected-first-token rule is not proof of a wrong completed answer. In particular Mercury produces ' H' rather than the full expected 'Hg'; answer-prefix compatibility is not treated as passing the frozen rule.",
+    "Matched exporter/source names and recorded version labels do not prove that hosted weights or backend implementation remained unchanged. Old graphs include desired-logit coverage .95, whereas the late collection requested .99.",
+    "The negative same-wording invented-name control results and inconclusive coarse edge-flow result are retained; this analysis does not establish fact-specific semantic invariance.",
+    "Two hundred feature subsamples are algorithmic sensitivity draws, not 200 independent observations. Shared other-fact comparators limit the independence interpretation of fact bootstraps and sign-flip tests.",
+    "This execution record and verification_summary.json were added after the script completed. output_checksums.json covers the 14 script-generated top-level outputs; release packaging should additionally hash these supplemental provenance records."
+  ]
+}

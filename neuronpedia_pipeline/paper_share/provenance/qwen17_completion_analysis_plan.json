@@ -1,0 +1,63 @@
+{
+  "recorded_before_graph_outcomes_at": "2026-11-07T04:41:45.752841+00:00",
+  "specification": {
+    "bootstrap_runs": 10000,
+    "centered_regression_policy": "Retain legacy computation only as explicitly non-independent diagnostic; centered intercept is the mean, not independent confound adjustment.",
+    "collection_root": "data\\model_extension\\qwen17_completion_20261106",
+    "eligibility": "All four roles, exact stripped expected top token on both factual forms, and at least one other included fact in the same domain/split. No replacement questions.",
+    "exact_label_permutation_bound": 1728000,
+    "expected_length_rejections": 29,
+    "expected_new_raw_count": 41,
+    "expected_original_raw_count": 50,
+    "frozen_manifest_sha256": "c2c36a46e09a4c7943ff38e537f78cf3e7d4aa27e031b011be3b6035c6106196",
+    "interpretation": "Late expanded observational analysis, not a new confirmatory sample or independent replication. Original and expanded cohorts overlap; facts within a domain share other-fact comparators. Fact bootstrap intervals and sign-flip p-values therefore have limited independence justification. The exact within-domain label permutation is conditional on exchangeability of factual pairing, not a randomized causal test or a control for wording and answer-token confounds. Secondary comparisons are exploratory; repeated feature subsamples are not new independent facts.",
+    "main_seed": 20260714,
+    "method_sha256": {
+      "docs/papers/QWEN17_COMPLETION_ATTEMPT_20261106.md": "81351975917f474e94066eb6f5c30a7118cb4f2e4341e21f85c3149df133038d",
+      "scripts/2_convert_graph.py": "59826cba22dea065517cc4b77d17bef569ebea991894cec1f6c0021ddd997f3f",
+      "scripts/analyze_qwen17_completion.py": "49afce4f3e9ac1d18b309a7a5780d14da31f0e2a03e6b84ef8c39ce9263f7643",
+      "scripts/audit_qwen17_completion.py": "fc2dfcefae3b4af60fb263edcb55d75db7a41674cef6ba638d86dc894fad6235",
+      "scripts/complete_qwen17_controls.py": "f37ece6bee7bbd9c1c2ab700e95faba103b0cd3af6a65eeec5ccacc1fc972147",
+      "scripts/control_io.py": "965933657a845c174e0ff72d5b2198b926278e8f99701e0da8643d878d2b1dac",
+      "scripts/control_manifest.py": "45f5407d490504f009a3d9a24267395ed368b90350b6f33bcb51ba12124ab3b0",
+      "scripts/exploratory_confound_checks.py": "83a8744242beea11b6307c8d27ee0bc9377021e2919ce79ca38411a99e111ece",
+      "scripts/path_manager.py": "48b2afdaa519abc24ce4100f6d5c1c517e63fefe2b9696bd55949737bff3ec90",
+      "scripts/run_matched_choice_controls.py": "28608edc22da323008ecc3cf6c8cd7e8ea6eaba9de8d9bc19d9761dc10e64904",
+      "scripts/whole_graph_analysis.py": "850d4f74356990c73dc95dd20fcf6eb29bad970b23d4a90db3499bec8a001caf"
+    },
+    "model": "qwen3-1.7b",
+    "numerical_optimization": "Memoize identical set-pair Jaccard calls; retain original exact enumeration/statistics.",
+    "old_reconstruction_tolerance": 1e-12,
+    "planned_outputs": [
+      "original50 reconstruction",
+      "expanded91 analysis",
+      "all30-fact eligibility audit",
+      "domain/split summaries",
+      "closest-other-fact margin",
+      "influence-weighted cosine",
+      "error-inclusive metrics",
+      "both invented-name controls",
+      "output-type-matched control subsets",
+      "leave-one-fact-out fixed-comparator means",
+      "within-domain exact fact-label permutation",
+      "fact bootstrap and one-sided sign-flip summaries",
+      "equal-count feature sensitivities"
+    ],
+    "primary_contrast": "same-fact rewording minus mean other-fact rewording overlap within domain and split",
+    "primary_metric": "feature_jaccard",
+    "raw_logit_extraction": "Match the existing converter: sort raw logit nodes by token_prob; direct token or Output/Logit clerp extraction; take first decodable token among top ten.",
+    "raw_representation": "Family/layer/feature identity; collapse token positions; exclude ambiguous IDs, errors, embeddings and logits as implemented by whole_graph_analysis. Error-inclusive sensitivity retained separately.",
+    "schema_version": "qwen17-late-analysis-plan-v1",
+    "size_sensitivity": {
+      "fractions": [
+        1.0,
+        0.5
+      ],
+      "helper": "exploratory_confound_checks.size_checks",
+      "interpretation": "Algorithmic feature subsampling, not independent replication or additional sample size",
+      "runs": 200,
+      "seed": 20260905
+    },
+    "study_status": "Late expanded observational analysis with separate original-cohort reconstruction"
+  }
+}

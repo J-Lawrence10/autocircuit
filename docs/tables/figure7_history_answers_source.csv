@@ -1,0 +1,17 @@
+panel,event,event_label,a,b,jaccard,same_letter,same_year,observed_a,observed_b,selected_year_a,selected_year_b,correct_a,correct_b,ordering_a,ordering_b,mapping_a,mapping_b,plot_x,plot_y
+b,US Declaration of Independence adoption,Declaration of Independence,pilot_documents__f0m0w0,pilot_documents__f0m1w0,0.7945804195804196,True,False,A,A,1776,1783,True,False,0,0,0,1,-0.18,0.7945804195804196
+b,Sputnik 1 launch,Sputnik 1,pilot_space__f0m0w0,pilot_space__f0m1w0,0.8999098286744815,True,False,A,A,1957,1958,True,False,0,0,0,1,-0.09,0.8999098286744815
+b,Sputnik 1 launch,Sputnik 1,pilot_space__f0m0w1,pilot_space__f0m1w1,0.8711151736745887,True,False,B,B,1958,1957,False,True,1,1,0,1,0.0,0.8711151736745887
+b,Explorer 1 launch,Explorer 1,pilot_space__f1m0w0,pilot_space__f1m1w0,0.9107806691449815,True,False,A,A,1957,1958,False,True,0,0,0,1,0.09000000000000002,0.9107806691449815
+b,Explorer 1 launch,Explorer 1,pilot_space__f1m0w1,pilot_space__f1m1w1,0.9069981583793738,True,False,A,A,1957,1958,False,True,1,1,0,1,0.18,0.9069981583793738
+b,US Declaration of Independence adoption,Declaration of Independence,pilot_documents__f0m0w1,pilot_documents__f0m1w1,0.5117335352006056,False,True,A,B,1776,1776,True,True,1,1,0,1,0.8200000000000001,0.5117335352006056
+b,American Revolutionary Treaty of Paris signing,Treaty of Paris,pilot_documents__f1m0w0,pilot_documents__f1m1w0,0.5316358024691358,False,True,B,A,1783,1783,True,True,0,0,0,1,1.0,0.5316358024691358
+b,American Revolutionary Treaty of Paris signing,Treaty of Paris,pilot_documents__f1m0w1,pilot_documents__f1m1w1,0.5277349768875192,False,True,B,A,1783,1783,True,True,1,1,0,1,1.18,0.5277349768875192
+c,US Declaration of Independence adoption,Declaration of Independence,pilot_documents__f0m0w0,pilot_documents__f0m0w1,0.7656794425087108,True,True,A,A,1776,1776,True,True,0,1,0,0,-0.18,0.7656794425087108
+c,American Revolutionary Treaty of Paris signing,Treaty of Paris,pilot_documents__f1m0w0,pilot_documents__f1m0w1,0.8076923076923077,True,True,B,B,1783,1783,True,True,0,1,0,0,-0.09,0.8076923076923077
+c,American Revolutionary Treaty of Paris signing,Treaty of Paris,pilot_documents__f1m1w0,pilot_documents__f1m1w1,0.7825327510917031,True,True,A,A,1783,1783,True,True,0,1,1,1,0.0,0.7825327510917031
+c,Explorer 1 launch,Explorer 1,pilot_space__f1m0w0,pilot_space__f1m0w1,0.7747205503009458,True,True,A,A,1957,1957,False,False,0,1,0,0,0.09000000000000002,0.7747205503009458
+c,Explorer 1 launch,Explorer 1,pilot_space__f1m1w0,pilot_space__f1m1w1,0.7907986111111112,True,True,A,A,1958,1958,True,True,0,1,1,1,0.18,0.7907986111111112
+c,US Declaration of Independence adoption,Declaration of Independence,pilot_documents__f0m1w0,pilot_documents__f0m1w1,0.5267924528301887,False,False,A,B,1783,1776,False,True,0,1,1,1,0.8200000000000001,0.5267924528301887
+c,Sputnik 1 launch,Sputnik 1,pilot_space__f0m0w0,pilot_space__f0m0w1,0.598159509202454,False,False,A,B,1957,1958,True,False,0,1,0,0,1.0,0.598159509202454
+c,Sputnik 1 launch,Sputnik 1,pilot_space__f0m1w0,pilot_space__f0m1w1,0.6021671826625387,False,False,A,B,1958,1957,False,True,0,1,1,1,1.18,0.6021671826625387

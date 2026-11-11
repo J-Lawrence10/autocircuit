@@ -1,0 +1,64 @@
+{
+  "label": "7",
+  "stem": "figure7_history_answers",
+  "title": "History: similar graphs can accompany different selected years",
+  "legend": "Qwen3-4B attribution graphs for 16 historical-date prompts, including 11 correct and five incorrect predictions. **a,** Two real pairs asking for the year of adoption of the US Declaration of Independence. Within each row, the dates assigned to A and B are swapped while the question and context remain unchanged. When the question comes first, the model predicts A in both prompts, selecting 1776 in one and 1783 in the other; feature overlap is 0.795. When context comes first, the model changes from A to B to retain the correct year, 1776; overlap is 0.512. The exact user-prompt text is shown with added line breaks; the model chat wrapper is not shown. **b,** All eight comparisons that swap the A/B date assignments while holding the queried event and question/context order fixed. The five same-letter comparisons select different years, with one correct and one incorrect prediction per pair (Jaccard 0.795\u20130.911). The three different-letter comparisons retain the same correct year (0.512\u20130.532). **c,** All eight comparisons that reverse question/context order while holding the event and A/B date assignments fixed. Overlap is 0.766\u20130.808 when predictions retain the same letter and 0.527\u20130.602 when the letter changes. Each point represents a pair of graphs; marker shapes and colors identify the queried event. Panels b and c reuse the same 16 graphs from two event pairs. Jaccard overlap is the number of shared feature identities divided by the number present in either graph; 0 means none are shared and 1 means the feature sets are identical. Feature identities exclude embeddings, output nodes, and reconstruction-error nodes. The panels report descriptive comparisons without treating graph pairs as independent replications.",
+  "model": "qwen3-4b",
+  "source_results_sha256": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
+  "source_jobs_sha256": "f42124c2109f44fce6b937216afbd857bf4d7faa9263e1769f22b3d5e59a43d7",
+  "script_sha256": "b262c2fb2ee430dd5fe0a80fe153279123c1c11a92b070e60296463726f01ea3",
+  "graph_count": 16,
+  "wrong_graphs_included": 5,
+  "panels": {
+    "a": 2,
+    "b": 8,
+    "c": 8
+  },
+  "data_changed": false,
+  "files": [
+    {
+      "path": "build_history_multipanel.py",
+      "sha256": "b262c2fb2ee430dd5fe0a80fe153279123c1c11a92b070e60296463726f01ea3"
+    },
+    {
+      "path": "CAPTION.md",
+      "sha256": "21e945fc3baa6e58388bc8cca1c6f177c92f9e01a1d4cd4fae528e97055ad8a7"
+    },
+    {
+      "path": "figure7_history_answers.png",
+      "sha256": "6ae420969d1814fa3c5c801dcd89d8215add46048cb2489d1be0f51675206912"
+    },
+    {
+      "path": "figure7_history_answers.svg",
+      "sha256": "2220295745783b71bafcc4d0cb0981ea69de38da4ad3d7a1fc22f5c686dcebb1"
+    },
+    {
+      "path": "figure7_history_answers_source.csv",
+      "sha256": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84"
+    },
+    {
+      "path": "history_answers_multipanel.png",
+      "sha256": "8d92e058603a64101323abd1a4f2f78909928d27d9ca10d493547c21dfcc9182"
+    },
+    {
+      "path": "history_answers_multipanel.svg",
+      "sha256": "cb7c0af75798474f7a11e88c921924dd72cadd9b7c43c07ed813ebafd70ef6fd"
+    },
+    {
+      "path": "history_answers_multipanel_source.csv",
+      "sha256": "a8c7b58338e0081595ed8fbc89b3a8c80f3a184864c0c0463026a5811814ea84"
+    },
+    {
+      "path": "index.html",
+      "sha256": "7ea520cea1e7ee1f4d3810f2b310faf7fa99f42877fe38ede2261292209c4616"
+    },
+    {
+      "path": "prompt_examples.json",
+      "sha256": "9b489445ff2fb43fc61942eae54eac356accf00e79253fcca6a6510fd95bcb51"
+    },
+    {
+      "path": "test_history_multipanel.py",
+      "sha256": "7d22a8051e7ca4f0f4ef2f7995f8806637258608884f375261e7aa5e927d1fad"
+    }
+  ]
+}

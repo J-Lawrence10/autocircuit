@@ -1,0 +1,20 @@
+{
+  "accepted_history_facts": 2,
+  "accepted_spelling_evaluation_facts": 12,
+  "checked_at": "2026-11-11T05:35:23.958041+00:00",
+  "converted_graphs_hash_verified": 147,
+  "current_figure_sources_and_outputs_hash_verified": true,
+  "exact_evaluation_facts": 10,
+  "frozen_inputs_unchanged": true,
+  "independent_raw_history_overlaps_verified": 4,
+  "no_hosted_requests": true,
+  "original_exact_results_unchanged": true,
+  "passed": true,
+  "raw_graphs_hash_verified": 147,
+  "source_hashes": {
+    "scripts/analyze_answer_spelling.py": "6eca71022c43861c98c7790ab6528c8204cd50162de007bc2d386f2c88385732",
+    "scripts/build_answer_spelling_figures.py": "787c41ae9c4d3c3f1c40853a2ef3691242805ac108fba8d93d7c55c91ce050a1",
+    "scripts/validate_answer_spelling.py": "875e638e1f3eed5b3d13a70c3df840a99aa4e1d27516015e2c33ca103d36ce07"
+  },
+  "unchanged_output_type_matched_controls": true
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "qwen17-figure-audit-execution-v1",
+  "status": "completed",
+  "command": ".venv-final-reproduction/Scripts/python.exe -B -u scripts/audit_qwen17_completion_figures.py",
+  "terminal_exit_code": 0,
+  "test_command": ".venv-final-reproduction/Scripts/python.exe -B -m unittest tests.test_qwen17_completion_figures -v",
+  "test_exit_code": 0,
+  "synthetic_tests_passed": 7,
+  "generated_at": "2026-11-07T05:40:43.493918+00:00",
+  "post_run_verified_at": "2026-11-07T05:41:59.331733+00:00",
+  "script_sha256": "8d422c46fc93b37ac43acbed02988582dddd8e19975120b3efe40d248b6c96fe",
+  "tests_sha256": "134d14b03a5affeb9bae4f13639b6f7d492479f48b74b1facceb5152cd44b4fe",
+  "analysis_plan_sha256": "a96871f6006d9931707c8c552302aeebc971a9a8cae14f1950c2a771b1404a22",
+  "results_sha256": "351d33385edf8c773b4d4cd85b1ea00b58e28a69c5699c21185a1614f0941f62",
+  "unchanged_primary_analysis_sha256": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
+  "script_generated_output_hashes_verified": 7,
+  "output_hash_failures": [],
+  "original_reconciliation": {
+    "passed": true,
+    "raw_quality_graphs": 50,
+    "factual_answer_graphs": 30,
+    "evaluation_facts": 5,
+    "lexical_candidate_pairs": 25,
+    "lexical_rule_rows": 15
+  },
+  "no_hosted_requests": true,
+  "no_model_inference": true,
+  "frozen_primary_statistics_changed": false,
+  "eligibility_changed": false,
+  "independent_human_review": false,
+  "notes": [
+    "Plan was saved before new lexical/tokenizer calculations. This is retrospective exploratory work after the completion's primary outcomes were already known.",
+    "Quality summaries use all original50 or expanded91 graph exports. Answer audit denominators are30 or50 available factual prompt graphs, including development and partial history collection. Lexical support denominators are5 or10 included evaluation facts.",
+    "History has10 available factual prompt graphs:4 whole expected answers,2 compatible prefixes and4 different next tokens. These do not constitute complete four-role history fact sets or make history eligible for effect estimation.",
+    "The original and expanded datasets overlap. They are not independent replications and not a fourth model.",
+    "This supplemental execution record was added after script completion; the release-package manifest should hash it in addition to the7 script-generated outputs listed by output_checksums.json."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "python": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "<AUTHOR_WORKSPACE>\\.venv-final-reproduction\\Scripts\\python.exe",
+  "isolated": true,
+  "commands": [
+    {
+      "name": "environment",
+      "command": [
+        "<AUTHOR_WORKSPACE>\\.venv-final-reproduction\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "dependency_check",
+      "command": [
+        "<AUTHOR_WORKSPACE>\\.venv-final-reproduction\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "tests",
+      "command": [
+        "<AUTHOR_WORKSPACE>\\.venv-final-reproduction\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "-q"
+      ],
+      "returncode": 0
+    }
+  ],
+  "closeout_audit_exact_match": true,
+  "original_margins_reconstructed": {
+    "gemma-2-2b": 8,
+    "qwen3-1.7b": 5,
+    "qwen3-4b": 10
+  },
+  "planned_graph_records": 344,
+  "available_raw_n": 342,
+  "original_source_hashes": {
+    "data\\publication_analysis\\raw_graph_audit.json": "0b53dce3ecae4bc4a175b1ab1449d46904fa84716714acc50d2bf0c4641a55eb",
+    "data\\publication_analysis\\converted_graph_audit.json": "b3605f0897d27bf3604a5d4dbceef6a4f894ccc7120f6988a820238470218dfa",
+    "data\\publication_analysis\\format_graph_audit.json": "d818dc9a7cbc94b9afb52c2179f9610a5b618680f5acc841c3b15c3c872806d6",
+    "data\\model_extension\\qwen3-4b\\analysis\\graph_audit.json": "3ad3be5aca2fdf9606d9a5083c360177b110eafe4dacd6e1546bc5072df6ba6f",
+    "data\\model_extension\\qwen3-4b\\jobs.csv": "9f8719dc041c7578b65b621e702c81aa92ab912c8ab1937c0fc58c140198ce9f",
+    "data\\model_extension\\qwen3-4b\\checksums.csv": "d9062fa53f9a0753706c2e60bf84301c9fe16ba6b976db08b3e0806b5e26ac3c",
+    "data\\publication_analysis\\whole_graph_results.json": "7002c0a82f66a31dd20ba49f35ba723e0cadefc53d07a3a25be9e9daaf5d15d7",
+    "data\\model_extension\\qwen3-4b\\analysis\\model_extension_results.json": "2daee0681c174e9513541e7d57378af772ee17bd05affe462c9149323c9a7abd"
+  },
+  "limitations": [
+    "Same machine and interpreter; not independent human or hosted-model replication.",
+    "Reconstructs original margins and closeout contrasts, not every historical estimator or all stochastic sensitivities."
+  ]
+}

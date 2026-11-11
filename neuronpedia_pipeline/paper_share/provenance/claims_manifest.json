@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-11",
+  "purpose": "PI-facing evidence and claim summary with one current sample per model; no new model requests or statistical analysis",
+  "source_hashes": {
+    "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure2_summary.csv": "d0a372f29e22e2fa1cef750f450cd173a772883d2ddc9d01a43d932d5e478ece",
+    "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure5_block_contrasts.csv": "4d8811307ef6c25949a5b2be25cd88db7eb80d8b216961d9cef51ea15cd55079",
+    "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure6_comparisons.csv": "62bdaca2cc0cb3576b670da88ca0260861e32bb999acb02c8a578c934a622689",
+    "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure6_behavior.csv": "72e3f5d96ca9805877148601466451c867006b9b62ba334fd782d0a497d4a489",
+    "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
+    "data\\model_extension\\history_pilot_graphs_20261110\\analysis\\results.json": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
+    "data\\model_extension\\qwen17_completion_20261106\\analysis\\results.json": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
+    "docs\\papers\\INTEGRATED_PAPER_OUTLINE.md": "89b7cd84b3ff2a73c449a1d529babdb0cab5ce15726bc11a3cc927d23dac3a4e",
+    "scripts\\figure_plain_language.py": "c118e1b17ade1504a62f8c085c4c5f8ef520497bb36532143fd236a878065928"
+  },
+  "script_sha256": "3e389e4de7b48355e50554cca991187c50ceb07226c7cf5f2c874aa90cceffb5",
+  "output_hashes": {
+    "paper_claims_map.png": "15e377c8f408a7be50fe14a83e33f5ec5509e243381022aa69a31dd7ac469e00",
+    "paper_claims_map.svg": "2c403035861645dc20f757aebc44b7cf729c5a8fc27d822839c18ebc6b46072d"
+  },
+  "checks": [
+    "Current evaluation-fact counts 8/10/12; model means 0.170/0.089/0.218",
+    "Six matched-choice blocks",
+    "Eight of eight selected failures favor same output",
+    "Sixteen historical-date graphs, eleven correct and five incorrect",
+    "Three models retained; one primary sample per model",
+    "Current Qwen3-1.7B n10 mean matches Figure 2 and saved analysis",
+    "Eight of ten Qwen3-1.7B comparisons favor same-pattern invented name controls",
+    "Qwen3-1.7B incomplete history controls distinguished from Qwen3-4B available history comparisons",
+    "All rendered text within canvas and assigned boxes; no overlapping text within boxes",
+    "No em dashes in figure text",
+    "Sources unchanged during build"
+  ]
+}

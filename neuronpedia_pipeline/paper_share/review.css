@@ -1,0 +1,10 @@
+body { max-width: 1120px; margin: 40px auto; padding: 0 28px; font: 17px/1.6 system-ui, sans-serif; color: #193747; background: #fff; }
+h1, h2, h3 { line-height: 1.25; }
+h2 { margin-top: 2em; }
+img { max-width: 100%; height: auto; }
+a { color: #236b91; }
+table { border-collapse: collapse; width: 100%; font-size: .9em; }
+th, td { border-bottom: 1px solid #d5e0e5; text-align: left; padding: 9px; vertical-align: top; }
+pre { overflow-x: auto; }
+blockquote { border-left: 3px solid #247867; padding-left: 18px; margin-left: 0; color: #506774; }
+@media print { body { max-width: none; font-size: 10pt; } img, tr { break-inside: avoid; } }

@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-11T01:47:19.746802+00:00",
+  "complete": true,
+  "generation_requests": 16,
+  "max_rolling_hour_passed": true,
+  "observed": 16,
+  "original_archive_unchanged": true,
+  "request_spacing_passed": true,
+  "results_sha256": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
+  "valid_graphs": 16,
+  "verification_scope": "Local artifact checks, not independent human review",
+  "verified_pairwise_jaccards": 56,
+  "wrong_predictions_retained": 5
+}

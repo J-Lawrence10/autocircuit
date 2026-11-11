@@ -1,0 +1,5 @@
+# Exact environment used for the publication reanalysis on 2026-07-14.
+numpy==2.2.5
+matplotlib==3.10.8
+pandas==2.3.3
+scipy==1.15.3

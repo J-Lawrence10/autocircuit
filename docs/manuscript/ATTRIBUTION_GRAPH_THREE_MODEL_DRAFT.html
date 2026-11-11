@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Joseph Lawrence" />
+  <meta name="author" content="Konstantinos Krampis" />
+  <meta name="dcterms.date" content="2026-11-11" />
+  <title>Attribution graph paper review</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../review.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Attribution graph paper review</h1>
+<p class="subtitle">A controlled, domain-limited evaluation of three
+model pipelines</p>
+<p class="author">Joseph Lawrence</p>
+<p class="author">Konstantinos Krampis</p>
+<p class="date">11 November 2026</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#abstract" id="toc-abstract">Abstract</a></li>
+<li><a href="#introduction" id="toc-introduction">1.
+Introduction</a></li>
+<li><a href="#methods" id="toc-methods">2. Methods</a>
+<ul>
+<li><a href="#models-questions-and-collected-data"
+id="toc-models-questions-and-collected-data">2.1 Models, questions, and
+collected data</a></li>
+<li><a href="#measuring-feature-overlap"
+id="toc-measuring-feature-overlap">2.2 Measuring feature
+overlap</a></li>
+<li><a href="#crossed-design-and-controls"
+id="toc-crossed-design-and-controls">2.3 Crossed design and
+controls</a></li>
+<li><a href="#exploratory-confound-checks"
+id="toc-exploratory-confound-checks">2.4 Exploratory confound
+checks</a></li>
+<li><a
+href="#matched-choice-follow-up-separating-queried-country-and-answer-label"
+id="toc-matched-choice-follow-up-separating-queried-country-and-answer-label">2.5
+Matched-choice follow-up separating queried country and answer
+label</a></li>
+<li><a href="#position-pilot-and-exploratory-failure-case-diagnostic"
+id="toc-position-pilot-and-exploratory-failure-case-diagnostic">2.6
+Position pilot and exploratory failure-case diagnostic</a></li>
+<li><a href="#answer-label-statistics-and-historical-date-comparisons"
+id="toc-answer-label-statistics-and-historical-date-comparisons">2.7
+Answer-label statistics and historical-date comparisons</a></li>
+<li><a href="#qwen3-1.7b-analysis-and-verification"
+id="toc-qwen3-1.7b-analysis-and-verification">2.8 Qwen3-1.7B analysis
+and verification</a></li>
+</ul></li>
+<li><a href="#results" id="toc-results">3. Results</a>
+<ul>
+<li><a
+href="#reworded-questions-about-the-same-fact-share-more-features"
+id="toc-reworded-questions-about-the-same-fact-share-more-features">3.1
+Reworded questions about the same fact share more features</a></li>
+<li><a href="#same-fact-questions-share-words-and-expected-answers"
+id="toc-same-fact-questions-share-words-and-expected-answers">3.2
+Same-fact questions share words and expected answers</a></li>
+<li><a
+href="#same-fact-overlap-is-higher-when-the-answer-letter-stays-the-same"
+id="toc-same-fact-overlap-is-higher-when-the-answer-letter-stays-the-same">3.3
+Same-fact overlap is higher when the answer letter stays the
+same</a></li>
+<li><a
+href="#error-graphs-show-greater-overlap-with-answer-matched-controls"
+id="toc-error-graphs-show-greater-overlap-with-answer-matched-controls">3.4
+Error graphs show greater overlap with answer-matched controls</a></li>
+<li><a href="#greater-feature-sharing-between-same-fact-questions"
+id="toc-greater-feature-sharing-between-same-fact-questions">3.5 Greater
+feature sharing between same-fact questions</a></li>
+<li><a
+href="#history-graphs-can-remain-similar-when-the-selected-year-changes"
+id="toc-history-graphs-can-remain-similar-when-the-selected-year-changes">3.6
+History graphs can remain similar when the selected year
+changes</a></li>
+</ul></li>
+<li><a href="#discussion" id="toc-discussion">4. Discussion</a>
+<ul>
+<li><a href="#what-the-comparisons-establish"
+id="toc-what-the-comparisons-establish">4.1 What the comparisons
+establish</a></li>
+<li><a href="#scope-and-remaining-questions"
+id="toc-scope-and-remaining-questions">4.2 Scope and remaining
+questions</a></li>
+<li><a
+href="#future-research-separating-computation-from-graph-selection"
+id="toc-future-research-separating-computation-from-graph-selection">4.3
+Future research: separating computation from graph selection</a></li>
+</ul></li>
+<li><a href="#conclusion" id="toc-conclusion">5. Conclusion</a></li>
+<li><a href="#supporting-analyses"
+id="toc-supporting-analyses">Supporting analyses</a>
+<ul>
+<li><a href="#a1-next-token-matching-and-complete-answers"
+id="toc-a1-next-token-matching-and-complete-answers">A1 Next-token
+matching and complete answers</a></li>
+<li><a href="#a2-export-integrity-and-approximation-error"
+id="toc-a2-export-integrity-and-approximation-error">A2 Export integrity
+and approximation error</a></li>
+<li><a href="#a3-source-location-observations-in-selected-errors"
+id="toc-a3-source-location-observations-in-selected-errors">A3
+Source-location observations in selected errors</a></li>
+<li><a href="#a4-comparison-and-sensitivity-figures"
+id="toc-a4-comparison-and-sensitivity-figures">A4 Comparison and
+sensitivity figures</a></li>
+<li><a href="#a5-qwen3-1.7b-subject-results-and-sensitivity-analyses"
+id="toc-a5-qwen3-1.7b-subject-results-and-sensitivity-analyses">A5
+Qwen3-1.7B subject results and sensitivity analyses</a></li>
+<li><a href="#a6-feature-overlap-analysis-workflow"
+id="toc-a6-feature-overlap-analysis-workflow">A6 Feature-overlap
+analysis workflow</a></li>
+<li><a
+href="#a7-historical-date-comparisons-and-original-study-accounting"
+id="toc-a7-historical-date-comparisons-and-original-study-accounting">A7
+Historical-date comparisons and original study accounting</a></li>
+</ul></li>
+<li><a href="#reproducibility-and-availability"
+id="toc-reproducibility-and-availability">Reproducibility and
+availability</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
+<p><strong>Working manuscript. Not peer reviewed.</strong> Review
+edition updated 11 November 2026 using the final available samples and
+corrected answer scoring.</p>
+<h2 id="abstract">Abstract</h2>
+<p>Comparing attribution graphs offers a way to ask whether differently
+worded questions recruit shared model features. We tested how this
+overlap relates to the requested fact and the predicted answer in
+Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. Reworded questions about the same
+fact had higher mean feature overlap than questions about other facts in
+all three analyzed samples, including after equalizing feature counts.
+Because those comparisons also shared words and expected answers, we
+tested Qwen3-4B with identical word and token inventories within each of
+six country pairs while varying the queried country, wording, and
+correct A/B answer. All 48 predicted letters were correct. The
+same-country minus different-country overlap was 0.0628 when the answer
+letter stayed the same and -0.0022 when it changed. Their average, the
+prespecified primary outcome, was 0.0303 (95% block-bootstrap interval
+0.0265–0.0338). In a separate exploratory diagnostic using one country
+pair, all eight selected wrong-answer graphs shared more features with a
+correct prediction giving the same answer than with a correct prediction
+for the intended country. An additional analysis of 16 Qwen3-4B history
+prompts from two event pairs found high overlap when the predicted
+letter stayed the same even as the selected year changed. Together, the
+experiments identify an answer-associated pattern in feature overlap
+that persists in selected errors. This supports interpreting overlap
+jointly with the prompt comparison and predicted answer, rather than as
+a standalone marker of correct factual processing.</p>
+<h2 id="introduction">1. Introduction</h2>
+<p>Knowing whether a language model gives a correct answer does not
+explain how it arrived at that answer. Mechanistic interpretability
+seeks to address this question by examining the computations inside a
+model [1]. For factual questions, this raises a more specific question:
+when different prompts ask about the same fact, what remains similar in
+the model’s internal activity?</p>
+<p>Attribution graphs show patterns of activity inside a model and
+estimate how those patterns contribute to its prediction. These learned
+patterns are called features [1]. Previous research has examined how
+model computations vary across prompts [2]. Studies of multiple-choice
+questions have also shown that rearranging answer options can change
+which answer a model selects [5]. These findings motivate examining how
+differences between questions and their predicted answers relate to the
+features found in attribution graphs.</p>
+<p>Comparing these graphs requires distinguishing what the questions and
+answers have in common. For example, two rewordings of a question about
+France’s capital both expect Paris. Their graphs might share features
+because they ask about the same fact, use some of the same words, or
+predict the same answer. We therefore need comparisons that ask about
+the same fact while changing the model’s required output.</p>
+<p>We initially hypothesized that, within each model, differently worded
+questions about the same fact would share more attribution-graph
+features than questions about different facts. We tested this
+association in Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. We measured feature
+sharing using Jaccard similarity, our measure of feature overlap: the
+proportion of all distinct features across two graphs that appears in
+both. It compares the features present, not the connections between
+them.</p>
+<p>We then used Qwen3-4B to examine this association with stronger
+controls for shared words and answers. For multiple-choice questions
+using the same two countries, we kept the words and their counts the
+same while varying which country was asked about and whether the model
+had to answer A or B. Changing the letter assigned to a capital allowed
+the factual answer to remain the same while the required response
+changed. We also examined selected incorrect predictions, comparing
+their graphs with correct predictions for the intended country and
+correct predictions giving the same answer for another country.</p>
+<p>Feature overlap was associated with both the relationship between
+questions and the answer the model predicted. We next describe the model
+samples, question designs, and graph comparisons used to evaluate these
+relationships.</p>
+<h2 id="methods">2. Methods</h2>
+<p>We organized the study around three comparisons (Figure 1). First, we
+compared reworded questions about the same fact with questions about
+different facts across all three models. Second, we gave Qwen3-4B
+multiple-choice questions and swapped the capitals assigned to A and B.
+This changed the required answer letter without changing the capital
+being asked for. We then tested whether questions about the same country
+still shared more graph features than questions about different
+countries. Third, also using Qwen3-4B, we examined attribution graphs
+for incorrect predictions, referred to here as error graphs. Each error
+graph was compared with two graphs for correct predictions: one giving
+the correct answer for the intended country, and one giving the same
+answer as the error, but in a context where that answer was correct. The
+three analyses used distinct question sets and were evaluated
+separately.</p>
+<figure>
+<img src="../figures/figure1_design_and_coverage.png"
+alt="Figure 1: Three tests ask what similar graphs can tell us" />
+<figcaption aria-hidden="true">Figure 1: Three tests ask what similar
+graphs can tell us</figcaption>
+</figure>
+<p><strong>Figure 1. Three tests ask what similar graphs can tell
+us.</strong> A, Compare rewordings of the same fact with other-fact
+questions in the same subject and evaluation group. The analysis
+includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B test questions.
+Qwen3-4B includes five chemistry, five geography, and two history
+questions. Qwen3-1.7B includes five chemistry and five geography
+questions; no history fact has a complete question/control set. Gold is
+the chemical element. The examples use development questions, not the
+test questions plotted in Figure 2. B, In Qwen3-4B, vary the queried
+country, capital-to-A/B mapping, and wording while preserving the words
+and token counts within each country pair. All 48 predicted letters were
+correct. France/Germany illustrates the design using a pilot pair
+excluded from that evaluation. Displayed prompts are shortened; full
+prompts retain both countries and the other words, while word order and
+country roles vary. C, Compare a selected wrong-answer graph with
+correct predictions for the intended country and for the answer actually
+produced. This Qwen3-4B diagnostic has 16 graphs from one country pair
+and two response formats, with shared controls. Answers refer to the
+highest-probability next token. Arrows indicate comparisons, not causes;
+box colors identify steps. Sample accounting reports collection counts,
+exclusions, and failed preliminary checks.</p>
+<h3 id="models-questions-and-collected-data">2.1 Models, questions, and
+collected data</h3>
+<p>We analyzed attribution graphs from three language models:
+Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. Neuronpedia ran the models and
+generated the graphs remotely. We analyzed the saved graphs locally,
+without running the models on our own hardware. Within each model, we
+compared feature sharing between reworded questions about the same fact
+with feature sharing between questions about different facts. We used
+the same Jaccard similarity measure and feature-exclusion rules across
+all three models, providing a separate test of the same hypothesis in
+each model.</p>
+<p>The question/control design included 30 facts, with ten each from
+chemistry, geography, and history. Each fact had a starting question, a
+reworded question asking for the same fact, and two invented name
+controls. These controls replaced the real name with an invented name
+while preserving either the starting or reworded sentence pattern.
+Within each subject, five facts were assigned to development and five to
+evaluation. All four question versions for a fact stayed in the same
+set. Development questions supported method development and diagnostic
+checks; evaluation questions provided the primary test of whether
+rewordings of the same fact shared more features than questions about
+different facts.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">Question/control graphs collected /
+planned</th>
+<th style="text-align: right;">Fact/wording graphs collected /
+planned</th>
+<th>Evaluation facts and subjects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma-2-2B</td>
+<td style="text-align: right;">120/120</td>
+<td style="text-align: right;">27/27</td>
+<td>8: chemistry 5, history 3</td>
+</tr>
+<tr>
+<td>Qwen3-1.7B</td>
+<td style="text-align: right;">91/120</td>
+<td style="text-align: right;">Not collected</td>
+<td>10: chemistry 5, geography 5</td>
+</tr>
+<tr>
+<td>Qwen3-4B</td>
+<td style="text-align: right;">120/120</td>
+<td style="text-align: right;">27/27</td>
+<td>12: chemistry 5, geography 5, history 2</td>
+</tr>
+</tbody>
+</table>
+<p>For Qwen3-1.7B, the 91 collected graphs comprised 40 chemistry, 40
+geography, and 11 history graphs. Chemistry and geography each had all
+four versions for ten facts. The service rejected 29 history requests
+that exceeded its 10-input-token limit, leaving no history fact with all
+four required versions. These are collection failures, not incorrect
+predictions. Applying the same inclusion rules across subject areas
+yielded five chemistry and five geography evaluation facts; development
+questions were analyzed separately.</p>
+<p>Qwen3-4B supplied all 120 question/control graphs. The separate
+fact/wording experiment, described in Section 2.3, supplied 27 graphs
+each for Gemma-2-2B and Qwen3-4B. These two designs therefore contain
+385 available graphs in total. The additional Qwen3-4B answer-letter and
+selected-error studies contributed 48 and 16 graphs, respectively, and
+are described separately in Sections 2.5–2.6.</p>
+<p>Only these three models were tested. Section 2.8 describes the
+Qwen3-1.7B analysis and verification; the protocol and analysis-planning
+records are retained with the reproducibility materials.</p>
+<p>Collection and inclusion counts are separated in the <a
+href="SAMPLE_ACCOUNTING.md">sample-accounting table</a>. All three
+models contribute chemistry comparisons; geography and history do not
+provide complete three-model comparisons. Unused questions are not
+automatically incorrect answers: missing controls, partial next tokens,
+and lack of a comparison partner are distinct exclusion reasons.</p>
+<h3 id="measuring-feature-overlap">2.2 Measuring feature overlap</h3>
+<p>We measured feature sharing between questions using Jaccard
+similarity, our measure of feature overlap. This is the number of shared
+features divided by the total number of distinct features across both
+graphs. The score ranges from zero, when no features are shared, to one,
+when both graphs contain the same features. It compares the features
+present, not the connections between them.</p>
+<p>For each graph, we identified distinct learned features using the
+tuple <code>(feature family, layer, feature ID)</code>. Matching
+numerical IDs in different layers or feature families remained distinct.
+A feature that appeared at multiple positions in the input was counted
+once. We excluded input representations (embeddings), output prediction
+scores (logits), and reconstruction-error nodes, which represent
+activity not captured by the learned features. We also excluded nodes
+with missing or duplicated graph-node identifiers. Features were
+compared only between graphs from the same model.</p>
+<p>For each starting question, we calculated Jaccard overlap with its
+factual rewording. We then calculated its overlap with the reworded
+questions for every other included fact from the same model, subject,
+and development or evaluation set. Our primary outcome was the same-fact
+overlap minus the average of these other-fact overlaps. A positive
+difference therefore indicated greater feature sharing with the
+same-fact rewording. Figure S8 summarizes the workflow.</p>
+<p>Let T_i and P_i denote the feature sets from the graphs for a
+starting question and its factual rewording, respectively. Their
+same-fact overlap minus the average other-fact overlap is:</p>
+<p><code>M_i = Jaccard(T_i, P_i) - mean_{j ≠ i} Jaccard(T_i, P_j)</code>,</p>
+<p>where j includes every other included fact in the same model, subject
+area, and development or evaluation set.</p>
+<p>A fact was included only when all four question and control graphs
+were available. For both factual prompts, the model’s
+highest-probability next token had to give the complete accepted answer
+after removing leading and trailing whitespace, such as spaces or line
+breaks. Accepted answers included the registered spellings
+<code>Maria</code> and <code>María</code> for Columbus’s flagship [8,9],
+with Unicode-equivalent forms treated identically. At least one other
+fact also had to meet these conditions within the same model, subject
+area, and development or evaluation set, providing the other-fact
+comparison. Partial answer tokens did not qualify.</p>
+<p>The spelling rule corrected a literal-text scoring error identified
+during the audit. We applied it across all 170 available factual-prompt
+outputs, changing one answer classification, and used the corrected
+inclusion decisions throughout the reported analyses. The original
+scoring decisions remain in the audit record. Prompts, predicted tokens,
+graph features, and development/evaluation assignments were unchanged;
+other accents, synonyms, and partial answers were not accepted
+automatically.</p>
+<p>Zero means equal overlap; negative values mean more shared features
+in the other-fact comparison. The outcome is a difference between
+Jaccard scores, not a percentage increase. Other designs below specify
+their own subtraction; weighted cosine comparisons are called
+differences in weighted similarity rather than feature overlap.</p>
+<p>For each model, we summarized the evaluation-fact differences by
+their mean and a descriptive 95% percentile bootstrap interval, using
+10,000 resamples of the calculated fact-level differences with
+replacement. Exact one-sided sign-flip tests assessed whether the mean
+difference was greater than zero. Complementary within-domain fact-label
+permutations assess matched assignment without treating graph pairs as
+independent samples. Facts reuse comparators, sign-flip assumptions
+require care, and the same facts recur across models: 8+10+12 represents
+30 model-specific fact observations, not 30 unique independent facts. No
+pooled model-ranking test is performed.</p>
+<h3 id="crossed-design-and-controls">2.3 Crossed design and
+controls</h3>
+<p>To examine how feature sharing varied with the requested fact and its
+wording, we analyzed three facts from each of three subject areas in
+Gemma-2-2B and Qwen3-4B. Each fact had an original question and two
+rewordings, giving 27 graphs per model. We labeled these versions
+“original,” “alternative 1,” and “alternative 2.” We compared questions
+about the same fact across different versions, and questions about
+different facts within the same labeled version. Both comparisons used
+questions differing in fact and version as their baseline. The version
+labels did not imply identical sentence patterns across facts. We
+calculated overlap differences within each subject area and then
+averaged across areas, using permutation tests that preserved these
+groupings. Their relative sizes were descriptive, not tests that wording
+mattered more than the fact being asked about or that the models
+differed.</p>
+<p>We compared factual rewordings against invented name prompts, then
+checked whether the pattern persisted when their predicted outputs had
+the same general form. The controls used invented names, such as
+“zorium” instead of gold. One control was based on the starting sentence
+pattern; the other used a reworded version. For each control, we
+subtracted its feature overlap with the starting question from the
+overlap between the starting question and its factual rewording.
+Positive differences therefore favored the factual rewording. We
+repeated these comparisons using only controls whose highest-probability
+next token fell into the same broad category as the starting question’s:
+containing letters or numbers, whitespace only, or punctuation/symbols
+only. This matched output category, not the exact token, its meaning, or
+its probability.</p>
+<h3 id="exploratory-confound-checks">2.4 Exploratory confound
+checks</h3>
+<p>We checked the integrity of the saved graphs and reproduced the
+recorded overlap calculations. File checksums covered all 385 graphs in
+the question/control and fact/wording datasets. We compared counts of
+distinct features with the saved audits and reproduced the recorded
+overlap differences for each fact to an absolute tolerance of 10⁻¹².
+Section 2.8 and the reproducibility records describe the Qwen3-1.7B
+verification.</p>
+<p><strong>Feature counts.</strong> We tested whether same-fact overlap
+remained higher when the graphs contained equal numbers of features.
+Within each model and subject area, we set K to the smallest feature
+count among the starting and reworded evaluation graphs. We randomly
+sampled K features from each graph without replacement, then repeated
+the analysis using half that number, rounded down. Across 200
+repetitions with recorded fixed seeds, each sampled graph was reused in
+all its comparisons. We averaged the overlap differences for each fact
+across repetitions and calculated descriptive 95% bootstrap intervals
+using 10,000 fact-level resamples. Variation across sampling repetitions
+and the model-specific seeds are retained in the reproducibility tables.
+This check equalized feature counts but did not remove differences in
+how features entered the exported graphs or in shared wording.</p>
+<p><strong>Shared words and answer identity.</strong> We looked for
+questions about different facts that shared a comparable amount of
+wording with the starting question. We then applied a stricter check
+that also matched the number of graph features. We measured word sharing
+using Jaccard similarity between sets of unique words containing letters
+or numbers, ignoring capitalization and retaining common words. Within
+each model and evaluation subject area, we applied three alternative
+matching rules. The first retained other-fact questions whose
+word-overlap score with the starting question was at least as high as
+the same-fact pair’s score. The second required those scores to differ
+by no more than 0.05. The third used the same 0.05 limit and also
+required the other-fact rewording’s graph to contain between 80% and
+125% as many features as the factual rewording’s graph. These rules
+matched word-overlap scores and, in the third check, graph feature
+counts; they did not require identical words or features. We averaged
+all qualifying other-fact comparisons under each rule. When none
+qualified, we reported the comparison as not estimable, rather than
+zero. Matching thresholds were not relaxed after inspection. We
+separately recorded whether each comparison shared the expected answer;
+answer matching was not an inclusion requirement.</p>
+<p><strong>Tokenizer audit.</strong> We checked whether the predicted
+next token contained the expected answer or only a compatible beginning.
+We recorded the versions and file checksums of the official Qwen
+tokenizers, which convert text into model tokens. We checked their
+agreement with the saved prompt tokens and highest-probability
+predictions. We then encoded each prompt followed by its expected
+answer, allowing zero or one separating space and requiring the prompt’s
+token sequence to remain unchanged. We distinguished complete expected
+answers, compatible beginnings, whitespace-only matches, mismatches, and
+unresolved checks. A compatible beginning did not verify that the model
+would complete the answer correctly. These checks also could not
+establish the exact tokenizer version used during graph collection.
+Gemma’s official tokenizer download returned an authorization error
+(HTTP 401), leaving its tokenizer-based audit unavailable. No
+alternative download sources or model weights were used [3,4].</p>
+<p>We also checked whether the fact-by-wording results persisted when
+every question in a group met the expected-next-token rule. Each group
+contained three facts from one subject area, each asked in three
+versions. A group qualified within a model only when all nine questions
+had highest-probability next tokens matching the expected text after
+removing leading and trailing whitespace. We recalculated overlap
+differences for these complete groups and reported them separately from
+the original analysis. We did not select individual passing questions
+from groups that failed the rule.</p>
+<h3
+id="matched-choice-follow-up-separating-queried-country-and-answer-label">2.5
+Matched-choice follow-up separating queried country and answer
+label</h3>
+<p>We tested whether questions about the same country still shared more
+features when the required answer letter changed. Using Qwen3-4B’s
+non-thinking chat format, we presented questions containing two
+countries and two capitals labeled A and B. For example, France’s
+capital required A when Paris was labeled A, but B when Paris was
+labeled B. We varied the country asked about, the word order, and the
+capital-to-letter assignment while keeping the words and token counts
+identical within each country pair. France/Germany illustrated the
+design in the preliminary check; six other country pairs formed the
+evaluation.</p>
+<p>We measured same-country feature sharing separately when the answer
+letter stayed the same and when it changed. Each evaluation country pair
+contributed eight graphs, covering both countries, both A/B assignments,
+and two question wordings, for 48 graphs overall. Within each pair, we
+compared graphs across the two wordings and subtracted different-country
+overlap from same-country overlap in each answer-letter condition. We
+averaged these two differences within each pair, then averaged across
+pairs for the prespecified primary outcome. Uncertainty used the six
+country pairs, not 48 independent graphs, with a 95% bootstrap interval
+from 10,000 resamples. An exact conditional correspondence test
+evaluated 4,096 allowed assignments of country matches within
+answer-letter groups. Bonferroni correction accounted for three planned
+tests across models and prompt formats.</p>
+<p>Earlier preliminary results informed this follow-up, but its rules
+were fixed before collecting the evaluation graphs. In the completed
+plain-completion checks, Qwen3-4B chose A on all eight questions, giving
+four correct labels. Gemma produced the correct capitals but none of the
+eight requested letters. The three planned tests therefore comprised the
+original Qwen and Gemma setups and the revised Qwen chat setup.
+Preliminary outcomes remained separate from the evaluation results. The
+revised experiment matched the available words and tokens, but
+differences in word order, answer-option assignments, and country roles
+remained part of the comparison.</p>
+<h3 id="position-pilot-and-exploratory-failure-case-diagnostic">2.6
+Position pilot and exploratory failure-case diagnostic</h3>
+<p>Research on position-based retrieval has documented difficulties
+identifying items by list position, particularly when counting backward
+[7]. Our position-based analysis asked about a country’s position in a
+list while varying the queried country, list order, answer mapping, and
+wording. Its prespecified accuracy requirement had to be met in a
+16-item pilot before collecting evaluation graphs. After the pilot
+failed, we conducted an explicitly exploratory diagnostic of selected
+errors; this was not a replacement evaluation cohort.</p>
+<p>We investigated selected cases by generating attribution graphs and
+checking that the incorrect predictions occurred again. For example,
+with France listed before Germany, asking for the first country’s
+capital incorrectly produced Berlin. Naming France directly produced
+Paris, whereas naming Germany produced Berlin. Both named-country
+predictions were correct for their respective questions. Comparing their
+graphs with the incorrect prediction’s graph let us ask whether feature
+sharing was greater with the intended fact (France’s capital is Paris)
+or with the answer the model actually predicted, Berlin.</p>
+<p>The diagnostic contained 20 next-token previews: four literal/replay
+positive controls and four selected France/Germany cases varied by how
+the country was identified (its name or list position) and by response
+format (A/B letter or capital name). These cases were selected because
+the correct answer conflicted with choosing an answer option by its
+position. We fixed the 16 diagnostic prompts before generating their
+graphs. Each wrong-answer graph was compared with two correct-answer
+graphs: one for the intended country and one producing the same answer
+as the error. Both controls preserved the option layout and country-list
+order. The position-based and named-country prompts differ in wording,
+length, and repeated names; unlike the matched-choice experiment, their
+word and token inventories are not identical.</p>
+<p>Graph settings were maxNLogits=10, desiredLogitProb=0.99,
+nodeThreshold=0.8, edgeThreshold=0.85, and maxFeatureNodes=5000, using
+hosted Qwen3-4B with the recorded transcoder source. Exact prompts and
+token sequences, source/settings, checksums, identifier integrity, and
+observed answers were audited. Wrong answers were deliberately retained.
+All comparisons report feature-set Jaccard, exported-influence-weighted
+cosine, and an equal-feature-count sensitivity using 200 repetitions
+with fixed seeds. Direct incoming edges to the observed answer logit
+were summarized by source type and token location, preserving signs and
+absolute weights. Display panels retain the ten largest absolute direct
+edges and the ten largest upstream edges into those displayed
+predecessors; full tables retain the remaining edges.</p>
+<p>These selected cases concern two facts in one country pair, with
+reused controls. We report descriptive comparisons without confirmatory
+p-values or population confidence intervals. The country-location weight
+ratio discussed below was an additional descriptive inspection of the
+archived role tables, not a prespecified primary endpoint. All outcomes
+concern the top next token under the hosted non-thinking setup; they do
+not independently establish full generated-answer behavior [6]. Local
+provenance checks also do not independently certify hosted-weight
+identity.</p>
+<h3 id="answer-label-statistics-and-historical-date-comparisons">2.7
+Answer-label statistics and historical-date comparisons</h3>
+<p>After inspecting the matched-choice results, we directly compared the
+same-label and changed-label fact contrasts across the six country-pair
+blocks. We report the mean paired difference, a 20,000-resample
+block-bootstrap interval, a Student-t interval, and a two-sided exact
+block sign-flip test. These summaries assume independent blocks; the
+sign-flip null additionally assumes symmetric block contrasts. This
+added test is exploratory and is distinct from the original conditional
+correspondence test. The 4,096 correspondence assignments are null
+configurations within six blocks, not 4,096 independent
+observations.</p>
+<p>The tests answer different questions:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Test</th>
+<th>Question and outcome</th>
+<th>Reference distribution and interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prespecified conditional correspondence test</td>
+<td>Is the average of the two fact contrasts greater than expected under
+reassigned fact correspondence? Primary mean: 0.0303.</td>
+<td>Reassign queried-fact correspondence across wording versions within
+each answer-label group: four assignments per country pair and 4096
+across six pairs. The reference null treats those assignments as
+exchangeable conditional on the label and word inventory. It tests
+correspondence under that null, not a causal effect isolated from word
+order or country roles.</td>
+</tr>
+<tr>
+<td>Exploratory block sign-flip test</td>
+<td>Is the same-letter fact contrast different from the changed-letter
+fact contrast? Paired mean difference: 0.0650.</td>
+<td>Flip the sign of each of six country-pair differences, assuming
+independent blocks and symmetric differences under the null. The
+two-sided test concerns the difference between conditions, not their
+average.</td>
+</tr>
+</tbody>
+</table>
+<p>The conditional test’s small p-value describes the specified
+reassignment null; it does not establish that the prompts are
+exchangeable for every substantive hypothesis. Residual order and role
+differences constrain interpretation. The question/control comparisons
+also reuse other-fact comparators, so their resampling results are
+reported alongside the within-domain correspondence tests rather than as
+independent replications.</p>
+<p>As graph-location sensitivities, we removed feature nodes at the
+final prediction context position, in the last quarter of observed
+feature layers, or both, before collapsing feature identities. Empty
+representations are unavailable rather than assigned zero overlap. These
+filters test concentration of the measured association; they are not
+causal ablations, and retained graphs remain conditioned on the
+generated output. We applied the same filters to the selected failure
+comparisons without attaching population p-values to their dependent
+triples.</p>
+<p>We also examined historical-date questions in Qwen3-4B using two
+event pairs: adoption of the US Declaration of Independence and signing
+of the Treaty of Paris, and the launches of Sputnik 1 and Explorer 1.
+Each pair had eight prompts combining the queried event, assignment of
+dates to A and B, and question/context order, with identical word and
+token inventories within the pair. We collected all 16 graphs and
+retained both correct and incorrect predictions. Each predicted letter
+was translated into the year assigned to it, separating agreement on the
+response letter from agreement on the selected date.</p>
+<p>We calculated all 28 unordered graph comparisons within each event
+pair. Eight comparisons changed only the A/B date assignments, and eight
+changed only question/context order, across the two pairs. We grouped
+these comparisons by the letter actually predicted, separately from the
+letter required for a correct answer. Jaccard overlap used the feature
+identities in Section 2.2. Additional checks used influence-weighted
+cosine, the graph-location filters above, and 200 equal-feature-count
+subsamples at K and half K within each event pair. The analysis plan was
+recorded before graph collection but after the prompts’ behavioral
+outcomes were known. With two selected event pairs and reused graphs, we
+report descriptive comparisons rather than population confidence
+intervals or significance tests. Supporting analysis A7 preserves the
+original stopped 160-graph study, which this additional analysis did not
+reopen.</p>
+<h3 id="qwen3-1.7b-analysis-and-verification">2.8 Qwen3-1.7B analysis
+and verification</h3>
+<p>We analyzed the combined 91-graph Qwen3-1.7B dataset using the
+representation, inclusion rules, comparisons, and checks in Sections
+2.2–2.4. Settings were recorded before calculating the estimates but
+after earlier findings were known. The analysis was therefore
+exploratory rather than an independent confirmatory replication.</p>
+<p>Graph files retained their recorded transcoder and LoRSA feature
+sources. Desired cumulative output probability was 0.99 for the
+completion requests; some archived files used 0.95 output coverage.
+These differences were preserved, rather than assuming identical export
+settings or unchanged hosted model versions. Full graph settings and
+verification records are provided in Supporting methods A5.1.</p>
+<p>Holm correction covered 15 secondary sign-flip tests across four
+similarity measures and four comparator types, excluding the primary
+Jaccard/average-other-fact comparison. The full test family is defined
+in A5.1. Output-type-matched subsets, reconstruction-error-inclusive and
+equal-feature-count checks, and subject-specific summaries were outside
+this correction family. Shared comparison questions limit the
+interpretation of bootstrap intervals and sign-flip tests; label
+permutations assume exchangeable factual pairings within each subject
+area. These analyses do not separate shared-word or expected-answer
+differences from fact identity.</p>
+<h2 id="results">3. Results</h2>
+<h3 id="reworded-questions-about-the-same-fact-share-more-features">3.1
+Reworded questions about the same fact share more features</h3>
+<p>Across all three models, every included evaluation question had
+greater Jaccard overlap with its own rewording than its average overlap
+with rewordings of other facts (Figure 2a). Mean differences in feature
+overlap were 0.170 for Gemma-2-2B (descriptive 95% interval [0.085,
+0.276], n=8), 0.0894 for Qwen3-1.7B ([0.0820, 0.0976], n=10), and 0.218
+for Qwen3-4B ([0.150, 0.307], n=12). Exact sign-flip p-values were
+0.00390625, 0.0009765625, and 0.000244140625; fact-label permutation
+p-values were 0.00139, 0.0000694, and 0.0000347, respectively. The
+pattern was consistent within each model. Differences in subject
+coverage and reuse of facts across models prevent interpreting these
+effect sizes as a model ranking.</p>
+<p>For Qwen3-1.7B, the pattern was present in both subjects available
+for evaluation. All five chemistry and all five geography evaluation
+facts had positive overlap differences, with subject means of 0.0854 and
+0.0935 (Figure 2b). History could not be evaluated for this model
+because no history fact had a complete set of factual and control graphs
+(Supplementary Figure S7a). Detailed analyses are provided in Supporting
+analysis A5.</p>
+<p>Qwen3-4B included five chemistry, five geography, and two history
+facts (Figure 2b). The history questions asked about Columbus’s flagship
+and the assassinated Archduke Franz Ferdinand. Their same-fact minus
+other-fact overlap differences were 0.601 and 0.395, respectively,
+averaging 0.498 (Supplementary Figure S9a). Each used the other as its
+comparison partner, so this result describes the two questions rather
+than independent replications across history.</p>
+<p>Higher overlap could reflect more than the fact being asked about:
+reworded questions may also share words and the expected answer. We
+therefore examined whether these similarities could explain the
+pattern.</p>
+<figure>
+<img src="../figures/figure2_fact_signal.png"
+alt="Figure 2: Reworded questions about the same fact share more features in these samples" />
+<figcaption aria-hidden="true">Figure 2: Reworded questions about the
+same fact share more features in these samples</figcaption>
+</figure>
+<p><strong>Figure 2. Reworded questions about the same fact share more
+features in these samples.</strong> A, Points represent questions
+reserved for evaluation that meet the complete-set and accepted-answer
+criteria. The difference in feature overlap is same-fact rewording
+overlap minus average other-fact rewording overlap within the same
+subject and test set. The displayed arithmetic, 0.50 − 0.30 = +0.20,
+illustrates this subtraction. These example numbers are not measured
+results. Positive, zero, and negative values indicate more, equal, and
+less overlap with the same fact; units are Jaccard differences, not
+percentage increases. B, Subject averages. Colors and shapes identify
+subjects; diamonds show averages and bars show descriptive 95% intervals
+from 10,000 question-bootstrap resamples. n counts questions. Qwen3-4B
+history has two facts sharing their only comparison partner, so its
+subject mean is shown without an interval. Means are 0.170 for
+Gemma-2-2B (8 questions), 0.089 for Qwen3-1.7B (10), and 0.218 for
+Qwen3-4B (12; pooled interval 0.150–0.307). Qwen3-1.7B includes five
+chemistry and five geography questions, with a descriptive pooled
+interval of 0.082–0.098. Repeated facts and different subject coverage
+preclude a model ranking; shared words and answers remain coupled to
+fact identity. Missing groups are unavailable, not zero. Figure S9
+details the two Qwen3-4B history comparisons.</p>
+<h3 id="same-fact-questions-share-words-and-expected-answers">3.2
+Same-fact questions share words and expected answers</h3>
+<p>To separate factual identity from shared wording, we looked for
+other-fact questions that matched each same-fact pair’s word overlap.
+None met any of the three word-matching or joint word/feature-count
+rules: 0/8 Gemma, 0/10 Qwen3-1.7B, and 0/12 Qwen3-4B. Even the most
+word-overlapping other-fact prompt scored at least 0.1806 below the
+same-fact rewording across these samples (Supplement Figure S4). The gap
+was not a borderline threshold result.</p>
+<p>Answer identity was coupled to factual identity as well: none of the
+108 directed other-fact comparisons shared the expected answer, whereas
+same-fact pairs did. This comparison changes the fact, word overlap, and
+expected answer together. It establishes their combined association with
+shared features, leaving their separate contributions unresolved.</p>
+<p>The fact-by-wording experiment compared question pairs sharing a fact
+or a labeled version. Both comparisons had positive average overlap
+differences relative to pairs differing in both fact and version:
+0.074/0.118 in Gemma and 0.101/0.064 in Qwen3-4B (Figure 3). Shared
+version labels did not consistently indicate identical sentence patterns
+across facts. Influence-weighted similarity had the same ordering within
+each pipeline (0.090/0.114 and 0.105/0.075). This ordering is
+descriptive because output quality and subject coverage vary: only
+Qwen3-4B geography passed the strict expected-token rule in all nine
+questions (Supporting analysis A1).</p>
+<p>When controls were matched only by broad next-token category, overlap
+differences relative to same-pattern invented name controls were -0.069
+(Gemma, n=2), -0.0109 (Qwen3-1.7B, n=9), and +0.096 (Qwen3-4B, n=10).
+Differences relative to reworded invented name controls were positive in
+all three models (Figure 4). Qwen3-4B’s history controls predicted
+commas instead of names, so ten of its twelve facts met this additional
+matching requirement. For Qwen3-1.7B, the mean was +0.1059 across ten
+reworded-control comparisons. Before output-type matching, eight of its
+ten evaluation questions shared more features with the same-pattern
+invented name control than with their factual rewording; seven of nine
+did so in the matched subset. All ten favored the factual rewording over
+the reworded invented name control. These contrasting results motivate a
+follow-up that preserves the available words while varying the requested
+country and the answer letter.</p>
+<figure>
+<img src="../figures/figure3_fact_and_wording.png"
+alt="Figure 3: Questions sharing a fact or version label have higher average overlap" />
+<figcaption aria-hidden="true">Figure 3: Questions sharing a fact or
+version label have higher average overlap</figcaption>
+</figure>
+<p><strong>Figure 3. Questions sharing a fact or version label have
+higher average overlap.</strong> A, Feature-set overlap differences. B,
+Saved-influence-weighted cosine differences, comparing the direction of
+weighted feature vectors. Question versions were labeled original,
+alternative 1, or alternative 2. The baseline differs in both fact and
+version label. Each value is similarity in the labeled comparison minus
+similarity in that baseline, calculated within subject area. The
+gold/iron examples use exact saved prompts. Starting from gold
+alternative 1, gold original shares the fact, iron alternative 1 shares
+the version label, and iron original differs in both. Shared version
+labels did not imply identical sentence patterns across facts; this is
+not an exact-wording control. Each tested model has 27 graphs: three
+facts × three versions × three subject areas. Colored points are subject
+averages; black diamonds average subjects equally. Lines connect
+descriptive estimates, not intervals. Mean same-fact/same-version-label
+differences in A are 0.074/0.118 for Gemma-2-2B and 0.101/0.064 for
+Qwen3-4B. Some predicted first tokens are incomplete answers or
+non-answers. Only Qwen3-4B geography passes all nine expected-token
+checks; its differences are 0.101/0.106. These similarity measures do
+not measure correctness or establish factor dominance or model
+superiority. Qwen3-1.7B was not tested here.</p>
+<figure>
+<img src="../figures/figure4_control_comparisons.png"
+alt="Figure 4: Invented name controls give different results across models" />
+<figcaption aria-hidden="true">Figure 4: Invented name controls give
+different results across models</figcaption>
+</figure>
+<p><strong>Figure 4. Invented name controls give different results
+across models.</strong> Replace the real name with an invented name,
+retaining the starting wording (A) or rewording it (B). For each test
+question, subtract overlap with the invented name prompt from overlap
+with the factual rewording. Positive values favor the factual rewording;
+negative values favor the invented name control. Colors identify models,
+points show questions, diamonds show means, and bars show saved 95%
+question-bootstrap intervals; n counts included questions. Panel A means
+are -0.069 (n=2), -0.011 (n=9), and +0.096 (n=10) for Gemma-2-2B,
+Qwen3-1.7B, and Qwen3-4B. For Qwen3-1.7B, the interval in A is
+-0.021–0.001; B has mean 0.106 (n=10; interval 0.092–0.119). The
+original-wording control has more overlap in 8/10 Qwen3-1.7B questions
+before token-type matching and 7/9 in the plotted matched subset.
+Matching uses only broad first-token categories (letters/numbers,
+whitespace, or punctuation/symbols), leaving exact answer, meaning,
+confidence, and correctness unmatched. Qwen3-4B has twelve primary facts
+but ten here: both history facts’ invented name controls predict commas
+rather than name tokens. Small, differently composed samples support
+comparison-specific findings rather than a general explanation by
+wording.</p>
+<h3
+id="same-fact-overlap-is-higher-when-the-answer-letter-stays-the-same">3.3
+Same-fact overlap is higher when the answer letter stays the same</h3>
+<p>We next tested the same-country association with a shared answer and
+with a changed answer. In Qwen3-4B, we kept the available words and
+token counts identical within each of six country pairs while varying
+the country asked about, the wording, and the correct A/B answer.
+Comparing same-country with different-country overlap within each answer
+condition separated the two components of the average. All 48 predicted
+labels were correct, and all exports passed the recorded identifier and
+checksum checks.</p>
+<p>The same-country minus different-country overlap was 0.0628 with the
+same answer letter and -0.0022 with a changed letter. Their average, the
+prespecified primary outcome, was 0.0303 (95% block-bootstrap interval
+0.0265–0.0338), positive in each of six country-pair blocks. The exact
+conditional correspondence p-value was 0.000244141, or 0.000732422 after
+the prespecified three-opportunity adjustment. The positive average was
+concentrated in the same-letter component. The changed-letter estimate
+was near zero; this was not an equivalence test.</p>
+<p>When the model had to answer with different letters, questions asking
+for the same capital had nearly the same average feature overlap as
+questions about different countries. The factual answer remained the
+same, but the greater feature overlap observed with a shared answer
+letter did not persist.</p>
+<p>Attribution graphs shared substantially more features when the
+required answer letter matched. For questions about the same country,
+mean overlap across wordings was 0.8005 with the same answer letter and
+0.4853 with different letters, a difference of 0.3152 (Figure 5a).
+Questions about different countries showed the same pattern, with
+overlaps of 0.7377 and 0.4874, respectively. Averaging across these
+comparisons gave a letter-associated difference of 0.2827, positive in
+all six country pairs. All 48 predictions were correct. Thus,
+substantial differences in graph feature overlap accompanied changes in
+the required response letter, even when the country and correct capital
+remained unchanged. This is a separate descriptive overlap contrast, not
+a fraction of variance or reasoning explained.</p>
+<p>The exploratory direct paired difference between the same-letter and
+changed-letter fact components was 0.0650 Jaccard units across six
+blocks (95% block-bootstrap interval 0.0582–0.0715; Student-t interval
+0.0553–0.0746; two-sided block sign-flip p=0.03125). All six differences
+were positive. The difference remained 0.0720 after excluding
+final-position feature nodes, 0.0688 after excluding the last quarter of
+observed feature layers, and 0.0732 after both filters (Supplement
+Figure S6). The association therefore extends beyond the removed node
+sets. These comparisons establish an answer-associated pattern in this
+task; word order, answer mapping, country roles, and output-conditioned
+graph construction remain possible contributors.</p>
+<figure>
+<img src="../figures/figure5_matched_choice.png"
+alt="Figure 5: Same-fact overlap is higher when the answer letter stays the same" />
+<figcaption aria-hidden="true">Figure 5: Same-fact overlap is higher
+when the answer letter stays the same</figcaption>
+</figure>
+<p><strong>Figure 5. Same-fact overlap is higher when the answer letter
+stays the same.</strong> Qwen3-4B: six country pairs, 48 correct
+next-token A/B predictions, and identical word/token inventories within
+pairs. Rules were fixed before collection in this outcome-informed
+follow-up. A, Mean feature overlap in the four cross-wording
+comparisons: 0.8005, 0.4853, 0.7377, and 0.4874, read row by row. The
+scale runs from no shared features (0) to identical sets (1). B,
+Same-country minus different-country overlap is 0.0628 with the same
+letter and -0.0022 with a changed letter. Their paired difference is
+0.0650 (exploratory Student-t 95% interval 0.0553–0.0746; two-sided
+sign-flip p=0.03125). C, Their average is the prespecified primary
+outcome: 0.0303 (95% block-bootstrap interval 0.0265–0.0338). The
+descriptive same-letter minus different-letter difference, averaged
+across country relationships, is 0.2827. Lines represent country pairs;
+diamonds show means. Only the primary mean in C has an interval drawn.
+Colors identify labeled categories; B and C use different vertical
+scales. Tests assume six independent country-pair blocks; the sign-flip
+test additionally assumes symmetric null differences. The 48 graphs and
+4,096 conditional-null reassignments are not independent replicates.
+Near zero is not equivalence. Overlap differences are neither accuracy
+nor variance explained; query order, country roles, and
+output-conditioned graphs remain alternatives to a causal
+interpretation. Supplement S6 reports graph-location checks.</p>
+<h3
+id="error-graphs-show-greater-overlap-with-answer-matched-controls">3.4
+Error graphs show greater overlap with answer-matched controls</h3>
+<p>The matched-choice study used correct predictions. We next asked
+whether graph similarity also followed the predicted answer when that
+answer was wrong. With options “A: Berlin. B: Paris” and countries
+listed as “France, Germany,” the model incorrectly answered A when asked
+for the first country’s capital, or Berlin when asked to give the
+capital name. Naming France directly produced the correct B or Paris
+response; naming Germany produced the correct A or Berlin response. The
+error graph shared more features with the correct Germany prediction
+giving the same answer than with the correct France prediction for the
+intended country (Figure 6b,c).</p>
+<p>These errors arose in a list-position task that produced 8/16 correct
+A/B predictions and stopped at its fixed accuracy requirement. Checks
+found no mismatch in the expected answers, submitted prompts, token
+sequences, or decoding of predicted tokens. A subsequent 20-question
+diagnostic passed all four checks using direct instructions or
+previously successful questions. All eight questions naming the country
+directly produced the intended next token, while all eight selected
+questions identifying the country by its list position reproduced errors
+across the letter and capital-name response formats (Figure 6a). The
+planned evaluation following the failed preliminary check was not
+conducted.</p>
+<p>All 16 diagnostic graphs passed integrity checks and reproduced their
+archived preview answers. We compared each error graph with two
+correct-answer graphs: one for the intended country and one producing
+the same answer as the error. Every comparison favored the graph sharing
+the error’s answer (Figure 6b,c). The mean same-output minus
+same-country Jaccard difference was 0.1983 for A/B responses and 0.2649
+for capital-name responses. Equalizing feature counts retained
+differences of 0.1851 and 0.2361, respectively, and influence-weighted
+cosine similarity preserved the direction in all eight comparisons.
+These comparisons shared control graphs and concerned only France and
+Germany, so they describe the selected cases rather than eight
+independent replications.</p>
+<p>The greater overlap with the same-answer control remained in all
+eight selected comparisons after removing feature nodes at the final
+input-token position, in the last quarter of observed feature layers, or
+both. Removing both groups gave mean differences of 0.2053 for labels
+and 0.2608 for capital names (Supplementary Figure S6b). The pattern
+therefore extended beyond those positions and layers. These checks
+changed the graphs used for comparison, not the model itself; the
+retained graphs were still constructed to explain the predicted
+answer.</p>
+<p>Across these selected cases, sharing the predicted answer
+corresponded to greater feature overlap than sharing the intended
+country. Because the errors were selected for inspection, these
+comparisons do not estimate how frequently the model makes this mistake.
+The layouts also leave two explanations unresolved: selecting answer
+options by position and misinterpreting phrases such as “first country,
+not the second.” Both explanations predict the same errors in these
+cases. Supporting analysis A3 provides the input-position and
+reconstruction-error analyses and documents the missing output nodes for
+the intended correct answers.</p>
+<figure>
+<img src="../figures/figure6_failure_cases.png"
+alt="Figure 6: Selected error graphs share more features with correct predictions giving the same answer" />
+<figcaption aria-hidden="true">Figure 6: Selected error graphs share
+more features with correct predictions giving the same
+answer</figcaption>
+</figure>
+<p><strong>Figure 6. Selected error graphs share more features with
+correct predictions giving the same answer.</strong> Qwen3-4B, one
+country pair and two response formats. A, All eight named-country
+prompts predict the correct first token; all eight selected
+position-based prompts reproduce the error (four of each per format).
+B–C, Compare error graphs with correct predictions for the intended
+country (blue) or giving the same answer (orange), holding list order
+and A/B mapping fixed. With France first and A: Berlin, B: Paris, the
+indirect France question predicts Berlin; naming France predicts Paris
+and naming Germany predicts Berlin. The error graph shares more features
+with Germany/Berlin. Circles use all retained features; open squares
+average 200 equal-feature-count samples. Lines connect comparisons for
+the same error. Same-answer minus intended-country overlap averages
+0.1983 for letters and 0.2649 for capital names (0.1851 and 0.2361 with
+equal counts). All 16 exports and eight comparison triples pass
+integrity and output checks. The selected cases share controls, so they
+support descriptive comparisons, not error-frequency estimates or
+population tests. Words differ between prompt types; position matching,
+negation errors, and output-conditioned graph structure remain
+unresolved explanations. The intended correct-answer node is absent from
+each error graph, leaving its contribution unknown.</p>
+<h3 id="greater-feature-sharing-between-same-fact-questions">3.5 Greater
+feature sharing between same-fact questions</h3>
+<p>We next asked whether the original three-model pattern could be
+explained by differences in graph size. Did same-fact questions share
+more features simply because their graphs contained more features?
+Within each model and subject area, we repeated the comparison after
+sampling equal numbers of features from the starting and reworded
+factual graphs, then repeated it with half as many. Mean
+same-fact-minus-other-fact overlap remained positive for all three
+models at both sample sizes (Supplementary Figure S3).</p>
+<p>K is the smallest number of distinct features among the included
+starting and reworded factual graphs within each model and subject area.
+K/2 is half that number, rounded down. Table entries are mean
+same-fact-minus-other-fact Jaccard differences, not raw overlap
+scores.</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">All features</th>
+<th style="text-align: right;">Equal counts, K (descriptive 95%
+interval)</th>
+<th style="text-align: right;">Half counts, K/2</th>
+<th style="text-align: right;">Questions with positive averages at
+K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma-2-2B</td>
+<td style="text-align: right;">0.170</td>
+<td style="text-align: right;">0.149 [0.066, 0.257]</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">7/8</td>
+</tr>
+<tr>
+<td>Qwen3-1.7B</td>
+<td style="text-align: right;">0.089</td>
+<td style="text-align: right;">0.084 [0.076, 0.092]</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Qwen3-4B</td>
+<td style="text-align: right;">0.218</td>
+<td style="text-align: right;">0.181 [0.110, 0.267]</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">12/12</td>
+</tr>
+</tbody>
+</table>
+<p>The mean within each model remained positive in every one of the 200
+sampling repetitions at both feature counts. After averaging across
+repetitions, seven of eight Gemma questions, all ten Qwen3-1.7B
+questions, and all twelve Qwen3-4B questions had positive differences at
+K. Gemma’s tungsten question reversed direction, with average
+differences of −0.0187 at K and −0.0080 at K/2. Thus, the positive model
+averages persisted after matching feature counts, although not every
+individual question retained a positive difference (Supplementary Figure
+S3). The intervals summarize uncertainty across questions; the 200
+repetitions are not additional independent observations.</p>
+<p>The two Qwen3-4B history facts also retained positive differences at
+both feature counts. Their averages were 0.543 and 0.370 at K, and 0.210
+and 0.151 at K/2 (Supplementary Figure S9b).</p>
+<p>Subsampling can retain a shared feature in one graph while removing
+it from another. Consequently, the reduction in Jaccard overlap cannot
+be interpreted as the percentage of the original association explained
+by graph size. Supporting analyses A1–A2 report the output and
+export-integrity checks (Supplementary Figures S5 and S1–S2). Supporting
+analysis A4 provides the feature-count analysis and explains why the
+earlier size-regression calculation was not an independent robustness
+check.</p>
+<h3
+id="history-graphs-can-remain-similar-when-the-selected-year-changes">3.6
+History graphs can remain similar when the selected year changes</h3>
+<p>Historical-date graphs could remain highly similar even when the
+model selected a different year. We analyzed all 16 Qwen3-4B graphs from
+two event pairs, including 11 correct and five incorrect predictions. In
+the Declaration of Independence example, swapping the dates assigned to
+A and B left the predicted letter unchanged at A but changed the
+selected year from 1776 to 1783. Jaccard overlap was 0.795. With the
+context placed before the question, the model instead changed from A to
+B and retained the correct year, 1776; overlap was 0.512 (Figure
+7a).</p>
+<p>Across all eight comparisons that swapped the A/B date assignments,
+the five pairs retaining the same predicted letter had Jaccard overlaps
+of 0.795–0.911. Each pair contained predictions for different years: one
+correct and one incorrect. In contrast, the three pairs that changed the
+predicted letter retained the same correct year and had overlaps of
+0.512–0.532 (Figure 7b). Preserving the selected year therefore did not
+guarantee greater feature sharing than changing it.</p>
+<p>Changing question/context order showed the same association with the
+predicted letter. With the event and A/B date assignments held fixed,
+the five comparisons retaining the same letter had overlaps of
+0.766–0.808, whereas the three comparisons changing the letter had
+overlaps of 0.527–0.602 (Figure 7c). Feature overlap thus tracked the
+predicted letter without guaranteeing that the same year was selected or
+that the answer was correct. Supporting analysis A7 reports the
+event-pair summaries and required-letter contrasts.</p>
+<figure>
+<img src="../figures/figure7_history_answers.png"
+alt="Figure 7: History: similar graphs can accompany different selected years" />
+<figcaption aria-hidden="true">Figure 7: History: similar graphs can
+accompany different selected years</figcaption>
+</figure>
+<p><strong>Figure 7. History: similar graphs can accompany different
+selected years.</strong> Qwen3-4B attribution graphs for 16
+historical-date prompts, including 11 correct and five incorrect
+predictions. <strong>a,</strong> Two real pairs asking for the year of
+adoption of the US Declaration of Independence. Within each row, the
+dates assigned to A and B are swapped while the question and context
+remain unchanged. When the question comes first, the model predicts A in
+both prompts, selecting 1776 in one and 1783 in the other; feature
+overlap is 0.795. When context comes first, the model changes from A to
+B to retain the correct year, 1776; overlap is 0.512. The exact
+user-prompt text is shown with added line breaks; the model chat wrapper
+is not shown. <strong>b,</strong> All eight comparisons that swap the
+A/B date assignments while holding the queried event and
+question/context order fixed. The five same-letter comparisons select
+different years, with one correct and one incorrect prediction per pair
+(Jaccard 0.795–0.911). The three different-letter comparisons retain the
+same correct year (0.512–0.532). <strong>c,</strong> All eight
+comparisons that reverse question/context order while holding the event
+and A/B date assignments fixed. Overlap is 0.766–0.808 when predictions
+retain the same letter and 0.527–0.602 when the letter changes. Each
+point represents a pair of graphs; marker shapes and colors identify the
+queried event. Panels b and c reuse the same 16 graphs from two event
+pairs. Jaccard overlap is the number of shared feature identities
+divided by the number present in either graph; 0 means none are shared
+and 1 means the feature sets are identical. Feature identities exclude
+embeddings, output nodes, and reconstruction-error nodes. The panels
+report descriptive comparisons without treating graph pairs as
+independent replications.</p>
+<h2 id="discussion">4. Discussion</h2>
+<h3 id="what-the-comparisons-establish">4.1 What the comparisons
+establish</h3>
+<p>Feature overlap was associated with both the requested fact and the
+model’s predicted answer. Rewordings of the same fact shared more
+features in all three analyzed model samples (Figure 2). In Qwen3-4B,
+however, questions about the same country shared more features than
+questions about different countries mainly when their predicted answer
+letters matched (Figure 5). The same-fact association therefore needs to
+be interpreted alongside agreement on the predicted response.</p>
+<p>The error and history comparisons show why this distinction matters.
+An incorrect prediction could share more graph features with a correct
+prediction giving the same response than with a correct prediction for
+the intended country (Figure 6). In the historical-date questions,
+graphs could remain highly similar when an unchanged response letter
+selected different years. Conversely, changing the letter to retain the
+correct year was accompanied by lower overlap (Figure 7). These
+comparisons separate similarity in the predicted response from agreement
+on the factual answer and its correctness.</p>
+<p>Separating these relationships reveals a pattern that a single
+average overlap score obscures. The three-model same-fact association
+remained after equalizing feature counts (Supplementary Figure S3), and
+the Qwen3-4B geography comparisons retained their answer-associated
+differences after the graph-location checks (Supplementary Figure S6).
+For interpreting attribution graphs, same-fact comparisons should
+therefore be accompanied by comparisons that match the predicted
+response and explicitly check answer correctness.</p>
+<h3 id="scope-and-remaining-questions">4.2 Scope and remaining
+questions</h3>
+<p>Three models from two families contribute to the question/control
+comparison; Qwen3-4B alone contributes to the stronger controls,
+selected-error diagnostic, and historical-date comparisons. The
+matched-choice estimates use six country pairs. The selected errors
+share one pair and overlapping controls. The history analysis contains
+two selected event pairs and includes incorrect predictions; it is not
+the planned 20-pair evaluation, which remained uncollected. Subject
+coverage differs despite the complete Qwen3-4B question/control
+collection. The results describe the recorded hosted setup rather than
+replication across deployments.</p>
+<p>Our graphs explain the model’s prediction for the next token. In the
+A/B experiments, that token identifies the selected option, allowing us
+to assess whether the answer is correct. In factual completions, some
+expected answers span several tokens, so predicting the correct
+beginning does not necessarily establish the complete answer. The
+primary comparison required a complete accepted answer; partial
+beginnings remained unverified and excluded (Supporting analysis
+A1).</p>
+<p>The Qwen3-1.7B association is supported by chemistry and geography,
+alongside contrasting results for the two invented name controls. The
+answer-letter experiment remains confined to Qwen3-4B. Qwen3-1.7B
+history questions are unavailable for the controlled comparison because
+no complete four-version sets were returned.</p>
+<p>The factual-completion history comparison contains two Qwen3-4B
+facts, each used as the other’s comparator. Together with the two event
+pairs in the historical-date A/B analysis, these results provide
+specific history examples rather than broad coverage of the subject.</p>
+<p>Word order, answer mapping, and country roles remain potential
+contributors to the observed comparisons. In the selected capital-name
+errors, source-location weights favor the other country, whereas
+named-country controls favor the intended one; the A/B format does not
+show the same consistent pattern. Incorrect reference selection,
+option-position matching, and mishandled negation therefore remain
+alternative hypotheses. Fixed-attention attribution graphs also need not
+explain how the attention pattern arose [1]. This diagnostic complements
+earlier work on selection and positional retrieval [5,7] without
+establishing a new error mechanism.</p>
+<p>Independent statistical review should assess the exchangeability and
+dependence assumptions described in Methods. Distinguishing position
+matching from negation errors would require varying those factors
+separately. The evidence supports an answer-associated interpretation of
+feature overlap in these tasks, not an absence of factual knowledge or a
+recovered answer-independent circuit.</p>
+<h3 id="future-research-separating-computation-from-graph-selection">4.3
+Future research: separating computation from graph selection</h3>
+<p>The answer-associated pattern raises a mechanistic question: does
+producing the same answer token involve shared model activity, or does
+the graph-building method preferentially retain similar features when
+explaining that answer? Both processes could contribute. Attribution
+graphs retain features according to their influence on selected output
+tokens [1], so shared features may reflect both the model’s computation
+and how that computation is measured. The feature-count and
+graph-location checks show that the pattern survives those filters, but
+they do not undo the earlier selection of features. Decomposition and
+pruning therefore remain part of the explanation to be tested, rather
+than established causes of the observed pattern.</p>
+<p>Future research could separate these contributions using two
+complementary comparisons. First, graphs explaining A and B could be
+constructed from the same recorded model run, holding the prompt and
+model activity fixed while changing only the output being analyzed.
+Differences would reveal dependence on the attribution target, although
+they would not by themselves quantify its contribution to the
+cross-question result. Second, the same-country and same-answer
+comparisons could be repeated using feature activity recorded before
+answer-dependent selection, retaining the same feature definitions and
+checking sensitivity to feature counts. Persistence of answer-associated
+similarity would support a contribution from shared model activity; a
+pattern that emerges or strengthens after selection would implicate the
+measurement procedure as well. Our saved exports contain only retained
+features and do not consistently include alternative answer tokens, so
+they cannot provide this complete comparison.</p>
+<p>Causal follow-up could then test whether candidate features affect
+answer production across different facts or affect answers about a
+particular fact when its required letter changes. Such tests should use
+facts and wordings not used to select the features, unchanged-model
+controls, randomly selected feature sets matched in number, layer, and
+activation, and multiple intervention strengths. Selective behavioral
+effects would provide stronger evidence about feature function than a
+general change in the output. These proposed studies would explain the
+source of the observed association; they are future work, not
+experiments performed in this study.</p>
+<h2 id="conclusion">5. Conclusion</h2>
+<p>Reworded questions about the same fact share more graph features in
+all three analyzed model samples. In the stronger Qwen3-4B comparison,
+that advantage is concentrated in pairs sharing the answer letter, and
+selected error graphs share more features with correct predictions
+giving the same answer. Feature overlap therefore captures
+answer-associated structure as well as the original same-fact
+association in these tasks. Interpreting it as evidence of factual
+processing requires accounting for the prompt comparison and predicted
+answer; overlap alone does not establish correctness.</p>
+<h2 id="supporting-analyses">Supporting analyses</h2>
+<h3 id="a1-next-token-matching-and-complete-answers">A1 Next-token
+matching and complete answers</h3>
+<p>Among 50 available Qwen3-1.7B factual prompt graphs, 42 predict a
+complete accepted answer in the next token, four predict a compatible
+beginning, and four predict a different next token. Among 60 Qwen3-4B
+factual graphs, the corresponding counts are 50, five, and five
+(Supplementary Figure S5). These counts include development and
+evaluation questions and incomplete Qwen3-1.7B history sets; they are
+not the numbers of included evaluation facts. No subsequent-token
+generation is archived to verify completed answers.</p>
+<p>The Qwen3-4B complete answers include <code>María</code> for the
+Columbus rewording. Both <code>Maria</code> and <code>María</code> refer
+to the same flagship [8,9]. The final analysis includes this question
+and the Franz Ferdinand question under the complete-set and
+accepted-answer rules described in Section 2.2.</p>
+<p>For Columbus, overlap with the factual rewording was 0.624, compared
+with 0.023 for the Franz Ferdinand rewording. For Franz Ferdinand, the
+corresponding overlaps were 0.427 and 0.032 (Supplementary Figure S9a).
+The Columbus pair predicts <code>Maria</code> and <code>María</code>, so
+high overlap in this example does not require identical output-token
+text. Equalizing feature counts retained positive differences for both
+facts: 0.543 and 0.370 at K, and 0.210 and 0.151 at K/2 (Figure S9b).
+These points average 200 subsamples and are not additional
+observations.</p>
+<p>Both history facts also had greater overlap with their factual
+rewording than with either invented name control: differences were 0.537
+and 0.556 for Columbus, and 0.384 and 0.385 for Franz Ferdinand, for the
+starting-pattern and reworded controls, respectively. All four controls
+predicted a comma, whereas the factual prompts predicted names. Neither
+fact therefore entered the output-type-matched control comparison in
+Figure 4, which uses ten Qwen3-4B facts. The history pair supports a
+descriptive same-fact association, but does not separate shared wording
+and answers from factual content.</p>
+<figure>
+<img src="../figures/figureS9_answer_spelling.png"
+alt="Figure S9: History rewordings share more features than questions about another fact" />
+<figcaption aria-hidden="true">Figure S9: History rewordings share more
+features than questions about another fact</figcaption>
+</figure>
+<p><strong>Figure S9. History rewordings share more features than
+questions about another fact.</strong> Qwen3-4B history facts included
+in the main comparison in Figure 2. Both factual versions and both
+invented name controls are available for each fact. A, Starting-question
+overlap with its own rewording (blue circles) versus the other history
+fact’s rewording (orange squares). Columbus: 0.624 versus 0.023;
+Archduke Franz Ferdinand: 0.427 versus 0.032. These give differences of
+0.601 and 0.395, averaging 0.498. The Columbus predictions differ in
+spelling, Maria versus María; the Franz predictions both give Ferdinand.
+B, History differences with full feature sets, equal counts K, and half
+counts K/2. Subsampled points average 200 repetitions, not independent
+observations. Differences remain positive: 0.543/0.370 at K and
+0.210/0.151 at K/2. The two history facts use each other as comparators,
+so their mean describes these questions rather than an independently
+replicated history effect. Both invented name controls predict
+punctuation for both facts, excluding these controls from the
+output-type-matched comparison in Figure 4. Figure 7 concerns historical
+dates in a different A/B question design.</p>
+<p>All 50 Qwen3-1.7B prompt-token and logit-decoding checks agree with
+the archived tokenizer. Its compatible beginnings are the two mercury
+outputs (<code>H</code> for <code>Hg</code>), the Berlin Wall rewording
+(<code>G</code> for <code>Gorbachev</code>), and the French Revolution
+rewording (<code>Bast</code> for <code>Bastille</code>). History
+contributes ten available factual graphs: four whole expected tokens,
+two compatible beginnings, and four different next tokens. The latter
+include <code>African</code> where the expected string is
+<code>ANC</code>, as well as <code>one</code>, <code>the</code>, and
+<code>first</code>. Qwen3-4B’s five compatible beginnings are mercury
+target/rewording, Berlin Wall target/rewording, and the French
+Revolution rewording. These partial tokens remain excluded from the
+factual-completion comparison.</p>
+<p>These classifications do not establish semantic error for every
+different token: for example, a continuation beginning
+<code>African</code> could require full-answer adjudication against an
+expected acronym. A compatible beginning does not satisfy the complete
+accepted-answer rule.</p>
+<p>Strict crossed expected-token agreement was 7/9, 4/9, and 0/9 for
+Gemma chemistry, geography, and history; corresponding Qwen3-4B counts
+were 8/9, 9/9, and 0/9. Eight Qwen3-4B crossed outputs were
+whitespace-only compatible continuations, not substantive answer
+retrieval. Only Qwen3-4B geography qualified as a fully balanced
+strict-output subset. There, binary fact and wording effects were 0.1014
+and 0.1063: close point estimates from one small domain, without a
+formal dominance test.</p>
+<figure>
+<img src="../figures/figureS5_answer_audit.png"
+alt="Figure S5: A matching first token does not always verify the whole answer" />
+<figcaption aria-hidden="true">Figure S5: A matching first token does
+not always verify the whole answer</figcaption>
+</figure>
+<p><strong>Figure S5. A matching first token does not always verify the
+whole answer.</strong> A, Audit the first predicted text unit, or token,
+using the Qwen tokenizers. Green means the token gives the complete
+accepted answer, including registered spelling variants; yellow means
+only a compatible beginning, leaving the completed answer unverified;
+gray means another first token. Qwen3-1.7B has 42 complete accepted
+answers, four compatible beginnings, and four other tokens among 50
+available factual-question graphs. Qwen3-4B has 50, five, and five,
+respectively, among 60 available factual graphs. Maria and María are
+accepted as the same ship name. Counts include development and test
+questions and partial Qwen3-1.7B history sets; they are not the included
+evaluation counts in Figure 2. Official Qwen tokenizer versions agree
+with all saved prompt pieces and decoded top tokens, but the exact
+versions used at the time of graph collection cannot be fully recovered.
+Gemma tokenizer access was denied, leaving that audit unresolved. B, In
+the fact/wording experiment, counts use the exact first-token matching
+rule after trimming whitespace; that rule is unchanged. Only Qwen3-4B
+geography matches in all nine questions. Its fact/wording differences
+are 0.101/0.106, which do not establish that either factor dominates. A
+zero in history means zero matches under this rule, not zero history
+knowledge.</p>
+<h3 id="a2-export-integrity-and-approximation-error">A2 Export integrity
+and approximation error</h3>
+<p>Ambiguous IDs occurred in 84/120 Gemma question/control exports and
+13/27 Gemma fact/wording exports; none were detected in 91 Qwen3-1.7B or
+147 Qwen3-4B exports. Reconstruction-error node influence remains
+nonzero: median fractions were approximately 7.15%, 6.06%, and 14.57% in
+the respective question/control datasets. These are audit-defined
+fractions of absolute nonterminal influence, not causal percentages of
+an answer explained. The clean-export Gemma evaluation sensitivity has
+only two facts. Differences across pipelines combine prompt coverage,
+model, exporter, and approximation choices, rather than isolating
+architecture or answer accuracy.</p>
+<figure>
+<img src="../figures/figureS1_export_and_error.png"
+alt="Figure S1: Graph files have two separate limits: ID conflicts and approximation error" />
+<figcaption aria-hidden="true">Figure S1: Graph files have two separate
+limits: ID conflicts and approximation error</figcaption>
+</figure>
+<p><strong>Figure S1. Graph files have two separate limits: ID conflicts
+and approximation error.</strong> A, The percentage of saved raw graph
+files in which the same node ID refers to conflicting node identities.
+Labels show affected files over files checked. Qwen3-1.7B has 0/91
+detected conflicts. Zero means no conflict was detected, not no graphs
+or no model errors. Question/control sets include factual questions and
+controls; the fact/wording sets vary both factors. B,
+Reconstruction-error nodes record part of the model computation not
+captured by the feature approximation. The axis gives their share of
+absolute nonterminal-node influence, using the saved audit definitions.
+This is not the percentage of wrong answers or of reasoning explained.
+Box centers mark medians; boxes span the middle 50%, whiskers extend to
+values within 1.5 box lengths, and dots show values beyond the whiskers.
+Qwen3-1.7B has median reconstruction-error influence 6.06%. Counts
+include all available graphs, including controls and partial sets, not
+only included evaluation questions. Gemma and Qwen3-1.7B distributions
+use raw-file audits; Qwen3-4B uses converted graphs with no ambiguous
+IDs removed. Differences combine model, exporter, and approximation
+choices; they do not isolate model size or architecture.</p>
+<figure>
+<img src="../figures/figureS2_robustness.png"
+alt="Figure S2: Average feature-overlap differences stay positive in the displayed checks" />
+<figcaption aria-hidden="true">Figure S2: Average feature-overlap
+differences stay positive in the displayed checks</figcaption>
+</figure>
+<p><strong>Figure S2. Average feature-overlap differences stay positive
+in the displayed checks.</strong> The difference in feature overlap is
+same-fact overlap minus other-fact overlap, using the comparison
+specified for each check. Compare the main analysis with three
+alternatives: include reconstruction-error nodes; use only files without
+detected node-ID conflicts; or compare with the most similar other-fact
+question rather than the average other-fact question.
+Reconstruction-error nodes represent approximation error, not wrong
+model answers. Points are saved averages; bars are 95% bootstrap
+intervals from resampling test questions. n counts questions. Qwen3-1.7B
+means are 0.089, 0.089, 0.089, and 0.078, respectively (n=10 each).
+Restricting files requires rebuilding the comparison groups and leaves
+only two Gemma questions, so that positive result is weak evidence on
+its own. The size-regression intercept is not plotted: with centered
+predictors it equals the unadjusted mean and is not an independent
+check. This figure concerns feature-set overlap, not every graph metric;
+the Qwen3-1.7B edge-flow cosine result is inconclusive.</p>
+<h3 id="a3-source-location-observations-in-selected-errors">A3
+Source-location observations in selected errors</h3>
+<p>An additional inspection of token-location summaries provided a
+narrower clue. In all four capital-name failures, feature sources at the
+wrong country’s name in the list had 4.9–14.6 times the absolute direct
+incoming weight of sources at the intended country’s name. In all four
+named-country capital controls, the intended country’s name had greater
+weight. The corresponding A/B summaries did not exhibit a consistent
+wrong-country dominance. This format-dependent observation is compatible
+with incorrect reference selection, but token location does not
+establish feature semantics or causal necessity.</p>
+<p>The graphs also leave substantial uncertainty. Reconstruction-error
+sources accounted for a median 23.1% of absolute direct incoming weight
+to the observed logit across the 16 graphs (range 17.2–31.4%). The
+intended correct logit was absent from all eight failure exports, so its
+attribution is unavailable rather than zero. Most displayed nodes occur
+at late layers near the answer-generation position; a “chat frame”
+location label does not imply a formatting mechanism. Crucially, these
+selected layouts confound choosing the answer option at the requested
+position with choosing the country named by the excluded ordinal in
+phrases such as “first country, not the second.” Position matching and
+mishandled negation therefore remain observationally indistinguishable
+in this batch.</p>
+<h3 id="a4-comparison-and-sensitivity-figures">A4 Comparison and
+sensitivity figures</h3>
+<p>The word-matching audit, equal-feature-count sampling, and
+graph-location filters support the comparisons in Results §§3.2–3.5.
+They test different aspects of the measurement: available comparison
+support, representation size, and retained node locations.</p>
+<figure>
+<img src="../figures/figureS4_lexical_support.png"
+alt="Figure S4: Other-fact questions share fewer words, leaving a gap in the controls" />
+<figcaption aria-hidden="true">Figure S4: Other-fact questions share
+fewer words, leaving a gap in the controls</figcaption>
+</figure>
+<p><strong>Figure S4. Other-fact questions share fewer words, leaving a
+gap in the controls.</strong> For each test question, compare word
+overlap with its same-fact rewording (horizontal axis) against the
+highest word overlap with any other-fact rewording (vertical axis). Word
+overlap uses unique letter/number words, ignores letter case, and keeps
+common words. Both axes use Jaccard overlap: shared words divided by all
+distinct words across the pair. The dashed line means equal overlap; the
+shaded band allows a difference of 0.05 in either direction. Every
+other-fact comparison lies more than 0.05 below its same-fact
+comparison. No test question has a matched control under any of the
+three saved word/size matching rules: 0/8 for Gemma-2-2B, 0/10 for
+Qwen3-1.7B, and 0/12 for Qwen3-4B. This is a missing comparison, not a
+measured zero effect or proof that words explain all feature overlap.
+Same-fact questions also share their expected answer, so the data do not
+isolate meaning from words or answers.</p>
+<p>An earlier regression check does not supply independent evidence
+against graph-size confounding: the ordinary least-squares intercept
+with centered predictors equals the original sample mean by
+construction. Sampling equal numbers of features provides a more direct
+but still limited check.</p>
+<figure>
+<img src="../figures/figureS3_equal_feature_counts.png"
+alt="Figure S3: Average overlap differences stay positive with equal numbers of features" />
+<figcaption aria-hidden="true">Figure S3: Average overlap differences
+stay positive with equal numbers of features</figcaption>
+</figure>
+<p><strong>Figure S3. Average overlap differences stay positive with
+equal numbers of features.</strong> The difference in feature overlap is
+same-fact overlap minus average other-fact overlap within the same
+subject and test set. Within each model, subject, and test set, randomly
+sample the same number of features from every graph. K is the number of
+features in the smallest graph in that group; the second check uses half
+that number, rounded down. Repeat 200 times, reusing each sampled graph
+across comparisons within a repetition. Lines show individual test
+questions; diamonds show averages. Bars are descriptive 95% bootstrap
+intervals from resampling questions, not from the 200 feature samples.
+Seven of eight Gemma questions, all ten Qwen3-1.7B questions, and all
+twelve Qwen3-4B questions retain positive average differences.
+Qwen3-1.7B means are 0.089 for the full feature sets, 0.084 at K, and
+0.033 at K/2. Qwen3-4B means are 0.218 for full sets, 0.181 at K, and
+0.072 at K/2. Equalizing counts does not remove differences in shared
+words, answers, or which features the exporter retains. A smaller
+overlap score after sampling is not a percentage of signal
+explained.</p>
+<figure>
+<img src="../figures/figureS6_graph_location_sensitivity.png"
+alt="Figure S6: The answer-related differences remain after removing some graph features" />
+<figcaption aria-hidden="true">Figure S6: The answer-related differences
+remain after removing some graph features</figcaption>
+</figure>
+<p><strong>Figure S6. The answer-related differences remain after
+removing some graph features.</strong> Qwen3-4B only. Repeat the saved
+comparisons after removing features at the last token position, in the
+last quarter of observed feature layers, or both. Removal happens before
+combining feature identities across positions. A, Plot the difference
+between the same-letter and changed-letter fact comparisons in Figure
+5B. Each line represents one of six country pairs; black diamonds show
+averages. B, Plot overlap with the correct same-answer response minus
+overlap with the correct intended-country response in the selected
+errors from Figure 6. Lines show the individual comparisons; colored
+diamonds show format averages. All filtered feature sets are nonempty.
+Zero means equal overlap, not missing data. These checks were chosen
+after seeing earlier results. No confidence intervals or new population
+tests are attached. Removing features from saved graphs is not an
+intervention on the model and does not establish a cause. The remaining
+graphs are still constructed around the answer being produced.</p>
+<h3 id="a5-qwen3-1.7b-subject-results-and-sensitivity-analyses">A5
+Qwen3-1.7B subject results and sensitivity analyses</h3>
+<p>The 91-graph Qwen3-1.7B dataset was analyzed using the four-version,
+expected-next-token, and comparison rules within the same subject area
+in Sections 2.1–2.2. It includes 19 qualifying facts across development
+and evaluation: nine chemistry and ten geography. The mercury
+development fact remains excluded because both factual prompts predict
+<code>H</code>, a compatible beginning of the expected <code>Hg</code>,
+rather than the whole expected string. All ten history facts are
+excluded for incomplete prompt/control sets, including four with no
+returned graphs. The primary evaluation contains five chemistry and five
+geography facts, with subject means of 0.0854 and 0.0935 and all ten
+differences positive. Development means, reported separately, are 0.0723
+for chemistry (n=4) and 0.0771 for geography (n=5).</p>
+<p>For the ten evaluation facts, the mean difference is 0.0894, with a
+descriptive 10,000-resample fact-level bootstrap interval of [0.0820,
+0.0976]. The nominal one-sided sign-flip p-value is 0.0009766. The exact
+fact-label permutation within each subject area gives p=0.0000694 across
+14,400 assignments. Holm correction covers the 15 secondary
+metric/contrast tests detailed in Supporting methods A5.1, excluding the
+primary comparison. These are exploratory summaries. Facts share
+comparison questions, so the bootstrap and sign-flip calculations do not
+remove dependence; the conditional permutation assumes exchangeable
+factual pairings and does not control shared words or expected answers.
+The three-subject requirement remains unmet.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Comparison or check in the evaluation sample</th>
+<th style="text-align: right;">Mean difference</th>
+<th style="text-align: right;">Descriptive 95% interval</th>
+<th style="text-align: right;">Positive facts / included facts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same-fact minus average other-fact overlap</td>
+<td style="text-align: right;">0.0894</td>
+<td style="text-align: right;">[0.0820, 0.0976]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Same-fact minus most similar other-fact overlap</td>
+<td style="text-align: right;">0.0780</td>
+<td style="text-align: right;">[0.0686, 0.0879]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Same-fact minus average other-fact overlap, including reconstruction
+errors</td>
+<td style="text-align: right;">0.0887</td>
+<td style="text-align: right;">[0.0814, 0.0968]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Same-fact minus same-pattern invented name overlap</td>
+<td style="text-align: right;">-0.0114</td>
+<td style="text-align: right;">[-0.0203, -0.0011]</td>
+<td style="text-align: right;">2/10</td>
+</tr>
+<tr>
+<td>Same-fact minus reworded invented name overlap</td>
+<td style="text-align: right;">0.1059</td>
+<td style="text-align: right;">[0.0917, 0.1200]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Same-pattern control, matched by broad output type</td>
+<td style="text-align: right;">-0.0109</td>
+<td style="text-align: right;">[-0.0208, 0.0005]</td>
+<td style="text-align: right;">2/9</td>
+</tr>
+<tr>
+<td>Reworded control, matched by broad output type</td>
+<td style="text-align: right;">0.1059</td>
+<td style="text-align: right;">[0.0918, 0.1194]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Equal feature counts, at the subject minimum K</td>
+<td style="text-align: right;">0.0835</td>
+<td style="text-align: right;">[0.0759, 0.0916]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr>
+<td>Equal feature counts, at half K</td>
+<td style="text-align: right;">0.0331</td>
+<td style="text-align: right;">[0.0303, 0.0361]</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+</tbody>
+</table>
+<p>All table entries are differences in Jaccard overlap. The equal-count
+rows summarize each fact over 200 feature samples, using K=1,768 for
+chemistry and K=1,682 for geography. Every repetition’s overall mean and
+every fact’s average difference were positive at both sampling sizes;
+the 200 repetitions are not additional independent facts. Deleting one
+already-computed fact difference at a time leaves means of
+0.0863–0.0917, with the original comparison pools held fixed.</p>
+<p>Using exported influence to weight features gives a positive
+same-fact minus other-fact cosine difference of 0.0741 ([0.0641,
+0.0854], 10/10 positive). Weighted comparisons favor the same-pattern
+invented name control in all ten cases (mean difference -0.0777), but
+favor the factual rewording over the reworded control in all ten
+(0.0960). However, the coarser layer-to-layer edge-flow comparison is
+not consistently positive: its mean difference is 0.00016 ([-0.00106,
+0.00119], 5/10 positive). The layer-profile comparison also does not
+pass its Holm-adjusted secondary test (p=0.1934). These results extend
+the feature-sharing observation, not a claim that all aspects of graph
+structure distinguish same-fact questions.</p>
+<p>None of the ten evaluation facts had a qualifying other-fact match
+under any of the three word-matching rules. Word overlap with the
+same-fact rewording exceeded the best other-fact overlap by
+0.1806–0.2667. All ten same-fact pairs shared the expected answer; none
+of the 40 directed other-fact pairs did. The chemistry and geography
+observations therefore leave a gap in word- and answer-matched controls.
+These audits do not alter the inclusion rules or primary estimates.</p>
+<figure>
+<img src="../figures/figureS7_qwen17_completion.png"
+alt="Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete" />
+<figcaption aria-hidden="true">Figure S7: Qwen3-1.7B includes chemistry
+and geography; history sets are incomplete</figcaption>
+</figure>
+<p><strong>Figure S7. Qwen3-1.7B includes chemistry and geography;
+history sets are incomplete.</strong> Qwen3-1.7B collection and subject
+coverage. A, Available raw graphs, including development and evaluation
+prompts: 40/40 chemistry, 40/40 geography, and 11/40 history graphs, for
+91 graphs total. Bar colors identify subjects. The 29 unavailable
+history jobs were rejected for exceeding the hosted token limit, not
+counted as wrong model answers. No history fact has all four required
+prompt roles. B, Included test questions: five chemistry and five
+geography questions. Each point is same-fact rewording overlap minus
+average other-fact rewording overlap within the same subject and
+evaluation set. Diamonds show means and bars show descriptive 95%
+question-bootstrap intervals: chemistry 0.085 (0.076–0.095) and
+geography 0.093 (0.083–0.106). All ten differences are positive. History
+has no plotted estimate, not a zero effect. Inclusion retains the
+complete four-role and expected-next-token rules. Shared words and
+expected answers remain coupled to fact identity.</p>
+<h4 id="a5.1-additional-methods-and-audit-history">A5.1 Additional
+methods and audit history</h4>
+<p><strong>Graph settings and export checks.</strong> Graphs used the
+recorded <code>llamascope-2-transcoder-16k-k64</code> source and LoRSA
+feature family, with at most ten candidate next tokens (maxNLogits=10),
+node and edge thresholds of 0.8 and 0.85, and a 5,000-feature-node cap.
+LoRSA tracing settings were qkTopFraction=0.5 and qkTopk=5. Desired
+cumulative output probability was 0.99 for the completion requests; some
+archived files used 0.95 output coverage. Files and their source and
+exporter metadata were preserved rather than treated as products of
+identical hosted versions. Raw-file audits checked identifiers, edge
+endpoints, duplicate edges, and finite numerical values. No shorter
+prompts or replacement questions were introduced.</p>
+<p>The recorded source families were consistent across the Qwen3-1.7B
+collection. The 41 completion exports identify version 2.0.0b34 and
+passed identifier, endpoint, duplicate-edge, and finite-value checks.
+Output-coverage settings differ across some files, as documented in
+Section 2.8; unchanged hosted weights cannot be independently verified.
+Shorter history prompts were not generated or substituted; the
+feasibility proposal is deferred from this paper.</p>
+<p><strong>Statistical implementation and correction family.</strong>
+The primary contrast was same-fact minus average other-fact Jaccard
+overlap. We used 10,000 fact-level bootstrap resamples, exact one-sided
+sign-flip tests, and exact fact-label permutations within each subject
+area, with main seed 20260714. The evaluation permutation enumerated 5!
+× 5! = 14,400 assignments. Bootstrap intervals and sign-flip tests
+describe fact-level differences that share comparison questions; the
+permutation assumes exchangeable factual pairings within each subject
+area.</p>
+<p>Holm correction was applied to the 15 secondary evaluation-sample
+sign-flip p-values, excluding the primary comparison. This family
+crossed four metrics (feature Jaccard and cosine similarities of
+influence-weighted features, layer profiles, and layer-to-layer edge
+flow) with four comparators (average other fact, most similar other
+fact, same-pattern invented name, and reworded invented name), minus the
+primary Jaccard/average-other-fact test. The invented name comparisons
+in this family used the full eligible sample, not the subsets matched by
+output type. Output-type-matched subsets, error-inclusive and
+equal-count checks, and subject-specific summaries were outside this
+correction family. These exploratory summaries do not remove shared-word
+or expected-answer differences.</p>
+<p><strong>Sensitivity calculations.</strong> Sensitivity analyses
+retained both invented name controls, comparisons matched by broad
+next-token category, the most similar other-fact comparator,
+exported-influence-weighted cosine, reconstruction-error-inclusive
+representations, layer profiles, and layer-to-layer edge-flow summaries.
+Feature weights summed absolute exported influence across occurrences;
+layer profiles aggregated that influence by layer, and edge-flow
+profiles aggregated absolute edge weights between eligible feature nodes
+by source and target layer. Output-type matching required the control
+and starting question to have the same broad next-token category; the
+resulting sample sizes are reported in the A5 results table.
+Equal-feature-count checks reused Section 2.4’s 200 subsamples at K and
+floor(K/2), with seed 20260905 and K defined separately within each
+subject’s evaluation set. The subsamples were not treated as additional
+facts. Leave-one-fact-out summaries removed one already-calculated
+difference at a time without rebuilding its comparison pool.</p>
+<p><strong>Audit scope and chronology.</strong> Verification included
+raw-file hashes, agreement with archived feature representations, and
+reconstruction of previously calculated per-fact Jaccard and
+influence-weighted contrasts to absolute tolerance 1e-12. Earlier subset
+estimates remain in the archive and are not counted as additional
+evidence. The combined 91-graph dataset supplies ten evaluation facts;
+these are different units from the graph-file and token-audit
+denominators below.</p>
+<p>Retrospective saved-data audits used the export, word-matching, and
+tokenizer procedures in Section 2.4. Export checks covered all 91
+graphs; word-matching checks covered the ten included evaluation facts;
+token checks covered all 50 available factual starting/reworded prompts,
+including development questions and partial history sets.
+Reconstruction-error influence was summarized as absolute error-node
+influence divided by absolute nonterminal-node influence, using nodes
+with valid identifiers; it is not an answer-error rate or a causal
+contribution estimate. The archived tokenizer and unchanged
+word-matching rules were reused. Compatible answer beginnings remained
+distinct from complete expected next-token answers, and these audits did
+not alter inclusion or primary estimates. Audit plans were recorded
+before the audit calculations but after earlier overlap findings were
+known; the plans and timing are retained in the provenance records.
+Other models and the separate fact-by-wording experiment retain their
+own analysis samples.</p>
+<h3 id="a6-feature-overlap-analysis-workflow">A6 Feature-overlap
+analysis workflow</h3>
+<p>Figure S8 provides a visual reference for the primary
+question/control analysis in Section 2.2. Figure 1 describes the wider
+study design; the fact/wording, answer-letter, and selected-error
+experiments retain their own comparisons and inclusion rules.</p>
+<figure>
+<img src="../figures/figureS8_feature_overlap_workflow.png"
+alt="Figure S8: How questions become a feature-overlap comparison" />
+<figcaption aria-hidden="true">Figure S8: How questions become a
+feature-overlap comparison</figcaption>
+</figure>
+<p><strong>Figure S8. How questions become a feature-overlap
+comparison.</strong> Primary feature-overlap workflow for Gemma-2-2B,
+Qwen3-1.7B, and Qwen3-4B. The four prompt roles are starting factual,
+same fact reworded, invented name in the starting sentence pattern, and
+invented name reworded. Exact chemistry prompts about gold and iron,
+plus invented name zorium, are development examples from the manifest,
+not evaluation questions. Hosted Neuronpedia graph exports are analyzed
+locally without local model inference. Eligibility requires four
+available representations after export/integrity checks, both factual
+highest-probability next tokens matching a complete accepted answer
+after trimming whitespace, and another eligible fact in the same model,
+subject, and development/evaluation set. Accepted spellings include
+Maria and María for the flagship answer; partial answers do not qualify.
+Unique learned-feature identities are (family, layer, feature ID):
+positions collapse, but layers remain distinct. Embeddings, logits,
+reconstruction-error nodes, and nodes with missing or duplicated node
+IDs are omitted. Jaccard overlap J is shared unique features divided by
+distinct features in either set. Each starting set T_i is compared with
+its own rewording P_i and every other included factual rewording P_j in
+the same model/subject/set. The baseline is the mean of all those
+Jaccard overlaps, excluding i; iron illustrates one comparator, not the
+whole pool. Subtraction yields one difference per fact, M_i. Summaries,
+bootstrap intervals, and permutations within the same subject area
+concern facts, not graph pairs. Invented-name comparisons are separate
+controls, not the other-fact baseline; broad output-token-type matching
+is not the primary eligibility rule. Illustrative feature sets and
+scores, not measured results: {a,b,c} and {a,b,d} share a and b (green),
+while c and d are unshared (white), giving 2/4=0.50; an illustrative
+baseline of 0.30 gives +0.20. These values do not describe the gold or
+iron graphs. Letters denote identities, not concepts. Arrows show
+analysis steps, not causal pathways; overlap alone does not establish
+causal use or answer correctness.</p>
+<h3 id="a7-historical-date-comparisons-and-original-study-accounting">A7
+Historical-date comparisons and original study accounting</h3>
+<p>All 16 historical-date exports passed the prompt, token-inventory,
+identifier, edge-endpoint, duplicate-edge, finite-value, and conversion
+checks. Their predictions reproduced all 16 saved previews: seven of
+eight document-history answers and four of eight spaceflight answers
+were correct. No graph was excluded for an incorrect prediction.
+Collection used Qwen3-4B with <code>transcoder-hp</code>, node and edge
+thresholds of 0.8 and 0.85, at most ten output logits, desired
+cumulative output probability of 0.99, and a 5,000-feature-node cap. The
+analysis retained the unchanged prompts and chat wrapper.</p>
+<p>Across question/context orders, mean Jaccard overlap was 0.7396 for
+the same predicted letter versus 0.5075 for different letters in the
+document pair, and 0.7758 versus 0.5614 in the spaceflight pair. Each
+mean contains eight graph pairs, not eight independent facts. The four
+categories defined by the queried event and the required answer letter
+are reported below. Each cell averages four cross-order comparisons.</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Event pair</th>
+<th style="text-align: right;">Same event, same required letter</th>
+<th style="text-align: right;">Different event, same required
+letter</th>
+<th style="text-align: right;">Same event, different required
+letter</th>
+<th style="text-align: right;">Different event, different required
+letter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Declaration of Independence / Treaty of Paris</td>
+<td style="text-align: right;">0.7207</td>
+<td style="text-align: right;">0.6533</td>
+<td style="text-align: right;">0.5595</td>
+<td style="text-align: right;">0.5608</td>
+</tr>
+<tr>
+<td>Sputnik 1 / Explorer 1</td>
+<td style="text-align: right;">0.6915</td>
+<td style="text-align: right;">0.6472</td>
+<td style="text-align: right;">0.6795</td>
+<td style="text-align: right;">0.6562</td>
+</tr>
+</tbody>
+</table>
+<p>These required-letter contrasts do not uniformly reproduce the
+geography pattern. The average same-required-letter minus
+different-required-letter overlap was 0.1268 for the document pair but
+0.0015 for the spaceflight pair. In contrast, the predicted-letter
+association appeared in both pairs. The same-event difference was larger
+with a shared required letter than with different required letters in
+both pairs: the differences between these two contrasts were 0.0686 and
+0.0210. That direction remained positive for influence-weighted cosine,
+each graph-location filter, and the averages of 200 subsamples at K and
+half K. These checks concern the required-letter contrasts, not a
+separate filtered test of the predicted-letter grouping. The full
+56-pair table, unsupported strata, and all sampling repetitions are
+retained with the source data.</p>
+<p>The original historical-date protocol planned 20 evaluation event
+pairs and 160 graphs, conditional on all 20 preliminary predictions
+being correct. The preliminary checks returned 15/20 correct
+predictions, so no evaluation graphs were requested under that protocol.
+Its planned primary endpoint, the mean difference between same-letter
+and changed-letter fact contrasts in complete correct-answer blocks, was
+not measured; it required at least 16 supported blocks, including six
+per theme. The additional 16-graph analysis instead examines all
+historical prompts from the preliminary check, with correctness measured
+rather than required for inclusion. It neither completes the uncollected
+evaluation nor changes inclusion in the original three-model study.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Original preliminary component</th>
+<th style="text-align: right;">Correct top labels</th>
+<th style="text-align: right;">Fixed requirement</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Literal A/B instructions</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">4/4</td>
+<td>Passed</td>
+</tr>
+<tr>
+<td>Declaration of Independence and Treaty of Paris</td>
+<td style="text-align: right;">7/8</td>
+<td style="text-align: right;">8/8</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>Sputnik 1 and Explorer 1 launch years</td>
+<td style="text-align: right;">4/8</td>
+<td style="text-align: right;">8/8</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>Entire preliminary check</td>
+<td style="text-align: right;">15/20</td>
+<td style="text-align: right;">20/20</td>
+<td>No evaluation graphs requested</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reproducibility-and-availability">Reproducibility and
+availability</h2>
+<p>The September plan is
+<code>EXPLORATORY_CONFOUND_CHECKS_20260905.md</code>. The CPU-only
+analysis and plotting scripts are
+<code>scripts/exploratory_confound_checks.py</code> and
+<code>scripts/plot_exploratory_confound_checks.py</code>. Their results,
+input hashes, tokenizer revisions, per-graph/pair/fact tables,
+subsampling repetitions, logs, and SVG/PNG figures are saved under
+<code>data/model_extension/exploratory_20260905</code>. The original
+primary files and earlier six-figure package are preserved. The new
+analyses do not constitute a clean-room rerun of every original
+estimator.</p>
+<p>A curated working-paper review package is publicly available on the
+<a
+href="https://github.com/J-Lawrence10/autocircuit/tree/main/neuronpedia_pipeline/paper_share">GitHub
+main branch</a>. It contains the draft, figures, summary tables,
+protocols, and code snapshots; it is not a peer-reviewed publication or
+a complete raw-data release. The 11 November review edition incorporates
+the final available datasets, corrected answer scoring, and approved
+manuscript revisions. Raw Neuronpedia exports, tokenizer/model files,
+credentials, and downloaded reference PDFs are excluded. Their
+redistribution permissions remain unresolved, and a complete
+appropriately licensed deposit and independent reproduction remain
+outstanding. The October reproduction checks used saved data on the same
+machine, not an independent reviewer or a fresh hosted-model run. Human
+authors must review scientific claims and references. Codex assisted
+with code, audit, analysis, figures, and drafting; that assistance does
+not substitute for independent validation.</p>
+<p>The October closeout audit is generated by
+<code>scripts/audit_paper_closeout.py</code> under
+<code>data/model_extension/final_closeout_20261005</code>; it
+reconstructs the archived matched-choice and failure contrasts from
+hash-verified saved graphs. The final history protocol is
+<code>HISTORY_CHOICE_FINAL_PROTOCOL.md</code>, with fixed design,
+runner, and analyzer in <code>scripts/history_choice_closeout.py</code>,
+<code>scripts/run_history_closeout.py</code>, and
+<code>scripts/analyze_history_closeout.py</code>. Its prompts, local
+freeze, request records, checksums, and outcomes are maintained
+separately under
+<code>data/model_extension/history_choice_final_v1</code>.
+<code>requirements-closeout.txt</code> specifies direct dependencies;
+the resolved package versions, test logs, and
+<code>verification.json</code> are saved under the closeout
+<code>reproduction</code> directory by
+<code>scripts/reproduce_closeout.py</code>. The isolated same-machine
+reproduction reconstructed all 23 original primary margins from 342
+checksum-verified available raw graphs, matched the closeout audit, and
+passed 82 software tests. A separate terminal-pilot validator
+reconstructed the 15/20 gate from archived responses, checked frozen
+hashes and the shared request ledger, and confirmed that no evaluation
+graphs were generated. These checks are not independent human review or
+a fresh reproduction of hosted model outputs.</p>
+<p>The matched-choice follow-up is documented in
+<code>MATCHED_CHOICE_CHAT_V2_PROTOCOL.md</code> and
+<code>MATCHED_CHOICE_RESULTS_FOR_MANUSCRIPT.md</code>; its archived
+inputs, block-level results, and figures are under
+<code>data/model_extension/matched_choice_chat_v2</code>. The failed
+position pilot is documented in
+<code>MATCHED_CHOICE_POSITION_V3_PROTOCOL.md</code>. Its diagnostic
+audit remains under
+<code>data/model_extension/position_artifact_diagnostic_20261001</code>.</p>
+<p>The additional history graph analysis follows
+<code>HISTORY_PILOT_GRAPH_FOLLOWUP.md</code>. All 16 raw and converted
+graphs, unchanged prompts, preview records, checksums, audits, 56
+pairwise comparisons, and sensitivity tables are maintained under
+<code>data/model_extension/history_pilot_graphs_20261110</code>. The
+collection, analysis, validation, and saved-data reproduction entry
+points are <code>scripts/run_history_pilot_graphs.py</code>,
+<code>scripts/analyze_history_pilot_graphs.py</code>,
+<code>scripts/validate_history_pilot_graphs.py</code>, and
+<code>scripts/reproduce_history_pilot_graphs.py</code>. Only the
+collector requests hosted graphs.
+<code>scripts/build_history_multipanel.py</code> generates Figure 7, its
+source table, and exact prompt examples from validated saved results.
+The local sharing package includes the derived results, source tables,
+protocol, and code; it excludes raw exports and full feature caches. The
+original stopped history archive is unchanged.</p>
+<p>The Qwen3-1.7B completion follows
+<code>QWEN17_COMPLETION_ATTEMPT_20261106.md</code>. Its unchanged raw
+files, failed-request records, checksums, technical audit, frozen
+analysis plan, representation caches, per-fact tables, and results are
+retained under
+<code>data/model_extension/qwen17_completion_20261106</code>. The entry
+points are <code>scripts/complete_qwen17_controls.py</code>,
+<code>scripts/audit_qwen17_completion.py</code>, and
+<code>scripts/analyze_qwen17_completion.py</code>; only the collector
+makes hosted requests. The current figure builder uses
+<code>scripts/plot_updated_cohort_figures.py</code> to incorporate the
+combined sample, including Figure S7. The earlier standalone completion
+plot remains reproducible with
+<code>scripts/plot_qwen17_completion.py</code>. The sharing package
+includes derived results, analysis-plan and execution records, and
+source tables, but not raw graphs or full feature caches. This
+completion does not overwrite any original cohort or frozen result.</p>
+<p>The figure pipeline uses
+<code>scripts/audit_qwen17_completion_figures.py</code> for the
+retrospective word-overlap, expected-token, and export summaries stored
+in the completion directory’s <code>figure_audit</code> folder.
+<code>scripts/plot_updated_cohort_figures.py</code> supplies the
+combined Qwen3-1.7B sample throughout the current figures, without
+displaying its archived subset as another sample.
+<code>scripts/sync_manuscript_figure_captions.py</code> synchronizes
+reviewed titles and legends without rewriting body prose. All current
+figures retain source tables and input hashes; earlier analyses and
+figure packages remain archived. The 50-graph subset and its five-fact
+estimates are preserved as provenance, not pooled with the combined
+results or counted as independent evidence. Original protocols were
+locally frozen, not publicly preregistered; outcome-informed analyses
+retain their exploratory status.</p>
+<p>The failure graph protocol is
+<code>FAILURE_CASE_GRAPH_ANALYSIS_PLAN.md</code>. All 16 raw exports,
+metadata, code snapshots, hashes, audits, converted node/edge tables,
+role summaries, comparison values, and PNG/SVG figures are under
+<code>data/model_extension/failure_case_graphs_v1</code>. The saved-data
+analysis, figure, and validation entry points are
+<code>scripts/analyze_failure_case_graphs.py</code>,
+<code>scripts/plot_failure_case_graphs.py</code>, and
+<code>scripts/validate_failure_case_graphs.py</code>. The descriptive
+country-location ratio divides <code>absolute_weight</code> for feature
+sources at the other country’s list occurrence by the corresponding
+weight at the intended country’s occurrence in each capital-name graph’s
+<code>source_role_totals.csv</code>. The four failure ratios are 4.919,
+8.773, 13.567, and 14.630 approximately; the unrounded tables are
+authoritative. This manuscript integration changes no frozen estimates
+or analysis files.</p>
+<p>The final scoring registry is
+<code>config/answer_spelling_aliases_20261111.json</code>.
+<code>scripts/finalize_corrected_scoring.py</code> assembles the
+corrected results and dependent checks, and
+<code>scripts/build_final_corrected_figures.py</code> generates the
+current figures. The final results, inclusion decisions, lexical
+comparisons, equal-count summaries, and verification records are
+retained under
+<code>data/model_extension/final_corrected_scoring_20261111</code>. The
+scoring correction, 170-output audit, and earlier scoring decisions
+remain in <code>data/model_extension/answer_spelling_20261111</code> for
+provenance. No new model calls or graph modifications were used to
+correct scoring. The different question designs remain identifiable
+within the study.</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li><p>Ameisen, E., Lindsey, J., Pearce, A., et al. (2025). <em>Circuit
+Tracing: Revealing Computational Graphs in Language Models</em>. <a
+href="https://transformer-circuits.pub/2025/attribution-graphs/methods.html">Methods</a>.</p></li>
+<li><p>Franco, G., Tassis, L. M., Rohr, A., and Crovella, M. (2026).
+<em>Finding Interpretable Prompt-Specific Circuits in Language
+Models</em>. <a
+href="https://arxiv.org/abs/2602.13483">arXiv:2602.13483</a>.</p></li>
+<li><p>Qwen. Official <a
+href="https://huggingface.co/Qwen/Qwen3-1.7B/blob/main/tokenizer_config.json">Qwen3-1.7B
+tokenizer configuration</a> and <a
+href="https://huggingface.co/Qwen/Qwen3-4B/blob/main/tokenizer_config.json">Qwen3-4B
+tokenizer configuration</a>. Actual downloaded revisions and file hashes
+are in the audit artifacts.</p></li>
+<li><p>Hugging Face. <a
+href="https://huggingface.co/docs/tokenizers/api/tokenizer">Tokenizer
+encoding and decoding API</a>. Google. <a
+href="https://huggingface.co/google/gemma-2-2b">Gemma-2-2B
+repository</a>.</p></li>
+<li><p>Zheng, C., Zhou, H., Meng, F., Zhou, J., and Huang, M. (2024).
+<em>Large Language Models Are Not Robust Multiple Choice Selectors</em>.
+ICLR. <a
+href="https://arxiv.org/abs/2309.03882">arXiv:2309.03882</a>.</p></li>
+<li><p>Wang, X., Ma, B., Hu, C., et al. (2024). <em>“My Answer is C”:
+First-Token Probabilities Do Not Match Text Answers in Instruction-Tuned
+Language Models</em>. <a
+href="https://arxiv.org/abs/2402.14499">arXiv:2402.14499</a>.</p></li>
+<li><p>Zhang, Z., Xiong, H.-D., Wilson, R. C., Aoi, M., Mattar, M. G.,
+and Ji-An, L. (2026). <em>The Position Curse: LLMs Struggle to Locate
+the Last Few Items in a List</em>. <a
+href="https://arxiv.org/abs/2605.07127">arXiv:2605.07127</a>.</p></li>
+<li><p>Royal Museums Greenwich. <a
+href="https://www.rmg.co.uk/collections/objects/rmgc-object-12245">The
+‘Santa Maria’ at Anchor</a>. Collection record BHC0753, accessed 11
+November 2026.</p></li>
+<li><p>Fundación Nao Victoria. <a
+href="https://www.fundacionnaovictoria.org/history-nao-santa-maria/">History
+of the Nao Santa María</a>. Accessed 11 November 2026.</p></li>
+</ol>
+<p>The references support the methods and comparisons discussed here;
+they do not constitute an exhaustive novelty review.</p>
+</body>
+</html>

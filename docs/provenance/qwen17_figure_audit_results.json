@@ -1,0 +1,886 @@
+{
+  "analysis_plan_sha256": "a96871f6006d9931707c8c552302aeebc971a9a8cae14f1950c2a771b1404a22",
+  "cohorts": {
+    "expanded91": {
+      "answers": {
+        "available_factual_graph_n": 50,
+        "by_domain": {
+          "chemistry": {
+            "available_factual_graph_n": 20,
+            "statuses": {
+              "multi_token_prefix_only": 2,
+              "whole_answer_next_token": 18
+            }
+          },
+          "geography": {
+            "available_factual_graph_n": 20,
+            "statuses": {
+              "whole_answer_next_token": 20
+            }
+          },
+          "history": {
+            "available_factual_graph_n": 10,
+            "statuses": {
+              "multi_token_prefix_only": 2,
+              "next_token_mismatch": 4,
+              "whole_answer_next_token": 4
+            }
+          }
+        },
+        "denominator_note": "All available starting and reworded factual prompts, development and evaluation. Not raw graph total, not independent facts, and not the eligible evaluation sample.",
+        "status_labels": {
+          "multi_token_prefix_only": "Compatible beginning; complete answer unverified",
+          "next_token_mismatch": "Next token differs from the expected answer",
+          "tokenizer_unavailable": "Tokenizer unavailable",
+          "unresolved_token_boundary": "Token boundary unresolved",
+          "unresolved_tokenizer_validation": "Tokenizer validation unresolved",
+          "whitespace_only_compatible": "Compatible whitespace; complete answer unverified",
+          "whole_answer_next_token": "Whole expected answer in the next token"
+        },
+        "statuses": {
+          "multi_token_prefix_only": 4,
+          "next_token_mismatch": 4,
+          "whole_answer_next_token": 42
+        },
+        "strict_matches": 42,
+        "tokenizer_logit_validation_pass_n": 50,
+        "tokenizer_prompt_validation_pass_n": 50
+      },
+      "lexical": {
+        "eligible_evaluation_n": 10,
+        "max_own_minus_best_other_word_overlap": 0.2666666666666666,
+        "min_own_minus_best_other_word_overlap": 0.18055555555555558,
+        "note": "Matching support is not an adjusted causal/semantic effect. No matching comparators means non-estimable, not zero.",
+        "other_fact_pair_n": 40,
+        "other_fact_pairs_same_expected_answer_n": 0,
+        "own_pairs_same_expected_answer_n": 10,
+        "scatter": [
+          {
+            "best_other_word_overlap": 0.4444444444444444,
+            "domain": "geography",
+            "fact": "canada_capital",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.625
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "copper_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "potassium_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "silver_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "sodium_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.4,
+            "domain": "geography",
+            "fact": "south_korea_capital",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.6666666666666666
+          },
+          {
+            "best_other_word_overlap": 0.4444444444444444,
+            "domain": "geography",
+            "fact": "spain_capital",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.625
+          },
+          {
+            "best_other_word_overlap": 0.4444444444444444,
+            "domain": "geography",
+            "fact": "thailand_capital",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.625
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "tungsten_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.4444444444444444,
+            "domain": "geography",
+            "fact": "turkey_capital",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.625
+          }
+        ],
+        "summaries": [
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 10,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "at_least_own_overlap"
+          },
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 10,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "word_caliper_0.05"
+          },
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 10,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "word_and_size_caliper"
+          }
+        ]
+      },
+      "quality": {
+        "ambiguous_export_n": 0,
+        "ambiguous_export_rate_percent": 0.0,
+        "definition": "Absolute reconstruction-error node influence divided by absolute nonterminal node influence. No causal fraction or model-ranking interpretation.",
+        "error_influence_median_percent": 6.0588488980876125,
+        "error_influence_percent_values": [
+          4.834531378683537,
+          5.236700881830669,
+          7.389254995944065,
+          6.992213653172957,
+          5.320797367391606,
+          4.690699507001436,
+          6.525813986732647,
+          5.548669220750894,
+          5.263216552284733,
+          5.3533104253424435,
+          7.887714603090111,
+          6.787770291969407,
+          4.632577206322893,
+          5.628282052628641,
+          7.866547777570086,
+          7.54059186371725,
+          5.883551401418499,
+          5.62089358980574,
+          6.080553596212371,
+          6.827781098183038,
+          5.3227720000757826,
+          5.89663691665025,
+          8.096804011809795,
+          6.341682245353749,
+          5.41821070080793,
+          4.573748701325123,
+          7.166236589694966,
+          7.926857305825305,
+          5.907380724582839,
+          6.112883481513936,
+          6.158703760887185,
+          6.00477554258357,
+          5.364668012306478,
+          5.562103916657968,
+          7.410444582722674,
+          6.7137134147052135,
+          6.230237094089954,
+          6.943415879988736,
+          8.458467979343407,
+          6.537224684204027,
+          5.146604337024148,
+          5.243234414417114,
+          4.90104237241908,
+          4.796434268819825,
+          4.883737911782085,
+          4.739581062040815,
+          4.7907385551557224,
+          4.7271664712077355,
+          4.895800058252748,
+          5.1496175743284205,
+          7.855796984575876,
+          5.270067004394097,
+          6.201088898907514,
+          8.466121383210503,
+          5.335113669734415,
+          6.558059768581232,
+          8.184816953464587,
+          5.399838737060515,
+          5.814223975191936,
+          7.667798984140414,
+          5.260499582942106,
+          6.140732884485514,
+          7.989890612493887,
+          5.7050273520370824,
+          5.960357882734103,
+          8.125046551044608,
+          5.223874067412127,
+          6.928970284523843,
+          7.838617479729,
+          5.138809606502942,
+          6.510409934533692,
+          7.447151050098946,
+          5.5300647999341495,
+          6.489783122857825,
+          7.61284266922669,
+          4.759233186110809,
+          5.665206990190463,
+          7.215780637710395,
+          6.0588488980876125,
+          6.885800708600839,
+          4.845043989358799,
+          4.762045342155282,
+          6.835575553455274,
+          5.151923522290412,
+          6.718561136289111,
+          9.184275349898067,
+          6.641917355574423,
+          7.951955550689852,
+          4.917393326876598,
+          6.524555685318839,
+          7.119633012571594
+        ],
+        "graph_counts_with_flags": {
+          "ambiguous_incident_edge_count": 0,
+          "ambiguous_node_id_count": 0,
+          "dangling_edge_count": 0,
+          "duplicate_endpoint_edge_count": 0,
+          "duplicate_exact_edge_count": 0,
+          "nonfinite_edge_count": 0
+        },
+        "graph_n": 91
+      },
+      "source_analysis_cohort": "expanded91_late_observational"
+    },
+    "original50": {
+      "answers": {
+        "available_factual_graph_n": 30,
+        "by_domain": {
+          "chemistry": {
+            "available_factual_graph_n": 20,
+            "statuses": {
+              "multi_token_prefix_only": 2,
+              "whole_answer_next_token": 18
+            }
+          },
+          "geography": {
+            "available_factual_graph_n": 10,
+            "statuses": {
+              "whole_answer_next_token": 10
+            }
+          },
+          "history": {
+            "available_factual_graph_n": 0,
+            "statuses": {}
+          }
+        },
+        "denominator_note": "All available starting and reworded factual prompts, development and evaluation. Not raw graph total, not independent facts, and not the eligible evaluation sample.",
+        "status_labels": {
+          "multi_token_prefix_only": "Compatible beginning; complete answer unverified",
+          "next_token_mismatch": "Next token differs from the expected answer",
+          "tokenizer_unavailable": "Tokenizer unavailable",
+          "unresolved_token_boundary": "Token boundary unresolved",
+          "unresolved_tokenizer_validation": "Tokenizer validation unresolved",
+          "whitespace_only_compatible": "Compatible whitespace; complete answer unverified",
+          "whole_answer_next_token": "Whole expected answer in the next token"
+        },
+        "statuses": {
+          "multi_token_prefix_only": 2,
+          "whole_answer_next_token": 28
+        },
+        "strict_matches": 28,
+        "tokenizer_logit_validation_pass_n": 30,
+        "tokenizer_prompt_validation_pass_n": 30
+      },
+      "lexical": {
+        "eligible_evaluation_n": 5,
+        "max_own_minus_best_other_word_overlap": 0.1964285714285714,
+        "min_own_minus_best_other_word_overlap": 0.1964285714285714,
+        "note": "Matching support is not an adjusted causal/semantic effect. No matching comparators means non-estimable, not zero.",
+        "other_fact_pair_n": 20,
+        "other_fact_pairs_same_expected_answer_n": 0,
+        "own_pairs_same_expected_answer_n": 5,
+        "scatter": [
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "copper_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "potassium_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "silver_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "sodium_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          },
+          {
+            "best_other_word_overlap": 0.375,
+            "domain": "chemistry",
+            "fact": "tungsten_symbol",
+            "other_fact_candidates": 4,
+            "other_fact_same_expected_answer_n": 0,
+            "own_expected_answer_matches": true,
+            "own_word_overlap": 0.5714285714285714
+          }
+        ],
+        "summaries": [
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 5,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "at_least_own_overlap"
+          },
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 5,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "word_caliper_0.05"
+          },
+          {
+            "ci95_descriptive": null,
+            "eligible_n": 5,
+            "mean": null,
+            "model": "qwen3-1.7b",
+            "n": 0,
+            "positive_n": 0,
+            "rule": "word_and_size_caliper"
+          }
+        ]
+      },
+      "quality": {
+        "ambiguous_export_n": 0,
+        "ambiguous_export_rate_percent": 0.0,
+        "definition": "Absolute reconstruction-error node influence divided by absolute nonterminal node influence. No causal fraction or model-ranking interpretation.",
+        "error_influence_median_percent": 5.755916727023569,
+        "error_influence_percent_values": [
+          4.834531378683537,
+          5.236700881830669,
+          7.389254995944065,
+          6.992213653172957,
+          5.320797367391606,
+          4.690699507001436,
+          6.525813986732647,
+          5.548669220750894,
+          5.263216552284733,
+          5.3533104253424435,
+          7.887714603090111,
+          6.787770291969407,
+          4.632577206322893,
+          5.628282052628641,
+          7.866547777570086,
+          7.54059186371725,
+          5.883551401418499,
+          5.62089358980574,
+          6.080553596212371,
+          6.827781098183038,
+          5.3227720000757826,
+          5.89663691665025,
+          8.096804011809795,
+          6.341682245353749,
+          5.41821070080793,
+          4.573748701325123,
+          7.166236589694966,
+          7.926857305825305,
+          5.907380724582839,
+          6.112883481513936,
+          6.158703760887185,
+          6.00477554258357,
+          5.364668012306478,
+          5.562103916657968,
+          7.410444582722674,
+          6.7137134147052135,
+          6.230237094089954,
+          6.943415879988736,
+          8.458467979343407,
+          6.537224684204027,
+          5.146604337024148,
+          5.243234414417114,
+          4.90104237241908,
+          4.796434268819825,
+          4.883737911782085,
+          4.739581062040815,
+          4.7907385551557224,
+          4.7271664712077355,
+          4.895800058252748,
+          5.1496175743284205
+        ],
+        "graph_counts_with_flags": {
+          "ambiguous_incident_edge_count": 0,
+          "ambiguous_node_id_count": 0,
+          "dangling_edge_count": 0,
+          "duplicate_endpoint_edge_count": 0,
+          "duplicate_exact_edge_count": 0,
+          "nonfinite_edge_count": 0
+        },
+        "graph_n": 50
+      },
+      "source_analysis_cohort": "original50_reconstructed"
+    }
+  },
+  "eligibility_changed": false,
+  "generated_at": "2026-11-07T05:40:43.493918+00:00",
+  "interpretation": [
+    "Original50 and expanded91 overlap; do not count as a fourth model or independent replication.",
+    "No changes to scientific inclusion rules, original findings, primary statistics, or frozen source files.",
+    "This retrospective audit tests display consistency and available comparator/answer support, not causal mechanisms.",
+    "History estimates remain unavailable; token classifications among partial history collection do not create eligible four-role fact sets."
+  ],
+  "late41_quality": {
+    "ambiguous_export_n": 0,
+    "ambiguous_export_rate_percent": 0.0,
+    "definition": "Absolute reconstruction-error node influence divided by absolute nonterminal node influence. No causal fraction or model-ranking interpretation.",
+    "error_influence_median_percent": 6.510409934533692,
+    "error_influence_percent_values": [
+      7.855796984575876,
+      5.270067004394097,
+      6.201088898907514,
+      8.466121383210503,
+      5.335113669734415,
+      6.558059768581232,
+      8.184816953464587,
+      5.399838737060515,
+      5.814223975191936,
+      7.667798984140414,
+      5.260499582942106,
+      6.140732884485514,
+      7.989890612493887,
+      5.7050273520370824,
+      5.960357882734103,
+      8.125046551044608,
+      5.223874067412127,
+      6.928970284523843,
+      7.838617479729,
+      5.138809606502942,
+      6.510409934533692,
+      7.447151050098946,
+      5.5300647999341495,
+      6.489783122857825,
+      7.61284266922669,
+      4.759233186110809,
+      5.665206990190463,
+      7.215780637710395,
+      6.0588488980876125,
+      6.885800708600839,
+      4.845043989358799,
+      4.762045342155282,
+      6.835575553455274,
+      5.151923522290412,
+      6.718561136289111,
+      9.184275349898067,
+      6.641917355574423,
+      7.951955550689852,
+      4.917393326876598,
+      6.524555685318839,
+      7.119633012571594
+    ],
+    "graph_counts_with_flags": {
+      "ambiguous_incident_edge_count": 0,
+      "ambiguous_node_id_count": 0,
+      "dangling_edge_count": 0,
+      "duplicate_endpoint_edge_count": 0,
+      "duplicate_exact_edge_count": 0,
+      "nonfinite_edge_count": 0
+    },
+    "graph_n": 41
+  },
+  "model": "qwen3-1.7b",
+  "no_hosted_requests": true,
+  "original_reconciliation": {
+    "evaluation_facts": 5,
+    "factual_answer_graphs": 30,
+    "pairwise_rows": 25,
+    "passed": true,
+    "quality_graphs": 50,
+    "rule_rows": 15
+  },
+  "primary_statistics_changed": false,
+  "raw_provenance": [
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\6d6f78cabb0fb051fbaa7da239dd0b4f849b705522b250ba6a2bf7948ee91ba3.json",
+      "cache_sha256": "92176709cae38e8d699788e35683425d662913c0e46046335400d6084cc0c303",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-gold-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "6d6f78cabb0fb051fbaa7da239dd0b4f849b705522b250ba6a2bf7948ee91ba3"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\25c992ef9feea440a6f2132ceae10427248972eef471d9d5d4f30abe7c64f5ee.json",
+      "cache_sha256": "ebf8ad87a82150d0e5b624e310409f140222359d9b57f4887204207cfdca3473",
+      "raw_path": "data\\prompts\\qwen3-1-7b_gold-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_gold-has-the-chemical_raw_graph.json",
+      "raw_sha256": "25c992ef9feea440a6f2132ceae10427248972eef471d9d5d4f30abe7c64f5ee"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\b0c26069b629b4e769b01ef06388a66a9a929741ab9077c0ee11faa56b45f1bf.json",
+      "cache_sha256": "a9cdd39e771f43df6476e4f76e24d14ce7aa812f0b6e3ad789a2238ab1ab6c21",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-iron-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "b0c26069b629b4e769b01ef06388a66a9a929741ab9077c0ee11faa56b45f1bf"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\d97d28235a5a8a74e431d011304a40978679fb6b88f2189f91a1fa7d353cf950.json",
+      "cache_sha256": "1bc3d69304c0290dbfba765e64273b13ce3d2c22afe5efde62be4d7fed3044a7",
+      "raw_path": "data\\prompts\\qwen3-1-7b_iron-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_iron-has-the-chemical_raw_graph.json",
+      "raw_sha256": "d97d28235a5a8a74e431d011304a40978679fb6b88f2189f91a1fa7d353cf950"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\b0baf17921d7fb6bcd597465d175cfc3f53aaf5d3b05e4a789bab3a1a9c4d180.json",
+      "cache_sha256": "46824692850f15f3855b9703dd102f62ad252d04413d0e486ddf0eee156dbcc8",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-lead-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "b0baf17921d7fb6bcd597465d175cfc3f53aaf5d3b05e4a789bab3a1a9c4d180"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\de2f844815a169ee290cc7c469447b40aed90d72a0854b1275c3fb807bddf750.json",
+      "cache_sha256": "fb4bfdff575f782bb599bef65cb5668255475f65047474ff13f402d378b6fea9",
+      "raw_path": "data\\prompts\\qwen3-1-7b_lead-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_lead-has-the-chemical_raw_graph.json",
+      "raw_sha256": "de2f844815a169ee290cc7c469447b40aed90d72a0854b1275c3fb807bddf750"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\e526155ee8825878de808d539e95f5924818dd968c5c6579d5bf1c1b3ad03d72.json",
+      "cache_sha256": "8f003bcd5092355a1e1d7eff907b893520ccfc53ec75ca20c0cff436ac974a7d",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-mercury-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "e526155ee8825878de808d539e95f5924818dd968c5c6579d5bf1c1b3ad03d72"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\eace28082369c6d854d2a22c28827181cd01d1772812b0bde35bb47f34d46792.json",
+      "cache_sha256": "12bac69032a02eedab25845e63954404cff39a17640469ae005af60ea76bd667",
+      "raw_path": "data\\prompts\\qwen3-1-7b_mercury-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_mercury-has-the-chemical_raw_graph.json",
+      "raw_sha256": "eace28082369c6d854d2a22c28827181cd01d1772812b0bde35bb47f34d46792"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\d711d55ede49d7c3bef24e72ca9810df52b49b9c022d38cd1447b4bc55ee68bd.json",
+      "cache_sha256": "e753c934a3e986712efe3c753e4c5d19cd2e74f9ac8548229d3dc07d66b45e26",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-argon-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "d711d55ede49d7c3bef24e72ca9810df52b49b9c022d38cd1447b4bc55ee68bd"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\24544f8e0d63332d3de17654ba599681c5cb25f99eff6490f2029011348bf308.json",
+      "cache_sha256": "b4c5febddfe5162071233cf09a0211c3951b1d5e6c0b9bb44c2a12d062f90964",
+      "raw_path": "data\\prompts\\qwen3-1-7b_argon-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_argon-has-the-chemical_raw_graph.json",
+      "raw_sha256": "24544f8e0d63332d3de17654ba599681c5cb25f99eff6490f2029011348bf308"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\034d93d4bff89f31b53554acaf52e4a989a4a1b760b35f6de2f285ecaa8c515f.json",
+      "cache_sha256": "46eee5b48b11c6d848d16b70fe572cc569455130c3f282ab9128caa0407d7e36",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-sodium-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "034d93d4bff89f31b53554acaf52e4a989a4a1b760b35f6de2f285ecaa8c515f"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\5687ee803ba9b1a6bba4245117b5af5a4012d7dbbddab3a2ccbb98c3763621bf.json",
+      "cache_sha256": "ca8d394b5ca7f48e742ddc84ad92ac6a57c93c04dee9c652dbc37511910c810b",
+      "raw_path": "data\\prompts\\qwen3-1-7b_sodium-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_sodium-has-the-chemical_raw_graph.json",
+      "raw_sha256": "5687ee803ba9b1a6bba4245117b5af5a4012d7dbbddab3a2ccbb98c3763621bf"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\3846c96ef952f2f9d0c529f931fd36e189c0357960ed78ff33680207f0cc3a02.json",
+      "cache_sha256": "fe641bb4fa65c86b2ac5cd7ac8a548b495ebef8333bffc1dbe94d715abd5f91e",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-silver-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "3846c96ef952f2f9d0c529f931fd36e189c0357960ed78ff33680207f0cc3a02"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\f48c846d4b85af62dffa7c804fcdac08637bf5705fef107eab0ea8c37e75d616.json",
+      "cache_sha256": "546910ffc077668fc1d771bac7c1d5df0d93733932220e29a682e14718e94518",
+      "raw_path": "data\\prompts\\qwen3-1-7b_silver-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_silver-has-the-chemical_raw_graph.json",
+      "raw_sha256": "f48c846d4b85af62dffa7c804fcdac08637bf5705fef107eab0ea8c37e75d616"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\7546da4df8d586fdd5ddc5639d4c41e74bd7942410174cee60dc3076ba5718f0.json",
+      "cache_sha256": "11a27bf6474a15fa51cf8bedf0c8435b8e1b181e9c08166f8f40969a9d20e722",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-potassium-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "7546da4df8d586fdd5ddc5639d4c41e74bd7942410174cee60dc3076ba5718f0"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\4beb01d85b1f97870b4e75a88e97545dfb0dca56054e4cde9501acee7882f0b2.json",
+      "cache_sha256": "e65d7c1f1922f4ddc4ab659128d45d880f9d2b914d1a73d0b4a78862514e70b7",
+      "raw_path": "data\\prompts\\qwen3-1-7b_potassium-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_potassium-has-the-chemical_raw_graph.json",
+      "raw_sha256": "4beb01d85b1f97870b4e75a88e97545dfb0dca56054e4cde9501acee7882f0b2"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\3509d113ec12f5cb46317b46f3ea3ab2f5d0a3be4e8a3869b34a0c77a39cfb1f.json",
+      "cache_sha256": "e6eea325d8770037132ebfab9c973cf43cfd8a58fa5a4171f18ce6af95bacaeb",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-copper-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "3509d113ec12f5cb46317b46f3ea3ab2f5d0a3be4e8a3869b34a0c77a39cfb1f"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\0421c7dbf6faed7ded417ed06e6b985241892afd33db8e43ec561a2a75c55aac.json",
+      "cache_sha256": "b99696667d5c2a2ef331f7075d9afaba86d626f5fc3b8dc95e1eb6ce3cf6ac27",
+      "raw_path": "data\\prompts\\qwen3-1-7b_copper-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_copper-has-the-chemical_raw_graph.json",
+      "raw_sha256": "0421c7dbf6faed7ded417ed06e6b985241892afd33db8e43ec561a2a75c55aac"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\47ecc6a36c22509efe1f4266aa4f8173f2ead09ec9d8d07a7b9f36fb82527960.json",
+      "cache_sha256": "e0b0f504061f855d3b33028365927440c7ee6181b0a8eeda2ca0814b2fcfa36f",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-chemical-symbol-for-tungsten-is\\1_generation\\qwen3-1-7b_the-chemical-symbol-for_raw_graph.json",
+      "raw_sha256": "47ecc6a36c22509efe1f4266aa4f8173f2ead09ec9d8d07a7b9f36fb82527960"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\24a1d2b1146cc9a9534c7cbb5400026fa7dfd5c70fb69e725f223cd5ba52ee04.json",
+      "cache_sha256": "933f65d4d8f0deaf4d02f12def869603f83c8d26b082699c5eb75abf5ed56343",
+      "raw_path": "data\\prompts\\qwen3-1-7b_tungsten-has-the-chemical-symbol\\1_generation\\qwen3-1-7b_tungsten-has-the-chemical_raw_graph.json",
+      "raw_sha256": "24a1d2b1146cc9a9534c7cbb5400026fa7dfd5c70fb69e725f223cd5ba52ee04"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\427b28fd29354ecdbfa29bd94a12143aa1cb6a33504deba8cff7cb37e77e24eb.json",
+      "cache_sha256": "475da81190dad44f3d03046ea5ff482702465f769655912302af4c65de1d9750",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-france-is\\1_generation\\qwen3-1-7b_the-capital-of-france_raw_graph.json",
+      "raw_sha256": "427b28fd29354ecdbfa29bd94a12143aa1cb6a33504deba8cff7cb37e77e24eb"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\4be5074a861b178888bbc124b0cc99eedf1d0326afac20f5386769cabd475e29.json",
+      "cache_sha256": "72cb1d3687149a0672d9c1c6de4b30cd1b04593d95ec846d88b3510e4b670979",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-japan-is\\1_generation\\qwen3-1-7b_the-capital-of-japan_raw_graph.json",
+      "raw_sha256": "4be5074a861b178888bbc124b0cc99eedf1d0326afac20f5386769cabd475e29"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\c3f1042ea03436ae08311e7dbdad0cc8d304b74af0bb825a1bf468ea0e6b5587.json",
+      "cache_sha256": "c168c715dbe67eef7c9715fb66e2565b9b947c02cf89d8a4a2f51db588b6bd5c",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-germany-is\\1_generation\\qwen3-1-7b_the-capital-of-germany_raw_graph.json",
+      "raw_sha256": "c3f1042ea03436ae08311e7dbdad0cc8d304b74af0bb825a1bf468ea0e6b5587"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\8f846b3bbba8de72eff1a6408ac6908bb0bf1dd1282c1301ca8d4444f170ec4f.json",
+      "cache_sha256": "d46b5ddf7dcbefe81d3f4457a976a935f9b4c88f3b7101eb3d3a5ee9baf667b4",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-egypt-is\\1_generation\\qwen3-1-7b_the-capital-of-egypt_raw_graph.json",
+      "raw_sha256": "8f846b3bbba8de72eff1a6408ac6908bb0bf1dd1282c1301ca8d4444f170ec4f"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\944bda64355f45d76d42b338deb249709a42a12ae5a6e969f654bb6ba5425eba.json",
+      "cache_sha256": "af2e63a07a7a26fda1e4f835b7a262e512d14c0fbd04380a9673bb7cfc4f2538",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-italy-is\\1_generation\\qwen3-1-7b_the-capital-of-italy_raw_graph.json",
+      "raw_sha256": "944bda64355f45d76d42b338deb249709a42a12ae5a6e969f654bb6ba5425eba"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\9c6156f7c9db44a1874b07459ac2681085eddbceae9c325c11108c404f5e2144.json",
+      "cache_sha256": "4a384abea3e43b59e63ffbcbe8fc1da3a4f75866e1cee8bb5a423178657b8b11",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-spain-is\\1_generation\\qwen3-1-7b_the-capital-of-spain_raw_graph.json",
+      "raw_sha256": "9c6156f7c9db44a1874b07459ac2681085eddbceae9c325c11108c404f5e2144"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\0b8962aa5540d9d504dba267c09f2fbda39f8a75041c9a03283c8fb451be299f.json",
+      "cache_sha256": "130163e4cf57d9fa9d7aec9b8519af8b2bd489bfac35693a7f1b623d35eee420",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-canada-is\\1_generation\\qwen3-1-7b_the-capital-of-canada_raw_graph.json",
+      "raw_sha256": "0b8962aa5540d9d504dba267c09f2fbda39f8a75041c9a03283c8fb451be299f"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\be26d54a9f53cde58dcb94a95c4ec0d6c82b4343407d83dd22d4b71800f09ab3.json",
+      "cache_sha256": "3c22877d2d025552f60f8bb57526dfb8735128f2c33a4d1404e5b6761463179a",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-thailand-is\\1_generation\\qwen3-1-7b_the-capital-of-thailand_raw_graph.json",
+      "raw_sha256": "be26d54a9f53cde58dcb94a95c4ec0d6c82b4343407d83dd22d4b71800f09ab3"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\ad0352d7991b1542a6b8349f5af3a63a9fbbb1531acabc6056e499888e46d4c2.json",
+      "cache_sha256": "5796762f9b6b4e61cbfdf9c69d3baa7fa06f759f66a1b28e31bee9894ba1d76f",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-turkey-is\\1_generation\\qwen3-1-7b_the-capital-of-turkey_raw_graph.json",
+      "raw_sha256": "ad0352d7991b1542a6b8349f5af3a63a9fbbb1531acabc6056e499888e46d4c2"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\0fb28f90410298bfe251bb0bdace4bf4ae28aca316de1f1838dfe66616aca0e4.json",
+      "cache_sha256": "de4f7d04c0ad8a720d430bf8c7947784bb3dd4abf9bc254d38f8bf8d00650b88",
+      "raw_path": "data\\prompts\\qwen3-1-7b_the-capital-of-south-korea-is\\1_generation\\qwen3-1-7b_the-capital-of-south_raw_graph.json",
+      "raw_sha256": "0fb28f90410298bfe251bb0bdace4bf4ae28aca316de1f1838dfe66616aca0e4"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\c70b33faab846ee16129d9093d8784e7aa7840d87f21a74ba9c22576e9db8e8a.json",
+      "cache_sha256": "cd7d299b3f7f258bd5f84ca2467747f886728700aeafac881f06f8f6b0e0453c",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\france_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "c70b33faab846ee16129d9093d8784e7aa7840d87f21a74ba9c22576e9db8e8a"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\7d6fcedc73d306b0120e218c78248baacf5ae419eb06a411be9328bbb50cfe86.json",
+      "cache_sha256": "1a3526f0a88d1798bd741b6751af8e4b938f45a782d9ede4c1dc85c0fe54c13b",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\japan_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "7d6fcedc73d306b0120e218c78248baacf5ae419eb06a411be9328bbb50cfe86"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\fcbf97e8790ea497c67e678deac1330c2f54f1ce405f6e8342752cf46170ae4c.json",
+      "cache_sha256": "1255fd7ee6d1abe519f130faa5456d21a58c84e54db7f0beb35449fa606a50e6",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\germany_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "fcbf97e8790ea497c67e678deac1330c2f54f1ce405f6e8342752cf46170ae4c"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\04f0130a7b2ff8f53bfabf77ce9af14811ada4623c4c0985cff11f642a922627.json",
+      "cache_sha256": "d5d59a3ca09467c7280be39745d038bdcbd5ecdfef0ed28aad1debf9a3ba3be5",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\egypt_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "04f0130a7b2ff8f53bfabf77ce9af14811ada4623c4c0985cff11f642a922627"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\05073f46708c957dd081c738f5d02d4d97c722cb5ad1399234977918efaae713.json",
+      "cache_sha256": "cdf25e91c67494be58f76f8efa45f2d4cec20c20be90377299bff43100b1b62f",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\italy_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "05073f46708c957dd081c738f5d02d4d97c722cb5ad1399234977918efaae713"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\c685069f21c88d51a1618bb2f806f38f7ade03cdbcc4e7b42a5a0579c80a1b0a.json",
+      "cache_sha256": "34b038be7821bee9bfc72cad367e78a207215255218bf18f72dc7becf8d5e563",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\spain_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "c685069f21c88d51a1618bb2f806f38f7ade03cdbcc4e7b42a5a0579c80a1b0a"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\1c930a611f07f833bb97facd288d7aec45cbdee41dfa3c44274b7f4d3183226c.json",
+      "cache_sha256": "a43f6f856e86ca55f257a1038cbbda7ef9179f3a20345dcc4557737d7421c29e",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\canada_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "1c930a611f07f833bb97facd288d7aec45cbdee41dfa3c44274b7f4d3183226c"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\a0bb60655792bffa75c9988d97745b45cbb2508991b80cab0a890c578288db6d.json",
+      "cache_sha256": "469e527799bc7eef49a199348306097edf93a8f129ffd0a3c0e6dee957d6cb15",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\thailand_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "a0bb60655792bffa75c9988d97745b45cbb2508991b80cab0a890c578288db6d"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\e66443d8b229dba69c9d32f367713963735a440c166b94f03edfe8910b5934ab.json",
+      "cache_sha256": "4a37ae698ea1d97acb2da4f0a3cf2dc87e5942664d77505d148ee06a58d51669",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\turkey_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "e66443d8b229dba69c9d32f367713963735a440c166b94f03edfe8910b5934ab"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\ccb6a7935a8c3553cf66b8ce00b67c537ad9b6d8ccbcc1e969ee5a6f1507b7db.json",
+      "cache_sha256": "8fc115d4b21bbf920e578eb1a96773a183b492a5b93a9ea4cc4beab0f0aa6e25",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\south_korea_capital__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "ccb6a7935a8c3553cf66b8ce00b67c537ad9b6d8ccbcc1e969ee5a6f1507b7db"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\bcfbe4ed4546dfed35ffe63e45594ece64a25d281df4e4647df8f2d77b2f7787.json",
+      "cache_sha256": "1110e769c3a7b87e38185cb320b9ea9ff3d86ecf56a637b7f1bbb37967be1e4e",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\moon_landing__target\\raw_graph.json",
+      "raw_sha256": "bcfbe4ed4546dfed35ffe63e45594ece64a25d281df4e4647df8f2d77b2f7787"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\b0fb98a96f8d5eae33e18b9956c9142136b29a62656c15946740687f20d3dfd5.json",
+      "cache_sha256": "89ea69644fe1a0bfe82165c584076378e0a59c67d8866eba78e932f8ba60e54f",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\moon_landing__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "b0fb98a96f8d5eae33e18b9956c9142136b29a62656c15946740687f20d3dfd5"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\7ed414146f79bc63e4d3e2cd468b2ebcbd9877022780996f7ebcaa2828a0d170.json",
+      "cache_sha256": "54adacdc216d2dc6744def1e7c541eba8342c9b9221baefa60a7c13aeb7665d8",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\berlin_wall__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "7ed414146f79bc63e4d3e2cd468b2ebcbd9877022780996f7ebcaa2828a0d170"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\4d76032e57767c3ec7376252345a53e83f8a8f54d908cf728a4a31dcbece49ad.json",
+      "cache_sha256": "978e31409320864b4898128181f37c4a03b0507a5eaa84c90fb3f52bdec6467c",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\us_independence__target\\raw_graph.json",
+      "raw_sha256": "4d76032e57767c3ec7376252345a53e83f8a8f54d908cf728a4a31dcbece49ad"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\39c94b6ad6aef337bf3df56bb3e43af2cff92fb65fdf0d7053968468bd5c8c07.json",
+      "cache_sha256": "d3d84fa563c98e125b71464bdfbacd25c8a393ebc4251b6e804d927ba6bbf61f",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\us_independence__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "39c94b6ad6aef337bf3df56bb3e43af2cff92fb65fdf0d7053968468bd5c8c07"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\340bf076b31a81837aad994750f8e6a6da8b76153bbc8ca20ae19da3cc9af6a1.json",
+      "cache_sha256": "2c7c975e1897e165606189ddde73f6a13d944f761e878d75bf27097de68a4b75",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\french_revolution__target\\raw_graph.json",
+      "raw_sha256": "340bf076b31a81837aad994750f8e6a6da8b76153bbc8ca20ae19da3cc9af6a1"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\413b9d9bb453f08dd7cbddc870ec5140fc692ec8d667f35f1e2bdee0e050b374.json",
+      "cache_sha256": "dcfc645f16212d30a10866856d29ee4381c224fd1b629fbd7d413ef2d2b593be",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\french_revolution__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "413b9d9bb453f08dd7cbddc870ec5140fc692ec8d667f35f1e2bdee0e050b374"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\d7001eb39e8f0cc6c72f8d01177aa6235ab5fc35622398b464d48bc9c9a83073.json",
+      "cache_sha256": "a08aeff85b086eaa19caaa3edcf3ddb76363cf52449364084bc9a45636fd8bb2",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\great_fire_london__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "d7001eb39e8f0cc6c72f8d01177aa6235ab5fc35622398b464d48bc9c9a83073"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\42b1bc976d998e430681b2c1c71e21233b4a93f9bc0f81fcd93b94191eff673d.json",
+      "cache_sha256": "50cb68ac9a9a7c97cf59ad53caf88bb5918547bd7ed8d2dfcb912cdaf430c5f5",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\mandela_release__target\\raw_graph.json",
+      "raw_sha256": "42b1bc976d998e430681b2c1c71e21233b4a93f9bc0f81fcd93b94191eff673d"
+    },
+    {
+      "cache_path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\representation_cache\\8196453a8f4f0771bc3222dc2ff58dd87f1e351b41ab3a4931109d877c47db8c.json",
+      "cache_sha256": "8e2302c7636b723935116582693fe9629c187f97c97b3a61f8889f076f582d5d",
+      "raw_path": "data\\model_extension\\qwen17_completion_20261106\\graphs\\mandela_release__positive_paraphrase\\raw_graph.json",
+      "raw_sha256": "8196453a8f4f0771bc3222dc2ff58dd87f1e351b41ab3a4931109d877c47db8c"
+    }
+  ],
+  "retrospective_exploratory": true,
+  "reused_frozen_results": {
+    "keys": [
+      "cohorts",
+      "equal_count_sensitivity",
+      "eligibility",
+      "collection_by_domain"
+    ],
+    "note": "Primary/control/robustness/equal-count estimates are not rerun or changed here.",
+    "path": "data\\model_extension\\qwen17_completion_20261106\\analysis\\results.json"
+  },
+  "schema_version": "qwen17-completion-figure-audit-v1",
+  "source_analysis_sha256": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
+  "status": "completed",
+  "tokenizer_provenance": {
+    "file_hashes": {
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "repository": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "status": "ok"
+  }
+}

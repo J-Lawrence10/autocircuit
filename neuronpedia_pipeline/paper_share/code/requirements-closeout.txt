@@ -1,0 +1,12 @@
+# CPU-only analysis and test environment; direct dependencies pinned 2026-10-05.
+numpy==2.2.5
+scipy==1.15.3
+pandas==2.3.3
+matplotlib==3.10.8
+networkx==3.6.1
+requests==2.32.5
+PyYAML==6.0.3
+Jinja2==3.1.6
+tokenizers==0.23.2
+pytest==9.0.2
+reportlab==4.4.10

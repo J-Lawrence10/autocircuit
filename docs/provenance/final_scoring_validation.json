@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-11-11T06:47:59.549044+00:00",
+  "comparison_history_archived": true,
+  "corrected_current_figures_and_text": true,
+  "final_fact_counts": [
+    8,
+    10,
+    12
+  ],
+  "no_hosted_requests": true,
+  "original_raw_graphs_unchanged": true,
+  "passed": true,
+  "primary_qwen4_mean": 0.21832503734816042,
+  "qwen4_complete_answer_n": 50,
+  "qwen4_output_type_matched_control_n": 10,
+  "raw_graphs_hash_verified": 147,
+  "raw_jaccard_comparisons_independently_recomputed": 54,
+  "verifier_sha256": "1e72580f660e44014f744a7afd1051ae3027848c67a24ba2450cc0fb1007512e"
+}

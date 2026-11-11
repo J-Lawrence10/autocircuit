@@ -1,0 +1,10 @@
+domain,eligible_facts,model
+chemistry,5,Gemma-2-2B
+geography,0,Gemma-2-2B
+history,3,Gemma-2-2B
+chemistry,5,Qwen3-1.7B
+geography,5,Qwen3-1.7B
+history,0,Qwen3-1.7B
+chemistry,5,Qwen3-4B
+geography,5,Qwen3-4B
+history,2,Qwen3-4B

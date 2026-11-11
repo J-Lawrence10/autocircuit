@@ -1,0 +1,46 @@
+available_graphs,domain,included,model,observed_mismatched_tokens,pair_id,planned_graphs,reason
+4,chemistry,True,Gemma-2-2B,{},sodium_symbol,4,included
+4,chemistry,True,Gemma-2-2B,{},silver_symbol,4,included
+4,chemistry,True,Gemma-2-2B,{},potassium_symbol,4,included
+4,chemistry,True,Gemma-2-2B,{},copper_symbol,4,included
+4,chemistry,True,Gemma-2-2B,{},tungsten_symbol,4,included
+4,geography,False,Gemma-2-2B,"{""target"": "" a""}",spain_capital,4,expected_token_not_top_prediction
+4,geography,False,Gemma-2-2B,{},canada_capital,4,no_same_subject_test_comparator
+4,geography,False,Gemma-2-2B,"{""target"": "" a""}",thailand_capital,4,expected_token_not_top_prediction
+4,geography,False,Gemma-2-2B,"{""target"": "" a""}",turkey_capital,4,expected_token_not_top_prediction
+4,geography,False,Gemma-2-2B,"{""target"": "" a""}",south_korea_capital,4,expected_token_not_top_prediction
+4,history,True,Gemma-2-2B,{},french_revolution,4,included
+4,history,True,Gemma-2-2B,{},wwi_start,4,included
+4,history,True,Gemma-2-2B,{},columbus_americas,4,included
+4,history,False,Gemma-2-2B,"{""target"": "" rebuilt""}",great_fire_london,4,expected_token_not_top_prediction
+4,history,False,Gemma-2-2B,"{""positive_paraphrase"": "" first"", ""target"": "" African""}",mandela_release,4,expected_token_not_top_prediction
+4,chemistry,True,Qwen3-1.7B,{},sodium_symbol,4,included
+4,chemistry,True,Qwen3-1.7B,{},silver_symbol,4,included
+4,chemistry,True,Qwen3-1.7B,{},potassium_symbol,4,included
+4,chemistry,True,Qwen3-1.7B,{},copper_symbol,4,included
+4,chemistry,True,Qwen3-1.7B,{},tungsten_symbol,4,included
+4,geography,True,Qwen3-1.7B,{},spain_capital,4,included
+4,geography,True,Qwen3-1.7B,{},canada_capital,4,included
+4,geography,True,Qwen3-1.7B,{},thailand_capital,4,included
+4,geography,True,Qwen3-1.7B,{},turkey_capital,4,included
+4,geography,True,Qwen3-1.7B,{},south_korea_capital,4,included
+2,history,False,Qwen3-1.7B,"{""positive_paraphrase"": "" Bast"", ""target"": "" one""}",french_revolution,4,incomplete_roles
+0,history,False,Qwen3-1.7B,{},wwi_start,4,incomplete_roles
+0,history,False,Qwen3-1.7B,{},columbus_americas,4,incomplete_roles
+1,history,False,Qwen3-1.7B,"{""positive_paraphrase"": "" the""}",great_fire_london,4,incomplete_roles
+2,history,False,Qwen3-1.7B,"{""positive_paraphrase"": "" first"", ""target"": "" African""}",mandela_release,4,incomplete_roles
+4,chemistry,True,Qwen3-4B,{},sodium_symbol,4,included
+4,chemistry,True,Qwen3-4B,{},silver_symbol,4,included
+4,chemistry,True,Qwen3-4B,{},potassium_symbol,4,included
+4,chemistry,True,Qwen3-4B,{},copper_symbol,4,included
+4,chemistry,True,Qwen3-4B,{},tungsten_symbol,4,included
+4,geography,True,Qwen3-4B,{},spain_capital,4,included
+4,geography,True,Qwen3-4B,{},canada_capital,4,included
+4,geography,True,Qwen3-4B,{},thailand_capital,4,included
+4,geography,True,Qwen3-4B,{},turkey_capital,4,included
+4,geography,True,Qwen3-4B,{},south_korea_capital,4,included
+4,history,False,Qwen3-4B,"{""positive_paraphrase"": "" Bast"", ""target"": "" site""}",french_revolution,4,expected_token_not_top_prediction
+4,history,True,Qwen3-4B,{},wwi_start,4,included
+4,history,True,Qwen3-4B,{},columbus_americas,4,included
+4,history,False,Qwen3-4B,"{""positive_paraphrase"": "" much"", ""target"": "" the""}",great_fire_london,4,expected_token_not_top_prediction
+4,history,False,Qwen3-4B,"{""positive_paraphrase"": "" first"", ""target"": "" African""}",mandela_release,4,expected_token_not_top_prediction

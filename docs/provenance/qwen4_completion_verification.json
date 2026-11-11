@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-11-11T03:56:20.449830+00:00",
+  "complete_controlled_graphs": 120,
+  "complete_crossed_graphs": 27,
+  "current_primary": {
+    "ci95": [
+      0.13073521486771594,
+      0.1942742183332921
+    ],
+    "exact_one_sided_sign_flip_p": 0.0009765625,
+    "mean": 0.1623679257326506,
+    "median": 0.1549700113118206,
+    "n": 10,
+    "positive_n": 10,
+    "values": [
+      0.11593948870379608,
+      0.1904641593375888,
+      0.1019800701684373,
+      0.1161614069916097,
+      0.21888899109936943,
+      0.20390125906246245,
+      0.10782786484467133,
+      0.21270453588012034,
+      0.23633561795239805,
+      0.11947586328605236
+    ],
+    "zero_n": 0
+  },
+  "frozen_analysis_settings_unchanged": true,
+  "heldout_facts": 10,
+  "heldout_history_facts": 0,
+  "original_archive_unchanged": true,
+  "original_primary": {
+    "ci95": [
+      0.13073521486771594,
+      0.1942742183332921
+    ],
+    "exact_one_sided_sign_flip_p": 0.0009765625,
+    "mean": 0.1623679257326506,
+    "median": 0.1549700113118206,
+    "n": 10,
+    "positive_n": 10,
+    "values": [
+      0.11593948870379608,
+      0.1904641593375888,
+      0.1019800701684373,
+      0.1161614069916097,
+      0.21888899109936943,
+      0.20390125906246245,
+      0.10782786484467133,
+      0.21270453588012034,
+      0.23633561795239805,
+      0.11947586328605236
+    ],
+    "zero_n": 0
+  },
+  "original_raw_hashes_verified": 145,
+  "original_reconstruction_passed": true,
+  "primary_margins_unchanged": true,
+  "recovered_converted_hashes_verified": 2,
+  "recovered_raw_hashes_verified": 2
+}
