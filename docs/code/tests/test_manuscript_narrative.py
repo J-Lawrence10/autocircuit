@@ -12,6 +12,125 @@ def manuscript():
     return SOURCE.read_text(encoding='utf-8')
 
 
+def test_a2_distinguishes_graph_checks_residuals_and_rule_derived_subset():
+    section = manuscript().split('### A2 Graph-file checks and reconstruction error\n\n', 1)[1].split('### A3 ', 1)[0]
+    for value in ['84/120', '13/27', '91 Qwen3-1.7B', '147 Qwen3-4B',
+                  '7.15%', '6.06%', '14.57%', '0.1704 to 0.1692',
+                  '0.0894 to 0.0887', '0.2183 to 0.2153']:
+        assert value in section
+    assert 'Reconstruction-error nodes represent activity that this approximation does not capture.' in section
+    assert 'not an incorrect model answer' in section
+    assert 'uniquely identified internal nodes, excluding input embeddings and output logits' in section
+    assert 'No reconstruction-error threshold was used to exclude graphs.' in section
+    assert 'main analysis included eight Gemma evaluation facts' in section
+    assert 'Only two Gemma facts qualified, corresponding to four factual-question graphs' in section
+    assert 'a supporting check, not a replacement for the main analysis' in section
+    assert 'the outcome of that rule, not a selected sample-size cutoff' in section
+    assert 'grouped by error type and layer rather than treated as learned features' in section
+    assert 'restriction to starting-question and factual-rewording exports without detected node-ID conflicts' in section
+
+
+def test_a3_explains_selected_source_locations_and_distinct_error_denominator():
+    section = manuscript().split('### A3 Connections to the predicted answer in selected errors\n\n', 1)[1].split('### A4 ', 1)[0]
+    assert '16 selected Qwen3-4B graphs' in section
+    assert 'eight incorrect predictions and eight correct named-country controls' in section
+    assert '4.9–14.6 times' in section
+    assert 'four incorrect A/B predictions did not show a consistent preference' in section
+    assert 'A: Berlin. B: Paris. Countries: France, Germany.' in section
+    assert 'first country, not the second? Answer:' in section
+    assert 'Berlin was both the first answer option and the capital of the second country.' in section
+    assert 'selected prompt layouts do not distinguish between them' in section
+    assert 'median 23.1%' in section and '17.2–31.4%' in section
+    assert 'only connections entering the predicted answer’s output node' in section
+    assert 'A2 summarized influence across internal graph nodes' in section
+    assert 'absent from all eight error graphs' in section
+    assert 'does not mean that their contribution in the model was zero' in section
+    assert 'not what a learned feature represents' in section
+
+
+def test_a4_explains_comparison_support_and_limits_of_sensitivity_checks():
+    section = manuscript().split('### A4 Checks on wording, feature counts, and graph locations\n\n', 1)[1].split('### A5 ', 1)[0]
+    assert 'pairs differing in both fact and version as their baseline' in section
+    assert 'a shared version label did not guarantee identical wording' in section
+    for value in ['0.074 and 0.118', '0.101 and 0.064', '0.090 and 0.114',
+                  '0.105 and 0.075', '0.1014 and 0.1063']:
+        assert value in section
+    assert 'a gap in the available comparisons, not a measured zero effect' in section
+    assert 'tungsten, changed from a positive to a negative difference' in section
+    assert 'cannot be interpreted as the percentage of the original difference explained by graph size' in section
+    assert 'ordinary least-squares intercept with centered predictors equals the original sample mean by construction' in section
+    assert 'Across all six country pairs' in section
+    assert 'All eight selected error comparisons' in section
+    assert 'filters changed the saved graph representations, not the model’s activity or predictions' in section
+    for figure in ['S10', 'S4', 'S3', 'S6']:
+        assert f'**Figure {figure}.' in section
+
+
+def test_a5_separates_model_specific_history_coverage_and_control_definitions():
+    section = manuscript().split('### A5 Qwen3-1.7B results in chemistry and geography\n\n', 1)[1].split('### A6 ', 1)[0]
+    assert '91 available graphs provided 19 facts' in section
+    assert 'evaluation sample contained five chemistry and five geography facts' in section
+    assert 'Four of the ten history facts had no returned graphs' in section
+    assert 'No history fact had a complete question/control set for Qwen3-1.7B' in section
+    assert 'completed Qwen3-4B history analyses are reported separately in Section 3.6 and Supporting analyses A1 and A7' in section
+    assert 'Positive values favor the factual rewording; negative values favor the comparator' in section
+    assert 'same-pattern comparison’s interval then included zero' in section
+    assert 'general categories of predicted tokens, not identical answers' in section
+    assert 'not additional independent facts' in section
+    assert 'retained the original comparison pools rather than rebuilding them' in section
+    assert 'These analyses are exploratory' in section
+    assert 'reconstruction-error diagnostic in A2, which imposed no percentage cutoff' in section
+
+
+def test_a6_distinguishes_primary_workflow_from_illustrative_examples():
+    section = manuscript().split('### A6 Feature-overlap analysis workflow\n\n', 1)[1].split('### A7 ', 1)[0]
+    assert 'applying the inclusion rules in Section 2.2' in section
+    assert 'set of unique learned features' in section
+    assert 'its own factual rewording, then subtract its average overlap with rewordings of other facts' in section
+    assert 'same model, subject area, and development or evaluation set' in section
+    assert 'one difference per included fact' in section
+    assert 'Invented name controls provide a separate comparison.' in section
+    assert 'Gold refers to the chemical element, while zorium is an invented name' in section
+    assert 'feature letters and numerical scores are illustrative, not measured values' in section
+    assert 'historical-date analyses retain their own comparisons and inclusion rules' in section
+
+
+def test_a7_defines_answer_letters_comparison_units_and_uncollected_evaluation():
+    section = manuscript().split('### A7 Historical-date comparisons\n\n', 1)[1].split('### A8 ', 1)[0]
+    assert 'required letter was the A or B assigned to the correct year' in section
+    assert 'predicted letter was the response the model actually produced' in section
+    assert 'All 11 correct and five incorrect predictions were retained' in section
+    assert 'produced 16 comparisons per event pair' in section
+    assert 'Each mean summarized eight graph pairs' in section
+    assert 'Each cell below averages four comparisons' in section
+    assert 'all 56 unordered graph comparisons: 28 within each event pair' in section
+    for value in ['0.7396', '0.5075', '0.7758', '0.5614', '0.1268', '0.0015', '0.0686', '0.0210']:
+        assert value in section
+    assert 'not additional filtered tests of the predicted-letter grouping' in section
+    assert 'average across repetitions, not to every repetition being positive' in section
+    assert '160 graphs from 20 event pairs' in section
+    assert 'at least 16 complete, correct-answer event pairs, including at least six from each theme' in section
+    assert 'That estimate was therefore not measured.' in section
+    assert 'before graph collection but after the preview answers were known' in section
+    assert 'does not complete the uncollected 160-graph evaluation or add facts to the original three-model comparison' in section
+
+
+def test_a8_separates_public_package_historical_reproduction_and_permissions():
+    section = manuscript().split('### A8 Data, code, and reproducibility records\n\n', 1)[1].split('## Reproducibility and availability', 1)[0]
+    assert '23 original fact-level overlap differences from 342' in section
+    assert 'passed 82 software tests' in section
+    assert 'not the final 8/10/12-fact sample' in section
+    assert 'checked hashes for all 91 raw inputs' in section
+    assert 'recomputed the 56 pairwise Jaccard comparisons' in section
+    assert '147 Qwen3-4B raw-file hashes and recomputed 54 Jaccard comparisons' in section
+    assert 'not a single independent end-to-end reproduction' in section
+    assert 'run with `--reviewed`, checks' in section
+    assert 'Adding `--write` updates manuscript captions' in section
+    assert 'Credentials and private API configuration are excluded for security' in section
+    assert 'Protocols were locally frozen, not publicly preregistered' in section
+    assert 'The latest locally approved manuscript revisions await' not in section
+
+
 def test_results_follow_question_controls_answer_errors_checks_scope():
     text = manuscript()
     headings = re.findall(r'^### 3\.\d+ (.+)$', text, re.M)
@@ -124,10 +243,10 @@ def test_original_results_and_limitations_are_retained():
                   '23.1%', '17.2–31.4%', '4.9–14.6', '8/16']:
         assert value in text
     for phrase in ['rather than eight independent replications', 'not an equivalence',
-                   'not causal ablations', 'no evaluation graphs were requested',
-                   'observationally indistinguishable',
+                   'not causal ablations', 'Only 15 were correct, so the larger evaluation did not proceed.',
+                   'Both explanations predict the observed error, and the selected prompt layouts do not distinguish between them.',
                    'Partial answer tokens did not qualify.',
-                   'No subsequent-token generation is archived to verify completed answers.']:
+                   'Later generated tokens were not recorded, so partial beginnings were kept separate from verified complete answers.']:
         assert phrase in text
 
 
@@ -140,7 +259,8 @@ def test_current_figures_and_public_availability_are_consistent():
     assert 'No data were published or submitted externally' not in text
     assert 'GitHub main branch' in text
     assert 'https://github.com/J-Lawrence10/autocircuit/tree/main/neuronpedia_pipeline/paper_share' in text
-    assert 'Raw Neuronpedia exports, tokenizer/model files, credentials, and downloaded reference PDFs are excluded' in text
+    assert 'Raw Neuronpedia exports, full feature caches, tokenizer/model files, and downloaded reference PDFs are excluded' in text
+    assert 'Credentials and private API configuration are excluded for security' in text
     assert 'Sharing copy updated 8 October' not in text
 
 
@@ -193,7 +313,7 @@ def test_supporting_figures_do_not_interrupt_main_results():
     text = manuscript()
     main = text.split('## Supporting analyses')[0]
     assert not re.search(r'!\[Figure S\d+:', main)
-    assert '### A4 Comparison and sensitivity figures' in text
+    assert '### A4 Checks on wording, feature counts, and graph locations' in text
     assert '### 4.2 Graph similarity and factual correctness can diverge' in text
     assert 'ordinary least-squares intercept with centered predictors equals' in text
 
@@ -205,7 +325,7 @@ def test_primary_comparison_is_explained_before_equation_and_links_workflow():
     assert 'every other included fact from the same model, subject, and development or evaluation set' in methods
     assert 'Figure S8 summarizes the workflow.' in methods
     assert '### A6 Feature-overlap analysis workflow' in text
-    assert 'the fact/wording, answer-letter, and selected-error experiments retain their own comparisons and inclusion rules' in text
+    assert 'the fact/wording, answer-letter, selected-error, and historical-date analyses retain their own comparisons and inclusion rules' in text
 
 
 def test_primary_methods_define_sets_inclusion_and_statistical_units():
@@ -232,8 +352,8 @@ def test_crossed_design_distinguishes_version_labels_from_exact_templates():
     assert 'The version labels did not imply identical sentence patterns across facts.' in methods
     assert 'questions differing in fact and version as their baseline' in methods
     assert 'varied factual content and sentence pattern separately' not in text
-    assert 'Both comparisons had positive average overlap differences' in text
-    assert '0.074/0.118' in text and '0.101/0.064' in text
+    assert 'The average same-fact and same-version Jaccard differences were' in text
+    assert '0.074 and 0.118 for Gemma' in text and '0.101 and 0.064 for Qwen3-4B' in text
 
 
 def test_invented_name_control_paragraph_leads_with_purpose_and_defines_matching():
@@ -347,10 +467,10 @@ def test_history_results_retain_errors_and_follow_figure_panel_order():
     assert "after the prompts' behavioral outcomes were known" in methods
     assert 'descriptive comparisons rather than population confidence intervals or significance tests' in methods
     supplement = text.split('### A7 ', 1)[1].split('## Reproducibility', 1)[0]
-    assert 'no evaluation graphs were requested under that protocol' in supplement
-    assert 'No graph was excluded for an incorrect prediction' in supplement
+    assert 'Only 15 were correct, so the larger evaluation did not proceed.' in supplement
+    assert 'All 11 correct and five incorrect predictions were retained.' in supplement
     assert '15/20' in supplement and '20/20' in supplement
-    assert 'do not uniformly reproduce the geography pattern' in supplement
+    assert 'Grouping by the required letter did not produce the same consistent pattern as grouping by the predicted letter.' in supplement
     assert '0.1268' in supplement and '0.0015' in supplement
 
 
@@ -388,8 +508,53 @@ def test_discussion_interprets_overlap_without_repeating_scoring_accounting():
     assert 'highest-probability next token had to give the complete accepted answer' in methods
     assert 'Partial answer tokens did not qualify.' in methods
     supplement = text.split('### A1 ', 1)[1].split('### A2 ', 1)[0]
-    assert 'No subsequent-token generation is archived to verify completed answers.' in supplement
+    assert 'Later generated tokens were not recorded, so partial beginnings were kept separate from verified complete answers.' in supplement
     assert 'Independent statistical review should' not in section
+
+
+def test_a1_opening_explains_scoring_counts_and_history_without_changing_results():
+    text = manuscript()
+    first, second, third = text.split('### A1 Next-token matching and complete answers\n\n', 1)[1].split('\n\n')[:3]
+    assert first.startswith('We counted a factual prediction as complete only when')
+    assert 'highest-probability next token matched an accepted answer in full' in first
+    assert 'Among 50 available Qwen3-1.7B factual prompt graphs, 42 predict' in first
+    assert 'Among 60 Qwen3-4B factual graphs, the corresponding counts are 50, five, and five' in first
+    assert 'These totals count individual prompts, not included evaluation facts.' in first
+    assert 'Equivalent spellings counted as the same accepted answer.' in second
+    assert '`Maria` and its rewording predicts `María`' in second
+    assert 'all four required prompt graphs' in second
+    assert 'high feature overlap does not require identical output-token text' in third
+    for number in ['0.624', '0.023', '0.427', '0.032', '0.543', '0.370', '0.210', '0.151']:
+        assert number in third
+    assert '200 random subsamples of the existing graphs, not additional independent observations' in third
+
+
+def test_a1_control_and_token_paragraphs_preserve_inclusion_and_error_distinctions():
+    supplement = manuscript().split('### A1 ', 1)[1].split('### A2 ', 1)[0]
+    assert 'starting prompt shared more features with its factual rewording than with either invented name control' in supplement
+    for value in ['0.537', '0.556', '0.384', '0.385']:
+        assert value in supplement
+    assert 'All four controls predicted a comma, whereas the factual prompts predicted names.' in supplement
+    assert 'Figure 3, which uses ten Qwen3-4B facts' in supplement
+    assert 'Both remained in the main comparison in Figure 2.' in supplement
+    assert 'All 50 Qwen3-1.7B factual prompts matched in checks of both input-token text and predicted-token text.' in supplement
+    assert 'four predicted complete accepted answers, two predicted partial beginnings, and four predicted other next tokens' in supplement
+    assert 'These partial predictions remained excluded from the complete-answer comparison.' in supplement
+    assert 'not because a full response had been verified as wrong' in supplement
+
+
+def test_a1_final_body_defines_exact_matching_and_restricted_groups():
+    supplement = manuscript().split('### A1 ', 1)[1].split('### A2 ', 1)[0]
+    assert 'predicted next-token text to equal the expected text after removing leading and trailing whitespace' in supplement
+    assert '7/9, 4/9, and 0/9 for Gemma chemistry, geography, and history' in supplement
+    assert 'Qwen3-4B counts were 8/9, 9/9, and 0/9 (Supplementary Figure S5b)' in supplement
+    assert 'Eight Qwen3-4B predictions in this experiment contained only whitespace' in supplement
+    assert 'only for groups in which all nine questions passed this matching rule' in supplement
+    assert 'Each group contained three facts asked in three versions; only Qwen3-4B geography qualified.' in supplement
+    assert 'same-fact overlap difference was 0.1014' in supplement
+    assert 'difference for questions sharing a version label was 0.1063' in supplement
+    assert 'they did not guarantee identical wording across facts' in supplement
+    assert 'we did not formally test that comparison' in supplement
 
 
 def test_invented_name_controls_are_defined_and_legacy_terms_are_absent():
@@ -560,15 +725,15 @@ def test_expanded_sample_methods_are_concise_and_retain_core_limits():
 
 def test_supporting_methods_preserve_expanded_sample_settings_and_audit_units():
     text = manuscript()
-    a5 = text.split('### A5 Qwen3-1.7B subject results and sensitivity analyses\n\n', 1)[1].split('### A6 ', 1)[0]
-    results, methods = a5.split('#### A5.1 Additional methods and audit history\n\n', 1)
-    assert 'detailed in Supporting methods A5.1' in results
+    a5 = text.split('### A5 Qwen3-1.7B results in chemistry and geography\n\n', 1)[1].split('### A6 ', 1)[0]
+    results, methods = a5.split('#### A5.1 Additional methods and verification\n\n', 1)
+    assert 'Supporting methods A5.1 specifies these procedures and the Holm correction applied to 15 secondary tests' in results
     assert '| Same-pattern control, matched by broad output type | -0.0109 | [-0.0208, 0.0005] | 2/9 |' in results
     assert '| Reworded control, matched by broad output type | 0.1059 | [0.0918, 0.1194] | 10/10 |' in results
     for setting in ['llamascope-2-transcoder-16k-k64', 'LoRSA',
-                    'at most ten candidate next tokens (maxNLogits=10)',
+                    'at most ten candidate next tokens (`maxNLogits=10`)',
                     'node and edge thresholds of 0.8 and 0.85', '5,000-feature-node cap',
-                    'qkTopFraction=0.5 and qkTopk=5', '0.99', '0.95', '2.0.0b34']:
+                    '`qkTopFraction=0.5` and `qkTopk=5`', '0.99', '0.95', '2.0.0b34']:
         assert setting in methods
     assert 'unchanged hosted weights cannot be independently verified' in methods
     assert 'No shorter prompts or replacement questions were introduced' in methods

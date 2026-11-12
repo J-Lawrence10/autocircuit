@@ -66,7 +66,7 @@ def main():
         originals = originals[:-len(b'</details>')].rstrip() + b'\n'
     notice = (
         '# AutoCircuit: current attribution-graph paper\n\n'
-        '## Working paper, 11 November 2026\n\n'
+        f'## Working paper, {manifest["date"]}\n\n'
         '[Read the paper online](https://j-lawrence10.github.io/autocircuit/manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) '
         '| [Website and figures](https://j-lawrence10.github.io/autocircuit/) '
         '| [Review package](neuronpedia_pipeline/paper_share/)\n\n'

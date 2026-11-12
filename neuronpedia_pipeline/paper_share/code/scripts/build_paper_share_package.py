@@ -1,5 +1,6 @@
 """Assemble a portable, allowlisted review package. No model calls or raw export copies."""
 from pathlib import Path
+import argparse
 import ast
 import hashlib
 import html
@@ -13,8 +14,8 @@ from paper_web_presentation import enhance_document, figure_markup, with_viewer
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
-REVISION = '2026-11-11'
-EDITION = 'reviewed_web_figures'
+REVISION = '2026-11-12'
+EDITION = 'reviewed_supplement'
 SPELLING = ROOT / 'data/model_extension/answer_spelling_20261111'
 FINAL = ROOT / 'data/model_extension/final_corrected_scoring_20261111'
 REVIEW = ROOT / 'data/model_extension/paper_review_20261111'
@@ -57,6 +58,8 @@ def portable(text, dst):
         p = Path(target).resolve()
         if p in mapping:
             return f'[{label}]({Path(os.path.relpath(mapping[p], dst.parent)).as_posix()})'
+        if p.is_relative_to(OUT.resolve()) and p.exists():
+            return f'[{label}]({Path(os.path.relpath(p, dst.parent)).as_posix()})'
         # Unbundled archive references are explicitly non-clickable, not broken links.
         short = p.name
         return f'{label} (author archive: `{short}`; not included)'
@@ -123,7 +126,7 @@ def write_figure_guide(figures):
     (OUT/'figures/index.html').write_text(with_viewer(gallery, '../'), encoding='utf-8')
 
 
-def main():
+def main(include_learning=False):
     OUT.mkdir(exist_ok=True)
     # Archive only superseded presentation files, never source measurements.
     from review_figure_catalog import STEM_MAP
@@ -262,12 +265,6 @@ def main():
     body, count = re.subn(pattern, caption, body)
     assert count == len(fs) == len(by_stem), (count, len(fs), len(by_stem))
     draft.write_text(body, encoding='utf-8')
-    for p in [*OUT.glob('manuscript/*.md'), *OUT.glob('methods/*.md'), OUT/'figures/LEGENDS.md']:
-        text = portable(p.read_text(encoding='utf-8'), p)
-        if p.name == 'WRITING_REFERENCES.md':
-            text = re.sub(r'^Local file:.*\n', '', text, flags=re.M)
-        p.write_text(text, encoding='utf-8')
-
     # Explicit task-related seeds plus their static project-local imports.
     seeds = ['build_outline_figures_v2', 'build_paper_claims_map', 'mockup_figure1',
              'analyze_model_extension', 'convert_model_extension', 'analyze_failure_case_graphs',
@@ -290,7 +287,8 @@ def main():
              'build_reviewed_paper_figures', 'review_figure_catalog', 'paper_web_presentation']
     selected = set()
     todo = list(seeds)
-    tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name]
+    tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name
+             and (include_learning or p.name != 'test_paper_learning_module.py')]
     for p in tests:
         copy(p, f'code/tests/{p.name}')
     def dependencies(p):
@@ -324,6 +322,15 @@ def main():
         value = p.read_text(encoding='utf-8').replace(str(ROOT).replace('\\', '\\\\'), '<AUTHOR_WORKSPACE>').replace(str(ROOT), '<AUTHOR_WORKSPACE>')
         p.write_text(value, encoding='utf-8')
     copy(FIG/'VISUAL_QA.md', 'provenance/figure_wording_review.md')
+
+    # Resolve prose links only after every script and protocol has a mapping.
+    # The verifier is maintained directly in the package, not copied from a source.
+    mapping[(OUT/'code/verify_package.py').resolve()] = OUT/'code/verify_package.py'
+    for p in [*OUT.glob('manuscript/*.md'), *OUT.glob('methods/*.md'), OUT/'figures/LEGENDS.md']:
+        text = portable(p.read_text(encoding='utf-8'), p)
+        if p.name == 'WRITING_REFERENCES.md':
+            text = re.sub(r'^Local file:.*\n', '', text, flags=re.M)
+        p.write_text(text, encoding='utf-8')
 
     css = OUT/'review.css'
     assert css.exists(), 'Review stylesheet must be authored before packaging'
@@ -383,4 +390,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--include-learning', action='store_true', help='Include the completed learning-module edition.')
+    main(include_learning=parser.parse_args().include_learning)

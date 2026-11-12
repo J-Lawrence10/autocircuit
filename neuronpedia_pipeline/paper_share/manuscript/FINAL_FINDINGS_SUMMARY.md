@@ -1,6 +1,6 @@
 # Paper findings and interpretation
 
-Review materials updated 11 November 2026. The manuscript and figures use the final available datasets and corrected answer scoring. This is a working paper for PI review, not a peer-reviewed publication.
+Review materials updated 12 November 2026. The manuscript and figures use the final available datasets and corrected answer scoring, with the approved supporting sections A1–A8 and descriptive figure legends. This is a working paper for PI review, not a peer-reviewed publication.
 
 The paper connects three findings. Questions about the same fact share more graph features across the three analyzed models. In the stronger Qwen3-4B comparison, that difference is larger when the answer letter stays the same. Selected wrong-answer graphs also resemble correct predictions giving the same answer more than correct predictions for the intended country. Together, these results show why feature overlap should be interpreted alongside the question and predicted response.
 

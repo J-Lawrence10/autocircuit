@@ -95,7 +95,7 @@ def test_approved_title_narrative_and_abstract_preservation():
     main = text.split('## Supporting analyses', 1)[0]
     assert '![Figure S10:' not in main
     assert '![Figure S10:' in text.split('### A4 ', 1)[1]
-    assert '### A8 Analysis and reproduction records' in text
+    assert '### A8 Data, code, and reproducibility records' in text
     abstract = text.split('## Abstract\n\n', 1)[1].split('\n\n## 1.', 1)[0].strip()
     assert hashlib.sha256(abstract.encode()).hexdigest() == '32f6ffd09ab8d8c733e9f348ae7a949377d3faf6f6ec1005c7b3a60a540d0673'
     assert '\u2014' not in main
@@ -109,4 +109,59 @@ def test_current_sharing_guide_uses_current_figure_numbers():
     claims = (share/'claims/paper_claims_map.svg').read_text(encoding='utf-8')
     assert 'Figures 2 and 4–6' in claims
     assert 'Figures 2 and 5–7' not in claims
+
+
+def test_descriptive_legends_preserve_statistics_without_unplotted_results():
+    rows = manifest()['figures'] + manifest()['supplements']
+    by_label = {r['label']: r['legend'] for r in rows}
+    assert '10,000 fact-level resamples' in by_label['2']
+    assert 'subject mean is shown without an interval' in by_label['2']
+    assert 'n=2, 9, and 10 in A and n=7, 10, and 10 in B' in by_label['3']
+    assert '95% block-bootstrap interval, resampling country pairs (n=6)' in by_label['4']
+    assert 'eight selected error cases' in by_label['5']
+    assert 'Panels B and C reuse the same 16 graphs' in by_label['6']
+    assert '1.5 interquartile ranges' in by_label['S1']
+    assert 'n=2' in by_label['S2']
+    assert 'resampling facts, not the 200 repetitions' in by_label['S3']
+    assert 'n=50' in by_label['S5'] and 'n=60' in by_label['S5']
+    assert '0.101/0.106' not in by_label['S5']
+    assert 'tokenizer access' not in by_label['S5'].lower()
+    assert 'illustrative, not measured results' in by_label['S8']
+    assert 'two facts use each other as comparators' in by_label['S9']
+    assert 'not confidence limits' in by_label['S10']
+    for legend in by_label.values():
+        assert '\u2014' not in legend
+
+
+def test_caption_only_sync_preserves_artwork_and_measurement_metadata():
+    import sys
+    from copy import deepcopy
+    sys.path.insert(0, str(ROOT/'scripts'))
+    from sync_manuscript_figure_captions import reconcile_manifest
+    original = dict(figures=[dict(label='1', stem='figure1_test', title='Unchanged title',
+                                 legend='Previous wording', source_tables=['saved.csv'])], supplements=[],
+                    source_hashes={'scripts/review_figure_catalog.py': 'old', 'saved.csv': 'datahash'},
+                    output_hashes={'figure1_test.svg': 'imagehash'}, layout_checks={'fixed': True})
+    before = deepcopy(original)
+    entries = [dict(label='1', stem='figure1_test', title='Unchanged title', legend='Revised wording')]
+    updated, changed = reconcile_manifest(original, entries, 'new')
+    assert original == before
+    assert changed == ['1']
+    assert updated['output_hashes'] == before['output_hashes']
+    assert updated['layout_checks'] == before['layout_checks']
+    assert updated['source_hashes']['saved.csv'] == 'datahash'
+    assert updated['figures'][0]['source_tables'] == ['saved.csv']
+    assert not updated['legend_edit_history'][-1]['artwork_regenerated']
+
+
+def test_caption_only_sync_rejects_title_changes():
+    import sys
+    import pytest
+    sys.path.insert(0, str(ROOT/'scripts'))
+    from sync_manuscript_figure_captions import reconcile_manifest
+    original = dict(figures=[dict(label='1', stem='figure1_test', title='Original', legend='Before')],
+                    supplements=[], source_hashes={})
+    entries = [dict(label='1', stem='figure1_test', title='New artwork title', legend='After')]
+    with pytest.raises(ValueError, match='titles or identity changed'):
+        reconcile_manifest(original, entries, 'new')
 
