@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="510.23622pt" height="518.4pt" viewBox="0 0 510.23622 518.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-13T09:42:04.470578</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 518.4 
+L 510.23622 518.4 
+L 510.23622 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 34.992486 182.3904 
+L 244.665557 182.3904 
+Q 247.795006 182.3904 247.795006 180.7272 
+L 247.795006 77.6088 
+Q 247.795006 75.9456 244.665557 75.9456 
+L 34.992486 75.9456 
+Q 31.863037 75.9456 31.863037 77.6088 
+L 31.863037 180.7272 
+Q 31.863037 182.3904 34.992486 182.3904 
+z
+" clip-path="url(#pbfcfae4226)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="87.13275" transform="rotate(-0 139.829021 87.13275)">1  Prepare four prompt roles</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(93.418084 112.974926)">Starting factual question</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(100.793865 121.943168)">Same fact, reworded</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(78.333123 130.91141)">Invented name, starting wording</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(91.403631 139.879652)">Invented name, reworded</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(139.829021 148.847895)"/>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(55.227849 157.816137)">Gold and zorium are development examples.</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_3">
+    <path d="M 280.87775 182.3904 
+L 490.550821 182.3904 
+Q 493.68027 182.3904 493.68027 180.7272 
+L 493.68027 77.6088 
+Q 493.68027 75.9456 490.550821 75.9456 
+L 280.87775 75.9456 
+Q 277.748301 75.9456 277.748301 77.6088 
+L 277.748301 180.7272 
+Q 277.748301 182.3904 280.87775 182.3904 
+z
+" clip-path="url(#pd3c4dcf9cd)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="87.13275" transform="rotate(-0 385.714286 87.13275)">2  Export attribution graphs</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(313.433036 121.943168)">Neuronpedia runs the model remotely.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(304.212137 130.91141)">Save raw graphs, settings, and checksums.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(385.714286 139.879652)"/>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(337.875419 148.847895)">No local model inference.</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_4">
+    <path d="M 34.992486 322.5744 
+L 244.665557 322.5744 
+Q 247.795006 322.5744 247.795006 320.9112 
+L 247.795006 217.7928 
+Q 247.795006 216.1296 244.665557 216.1296 
+L 34.992486 216.1296 
+Q 31.863037 216.1296 31.863037 217.7928 
+L 31.863037 320.9112 
+Q 31.863037 322.5744 34.992486 322.5744 
+z
+" clip-path="url(#p144e2eddea)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="227.31675" transform="rotate(-0 139.829021 227.31675)">3  Apply inclusion rules</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(93.02199 253.158926)">All four graphs available.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(77.448943 262.127168)">Both factual top next tokens give</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(84.777264 271.09541)">a complete accepted answer.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(77.089764 280.063652)">Another included fact is available</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(71.263201 289.031895)">in the same model, subject, and set.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(75.210076 298.000137)">Registered spellings are accepted.</text>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="patch_5">
+    <path d="M 280.87775 322.5744 
+L 490.550821 322.5744 
+Q 493.68027 322.5744 493.68027 320.9112 
+L 493.68027 217.7928 
+Q 493.68027 216.1296 490.550821 216.1296 
+L 280.87775 216.1296 
+Q 277.748301 216.1296 277.748301 217.7928 
+L 277.748301 320.9112 
+Q 277.748301 322.5744 280.87775 322.5744 
+z
+" clip-path="url(#pf309540bab)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="227.31675" transform="rotate(-0 385.714286 227.31675)">4  Keep unique learned features</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(313.867215 253.158926)">Identity = family + layer + feature ID.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(320.810575 262.127168)">Collapse repeated token positions.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(347.713309 271.09541)">Keep layers distinct.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(385.714286 280.063652)"/>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(313.455301 289.031895)">Omit embeddings, output/error nodes,</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(318.225419 298.000137)">and missing or duplicated node IDs.</text>
+   </g>
+  </g>
+  <g id="axes_5">
+   <g id="patch_6">
+    <path d="M 34.992486 462.7584 
+L 244.665557 462.7584 
+Q 247.795006 462.7584 247.795006 461.0952 
+L 247.795006 357.9768 
+Q 247.795006 356.3136 244.665557 356.3136 
+L 34.992486 356.3136 
+Q 31.863037 356.3136 31.863037 357.9768 
+L 31.863037 461.0952 
+Q 31.863037 462.7584 34.992486 462.7584 
+z
+" clip-path="url(#pcdd91b7abb)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="367.50075" transform="rotate(-0 139.829021 367.50075)">5  Calculate one difference per fact</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(66.955974 393.342926)">Jaccard = shared / all distinct features.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(78.295037 402.311168)">Multiply by 100 to show percent.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(67.552459 411.27941)">Compare the starting question with its</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(60.236443 420.247652)">own rewording, then average overlap with</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(67.566521 429.215895)">ALL other included factual rewordings.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(75.102849 438.184137)">Subtract to get percentage points.</text>
+   </g>
+  </g>
+  <g id="axes_6">
+   <g id="patch_7">
+    <path d="M 280.87775 462.7584 
+L 490.550821 462.7584 
+Q 493.68027 462.7584 493.68027 461.0952 
+L 493.68027 357.9768 
+Q 493.68027 356.3136 490.550821 356.3136 
+L 280.87775 356.3136 
+Q 277.748301 356.3136 277.748301 357.9768 
+L 277.748301 461.0952 
+Q 277.748301 462.7584 280.87775 462.7584 
+z
+" clip-path="url(#p3013d876ab)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="367.50075" transform="rotate(-0 385.714286 367.50075)">6  Summarize across facts</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(340.977372 388.858805)">Illustrative feature sets:</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(314.399833 397.827047)">{a, b, c} and {a, b, d} → 2 / 4 = 50%.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(319.52034 406.795289)">Illustrative other-fact mean = 30%.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(321.090653 415.763531)">Difference: 50% − 30% = +20 pp.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(340.178739 424.731773)">pp = percentage points.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(312.543583 433.700016)">Means, descriptive bootstrap intervals,</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(323.66702 442.668258)">and within-subject permutations.</text>
+   </g>
+  </g>
+  <g id="text_13">
+   <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(28.062992 487.233531)">Examples and scores are illustrative, not measured results. Invented name controls form a separate</text>
+   <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(28.062992 495.072)">comparison, not the other-fact baseline. Facts are the summary units, not graph pairs or subsampling draws.</text>
+  </g>
+  <g id="text_14">
+   <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203544" x="28.062992" y="18.726281" transform="rotate(-0 28.062992 18.726281)">How questions become a feature-overlap comparison</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pbfcfae4226">
+   <rect x="28.062992" y="67.392" width="223.532058" height="118.8"/>
+  </clipPath>
+  <clipPath id="pd3c4dcf9cd">
+   <rect x="273.948256" y="67.392" width="223.532058" height="118.8"/>
+  </clipPath>
+  <clipPath id="p144e2eddea">
+   <rect x="28.062992" y="207.576" width="223.532058" height="118.8"/>
+  </clipPath>
+  <clipPath id="pf309540bab">
+   <rect x="273.948256" y="207.576" width="223.532058" height="118.8"/>
+  </clipPath>
+  <clipPath id="pcdd91b7abb">
+   <rect x="28.062992" y="347.76" width="223.532058" height="118.8"/>
+  </clipPath>
+  <clipPath id="p3013d876ab">
+   <rect x="273.948256" y="347.76" width="223.532058" height="118.8"/>
+  </clipPath>
+ </defs>
+</svg>

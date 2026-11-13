@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Attribution graph paper review</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="review.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Attribution graph paper review</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#attribution-graph-paper-review-package"
+id="toc-attribution-graph-paper-review-package">Attribution graph paper
+review package</a>
+<ul>
+<li><a href="#research-question" id="toc-research-question">Research
+question</a></li>
+<li><a href="#start-here" id="toc-start-here">Start here</a></li>
+<li><a href="#main-findings-and-boundaries"
+id="toc-main-findings-and-boundaries">Main findings and
+boundaries</a></li>
+<li><a href="#data-coverage" id="toc-data-coverage">Data
+coverage</a></li>
+<li><a href="#interpretation-and-future-research"
+id="toc-interpretation-and-future-research">Interpretation and future
+research</a></li>
+<li><a href="#what-is-in-the-folder" id="toc-what-is-in-the-folder">What
+is in the folder</a></li>
+<li><a href="#reproducibility-and-exclusions"
+id="toc-reproducibility-and-exclusions">Reproducibility and
+exclusions</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="attribution-graph-paper-review-package">Attribution graph paper
+review package</h1>
+<p>Review edition updated 13 November 2026 to express Jaccard overlap as
+a percentage and differences in percentage points. This changes
+presentation only, not the data, calculations, statistical tests, or
+conclusions. The manuscript includes the approved supporting sections
+A1–A8, descriptive figure legends, and final corrected scoring. The main
+comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B
+evaluation facts. The sharing folder is maintained on the <a
+href="https://github.com/J-Lawrence10/autocircuit/tree/main/neuronpedia_pipeline/paper_share">GitHub
+main branch</a>. This is a working paper for PI and collaborator review,
+not a peer-reviewed publication or a submission-ready release. Different
+question designs retain their own samples within the same study. Earlier
+scoring decisions remain in provenance, not as alternative main results.
+See the <a href="manuscript/MANUSCRIPT_REVISION_NOTES.md">revision
+notes</a>.</p>
+<p>Reviewed edition: the approved title is <strong>Feature sharing in
+attribution graphs tracks predicted responses</strong>. The Introduction
+states the comparison question explicitly; repeated discussion text and
+detailed reproduction history have been shortened or moved to Supporting
+analysis A8. Figures use the final 8/10/12 sample counts, a
+four-comparison overview, print-sized labels, and six main figures plus
+ten supplements. The descriptive question-version comparison is now
+Supplement S10. The approved Abstract now states the 8/10/12
+evaluation-fact counts, clarifies the same-country overlap advantage,
+and identifies the five incorrect history predictions retained in the
+analysis.</p>
+<h2 id="research-question">Research question</h2>
+<p>Do similar attribution graphs reflect the fact being asked about, or
+the answer the model produces?</p>
+<p>Same-fact questions share more features across the three analyzed
+models. In the stronger Qwen3-4B comparison, the same-country overlap
+difference is larger when the answer letter stays the same. Selected
+wrong-answer graphs also favor correct predictions giving the same
+answer. These findings connect overlap to both the question relationship
+and predicted response, rather than correctness alone.</p>
+<figure class="paper-figure" id="figure-overview" aria-labelledby="figure-overview-label">
+<div class="figure-toolbar"><span class="figure-label" id="figure-overview-label">Paper overview</span><div class="figure-actions"><a class="figure-enlarge" href="claims/paper_claims_map.svg" data-figure-open aria-label="Enlarge Paper overview">Enlarge figure</a><a href="claims/paper_claims_map.svg" download>SVG</a><a href="claims/paper_claims_map.png" download>PNG</a></div></div>
+<a class="figure-artwork" href="claims/paper_claims_map.svg" data-figure-open aria-label="Enlarge Paper overview: Paper claims map"><img src="claims/paper_claims_map.svg" alt="Paper claims map" loading="lazy" decoding="async" /></a>
+<figcaption class="figure-caption"><p>Paper claims map</p></figcaption>
+</figure>
+<h2 id="start-here">Start here</h2>
+<ol type="1">
+<li><a href="claims/paper_claims_map.png">Claims map</a>: the final
+three-model findings and their connection to the answer-letter, error,
+and history comparisons. <a href="claims/paper_claims_map.svg">Editable
+SVG</a>.</li>
+<li><a href="manuscript/FINAL_FINDINGS_SUMMARY.md">Findings and
+interpretation</a>: the results and what they support.</li>
+<li><a href="manuscript/INTEGRATED_PAPER_OUTLINE.md">Integrated
+outline</a>: the paper’s logical argument and section structure.</li>
+<li><a href="figures/LEGENDS.md">Figure guide</a>: six main figures and
+ten supplements with self-contained captions. <a
+href="figures/index.html">Open the figure gallery</a> locally in a
+browser. <a href="figures/figure6_history_answers.png">History
+comparisons (Figure 6)</a> includes exact prompts, correct answers, and
+errors. <a href="figures/figureS8_feature_overlap_workflow.png">Methods
+diagram (Figure S8)</a> explains the primary feature-overlap
+calculation. <a href="figures/figureS9_answer_spelling.png">History
+factual completions (Figure S9)</a> details the two history facts
+included in Figure 2.</li>
+<li><a href="manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.md">Working
+manuscript</a>: current methods, results, discussion, and supporting
+analyses. A <a
+href="manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html">browser-readable
+copy</a> is included.</li>
+<li><a href="manuscript/SAMPLE_ACCOUNTING.md">Questions included and
+excluded</a>: current graph counts, evaluation facts, and exclusion
+reasons, distinct from accuracy.</li>
+</ol>
+<p>The <a href="https://j-lawrence10.github.io/autocircuit/">paper
+website</a> provides the browser-readable manuscript and figure gallery.
+GitHub renders the Markdown and PNG files directly; the downloaded
+folder also works locally in a browser.</p>
+<h2 id="main-findings-and-boundaries">Main findings and boundaries</h2>
+<ul>
+<li>Mean same-fact minus other-fact overlap is 17.0 percentage points
+for Gemma-2-2B (8 evaluation facts), 8.9 for Qwen3-1.7B (10), and 21.8
+for Qwen3-4B (12; descriptive 95% interval 15.0–30.7 percentage points).
+All included facts have positive differences. Repeated facts and
+different subject coverage prevent a model ranking.</li>
+<li>The two Qwen3-4B history facts have differences of 60.1 and 39.5
+percentage points, both positive with equal feature counts. They are
+each other’s comparison partners, so the result describes those
+questions rather than independent replications across history.</li>
+<li>In Qwen3-1.7B, eight of ten evaluation questions share more features
+with the same-pattern invented name control than with their factual
+rewording. All ten favor the factual rewording over the reworded
+control. Matching broad next-token categories gives differences of -1.09
+percentage points (n=9) and +10.59 percentage points (n=10). The
+controls do not isolate factual meaning from wording and the expected
+answer.</li>
+<li>In the stronger Qwen3-4B study, the same-country overlap difference
+is 6.28 percentage points with the same A/B answer and -0.22 percentage
+points with a changed answer. All 48 predictions across six country
+pairs are correct. Near zero does not establish absent factual
+knowledge.</li>
+<li>All eight selected error comparisons favor the correct response
+giving the same answer over the correct response for the intended
+country. These dependent cases do not estimate general failure frequency
+or prove an error mechanism.</li>
+<li>In 16 historical-date graphs, swapping the dates assigned to A/B
+produced five comparisons retaining the letter but selecting different
+years (feature overlap 79.5–91.1%) and three changing the letter to
+retain the same correct year (51.2–53.2%). All 11 correct and five
+incorrect predictions remain included. These are descriptive comparisons
+from two event pairs; the full required-letter pattern is not uniformly
+reproduced.</li>
+<li>Average feature-sharing differences remain positive after equalizing
+feature counts. The Qwen3-4B answer-related differences also remain
+after the specified graph-location filters. The coarser Qwen3-1.7B
+edge-flow comparison is inconclusive, so the result does not cover every
+graph property.</li>
+</ul>
+<h2 id="data-coverage">Data coverage</h2>
+<p>The four-version question design contains 120/120 graphs for
+Gemma-2-2B, 91/120 for Qwen3-1.7B, and 120/120 for Qwen3-4B. Gemma and
+Qwen3-4B each have another 27 fact-by-wording graphs, giving 385 graphs
+across these two designs. The separate Qwen3-4B answer-letter and
+selected-error studies contain 48 and 16 graphs, respectively.</p>
+<p>Qwen3-1.7B has all 40 chemistry and 40 geography graphs. Its 11/40
+history graphs provide no complete four-version sets after 29
+input-length rejections. These are collection failures, not wrong
+answers. Qwen3-4B has all 147 planned graphs and twelve included
+evaluation facts, including Columbus’s flagship and Franz Ferdinand. All
+four invented name controls for those history facts predict commas, so
+the output-type-matched control comparison uses ten facts. Its
+historical-date pilot passed 15/20 checks against a 20/20 gate, leaving
+the planned 160 evaluation graphs uncollected. Figure 6 includes all 16
+historical prompts from that preliminary check, including incorrect
+predictions. Gemma contributes three history facts to the primary
+comparison.</p>
+<p>No shortened history prompts were generated or substituted. The
+proposal is deferred from this paper.</p>
+<h2 id="interpretation-and-future-research">Interpretation and future
+research</h2>
+<p>The observed answer-associated overlap could reflect shared model
+activity, answer-dependent selection of features into the exported
+graph, or both. Discussion Section 4.3 explains this unresolved
+distinction and proposes future fixed-activity attribution comparisons,
+activation-based measurements, and controlled interventions. Those
+studies have not been performed or initiated.</p>
+<p>The main figures consistently use the current Qwen3-1.7B sample of 91
+graphs and ten included evaluation facts, with comparison-specific
+subsets where required. The fact-by-wording, answer-letter,
+selected-error, and graph-location studies retain their own samples.
+Figure S7 distinguishes collection counts from included facts; missing
+groups are unavailable, not zero effects.</p>
+<h2 id="what-is-in-the-folder">What is in the folder</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claims/</code></td>
+<td>Core three-model/geography claims map and a Figure 1 layout
+reference, PNG and editable SVG</td>
+</tr>
+<tr>
+<td><code>figures/</code></td>
+<td>Six main figures, ten supplements, captions, and local browser
+gallery</td>
+</tr>
+<tr>
+<td><code>tables/</code></td>
+<td>Current figure source tables and question-inclusion audit</td>
+</tr>
+<tr>
+<td><code>manuscript/</code></td>
+<td>Working draft, integrated outline, findings summary, and sample
+accounting</td>
+</tr>
+<tr>
+<td><code>methods/</code></td>
+<td>Relevant frozen protocols and supporting analysis notes</td>
+</tr>
+<tr>
+<td><code>code/</code></td>
+<td>Selected analysis, figure, validation, and test source snapshots;
+dependency pins</td>
+</tr>
+<tr>
+<td><code>provenance/</code></td>
+<td>File checksums, source mapping, analysis records, and archived
+verification evidence</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="claims/figure1_option_c.png">Figure 1 option C file</a>
+is retained as a design reference, not as a substitute for the current
+Figure 1 in the figure gallery.</p>
+<h2 id="reproducibility-and-exclusions">Reproducibility and
+exclusions</h2>
+<p>Feature overlap is 100 times Jaccard similarity; differences are
+percentage points, not relative percent changes. Source CSV and JSON
+files retain native, unscaled measurements for reproducibility. Cosine
+similarities, probabilities, and p-values are not multiplied by 100.</p>
+<p>The code snapshots preserve project-relative paths. They are for
+method inspection and use with the full authorized research archive;
+this compact folder does <strong>not</strong> reproduce the complete
+raw-data analysis by itself. The included CSV and derived JSON files
+support inspection of reported values, but do not replace raw-data
+access.</p>
+<p>The current Qwen3-1.7B analysis was specified after earlier findings
+were known, using unchanged prompts, expected answers, and inclusion
+rules. Earlier subset results remain in the audit archive, not as extra
+observations or an independent replication. Methods Section 2.8
+preserves the distinction between those analyses and later retrospective
+display audits. Input hashes, representation checks, and reconstruction
+of archived results are recorded alongside the current analysis.</p>
+<p>Automated reproduction and review records are not independent
+scientific validation. The package manifest records the included file
+hashes, and the link audit checks local references. To verify the
+downloaded files and headline arithmetic without installing additional
+packages, run <code>python code/verify_package.py</code> from this
+folder. This checks hashes and included tables, not excluded raw
+graphs.</p>
+<p>The bounded recovery made exactly two authorized hosted generation
+requests; both succeeded. No local model inference or further experiment
+was run. The figures use saved data. Excluded materials include raw
+Neuronpedia exports, tokenizer/model files, private API configuration,
+credentials, downloaded reference PDFs, environments, caches, unrelated
+changes, and the large local release archive. Their redistribution
+permissions are not established. The earlier compiled PDF is omitted
+because it predates the current figures and captions. Links to the
+writing-reference papers appear in <a
+href="methods/WRITING_REFERENCES.md">the reference guide</a>; their PDFs
+are not bundled.</p>
+<p>Independent scientific review, author approval, reference
+verification, and venue formatting remain outstanding. This package
+makes no new license grant for third-party materials and does not
+authorize redistribution of the excluded archive.</p>
+<script defer src="figure-viewer.js"></script>
+</body>
+</html>

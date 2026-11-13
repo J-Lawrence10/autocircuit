@@ -1,0 +1,4 @@
+ci95_descriptive,eligible_n,mean,model,n,positive_n,rule
+,12,,qwen3-4b,0,0,at_least_own_overlap
+,12,,qwen3-4b,0,0,word_caliper_0.05
+,12,,qwen3-4b,0,0,word_and_size_caliper

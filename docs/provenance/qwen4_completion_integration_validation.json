@@ -1,0 +1,43 @@
+{
+  "analysis_source_hashes": {
+    "scripts/analyze_qwen4_completion.py": "7ffe92a756582514a65b9f29f2ee3d5141888ba84036da090e65c1342cb6060b",
+    "scripts/build_outline_figures_v2.py": "c8a75f92bbaa820352a4a7101c9388f3b1b727928733563d920ae3121b66588f",
+    "scripts/build_qwen4_completion_figures.py": "29cd884988790f83d3f5a62b8e636e8426290217cd8a6dce82912ed1fedbcfdf",
+    "scripts/current_cohort_accounting.py": "cd6e835711b6221e6f56ebf4f91a0ba6905da0ee8846f10e2258c25e15b980c6",
+    "scripts/figure_plain_language.py": "f149c3702c7a249b7725d4aa7a8bbaa1907b45d27ee6ae4988287f2296d735d6",
+    "scripts/plot_updated_cohort_figures.py": "15edca6c00bea133b9b6414a4ac4f5d95454aba983d1774d8830dbf5b909405d",
+    "scripts/validate_qwen4_completion.py": "e09054908fceb30f7ab95812639633bf9c04693963c870c27c83e7048cdf994b"
+  },
+  "attempts_per_job": 1,
+  "checked_at": "2026-11-11T04:04:01.790818+00:00",
+  "current_graph_count": 385,
+  "frozen_dependencies_unchanged": true,
+  "generation_posts": 2,
+  "local_troubleshooting": "An initial saved-data report writer failed on a dictionary key after analysis. The key access was corrected and the complete analysis reran successfully from saved files, with no new requests or scientific-rule changes.",
+  "original_raw_hashes_verified": 145,
+  "passed": true,
+  "primary_estimates_unchanged": true,
+  "qwen4_graph_count": 147,
+  "recovered_raw_hashes_verified": 2,
+  "shared_rate_checks_passed": true,
+  "unchanged_figure_tables": [
+    "figure2_fact_level.csv",
+    "figure2_summary.csv",
+    "figure3_crossed_effects.csv",
+    "figure4_controls.csv",
+    "figure5_block_contrasts.csv",
+    "figure5_four_condition_means.csv",
+    "figure5_four_conditions_by_block.csv",
+    "figure6_behavior.csv",
+    "figure6_comparisons.csv",
+    "figureS2_robustness.csv",
+    "figureS3_equal_counts.csv",
+    "figureS3_per_fact.csv",
+    "figureS4_lexical_scatter.csv",
+    "figureS4_lexical_support.csv",
+    "figureS7_collection.csv",
+    "figureS7_domain_summary.csv",
+    "figureS7_per_fact.csv",
+    "table_history_pilot.csv"
+  ]
+}

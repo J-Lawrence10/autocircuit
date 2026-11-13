@@ -1,0 +1,15 @@
+{
+  "bonferroni_planned_family_p": 0.000732421875,
+  "ci95": [
+    0.02645935094413981,
+    0.03379145674905178
+  ],
+  "exact_conditional_assignment_p": 0.000244140625,
+  "mean_fact_effect": 0.030319246701048918,
+  "min_block_effect": 0.02150606358280946,
+  "n_blocks": 6,
+  "null_assignments": 4096,
+  "planned_primary_family_size": 3,
+  "positive_blocks": 6,
+  "status": "complete"
+}

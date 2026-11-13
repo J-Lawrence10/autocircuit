@@ -1,0 +1,121 @@
+pair_id,domain,split,role,prompt,expected_token,notes
+gold_symbol,chemistry,development,target,The chemical symbol for gold is,Au,Primary factual recall prompt
+gold_symbol,chemistry,development,positive_paraphrase,Gold has the chemical symbol,Au,Same fact with a different surface form
+gold_symbol,chemistry,development,negative_same_template,The chemical symbol for zorium is,,Matched template with a nonce element
+gold_symbol,chemistry,development,negative_nonce,Zorium has the chemical symbol,,Nonce fact with paraphrased surface form
+iron_symbol,chemistry,development,target,The chemical symbol for iron is,Fe,Primary factual recall prompt
+iron_symbol,chemistry,development,positive_paraphrase,Iron has the chemical symbol,Fe,Same fact with a different surface form
+iron_symbol,chemistry,development,negative_same_template,The chemical symbol for velium is,,Matched template with a nonce element
+iron_symbol,chemistry,development,negative_nonce,Velium has the chemical symbol,,Nonce fact with paraphrased surface form
+lead_symbol,chemistry,development,target,The chemical symbol for lead is,Pb,Primary factual recall prompt
+lead_symbol,chemistry,development,positive_paraphrase,Lead has the chemical symbol,Pb,Same fact with a different surface form
+lead_symbol,chemistry,development,negative_same_template,The chemical symbol for caldrium is,,Matched template with a nonce element
+lead_symbol,chemistry,development,negative_nonce,Caldrium has the chemical symbol,,Nonce fact with paraphrased surface form
+mercury_symbol,chemistry,development,target,The chemical symbol for mercury is,Hg,Primary factual recall prompt
+mercury_symbol,chemistry,development,positive_paraphrase,Mercury has the chemical symbol,Hg,Same fact with a different surface form
+mercury_symbol,chemistry,development,negative_same_template,The chemical symbol for torvium is,,Matched template with a nonce element
+mercury_symbol,chemistry,development,negative_nonce,Torvium has the chemical symbol,,Nonce fact with paraphrased surface form
+argon_symbol,chemistry,development,target,The chemical symbol for argon is,Ar,Primary factual recall prompt
+argon_symbol,chemistry,development,positive_paraphrase,Argon has the chemical symbol,Ar,Same fact with a different surface form
+argon_symbol,chemistry,development,negative_same_template,The chemical symbol for nexium is,,Matched template with a nonce element
+argon_symbol,chemistry,development,negative_nonce,Nexium has the chemical symbol,,Nonce fact with paraphrased surface form
+sodium_symbol,chemistry,held_out,target,The chemical symbol for sodium is,Na,Primary factual recall prompt
+sodium_symbol,chemistry,held_out,positive_paraphrase,Sodium has the chemical symbol,Na,Same fact with a different surface form
+sodium_symbol,chemistry,held_out,negative_same_template,The chemical symbol for pelorium is,,Matched template with a nonce element
+sodium_symbol,chemistry,held_out,negative_nonce,Pelorium has the chemical symbol,,Nonce fact with paraphrased surface form
+silver_symbol,chemistry,held_out,target,The chemical symbol for silver is,Ag,Primary factual recall prompt
+silver_symbol,chemistry,held_out,positive_paraphrase,Silver has the chemical symbol,Ag,Same fact with a different surface form
+silver_symbol,chemistry,held_out,negative_same_template,The chemical symbol for darvium is,,Matched template with a nonce element
+silver_symbol,chemistry,held_out,negative_nonce,Darvium has the chemical symbol,,Nonce fact with paraphrased surface form
+potassium_symbol,chemistry,held_out,target,The chemical symbol for potassium is,K,Primary factual recall prompt
+potassium_symbol,chemistry,held_out,positive_paraphrase,Potassium has the chemical symbol,K,Same fact with a different surface form
+potassium_symbol,chemistry,held_out,negative_same_template,The chemical symbol for solarium is,,Matched template with a nonce element
+potassium_symbol,chemistry,held_out,negative_nonce,Solarium has the chemical symbol,,Nonce fact with paraphrased surface form
+copper_symbol,chemistry,held_out,target,The chemical symbol for copper is,Cu,Primary factual recall prompt
+copper_symbol,chemistry,held_out,positive_paraphrase,Copper has the chemical symbol,Cu,Same fact with a different surface form
+copper_symbol,chemistry,held_out,negative_same_template,The chemical symbol for merovium is,,Matched template with a nonce element
+copper_symbol,chemistry,held_out,negative_nonce,Merovium has the chemical symbol,,Nonce fact with paraphrased surface form
+tungsten_symbol,chemistry,held_out,target,The chemical symbol for tungsten is,W,Primary factual recall prompt
+tungsten_symbol,chemistry,held_out,positive_paraphrase,Tungsten has the chemical symbol,W,Same fact with a different surface form
+tungsten_symbol,chemistry,held_out,negative_same_template,The chemical symbol for quornium is,,Matched template with a nonce element
+tungsten_symbol,chemistry,held_out,negative_nonce,Quornium has the chemical symbol,,Nonce fact with paraphrased surface form
+france_capital,geography,development,target,The capital of France is,Paris,Primary factual recall prompt
+france_capital,geography,development,positive_paraphrase,France is governed from the capital city of,Paris,Amended paraphrase retaining alternative-logit coverage
+france_capital,geography,development,negative_same_template,The capital of Varelia is,,Matched template with a nonce country
+france_capital,geography,development,negative_nonce,Varelia's capital city is,,Nonce fact with paraphrased surface form
+japan_capital,geography,development,target,The capital of Japan is,Tokyo,Primary factual recall prompt
+japan_capital,geography,development,positive_paraphrase,Japan is governed from the capital city of,Tokyo,Amended paraphrase retaining alternative-logit coverage
+japan_capital,geography,development,negative_same_template,The capital of Rovenia is,,Matched template with a nonce country
+japan_capital,geography,development,negative_nonce,Rovenia's capital city is,,Nonce fact with paraphrased surface form
+germany_capital,geography,development,target,The capital of Germany is,Berlin,Primary factual recall prompt
+germany_capital,geography,development,positive_paraphrase,Germany is governed from the capital city of,Berlin,Amended paraphrase retaining alternative-logit coverage
+germany_capital,geography,development,negative_same_template,The capital of Talmera is,,Matched template with a nonce country
+germany_capital,geography,development,negative_nonce,Talmera's capital city is,,Nonce fact with paraphrased surface form
+egypt_capital,geography,development,target,The capital of Egypt is,Cairo,Primary factual recall prompt
+egypt_capital,geography,development,positive_paraphrase,Egypt is governed from the capital city of,Cairo,Amended paraphrase retaining alternative-logit coverage
+egypt_capital,geography,development,negative_same_template,The capital of Elsoria is,,Matched template with a nonce country
+egypt_capital,geography,development,negative_nonce,Elsoria's capital city is,,Nonce fact with paraphrased surface form
+italy_capital,geography,development,target,The capital of Italy is,Rome,Primary factual recall prompt
+italy_capital,geography,development,positive_paraphrase,Italy is governed from the capital city of,Rome,Amended paraphrase retaining alternative-logit coverage
+italy_capital,geography,development,negative_same_template,The capital of Norvane is,,Matched template with a nonce country
+italy_capital,geography,development,negative_nonce,Norvane's capital city is,,Nonce fact with paraphrased surface form
+spain_capital,geography,held_out,target,The capital of Spain is,Madrid,Primary factual recall prompt
+spain_capital,geography,held_out,positive_paraphrase,Spain is governed from the capital city of,Madrid,Amended paraphrase retaining alternative-logit coverage
+spain_capital,geography,held_out,negative_same_template,The capital of Pellara is,,Matched template with a nonce country
+spain_capital,geography,held_out,negative_nonce,Pellara's capital city is,,Nonce fact with paraphrased surface form
+canada_capital,geography,held_out,target,The capital of Canada is,Ottawa,Primary factual recall prompt
+canada_capital,geography,held_out,positive_paraphrase,Canada is governed from the capital city of,Ottawa,Amended paraphrase retaining alternative-logit coverage
+canada_capital,geography,held_out,negative_same_template,The capital of Caldora is,,Matched template with a nonce country
+canada_capital,geography,held_out,negative_nonce,Caldora's capital city is,,Nonce fact with paraphrased surface form
+thailand_capital,geography,held_out,target,The capital of Thailand is,Bangkok,Primary factual recall prompt
+thailand_capital,geography,held_out,positive_paraphrase,Thailand is governed from the capital city of,Bangkok,Amended paraphrase retaining alternative-logit coverage
+thailand_capital,geography,held_out,negative_same_template,The capital of Zenthia is,,Matched template with a nonce country
+thailand_capital,geography,held_out,negative_nonce,Zenthia's capital city is,,Nonce fact with paraphrased surface form
+turkey_capital,geography,held_out,target,The capital of Turkey is,Ankara,Primary factual recall prompt
+turkey_capital,geography,held_out,positive_paraphrase,Turkey is governed from the capital city of,Ankara,Amended paraphrase retaining alternative-logit coverage
+turkey_capital,geography,held_out,negative_same_template,The capital of Meridia is,,Matched template with a nonce country
+turkey_capital,geography,held_out,negative_nonce,Meridia's capital city is,,Nonce fact with paraphrased surface form
+south_korea_capital,geography,held_out,target,The capital of South Korea is,Seoul,Primary factual recall prompt
+south_korea_capital,geography,held_out,positive_paraphrase,South Korea is governed from the capital city of,Seoul,Amended paraphrase retaining alternative-logit coverage
+south_korea_capital,geography,held_out,negative_same_template,The capital of Orinthia is,,Matched template with a nonce country
+south_korea_capital,geography,held_out,negative_nonce,Orinthia's capital city is,,Nonce fact with paraphrased surface form
+wwii_end,history,development,target,The conflict that ended in 1945 was World War,II,Amended entity completion; original numeric graph excluded
+wwii_end,history,development,positive_paraphrase,The 1945 Allied victory concluded World War,II,Same fact with a different surface form
+wwii_end,history,development,negative_same_template,The conflict that ended in 2145 was the Rovenian War,,Matched template with a nonce conflict
+wwii_end,history,development,negative_nonce,The 2145 Varelian victory concluded the Rovenian War,,Nonce fact with paraphrased surface form
+moon_landing,history,development,target,The astronaut who first walked on the Moon was Neil,Armstrong,Amended entity completion; original numeric graph excluded
+moon_landing,history,development,positive_paraphrase,The first Moon walker was Neil,Armstrong,Same fact with a different surface form
+moon_landing,history,development,negative_same_template,The astronaut who first walked on Varelia's moon was Nalen,,Matched template with a nonce person
+moon_landing,history,development,negative_nonce,Varelia's first moon walker was Nalen,,Nonce fact with paraphrased surface form
+berlin_wall,history,development,target,The Soviet leader associated with the Berlin Wall's fall was Mikhail,Gorbachev,Amended entity completion; original numeric graph excluded
+berlin_wall,history,development,positive_paraphrase,When the Berlin Wall fell the Soviet leader was Mikhail,Gorbachev,Same fact with a different surface form
+berlin_wall,history,development,negative_same_template,The leader associated with the Talmera Wall's fall was Nalen,,Matched template with a nonce person
+berlin_wall,history,development,negative_nonce,When the Talmera Wall fell the leader was Nalen,,Nonce fact with paraphrased surface form
+titanic_sink,history,development,target,The passenger liner that sank in 1912 was the,Titanic,Amended entity completion; original numeric graph excluded
+titanic_sink,history,development,positive_paraphrase,The ship lost after striking an iceberg in 1912 was RMS,Titanic,Same fact with a different surface form
+titanic_sink,history,development,negative_same_template,The passenger liner that sank in 2112 was the Pelorian,,Matched template with a nonce ship
+titanic_sink,history,development,negative_nonce,The ship lost after striking an iceberg in 2112 was RMS Pelorian,,Nonce fact with paraphrased surface form
+us_independence,history,development,target,The Declaration of Independence's principal author was Thomas,Jefferson,Amended entity completion; original numeric graph excluded
+us_independence,history,development,positive_paraphrase,In Philadelphia the Declaration of Independence was drafted by Thomas,Jefferson,Amended paraphrase retaining alternative-logit coverage
+us_independence,history,development,negative_same_template,The Varelian Declaration's principal author was Nalen,,Matched template with a nonce person
+us_independence,history,development,negative_nonce,The principal drafter of the Varelian Declaration was Nalen,,Nonce fact with paraphrased surface form
+french_revolution,history,held_out,target,The prison stormed during the French Revolution was the,Bastille,Amended entity completion; original numeric graph excluded
+french_revolution,history,held_out,positive_paraphrase,French revolutionaries stormed the Paris prison called the,Bastille,Same fact with a different surface form
+french_revolution,history,held_out,negative_same_template,The prison stormed during the Varelian Revolution was the Pelorian,,Matched template with a nonce prison
+french_revolution,history,held_out,negative_nonce,Varelian revolutionaries stormed the prison called the Pelorian,,Nonce fact with paraphrased surface form
+wwi_start,history,held_out,target,The archduke whose assassination triggered World War I was Franz,Ferdinand,Amended entity completion; original numeric graph excluded
+wwi_start,history,held_out,positive_paraphrase,World War I followed the assassination of Archduke Franz,Ferdinand,Same fact with a different surface form
+wwi_start,history,held_out,negative_same_template,The assassination that triggered the Norvane War killed Nalen,,Matched template with a nonce person
+wwi_start,history,held_out,negative_nonce,The Norvane War followed the assassination of Nalen,,Nonce fact with paraphrased surface form
+columbus_americas,history,held_out,target,The flagship of Columbus's 1492 voyage was the Santa,Maria,Amended entity completion; original numeric graph excluded
+columbus_americas,history,held_out,positive_paraphrase,Columbus's flagship in 1492 was the Santa,Maria,Same fact with a different surface form
+columbus_americas,history,held_out,negative_same_template,The flagship of Torven's 2192 voyage was the Pelorian,,Matched template with a nonce ship
+columbus_americas,history,held_out,negative_nonce,Torven's flagship in 2192 was the Pelorian,,Nonce fact with paraphrased surface form
+great_fire_london,history,held_out,target,The city devastated by the Great Fire of 1666 was,London,Amended entity completion; original numeric graph excluded
+great_fire_london,history,held_out,positive_paraphrase,The Great Fire of 1666 devastated,London,Same fact with a different surface form
+great_fire_london,history,held_out,negative_same_template,The city devastated by the Great Fire of 2166 was Varelia,,Matched template with a nonce city
+great_fire_london,history,held_out,negative_nonce,The Great Fire of 2166 devastated Varelia,,Nonce fact with paraphrased surface form
+mandela_release,history,held_out,target,Nelson Mandela's political party was the,ANC,Amended entity completion; original numeric graph excluded
+mandela_release,history,held_out,positive_paraphrase,The party led by Nelson Mandela was the,ANC,Same fact with a different surface form
+mandela_release,history,held_out,negative_same_template,Nalen Voro's political party was the Pelorian,,Matched template with a nonce party
+mandela_release,history,held_out,negative_nonce,The party led by Nalen Voro was the Pelorian,,Nonce fact with paraphrased surface form

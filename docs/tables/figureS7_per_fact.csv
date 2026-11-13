@@ -1,0 +1,11 @@
+pair_id,domain,split,margin
+canada_capital,geography,held_out,0.07787529580076921
+copper_symbol,chemistry,held_out,0.06903834154026262
+potassium_symbol,chemistry,held_out,0.10183626129676751
+silver_symbol,chemistry,held_out,0.08538128566479847
+sodium_symbol,chemistry,held_out,0.08543678668171326
+south_korea_capital,geography,held_out,0.11765600433433476
+spain_capital,geography,held_out,0.09486098302738089
+thailand_capital,geography,held_out,0.0844974330197758
+tungsten_symbol,chemistry,held_out,0.08542063184017479
+turkey_capital,geography,held_out,0.09239401392804625

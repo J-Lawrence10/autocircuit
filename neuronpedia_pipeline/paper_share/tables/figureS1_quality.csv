@@ -1,0 +1,6 @@
+cohort,graphs,ambiguous_raw_exports,error_influence_median_percent
+Gemma controlled,120,84,7.1507600648009415
+Qwen1.7 controlled,91,0,6.0588488980876125
+Gemma crossed,27,13,7.838238783268707
+Qwen4 controlled,120,0,14.566366681187809
+Qwen4 crossed,27,0,14.533912466732533

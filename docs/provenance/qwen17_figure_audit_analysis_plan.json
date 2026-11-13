@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-11-07T05:39:40.712718+00:00",
+  "specification": {
+    "additional_quality_subset": "Late41 only, as collection-date diagnostics, not an independent model or effect replication.",
+    "answer_definition": "Reuse archived hash-verified Qwen tokenizer and answer_check. Check all available factual starting/reworded graphs, not invented-name controls and not just eligible evaluation facts.",
+    "archived_reconciliation": "Original raw quality50; original lexical15 rule rows /25 candidate pairs /5 evaluation facts; original factual token audit30.",
+    "cohorts": {
+      "expanded91": "The same 50 original exports plus 41 late exports; ten included evaluation facts.",
+      "original50": "The unchanged 50 original exports; five included evaluation facts."
+    },
+    "display_cautions": [
+      "Expanded91 contains original50; not a fourth model or independent replication.",
+      "Unavailable lexical matches and absent history estimates are not zero effects.",
+      "A compatible answer prefix is not verification of the completed answer.",
+      "Tokenizer validation does not recover the exact historical hosted checkpoint revision.",
+      "Other-model and crossed-design panels stay explicitly in their original cohorts."
+    ],
+    "expected_factual_denominators": {
+      "expanded91": 50,
+      "original50": 30
+    },
+    "input_sha256": {
+      "data/model_extension/exploratory_20260905/answer_audit.csv": "e884c125c4c1a98ab800aed548e5651e9a31932a65b6aa6904937c965a3ae4bd",
+      "data/model_extension/exploratory_20260905/lexical_per_fact.csv": "11ac75da0e2dde6dc3a3284d167c598215ce876012bb43acfa0926ae25db32c2",
+      "data/model_extension/exploratory_20260905/pairwise_lexical_and_size.csv": "ac4d4e56eb31506125828a5e107bd370387a3db0c008e410174eabd427805686",
+      "data/model_extension/exploratory_20260905/results.json": "6b9238e58394fc20ef1b61d30d5490f406e51fb585e6316d9250040106932e0a",
+      "data/model_extension/exploratory_20260905/tokenizers/qwen3-1.7b/provenance.json": "e681f0dec9c4514c2523842ce0cbdd91c2292f5530bc5aa109e214d427be5a86",
+      "data/model_extension/exploratory_20260905/tokenizers/qwen3-1.7b/tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "data/model_extension/exploratory_20260905/tokenizers/qwen3-1.7b/tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+      "data/model_extension/qwen17_completion_20261106/analysis/analysis_plan.json": "a901d37b50649cd4c0c1566dfa19d86be173aef96323299373520bde2d232674",
+      "data/model_extension/qwen17_completion_20261106/analysis/representation_cache_index.json": "c2679da481ea64fa9833f1c965505896004eed01b79385e691720cbc0bb60747",
+      "data/model_extension/qwen17_completion_20261106/analysis/results.json": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
+      "data/model_extension/qwen17_completion_20261106/audit/collection_verification.json": "3dd7994a2d76c06917977ffd46de1bfb1a9e53e92dd14604c1f3dcb0e335663a",
+      "data/model_extension/qwen17_completion_20261106/freeze.json": "54db7203b886d9980939d7f23340c108b97bd6f8349d3f9a97ae7aef392bd6eb",
+      "data/publication_analysis/raw_graph_audit.json": "0b53dce3ecae4bc4a175b1ab1449d46904fa84716714acc50d2bf0c4641a55eb",
+      "scripts/audit_qwen17_completion_figures.py": "8d422c46fc93b37ac43acbed02988582dddd8e19975120b3efe40d248b6c96fe",
+      "scripts/exploratory_confound_checks.py": "83a8744242beea11b6307c8d27ee0bc9377021e2919ce79ca38411a99e111ece",
+      "scripts/whole_graph_analysis.py": "850d4f74356990c73dc95dd20fcf6eb29bad970b23d4a90db3499bec8a001caf"
+    },
+    "lexical_definition": "Reuse exploratory_confound_checks pair_table and lexical_checks unchanged; case-folded alphanumeric word-set Jaccard without stopword removal; same-domain evaluation comparators.",
+    "lexical_rules": [
+      "at_least_own_overlap",
+      "word_caliper_0.05",
+      "word_and_size_caliper"
+    ],
+    "lexical_size_caliper": "Absolute log(candidate feature count / own rewording count) <= log(1.25), together with word-overlap caliper 0.05.",
+    "no_eligibility_changes": true,
+    "no_primary_effect_recomputation": true,
+    "quality_definition": "Reuse frozen whole_graph_analysis raw audits. Error burden = absolute reconstruction-error node influence / absolute nonterminal node influence; not causal output fraction.",
+    "schema_version": "qwen17-figure-audit-plan-v1",
+    "status": "Retrospective exploratory display audit, specified before these new lexical/tokenizer calculations, after primary completion outcomes were known."
+  }
+}

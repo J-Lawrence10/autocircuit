@@ -1,0 +1,17 @@
+{
+  "version": "2026-11-11",
+  "status": "post_hoc_sensitivity",
+  "scope": "All available factual starting and reworded prompts in the three-model controlled collection",
+  "aliases": {
+    "columbus_americas": {
+      "expected": "Maria",
+      "accepted": ["Maria", "María"],
+      "reason": "Both complete the ship name Santa Maria / Santa María. This is a spelling variant of the same factual answer.",
+      "sources": [
+        "https://www.rmg.co.uk/collections/objects/rmgc-object-12245",
+        "https://www.fundacionnaovictoria.org/history-nao-santa-maria/"
+      ]
+    }
+  },
+  "normalization": "Trim surrounding whitespace. For a listed fact and expected answer only, compare NFC-normalized strings with the listed accepted answers. Do not strip accents globally, ignore case, remove punctuation, accept prefixes, or change expected answers."
+}

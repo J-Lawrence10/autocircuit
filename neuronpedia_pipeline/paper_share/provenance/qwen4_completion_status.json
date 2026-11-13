@@ -1,0 +1,16 @@
+{
+  "current_job": "columbus_americas__negative_nonce",
+  "finished_at": "2026-11-11T03:48:17.088320+00:00",
+  "generation_requests": 2,
+  "jobs": {
+    "columbus_americas__negative_nonce": "saved_valid",
+    "columbus_americas__positive_paraphrase": "saved_valid"
+  },
+  "original_archive_unchanged": true,
+  "pid": 31572,
+  "raw_graphs_recovered": 2,
+  "shared_rate_checks_passed": true,
+  "started_at": "2026-11-11T03:44:28.866298+00:00",
+  "state": "two_attempts_finished",
+  "updated_at": "2026-11-11T03:46:00.881253+00:00"
+}

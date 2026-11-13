@@ -1,3 +1,16 @@
+# AutoCircuit: current attribution-graph paper
+
+## Working paper, 2026-11-13
+
+[Read the paper online](https://j-lawrence10.github.io/autocircuit/manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) | [Website and figures](https://j-lawrence10.github.io/autocircuit/) | [Review package](neuronpedia_pipeline/paper_share/)
+
+**Feature sharing in attribution graphs tracks predicted responses.** The paper asks whether graph feature sharing reflects the fact being asked about or the answer the model produces. This reviewed edition includes the approved manuscript and abstract, six main figures, ten supplements, derived tables, analysis code snapshots, and audit records. It is a working manuscript, not a peer-reviewed publication. Raw Neuronpedia exports, credentials, model files, and third-party reference PDFs are not included.
+
+**Historical correction:** Earlier traceback, bottleneck, redundancy, and causal claims are withdrawn. The archived research overview below is not the current paper or its conclusions.
+
+<details>
+<summary>Archived project overview</summary>
+
 # AutoCircuit: Neural Circuit Analysis Tools
 
 **AI Safety Camp 2025 - Project #24**
@@ -251,3 +264,5 @@ Automated circuit discovery could significantly contribute to reducing AGI risks
 **Last Updated**: February 2, 2026
 
 **Status**: ✅ Major findings documented, ready for team review and external sharing
+
+</details>

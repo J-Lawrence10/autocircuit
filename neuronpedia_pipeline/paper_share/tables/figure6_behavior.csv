@@ -1,0 +1,5 @@
+reference,response_format,correct,n
+named,label,4,4
+named,capital,4,4
+ordinal,label,0,4
+ordinal,capital,0,4

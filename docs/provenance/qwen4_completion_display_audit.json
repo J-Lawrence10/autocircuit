@@ -1,0 +1,75 @@
+{
+  "answers": {
+    "available_factual_graph_n": 60,
+    "statuses": {
+      "multi_token_prefix_only": 5,
+      "next_token_mismatch": 6,
+      "whole_answer_next_token": 49
+    }
+  },
+  "note": "One exact-text mismatch is the accented spelling Mar\u00eda, not evidence of an incorrect historical answer.",
+  "recovered_answer": {
+    "answer_status": "next_token_mismatch",
+    "continuations": [
+      {
+        "expected_ids": [
+          68556
+        ],
+        "first_id_matches": false,
+        "prefix_ok": true,
+        "separator": "''"
+      },
+      {
+        "expected_ids": [
+          23016
+        ],
+        "first_id_matches": false,
+        "prefix_ok": true,
+        "separator": "' '"
+      }
+    ],
+    "expected": "Maria",
+    "job_id": "columbus_americas__positive_paraphrase",
+    "logit_decode_matches": true,
+    "prompt": "<|endoftext|>Columbus's flagship in 1492 was the Santa",
+    "prompt_pieces_match": true,
+    "prompt_tokens": [
+      "<|endoftext|>",
+      "C",
+      "olum",
+      "bus",
+      "'s",
+      " flagship",
+      " in",
+      " ",
+      "1",
+      "4",
+      "9",
+      "2",
+      " was",
+      " the",
+      " Santa"
+    ],
+    "strict_string_match": false,
+    "top_id": 82205,
+    "top_probability": 0.58984375,
+    "top_text": " Mar\u00eda"
+  },
+  "source_hashes": {
+    "data\\model_extension\\exploratory_20260905\\results.json": "6b9238e58394fc20ef1b61d30d5490f406e51fb585e6316d9250040106932e0a",
+    "data\\model_extension\\exploratory_20260905\\tokenizers\\qwen3-4b\\provenance.json": "e1ec569732f55c7fd95421f412aa7fdc4c7db17f5cfe1961cb6da0a0261dc7b5",
+    "data\\model_extension\\exploratory_20260905\\tokenizers\\qwen3-4b\\tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "data\\model_extension\\qwen4_completion_20261110\\analysis\\verification.json": "47ab1ddf492670a3a84172ca84d81d18d90dde78897dfe568043cf4536ef6967",
+    "data\\model_extension\\qwen4_completion_20261110\\graphs\\columbus_americas__positive_paraphrase\\raw_graph.json": "7b70948df23abd9d61b398a9cdfbf5eb8c99081d1ff1b5659c1eec6323603353",
+    "scripts\\exploratory_confound_checks.py": "83a8744242beea11b6307c8d27ee0bc9377021e2919ce79ca38411a99e111ece"
+  },
+  "tokenizer_provenance": {
+    "file_hashes": {
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "repository": "Qwen/Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "status": "ok"
+  }
+}

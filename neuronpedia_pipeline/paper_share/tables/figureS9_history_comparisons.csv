@@ -1,0 +1,5 @@
+comparator,comparison,fact,jaccard
+columbus_americas,same_fact,columbus_americas,0.6241920590951062
+wwi_start,other_fact,columbus_americas,0.022909507445589918
+wwi_start,same_fact,wwi_start,0.427040395713108
+columbus_americas,other_fact,wwi_start,0.03210175651120533
