@@ -15,8 +15,8 @@ def manuscript():
 def test_a2_distinguishes_graph_checks_residuals_and_rule_derived_subset():
     section = manuscript().split('### A2 Graph-file checks and reconstruction error\n\n', 1)[1].split('### A3 ', 1)[0]
     for value in ['84/120', '13/27', '91 Qwen3-1.7B', '147 Qwen3-4B',
-                  '7.15%', '6.06%', '14.57%', '0.1704 to 0.1692',
-                  '0.0894 to 0.0887', '0.2183 to 0.2153']:
+                  '7.15%', '6.06%', '14.57%', '17.04 to 16.92',
+                  '8.94 to 8.87', '21.83 to 21.53']:
         assert value in section
     assert 'Reconstruction-error nodes represent activity that this approximation does not capture.' in section
     assert 'not an incorrect model answer' in section
@@ -52,8 +52,8 @@ def test_a4_explains_comparison_support_and_limits_of_sensitivity_checks():
     section = manuscript().split('### A4 Checks on wording, feature counts, and graph locations\n\n', 1)[1].split('### A5 ', 1)[0]
     assert 'pairs differing in both fact and version as their baseline' in section
     assert 'a shared version label did not guarantee identical wording' in section
-    for value in ['0.074 and 0.118', '0.101 and 0.064', '0.090 and 0.114',
-                  '0.105 and 0.075', '0.1014 and 0.1063']:
+    for value in ['7.4 and 11.8', '10.1 and 6.4', '0.090 and 0.114',
+                  '0.105 and 0.075', '10.14 and 10.63 percentage points']:
         assert value in section
     assert 'a gap in the available comparisons, not a measured zero effect' in section
     assert 'tungsten, changed from a positive to a negative difference' in section
@@ -102,9 +102,9 @@ def test_a7_defines_answer_letters_comparison_units_and_uncollected_evaluation()
     assert 'All 11 correct and five incorrect predictions were retained' in section
     assert 'produced 16 comparisons per event pair' in section
     assert 'Each mean summarized eight graph pairs' in section
-    assert 'Each cell below averages four comparisons' in section
+    assert 'Each cell below gives mean feature overlap (%) across four comparisons' in section
     assert 'all 56 unordered graph comparisons: 28 within each event pair' in section
-    for value in ['0.7396', '0.5075', '0.7758', '0.5614', '0.1268', '0.0015', '0.0686', '0.0210']:
+    for value in ['73.96%', '50.75%', '77.58%', '56.14%', '12.68', '0.15', '6.86', '2.10']:
         assert value in section
     assert 'not additional filtered tests of the predicted-letter grouping' in section
     assert 'average across repetitions, not to every repetition being positive' in section
@@ -147,10 +147,10 @@ def test_results_follow_question_controls_answer_errors_checks_scope():
 
 def test_primary_and_exploratory_outcomes_remain_distinct():
     text = manuscript()
-    assert 'Their average, the prespecified primary outcome, was 0.0303' in text
+    assert 'Their average, the prespecified primary outcome, was 3.03 percentage points' in text
     assert 'The exploratory direct paired difference' in text
-    for value in ['0.0628', '-0.0022', '0.0265–0.0338', '0.000244141',
-                  '0.000732422', '0.0650', '0.0553–0.0746', 'p=0.03125', '0.2827']:
+    for value in ['6.28', '-0.22', '2.65–3.38', '0.000244141',
+                  '0.000732422', '6.50', '5.53–7.46', 'p=0.03125', '28.27']:
         assert value in text
 
 
@@ -159,13 +159,13 @@ def test_answer_letter_contrast_is_explicit_and_separate_from_primary_outcome():
     results = text.split('### 3.3 Same-fact overlap is higher when the answer letter stays the same\n\n', 1)[1].split('### 3.4 ', 1)[0]
     paragraphs = results.split('\n\n')
     paragraph = next(p for p in paragraphs if p.startswith('Attribution graphs shared substantially more features'))
-    assert '0.8005 with the same answer letter and 0.4853 with different letters, a difference of 0.3152 (Figure 4a)' in paragraph
-    assert 'Questions about different countries showed the same pattern, with overlaps of 0.7377 and 0.4874, respectively' in paragraph
-    assert 'letter-associated difference of 0.2827, positive in all six country pairs' in paragraph
+    assert '80.05% with the same answer letter and 48.53% with different letters, a difference of 31.52 percentage points (Figure 4a)' in paragraph
+    assert 'Questions about different countries showed the same pattern, with overlaps of 73.77% and 48.74%, respectively' in paragraph
+    assert 'letter-associated difference of 28.27 percentage points, positive in all six country pairs' in paragraph
     assert 'All 48 predictions were correct' in paragraph
     assert 'even when the country and correct capital remained unchanged' in paragraph
     assert 'separate descriptive overlap contrast, not a fraction of variance or reasoning explained' in paragraph
-    assert 'prespecified primary outcome, was 0.0303' in results
+    assert 'prespecified primary outcome, was 3.03 percentage points' in results
     assert 'exploratory direct paired difference' in results
     assert 'word order, answer mapping, country roles, and output-conditioned graph construction remain possible contributors' in results
 
@@ -186,7 +186,7 @@ def test_selected_error_results_explain_controls_and_preserve_scope():
     assert 'All 16 diagnostic graphs passed integrity checks and reproduced their archived preview answers' in third
     assert 'two correct-answer graphs: one for the intended country and one producing the same answer as the error' in third
     assert 'Every comparison favored the graph sharing the error’s answer (Figure 5b,c)' in third
-    for value in ['0.1983', '0.2649', '0.1851', '0.2361']:
+    for value in ['19.83', '26.49', '18.51', '23.61']:
         assert value in third
     assert 'influence-weighted cosine similarity preserved the direction in all eight comparisons' in third
     assert 'shared control graphs and concerned only France and Germany' in third
@@ -199,7 +199,7 @@ def test_filtered_error_results_and_graph_size_bridge_preserve_scope():
     filtered, limits = errors.strip().split('\n\n')[3:5]
     assert 'all eight selected comparisons' in filtered
     assert 'final input-token position, in the last quarter of observed feature layers, or both' in filtered
-    assert '0.2053 for labels and 0.2608 for capital names (Supplementary Figure S6b)' in filtered
+    assert '20.53 percentage points for labels and 26.08 for capital names (Supplementary Figure S6b)' in filtered
     assert 'changed the graphs used for comparison, not the model itself' in filtered
     assert 'still constructed to explain the predicted answer' in filtered
     assert 'do not estimate how frequently the model makes this mistake' in limits
@@ -220,14 +220,14 @@ def test_equal_count_results_define_table_units_and_sampling_limits():
     results = text.split('### 3.5 Greater same-fact feature sharing persists after matching feature counts\n\n', 1)[1].split('### 3.6 ', 1)[0]
     assert 'K is the smallest number of distinct features among the included starting and reworded factual graphs within each model and subject area' in results
     assert 'K/2 is half that number, rounded down' in results
-    assert 'mean same-fact-minus-other-fact Jaccard differences, not raw overlap scores' in results
-    assert '| Gemma-2-2B | 0.170 | 0.149 [0.066, 0.257] | 0.058 | 7/8 |' in results
-    assert '| Qwen3-1.7B | 0.089 | 0.084 [0.076, 0.092] | 0.033 | 10/10 |' in results
-    assert '| Qwen3-4B | 0.218 | 0.181 [0.110, 0.267] | 0.072 | 12/12 |' in results
+    assert 'mean same-fact-minus-other-fact Jaccard differences in percentage points, not raw overlap percentages' in results
+    assert '| Gemma-2-2B | 17.0 | 14.9 [6.6, 25.7] | 5.8 | 7/8 |' in results
+    assert '| Qwen3-1.7B | 8.9 | 8.4 [7.6, 9.2] | 3.3 | 10/10 |' in results
+    assert '| Qwen3-4B | 21.8 | 18.1 [11.0, 26.7] | 7.2 | 12/12 |' in results
     assert '200 sampling repetitions at both feature counts' in results
     assert 'After averaging across repetitions' in results
     assert 'seven of eight Gemma questions, all ten Qwen3-1.7B questions, and all twelve Qwen3-4B questions had positive differences at K' in results
-    assert '−0.0187 at K and −0.0080 at K/2' in results
+    assert '−1.87 percentage points at K and −0.80 at K/2' in results
     assert 'the 200 repetitions are not additional independent observations' in results
     assert 'Subsampling can retain a shared feature in one graph while removing it from another' in results
     assert 'cannot be interpreted as the percentage of the original association explained by graph size' in results
@@ -238,8 +238,8 @@ def test_equal_count_results_define_table_units_and_sampling_limits():
 
 def test_original_results_and_limitations_are_retained():
     text = manuscript()
-    for value in ['0.170', '0.085', '0.218', '0.1983', '0.2649', '0.1851',
-                  '0.2361', '−0.0187', '−0.0080', '385', '15/20', '20/20',
+    for value in ['17.0', '8.5', '21.8', '19.83', '26.49', '18.51',
+                  '23.61', '−1.87', '−0.80', '385', '15/20', '20/20',
                   '23.1%', '17.2–31.4%', '4.9–14.6', '8/16']:
         assert value in text
     for phrase in ['rather than eight independent replications', 'not an equivalence',
@@ -293,17 +293,17 @@ def test_opening_results_link_claims_to_their_figure_panels():
     assert len(paragraphs) == 4
     assert 'Across all three models, every included evaluation question had greater Jaccard overlap' in paragraphs[0]
     assert 'rewordings of other facts (Figure 2a)' in paragraphs[0]
-    for value in ['0.170', '[0.085, 0.276]', 'n=8', '0.0894', '[0.0820, 0.0976]',
-                  'n=10', 'n=12', '0.218', '[0.150, 0.307]', '0.00390625', '0.0009765625',
+    for value in ['17.0', '[8.5, 27.6]', 'n=8', '8.94', '[8.20, 9.76]',
+                  'n=10', 'n=12', '21.8', '[15.0, 30.7]', '0.00390625', '0.0009765625',
                   '0.000244140625', '0.00139', '0.0000694', '0.0000347']:
         assert value in paragraphs[0]
     assert 'prevent interpreting these effect sizes as a model ranking' in paragraphs[0]
     assert 'all five geography evaluation facts had positive overlap differences' in paragraphs[1]
-    assert 'subject means of 0.0854 and 0.0935 (Figure 2b)' in paragraphs[1]
+    assert 'subject means of 8.54 and 9.35 percentage points (Figure 2b)' in paragraphs[1]
     assert 'no history fact had a complete set of factual and control graphs (Supplementary Figure S7a)' in paragraphs[1]
     assert 'Supporting analysis A5' in paragraphs[1]
     assert 'Qwen3-4B included five chemistry, five geography, and two history facts' in paragraphs[2]
-    assert '0.601 and 0.395' in paragraphs[2] and '0.498' in paragraphs[2]
+    assert '60.1 and 39.5 percentage points' in paragraphs[2] and '49.8 percentage points' in paragraphs[2]
     assert 'Supplementary Figure S9a' in paragraphs[2]
     assert 'reworded questions may also share words and the expected answer' in paragraphs[3]
     assert 'examined whether these similarities could explain the pattern' in paragraphs[3]
@@ -353,7 +353,7 @@ def test_crossed_design_distinguishes_version_labels_from_exact_templates():
     assert 'questions differing in fact and version as their baseline' in methods
     assert 'varied factual content and sentence pattern separately' not in text
     assert 'The average same-fact and same-version Jaccard differences were' in text
-    assert '0.074 and 0.118 for Gemma' in text and '0.101 and 0.064 for Qwen3-4B' in text
+    assert '7.4 and 11.8 percentage points for Gemma' in text and '10.1 and 6.4 for Qwen3-4B' in text
 
 
 def test_invented_name_control_paragraph_leads_with_purpose_and_defines_matching():
@@ -378,7 +378,7 @@ def test_exploratory_checks_define_matching_and_keep_sampling_units():
     assert '10,000 fact-level resamples' in methods
     assert 'each sampled graph was reused in all its comparisons' in methods
     assert 'three alternative matching rules' in methods
-    assert 'scores to differ by no more than 0.05' in methods
+    assert 'scores to differ by no more than 5 percentage points' in methods
     assert "other-fact rewording's graph to contain between 80% and 125% as many features as the factual rewording's graph" in methods
     assert 'not estimable, rather than zero' in methods
     assert 'Matching thresholds were not relaxed after inspection.' in methods
@@ -422,15 +422,15 @@ def test_current_qwen_sample_and_negative_controls_are_used_consistently():
     assert '91 collected graphs comprised 40 chemistry, 40 geography, and 11 history graphs' in text
     assert 'These are collection failures, not incorrect predictions.' in text
     assert 'All five chemistry and all five geography evaluation facts' in text
-    for number in ['0.0935', '0.0894', '[0.0820, 0.0976]', '-0.0114', '-0.0109', '0.1059',
-                   '0.0835', '0.0331', '0.00016', '0.1934', '14,400']:
+    for number in ['9.35', '8.94', '[8.20, 9.76]', '-1.14', '-1.09', '10.59',
+                   '8.35', '3.31', '0.00016', '0.1934', '14,400']:
         assert number in text
     assert 'exploratory rather than an independent confirmatory replication' in text
     assert 'eight of its ten evaluation questions shared more features with the same-pattern invented name control' in text
     assert 'no history fact had a complete set of factual and control graphs' in text
     assert 'Shorter history prompts were not generated or substituted' in text
     results = text.split('### 3.1 ', 1)[1].split('### 3.3 ', 1)[0]
-    assert '0.0894 for Qwen3-1.7B ([0.0820, 0.0976], n=10)' in results
+    assert '8.94 for Qwen3-1.7B ([8.20, 9.76], n=10)' in results
     assert '108 directed other-fact comparisons' in results
     assert '0.085 for Qwen3-1.7B' not in results
     assert '0/5 Qwen3-1.7B' not in results
@@ -458,9 +458,9 @@ def test_history_results_retain_errors_and_follow_figure_panel_order():
     results = text.split('### 3.6 ', 1)[1].split('## 4. Discussion', 1)[0]
     assert 'including 11 correct and five incorrect predictions' in results
     assert 'changed the selected year from 1776 to 1783' in results
-    assert 'retained the correct year, 1776; overlap was 0.512 (Figure 6a)' in results
-    assert '0.795–0.911' in results and '0.512–0.532 (Figure 6b)' in results
-    assert '0.766–0.808' in results and '0.527–0.602 (Figure 6c)' in results
+    assert 'retained the correct year, 1776; overlap was 51.2% (Figure 6a)' in results
+    assert '79.5–91.1%' in results and '51.2–53.2% (Figure 6b)' in results
+    assert '76.6–80.8%' in results and '52.7–60.2% (Figure 6c)' in results
     assert results.index('(Figure 6a)') < results.index('(Figure 6b)') < results.index('(Figure 6c)')
     assert 'Supporting analysis A7' in results
     methods = text.split('### 2.7 ', 1)[1].split('### 2.8 ', 1)[0]
@@ -471,7 +471,7 @@ def test_history_results_retain_errors_and_follow_figure_panel_order():
     assert 'All 11 correct and five incorrect predictions were retained.' in supplement
     assert '15/20' in supplement and '20/20' in supplement
     assert 'Grouping by the required letter did not produce the same consistent pattern as grouping by the predicted letter.' in supplement
-    assert '0.1268' in supplement and '0.0015' in supplement
+    assert '12.68 percentage points' in supplement and '0.15 percentage points' in supplement
 
 
 def test_discussion_connects_fact_response_and_correctness_without_changing_scope():
@@ -524,7 +524,7 @@ def test_a1_opening_explains_scoring_counts_and_history_without_changing_results
     assert '`Maria` and its rewording predicts `María`' in second
     assert 'all four required prompt graphs' in second
     assert 'high feature overlap does not require identical output-token text' in third
-    for number in ['0.624', '0.023', '0.427', '0.032', '0.543', '0.370', '0.210', '0.151']:
+    for number in ['62.4%', '2.3%', '42.7%', '3.2%', '54.3', '37.0', '21.0', '15.1']:
         assert number in third
     assert '200 random subsamples of the existing graphs, not additional independent observations' in third
 
@@ -532,7 +532,7 @@ def test_a1_opening_explains_scoring_counts_and_history_without_changing_results
 def test_a1_control_and_token_paragraphs_preserve_inclusion_and_error_distinctions():
     supplement = manuscript().split('### A1 ', 1)[1].split('### A2 ', 1)[0]
     assert 'starting prompt shared more features with its factual rewording than with either invented name control' in supplement
-    for value in ['0.537', '0.556', '0.384', '0.385']:
+    for value in ['53.7', '55.6', '38.4', '38.5']:
         assert value in supplement
     assert 'All four controls predicted a comma, whereas the factual prompts predicted names.' in supplement
     assert 'Figure 3, which uses ten Qwen3-4B facts' in supplement
@@ -551,8 +551,8 @@ def test_a1_final_body_defines_exact_matching_and_restricted_groups():
     assert 'Eight Qwen3-4B predictions in this experiment contained only whitespace' in supplement
     assert 'only for groups in which all nine questions passed this matching rule' in supplement
     assert 'Each group contained three facts asked in three versions; only Qwen3-4B geography qualified.' in supplement
-    assert 'same-fact overlap difference was 0.1014' in supplement
-    assert 'difference for questions sharing a version label was 0.1063' in supplement
+    assert 'same-fact overlap difference was 10.14 percentage points' in supplement
+    assert 'difference for questions sharing a version label was 10.63 percentage points' in supplement
     assert 'they did not guarantee identical wording across facts' in supplement
     assert 'we did not formally test that comparison' in supplement
 
@@ -586,14 +586,14 @@ def test_introduction_moves_from_background_to_hypothesis_and_contribution():
     assert all(p.startswith(start) for p, start in zip(paragraphs, starts))
     assert paragraphs[5] == ('Feature overlap was associated with both the relationship between questions and the answer the model predicted. '
                              'We next describe the model samples, question designs, and graph comparisons used to evaluate these relationships.')
-    assert 'using Jaccard similarity, our measure of feature overlap' in paragraphs[3]
+    assert 'using Jaccard similarity, displayed as the percentage' in paragraphs[3]
     assert '[1]' in paragraphs[0] and '[2]' in paragraphs[1] and '[5]' in paragraphs[1]
     assert 'The score ranges from zero' not in intro
     measurement = text.split('### 2.2 ', 1)[1].split('### 2.3 ', 1)[0]
     choice = text.split('### 2.5 ', 1)[1].split('### 2.6 ', 1)[0]
     errors = text.split('### 2.6 ', 1)[1].split('### 2.7 ', 1)[0]
     results = text.split('### 3.3 ', 1)[1].split('### 3.4 ', 1)[0]
-    assert 'The score ranges from zero' in measurement
+    assert '0% means no features are shared, and 100% means both graphs contain the same features' in measurement
     assert 'Paris was labeled A, but B when Paris was labeled B' in choice
     assert 'France/Germany illustrated the design in the preliminary check; six other country pairs formed the evaluation.' in choice
     assert 'Both named-country predictions were correct for their respective questions' in errors
@@ -675,10 +675,10 @@ def test_approved_abstract_preserves_results_and_ends_with_scientific_takeaway()
     assert 'Jaccard overlap in Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B' in abstract
     assert 'including after equalizing feature counts' in abstract
     assert 'six country pairs' in abstract and 'All 48 predicted letters were correct.' in abstract
-    assert 'prespecified mean difference between same-country and different-country overlap was 0.0303' in abstract
-    assert '95% block-bootstrap interval 0.0265–0.0338' in abstract
+    assert 'prespecified mean difference between same-country and different-country overlap was 3.03 percentage points' in abstract
+    assert '95% block-bootstrap interval 2.65–3.38' in abstract
     assert 'with 8, 10, and 12 included evaluation facts, respectively' in abstract
-    assert 'The same-country overlap advantage was 0.0628 when answer letters matched but near zero (-0.0022) when different letters represented the correct answers.' in abstract
+    assert 'The same-country overlap advantage was 6.28 percentage points when answer letters matched but near zero (-0.22 percentage points) when different letters represented the correct answers.' in abstract
     assert 'including five incorrect predictions' in abstract
     assert 'eight selected error comparisons from one country pair' in abstract
     assert '16 historical-date graphs from two event pairs' in abstract
@@ -728,8 +728,8 @@ def test_supporting_methods_preserve_expanded_sample_settings_and_audit_units():
     a5 = text.split('### A5 Qwen3-1.7B results in chemistry and geography\n\n', 1)[1].split('### A6 ', 1)[0]
     results, methods = a5.split('#### A5.1 Additional methods and verification\n\n', 1)
     assert 'Supporting methods A5.1 specifies these procedures and the Holm correction applied to 15 secondary tests' in results
-    assert '| Same-pattern control, matched by broad output type | -0.0109 | [-0.0208, 0.0005] | 2/9 |' in results
-    assert '| Reworded control, matched by broad output type | 0.1059 | [0.0918, 0.1194] | 10/10 |' in results
+    assert '| Same-pattern control, matched by broad output type | -1.09 | [-2.08, 0.05] | 2/9 |' in results
+    assert '| Reworded control, matched by broad output type | 10.59 | [9.18, 11.94] | 10/10 |' in results
     for setting in ['llamascope-2-transcoder-16k-k64', 'LoRSA',
                     'at most ten candidate next tokens (`maxNLogits=10`)',
                     'node and edge thresholds of 0.8 and 0.85', '5,000-feature-node cap',

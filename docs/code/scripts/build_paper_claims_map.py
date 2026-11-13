@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'data/model_extension/final_corrected_scoring_20261111/paper_figures/tables'
 OUT = ROOT / 'data/model_extension/paper_review_20261111/claims'
 LATE = ROOT / 'data/model_extension/qwen17_completion_20261106/analysis/results.json'
-REVISION = '2026-11-11'
+REVISION = '2026-11-13'
 INK, MUTED, BLUE, TEAL = '#193747', '#506774', '#256B91', '#247867'
 PALE, LINE, AMBER = '#F0F5F7', '#D5E0E5', '#8A522B'
 SOURCES = {}
@@ -101,7 +101,7 @@ def main():
 
     text(.04, .970, 'Do similar attribution graphs reflect the fact being asked about,\nor the answer the model produces?', 24, weight='bold')
     text(.04, .902, 'Three models. We compare reworded questions, controlled answer changes, and selected wrong answers.', 12, MUTED)
-    text(.96, .970, 'PI DISCUSSION\n11 November 2026', 10, MUTED, ha='right')
+    text(.96, .970, 'PI DISCUSSION\n13 November 2026', 10, MUTED, ha='right')
     text(.04, .866, 'Feature overlap measures shared learned components in saved graphs. It does not measure answer accuracy.', 12)
 
     xs, width = [.04, .355, .67], .29
@@ -121,14 +121,14 @@ def main():
     text(x, .691, 'Same-fact minus average other-fact overlap', 10.5, weight='bold', bounds=cards[0])
     for y, r in zip([.659, .631, .603], current):
         text(x, y, r['model'], 12, bounds=cards[0])
-        text(xs[0]+width-.016, y, f"+{float(r['mean']):.3f}   (n={r['n']})", 12, BLUE, 'bold', ha='right', bounds=cards[0])
+        text(xs[0]+width-.016, y, f"+{100*float(r['mean']):.1f} pp   (n={r['n']})", 12, BLUE, 'bold', ha='right', bounds=cards[0])
     text(x, .562, 'The fact, wording, and expected answer\nremain linked in these comparisons.', 11, bounds=cards[0])
 
     x = xs[1]+.016
     text(x, .691, 'Same-country minus other-country overlap', 10.5, weight='bold', bounds=cards[1])
     for y, label, value in [(.648, 'Same A/B answer', same), (.606, 'Changed A/B answer', changed)]:
         text(x, y, label, 12, bounds=cards[1])
-        text(xs[1]+width-.016, y+.004, f'{value:+.4f}', 18, BLUE, 'bold', ha='right', bounds=cards[1])
+        text(xs[1]+width-.016, y+.004, f'{100*value:+.2f} pp', 18, BLUE, 'bold', ha='right', bounds=cards[1])
     text(x, .561, 'Same words and token counts within each pair;\nall 48 predicted answer letters were correct.', 10.5, MUTED, bounds=cards[1])
 
     x = xs[2]+.016
@@ -169,7 +169,7 @@ def main():
     text(.67, .153, 'No causal circuit or proven error mechanism.\nThe fact remains linked to words and answers.\nNear-zero does not establish absent knowledge.', 10.5)
 
     ax.plot([.04, .96], [.070, .070], color=LINE, lw=1)
-    text(.04, .053, 'Values are differences in Jaccard overlap, not percentages. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.', 9, MUTED)
+    text(.04, .053, 'pp = percentage points of Jaccard feature overlap, not relative percent changes. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.', 9, MUTED)
     text(.04, .031, 'Sources: Figures 2 and 4–6; Supplements S3/S6/S7/S9; final corrected scoring. One primary sample per model.', 8.5, MUTED)
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
@@ -194,6 +194,7 @@ def main():
         fig.savefig(OUT/f'paper_claims_map.{extension}', dpi=240, facecolor='white')
     plt.close(fig)
     manifest = {'date': REVISION, 'purpose': 'PI-facing evidence and claim summary with one current sample per model; no new model requests or statistical analysis',
+                'presentation_units': {'jaccard_difference': 'percentage_points', 'display_multiplier': 100, 'source_values_changed': False},
                 'source_hashes': {str(p.relative_to(ROOT)): value for p, value in SOURCES.items()},
                 'script_sha256': sha(Path(__file__)),
                 'output_hashes': {p.name: sha(p) for p in OUT.iterdir() if p.suffix in ['.png', '.svg']},

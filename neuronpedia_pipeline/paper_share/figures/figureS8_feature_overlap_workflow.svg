@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-11T13:13:02.421782</dc:date>
+    <dc:date>2026-11-13T09:42:04.470578</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 31.863037 75.9456 31.863037 77.6088
 L 31.863037 180.7272 
 Q 31.863037 182.3904 34.992486 182.3904 
 z
-" clip-path="url(#pc7913e6e13)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pbfcfae4226)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="87.13275" transform="rotate(-0 139.829021 87.13275)">1  Prepare four prompt roles</text>
@@ -66,7 +66,7 @@ Q 277.748301 75.9456 277.748301 77.6088
 L 277.748301 180.7272 
 Q 277.748301 182.3904 280.87775 182.3904 
 z
-" clip-path="url(#pfc69c17199)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pd3c4dcf9cd)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_3">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="87.13275" transform="rotate(-0 385.714286 87.13275)">2  Export attribution graphs</text>
@@ -90,7 +90,7 @@ Q 31.863037 216.1296 31.863037 217.7928
 L 31.863037 320.9112 
 Q 31.863037 322.5744 34.992486 322.5744 
 z
-" clip-path="url(#pd6bee13e0f)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p144e2eddea)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_5">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="227.31675" transform="rotate(-0 139.829021 227.31675)">3  Apply inclusion rules</text>
@@ -116,7 +116,7 @@ Q 277.748301 216.1296 277.748301 217.7928
 L 277.748301 320.9112 
 Q 277.748301 322.5744 280.87775 322.5744 
 z
-" clip-path="url(#p592ef3da7c)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pf309540bab)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_7">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="227.31675" transform="rotate(-0 385.714286 227.31675)">4  Keep unique learned features</text>
@@ -142,18 +142,18 @@ Q 31.863037 356.3136 31.863037 357.9768
 L 31.863037 461.0952 
 Q 31.863037 462.7584 34.992486 462.7584 
 z
-" clip-path="url(#pa88d1ebbca)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pcdd91b7abb)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_9">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="139.829021" y="367.50075" transform="rotate(-0 139.829021 367.50075)">5  Calculate one difference per fact</text>
    </g>
    <g id="text_10">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(66.955974 393.342926)">Jaccard = shared / all distinct features.</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(139.829021 402.311168)"/>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(78.295037 402.311168)">Multiply by 100 to show percent.</text>
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(67.552459 411.27941)">Compare the starting question with its</text>
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(60.236443 420.247652)">own rewording, then average overlap with</text>
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(67.566521 429.215895)">ALL other included factual rewordings.</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(84.038982 438.184137)">Subtract the other-fact mean.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(75.102849 438.184137)">Subtract to get percentage points.</text>
    </g>
   </g>
   <g id="axes_6">
@@ -168,17 +168,17 @@ Q 277.748301 356.3136 277.748301 357.9768
 L 277.748301 461.0952 
 Q 277.748301 462.7584 280.87775 462.7584 
 z
-" clip-path="url(#p46da294528)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p3013d876ab)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_11">
     <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203544" x="385.714286" y="367.50075" transform="rotate(-0 385.714286 367.50075)">6  Summarize across facts</text>
    </g>
    <g id="text_12">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(340.977372 388.858805)">Illustrative feature sets:</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(314.385184 397.827047)">{a, b, c} and {a, b, d} → 2 / 4 = 0.50.</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(319.505692 406.795289)">Illustrative other-fact mean = 0.30.</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(323.436747 415.763531)">Difference: 0.50 − 0.30 = +0.20.</text>
-    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(385.714286 424.731773)"/>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(314.399833 397.827047)">{a, b, c} and {a, b, d} → 2 / 4 = 50%.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(319.52034 406.795289)">Illustrative other-fact mean = 30%.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(321.090653 415.763531)">Difference: 50% − 30% = +20 pp.</text>
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(340.178739 424.731773)">pp = percentage points.</text>
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(312.543583 433.700016)">Means, descriptive bootstrap intervals,</text>
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(323.66702 442.668258)">and within-subject permutations.</text>
    </g>
@@ -192,22 +192,22 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pc7913e6e13">
+  <clipPath id="pbfcfae4226">
    <rect x="28.062992" y="67.392" width="223.532058" height="118.8"/>
   </clipPath>
-  <clipPath id="pfc69c17199">
+  <clipPath id="pd3c4dcf9cd">
    <rect x="273.948256" y="67.392" width="223.532058" height="118.8"/>
   </clipPath>
-  <clipPath id="pd6bee13e0f">
+  <clipPath id="p144e2eddea">
    <rect x="28.062992" y="207.576" width="223.532058" height="118.8"/>
   </clipPath>
-  <clipPath id="p592ef3da7c">
+  <clipPath id="pf309540bab">
    <rect x="273.948256" y="207.576" width="223.532058" height="118.8"/>
   </clipPath>
-  <clipPath id="pa88d1ebbca">
+  <clipPath id="pcdd91b7abb">
    <rect x="28.062992" y="347.76" width="223.532058" height="118.8"/>
   </clipPath>
-  <clipPath id="p46da294528">
+  <clipPath id="p3013d876ab">
    <rect x="273.948256" y="347.76" width="223.532058" height="118.8"/>
   </clipPath>
  </defs>

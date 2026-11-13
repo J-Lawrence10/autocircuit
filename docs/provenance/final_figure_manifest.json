@@ -1,6 +1,15 @@
 {
-  "date": "2026-11-11",
-  "presentation": "Approved end-to-end review; print-sized figures",
+  "date": "2026-11-13",
+  "presentation": "Print-sized figures; Jaccard percentages and percentage-point contrasts",
+  "presentation_units": {
+    "stored_jaccard": "native 0\u20131 scale, unchanged",
+    "displayed_overlap": "percent (100 \u00d7 Jaccard)",
+    "displayed_difference": "percentage points (100 \u00d7 native contrast)",
+    "lexical_overlap": "percent (100 \u00d7 word-set Jaccard)",
+    "cosine_metrics": "native units, unchanged",
+    "counts_and_p_values": "unchanged",
+    "method": "Tick formatting and annotation conversion only; plotted data coordinates and saved measurements unchanged"
+  },
   "figures": [
     {
       "label": "1",
@@ -15,7 +24,7 @@
     },
     {
       "label": "2",
-      "legend": "A, Individual evaluation facts for Gemma-2-2B (n=8), Qwen3-1.7B (n=10), and Qwen3-4B (n=12). Each value is the starting question\u2019s Jaccard overlap with its factual rewording minus its mean overlap with other-fact rewordings in the same model, subject, and evaluation set. Blue circles, green squares, and orange triangles denote chemistry, geography, and history, respectively; black diamonds show model means. B, Means within each model and subject, shown as diamonds using the same subject colors. Bars in both panels are descriptive 95% percentile bootstrap intervals from 10,000 fact-level resamples. The two Qwen3-4B history facts use each other as comparators; their subject mean is shown without an interval. n counts evaluation facts. Dashed lines mark zero difference. Model\u2013subject groups without an estimate are not plotted.",
+      "legend": "A, Individual evaluation facts for Gemma-2-2B (n=8), Qwen3-1.7B (n=10), and Qwen3-4B (n=12). Each value is the starting question\u2019s Jaccard overlap with its factual rewording minus its mean overlap with other-fact rewordings in the same model, subject, and evaluation set, multiplied by 100 and expressed in percentage points (pp). Blue circles, green squares, and orange triangles denote chemistry, geography, and history, respectively; black diamonds show model means. B, Means within each model and subject, shown as diamonds using the same subject colors. Bars in both panels are descriptive 95% percentile bootstrap intervals from 10,000 fact-level resamples. The two Qwen3-4B history facts use each other as comparators; their subject mean is shown without an interval. n counts evaluation facts. Dashed lines mark zero difference. Model\u2013subject groups without an estimate are not plotted.",
       "number": 2,
       "stem": "figure2_fact_signal",
       "title": "Reworded questions about the same fact share more features in the analyzed samples",
@@ -28,7 +37,7 @@
     },
     {
       "label": "3",
-      "legend": "A, Invented name controls retaining the starting question\u2019s wording. B, Reworded invented name controls. Each point is the starting question\u2019s Jaccard overlap with its factual rewording minus its overlap with the indicated control. Controls are included when their predicted next token and the starting question\u2019s predicted token share a broad category: letters/numbers, whitespace, or punctuation/symbols. Blue, purple, and orange denote Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B, respectively. Circles represent evaluation facts, diamonds are means, and bars are descriptive 95% fact-bootstrap intervals. Sample sizes in model order are n=2, 9, and 10 in A and n=7, 10, and 10 in B. Dashed lines mark equal overlap with the factual rewording and control.",
+      "legend": "A, Invented name controls retaining the starting question\u2019s wording. B, Reworded invented name controls. Each point is the starting question\u2019s Jaccard overlap with its factual rewording minus its overlap with the indicated control, expressed in percentage points (100 times the native difference). Controls are included when their predicted next token and the starting question\u2019s predicted token share a broad category: letters/numbers, whitespace, or punctuation/symbols. Blue, purple, and orange denote Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B, respectively. Circles represent evaluation facts, diamonds are means, and bars are descriptive 95% fact-bootstrap intervals. Sample sizes in model order are n=2, 9, and 10 in A and n=7, 10, and 10 in B. Dashed lines mark equal overlap with the factual rewording and control.",
       "number": 3,
       "stem": "figure3_control_comparisons",
       "title": "The invented name comparison changes the observed overlap difference",
@@ -40,7 +49,7 @@
     },
     {
       "label": "4",
-      "legend": "Qwen3-4B comparisons from six country pairs and 48 graphs. A, Mean Jaccard overlap for questions about the same or different countries with the same or different correct A/B answer letters. Numbers and color intensity give overlap on a 0\u20131 scale. B, Same-country minus different-country overlap, calculated separately for matching and changed answer letters. C, The average country contrast, obtained by averaging the two conditions in B, and the average letter contrast, obtained by averaging same-letter minus different-letter overlap across country relationships. In B and C, circles represent country pairs, lines connect estimates from the same pair, and black diamonds show means. Blue and orange identify the labeled conditions. The bar on the primary country contrast in C is a 95% block-bootstrap interval, resampling country pairs (n=6); no interval is plotted for the descriptive letter contrast. Dashed lines mark zero. Panels B and C have different vertical scales.",
+      "legend": "Qwen3-4B comparisons from six country pairs and 48 graphs. A, Mean Jaccard overlap for questions about the same or different countries with the same or different correct A/B answer letters. Numbers and color intensity give overlap as a percentage (100 times Jaccard), from 0% for no shared features to 100% for identical feature sets. B, Same-country minus different-country overlap, calculated separately for matching and changed answer letters. C, The average country contrast, obtained by averaging the two conditions in B, and the average letter contrast, obtained by averaging same-letter minus different-letter overlap across country relationships. B and C express differences in percentage points (pp), not relative percentage increases. In B and C, circles represent country pairs, lines connect estimates from the same pair, and black diamonds show means. Blue and orange identify the labeled conditions. The bar on the primary country contrast in C is a 95% block-bootstrap interval, resampling country pairs (n=6); no interval is plotted for the descriptive letter contrast. Dashed lines mark zero. Panels B and C have different vertical scales.",
       "number": 4,
       "stem": "figure4_matched_choice",
       "title": "Same-fact overlap is higher when the answer letter stays the same",
@@ -52,7 +61,7 @@
     },
     {
       "label": "5",
-      "legend": "Qwen3-4B selected cases from one country pair, with 16 graphs and eight selected error cases using shared controls. A, Correct next-token counts for questions naming the country directly or referring to its list position. Blue and green bars denote A/B and capital-name responses; labels give correct predictions out of four prompts per condition. B\u2013C, Jaccard overlap of each error graph with a correct-answer graph for the intended country (blue) or a correct-answer graph producing the same response as the error (orange), for A/B responses (B) and capital names (C). List order and answer mapping are held fixed within each comparison. Filled circles use all retained features; open squares average 200 equal-feature-count subsamples. Lines connect the two controls for the same error. The comparisons are descriptive; no confidence intervals or hypothesis tests are plotted.",
+      "legend": "Qwen3-4B selected cases from one country pair, with 16 graphs and eight selected error cases using shared controls. A, Correct next-token counts for questions naming the country directly or referring to its list position. Blue and green bars denote A/B and capital-name responses; labels give correct predictions out of four prompts per condition. B\u2013C, Jaccard overlap, expressed as a percentage, of each error graph with a correct-answer graph for the intended country (blue) or a correct-answer graph producing the same response as the error (orange), for A/B responses (B) and capital names (C). List order and answer mapping are held fixed within each comparison. Filled circles use all retained features; open squares average 200 equal-feature-count subsamples. Lines connect the two controls for the same error. The comparisons are descriptive; no confidence intervals or hypothesis tests are plotted.",
       "number": 5,
       "stem": "figure5_failure_cases",
       "title": "Error graphs share more features with correct predictions giving the same response",
@@ -66,7 +75,7 @@
       "label": "6",
       "stem": "figure6_history_answers",
       "title": "History: similar graphs can accompany different selected years",
-      "legend": "Qwen3-4B historical-date comparisons using 16 graphs from two event pairs, including 11 correct and five incorrect next-token predictions. A, Recorded prompts for the Declaration of Independence example, with the A/B date assignments swapped within each row. Displayed responses identify the predicted letter, selected year, and correctness; overlap is labeled above each pair. Prompt text is exact apart from added line breaks; the chat wrapper is omitted. B, Eight graph pairs differing in A/B date assignment while event and question/context order remain fixed. C, Eight graph pairs differing in question/context order while event and A/B date assignment remain fixed. Each point is one graph pair; n counts pairs in each response category. Blue circles and squares denote the Declaration of Independence and Treaty of Paris; orange diamonds and triangles denote Sputnik 1 and Explorer 1. Jaccard overlap ranges from 0 (no shared features) to 1 (identical feature sets). Panels B and C reuse the same 16 graphs; no inferential intervals or tests are plotted.",
+      "legend": "Qwen3-4B historical-date comparisons using 16 graphs from two event pairs, including 11 correct and five incorrect next-token predictions. A, Recorded prompts for the Declaration of Independence example, with the A/B date assignments swapped within each row. Displayed responses identify the predicted letter, selected year, and correctness; overlap is labeled above each pair. Prompt text is exact apart from added line breaks; the chat wrapper is omitted. B, Eight graph pairs differing in A/B date assignment while event and question/context order remain fixed. C, Eight graph pairs differing in question/context order while event and A/B date assignment remain fixed. Each point is one graph pair; n counts pairs in each response category. Blue circles and squares denote the Declaration of Independence and Treaty of Paris; orange diamonds and triangles denote Sputnik 1 and Explorer 1. Jaccard overlap ranges from 0% (no shared features) to 100% (identical feature sets), using 100 times the native Jaccard score. Panels B and C reuse the same 16 graphs; no inferential intervals or tests are plotted.",
       "model": "qwen3-4b",
       "source_results_sha256": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
       "source_jobs_sha256": "f42124c2109f44fce6b937216afbd857bf4d7faa9263e1769f22b3d5e59a43d7",
@@ -147,7 +156,7 @@
     },
     {
       "label": "S2",
-      "legend": "Mean same-fact minus other-fact Jaccard overlap under four analysis settings, shown separately for each model. The settings are the main analysis, inclusion of reconstruction-error nodes, restriction to starting-question and factual-rewording exports without detected node-ID conflicts, and replacement of the average other-fact overlap with the largest other-fact overlap. Diamonds are means; bars are descriptive 95% bootstrap intervals resampling evaluation facts. Labels give n, the number of included facts after rebuilding comparison groups for each setting. Gemma-2-2B uses eight facts except in the clean-export setting (n=2); Qwen3-1.7B and Qwen3-4B use ten and twelve facts, respectively, in every setting. Dashed lines mark zero difference.",
+      "legend": "Mean same-fact minus other-fact Jaccard overlap, expressed in percentage points, under four analysis settings, shown separately for each model. The settings are the main analysis, inclusion of reconstruction-error nodes, restriction to starting-question and factual-rewording exports without detected node-ID conflicts, and replacement of the average other-fact overlap with the largest other-fact overlap. Diamonds are means; bars are descriptive 95% bootstrap intervals resampling evaluation facts. Labels give n, the number of included facts after rebuilding comparison groups for each setting. Gemma-2-2B uses eight facts except in the clean-export setting (n=2); Qwen3-1.7B and Qwen3-4B use ten and twelve facts, respectively, in every setting. Dashed lines mark zero difference.",
       "number": 2,
       "stem": "figureS2_robustness",
       "title": "Average feature-overlap differences stay positive in the displayed checks",
@@ -158,7 +167,7 @@
     },
     {
       "label": "S3",
-      "legend": "Same-fact minus average other-fact Jaccard overlap using all retained features, equal feature counts K, or half that count (K/2, rounded down). Within each model, subject, and evaluation set, K is the smallest feature count among the included factual graphs. Features are sampled independently from each graph without replacement, with each sampled graph reused across comparisons within a repetition. Subsampled values average 200 repetitions. Lines connect values for individual facts; black diamonds are model means. Bars are descriptive 95% bootstrap intervals resampling facts, not the 200 repetitions. Sample sizes are eight Gemma-2-2B, ten Qwen3-1.7B, and twelve Qwen3-4B evaluation facts. Dashed lines mark zero difference.",
+      "legend": "Same-fact minus average other-fact Jaccard overlap, expressed in percentage points (pp), using all retained features, equal feature counts K, or half that count (K/2, rounded down). Within each model, subject, and evaluation set, K is the smallest feature count among the included factual graphs. Features are sampled independently from each graph without replacement, with each sampled graph reused across comparisons within a repetition. Subsampled values average 200 repetitions. Lines connect values for individual facts; black diamonds are model means. Bars are descriptive 95% bootstrap intervals resampling facts, not the 200 repetitions. Sample sizes are eight Gemma-2-2B, ten Qwen3-1.7B, and twelve Qwen3-4B evaluation facts. Dashed lines mark zero difference.",
       "number": 3,
       "stem": "figureS3_equal_feature_counts",
       "title": "Average overlap differences stay positive with equal numbers of features",
@@ -170,7 +179,7 @@
     },
     {
       "label": "S4",
-      "legend": "Each point represents an evaluation fact: n=8 for Gemma-2-2B, n=10 for Qwen3-1.7B, and n=12 for Qwen3-4B. The horizontal axis shows word overlap between the starting question and its factual rewording; the vertical axis shows the largest word overlap with an other-fact rewording in the same model, subject, and evaluation set. Overlap is Jaccard similarity between sets of letter/number words, ignoring case and retaining common words. The dashed diagonal marks equal overlap; the shaded band spans \u00b10.05 around it. Panel labels give the number of facts with a qualifying matched control under the predefined rules, divided by the number evaluated. Points may overlap.",
+      "legend": "Each point represents an evaluation fact: n=8 for Gemma-2-2B, n=10 for Qwen3-1.7B, and n=12 for Qwen3-4B. The horizontal axis shows word overlap between the starting question and its factual rewording; the vertical axis shows the largest word overlap with an other-fact rewording in the same model, subject, and evaluation set. Overlap is Jaccard similarity between sets of letter/number words, expressed as a percentage, ignoring case and retaining common words. The dashed diagonal marks equal overlap; the shaded band spans \u00b15 percentage points around it, equivalent to \u00b10.05 on the native Jaccard scale. Panel labels give the number of facts with a qualifying matched control under the predefined rules, divided by the number evaluated. Points may overlap.",
       "number": 4,
       "stem": "figureS4_lexical_support",
       "title": "Other-fact questions share fewer words, leaving a gap in the controls",
@@ -194,7 +203,7 @@
     },
     {
       "label": "S6",
-      "legend": "Qwen3-4B comparisons using all retained features or removing features at the final input-token position, in the last quarter of observed feature layers, or both. Filtering precedes collapsing feature identities across positions. A, The same-country minus other-country overlap contrast with matching answer letters, minus the corresponding contrast with changed letters. Each line is one country pair (n=6); black diamonds show means. B, Error-graph overlap with a correct same-response graph minus overlap with a correct intended-country graph. Lines show selected errors, with four A/B cases (blue) and four capital-name cases (orange); colored diamonds show format means. Error comparisons share control graphs. All differences use Jaccard overlap. Dashed lines mark zero; no confidence intervals or hypothesis tests are plotted.",
+      "legend": "Qwen3-4B comparisons using all retained features or removing features at the final input-token position, in the last quarter of observed feature layers, or both. Filtering precedes collapsing feature identities across positions. A, The same-country minus other-country overlap contrast with matching answer letters, minus the corresponding contrast with changed letters. Each line is one country pair (n=6); black diamonds show means. B, Error-graph overlap with a correct same-response graph minus overlap with a correct intended-country graph. Lines show selected errors, with four A/B cases (blue) and four capital-name cases (orange); colored diamonds show format means. Error comparisons share control graphs. All differences use Jaccard overlap and are expressed in percentage points. Dashed lines mark zero; no confidence intervals or hypothesis tests are plotted.",
       "number": 6,
       "stem": "figureS6_graph_location_sensitivity",
       "title": "The answer-related differences remain after removing some graph features",
@@ -207,7 +216,7 @@
     },
     {
       "label": "S7",
-      "legend": "Qwen3-1.7B graph availability and evaluation-fact overlap by subject. A, Available graph counts; labels give available/planned graphs, including development and evaluation prompts (91 available in total). Blue, green, and orange denote chemistry, geography, and history. B, Each circle represents one evaluation fact: five chemistry and five geography facts. Values are same-fact rewording overlap minus mean other-fact rewording overlap within the same subject and evaluation set. Diamonds show means; bars are descriptive 95% fact-bootstrap intervals. The dashed line marks zero difference. History has no complete four-prompt sets and therefore no overlap estimate in B; its 29 unavailable graph requests exceeded the hosted input limit.",
+      "legend": "Qwen3-1.7B graph availability and evaluation-fact overlap by subject. A, Available graph counts; labels give available/planned graphs, including development and evaluation prompts (91 available in total). Blue, green, and orange denote chemistry, geography, and history. B, Each circle represents one evaluation fact: five chemistry and five geography facts. Values are same-fact rewording overlap minus mean other-fact rewording overlap within the same subject and evaluation set, expressed in percentage points. Diamonds show means; bars are descriptive 95% fact-bootstrap intervals. The dashed line marks zero difference. History has no complete four-prompt sets and therefore no overlap estimate in B; its 29 unavailable graph requests exceeded the hosted input limit.",
       "number": 7,
       "stem": "figureS7_qwen17_completion",
       "title": "Qwen3-1.7B includes chemistry and geography; history sets are incomplete",
@@ -220,7 +229,7 @@
     },
     {
       "label": "S8",
-      "legend": "Schematic of the primary feature-overlap analysis for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. Numbered stages show prompt preparation, hosted graph export, inclusion checks, feature extraction, overlap calculation, and summary across facts. Features are identified by family, layer, and feature ID, with repeated token positions collapsed. For each starting question, Jaccard overlap with its factual rewording is compared with mean overlap across all other included factual rewordings in the same model, subject, and evaluation set. Invented name controls form a separate comparison. Gold and zorium are development examples; the feature letters and the scores 0.50, 0.30, and +0.20 are illustrative, not measured results. Facts, rather than graph pairs or subsampling repetitions, are the summary units.",
+      "legend": "Schematic of the primary feature-overlap analysis for Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. Numbered stages show prompt preparation, hosted graph export, inclusion checks, feature extraction, overlap calculation, and summary across facts. Features are identified by family, layer, and feature ID, with repeated token positions collapsed. For each starting question, Jaccard overlap with its factual rewording is compared with mean overlap across all other included factual rewordings in the same model, subject, and evaluation set. Invented name controls form a separate comparison. Gold and zorium are development examples; the feature letters and the overlaps of 50% and 30%, and their difference of +20 percentage points (pp), are illustrative, not measured results. Percentages equal 100 times Jaccard; differences between them are percentage points, not relative percentage increases. Facts, rather than graph pairs or subsampling repetitions, are the summary units.",
       "number": 8,
       "stem": "figureS8_feature_overlap_workflow",
       "title": "How questions become a feature-overlap comparison",
@@ -229,7 +238,7 @@
     },
     {
       "label": "S9",
-      "legend": "Qwen3-4B comparisons for the two history facts included in Figure 2. A, Jaccard overlap of each starting question with its own rewording (blue circles) or the other history fact\u2019s rewording (orange squares). Lines connect the two comparisons for each fact, and labels give the overlap values. B, Same-fact minus other-fact overlap using all features (black circles), equal counts K (blue squares), or half counts K/2, rounded down (green triangles). K is the smallest feature count among the included history factual graphs. Subsampled values average 200 repetitions; the dashed line marks zero. The two facts use each other as comparators, and no confidence intervals are plotted. Maria and Mar\u00eda are accepted spellings of the same ship name.",
+      "legend": "Qwen3-4B comparisons for the two history facts included in Figure 2. A, Jaccard overlap of each starting question with its own rewording (blue circles) or the other history fact\u2019s rewording (orange squares). Lines connect the two comparisons for each fact, and labels give overlap as a percentage. B, Same-fact minus other-fact overlap, expressed in percentage points, using all features (black circles), equal counts K (blue squares), or half counts K/2, rounded down (green triangles). K is the smallest feature count among the included history factual graphs. Subsampled values average 200 repetitions; the dashed line marks zero. The two facts use each other as comparators, and no confidence intervals are plotted. Maria and Mar\u00eda are accepted spellings of the same ship name.",
       "number": 9,
       "stem": "figureS9_answer_spelling",
       "title": "History rewordings share more features than questions about another fact",
@@ -241,7 +250,7 @@
     },
     {
       "label": "S10",
-      "legend": "Question-version comparisons in Gemma-2-2B and Qwen3-4B, with 27 graphs per model: three facts, three versions per fact, and three subjects. A, Feature-set Jaccard overlap differences. B, Differences in cosine similarity between feature vectors weighted by exported influence. Each value subtracts mean similarity for pairs differing in both fact and version from mean similarity for pairs sharing the indicated factor, within a subject. Version labels are original, alternative 1, and alternative 2; they do not specify identical wording across facts. Blue circles, green squares, and orange triangles are chemistry, geography, and history estimates. Black diamonds average the three subject estimates equally; lines connect those means, not confidence limits. Dashed lines mark zero difference. No confidence intervals or hypothesis tests are plotted.",
+      "legend": "Question-version comparisons in Gemma-2-2B and Qwen3-4B, with 27 graphs per model: three facts, three versions per fact, and three subjects. A, Feature-set Jaccard overlap differences expressed in percentage points. B, Differences in cosine similarity between feature vectors weighted by exported influence, retained in native cosine units. Each value subtracts mean similarity for pairs differing in both fact and version from mean similarity for pairs sharing the indicated factor, within a subject. Version labels are original, alternative 1, and alternative 2; they do not specify identical wording across facts. Blue circles, green squares, and orange triangles are chemistry, geography, and history estimates. Black diamonds average the three subject estimates equally; lines connect those means, not confidence limits. Dashed lines mark zero difference. No confidence intervals or hypothesis tests are plotted.",
       "number": 10,
       "stem": "figureS10_fact_and_wording",
       "title": "Feature overlap varies across facts and question versions",
@@ -285,8 +294,8 @@
     "data/model_extension/matched_choice_chat_v2/qwen3-4b/analysis/results.json": "a71abe7ba74bcc80438017d78e1ed042add09a7d5a627554be0326012e86c969",
     "data/model_extension/history_pilot_graphs_20261110/paper_figure_v1/prompt_examples.json": "9b489445ff2fb43fc61942eae54eac356accf00e79253fcca6a6510fd95bcb51",
     "data/model_extension/exploratory_20260905/results.json": "6b9238e58394fc20ef1b61d30d5490f406e51fb585e6316d9250040106932e0a",
-    "scripts/build_reviewed_paper_figures.py": "d6305b0e59b454ea9d0304738f244ba173dd32016f6436a95958ed7a38b818ce",
-    "scripts/review_figure_catalog.py": "ad078847c465fad64e0c750cf61669647ff0aa170ba41efd6ea48f5c5ba50408",
+    "scripts/build_reviewed_paper_figures.py": "6d8c44f061997c6c2ffc242adf5bd0cfc4a878fc7d21ad2a90cca721edccad62",
+    "scripts/review_figure_catalog.py": "002d6f5a94342c946d3f2f86a211abc4ce8b894c8cf37380433461ec5586e58f",
     "data/model_extension/final_corrected_scoring_20261111/paper_figures/figure_manifest.json": "15ea60fda89be8a49f1a84a1a3b680e493f276baf0fcfa3b6fb4f9e6973e19c1",
     "data/model_extension/history_pilot_graphs_20261110/paper_figure_v1/figure_manifest.json": "69d1e7c1c6cb6be4add082fa28682256399a6ce354eb1d3b540443f010d36c6d"
   },
@@ -295,7 +304,8 @@
     "Six main figures and ten supplements",
     "Current sample counts read from tables",
     "Every figure is 180 mm wide",
-    "All visible text at least 7 pt"
+    "All visible text at least 7 pt",
+    "Jaccard display scaled by 100; source measurements and statistics unchanged"
   ],
   "layout_checks": {
     "figure1_design_and_coverage": {
@@ -397,37 +407,37 @@
   },
   "output_hashes": {
     "figure1_design_and_coverage.png": "31366e9edb6775d815c0f86285fa851f06fb564c5e4f3dc427a4101d39ac3224",
-    "figure1_design_and_coverage.svg": "6621afce5c874581b5dcbcb8ab06056576741d96f33eedb8849d5818678afcd5",
-    "figure2_fact_signal.png": "1d2b5be85a1582b58196a1d7876058a31a15801c1def6c83196421cc4692d7d2",
-    "figure2_fact_signal.svg": "1751624703413ac9c55e63b088bf43ba2df946af3d93768f6e3a06ff181dffba",
-    "figure3_control_comparisons.png": "42b07755b859a087f78255a4b44a9aed34e1ef906a6107e9be01566fe6107a4e",
-    "figure3_control_comparisons.svg": "314afa2e76d338c4292fe18904164ad68cc77be1e6705ab8c68c9a3df3546005",
-    "figure4_matched_choice.png": "a5eb4a55fbf26550493a84baccc906f5e41de07ebc14f2d4dacb718f4c135bc8",
-    "figure4_matched_choice.svg": "e3c853f8761650529f3498941b9024bc5e47e80408dd9b7d6976d21744a18efb",
-    "figure5_failure_cases.png": "c62689f0c1fbfea7a79aeae57b35091bf68698c6202ce4936c83b7bf69ee1adf",
-    "figure5_failure_cases.svg": "cd9ef04fae7a7b4faef0452d3dd7fc1c890851318d5e2a1f143e87b7dbbb38f3",
-    "figure6_history_answers.png": "b41b4af2c155c2509a012c7a5d519a8c5490c776cc84ca6e03e653867b51ee0d",
-    "figure6_history_answers.svg": "c418d33269cc0384c4ae5d4a1da4e0f1cc1b0a39e0d8ccb49a845d471b93cc76",
-    "figureS10_fact_and_wording.png": "42e52e34624807df85a52f742a456b43ccee79b389cfa283f5aee7216c30ff0a",
-    "figureS10_fact_and_wording.svg": "e54c1744085d89a75f48b54317515a9905fe7bcbe8c5753ca901b14a4f44c077",
+    "figure1_design_and_coverage.svg": "3fd98c916813d0f5c8bb237bba46b5a06215195120f17f7399ebf466a56cda19",
+    "figure2_fact_signal.png": "94df5c1e639e1d6a52d3a50735c7252a698d10ee6ca51a69bf5a563a8575081b",
+    "figure2_fact_signal.svg": "951fa832932aad5990f50e7181ace13c40b9e092d954f07414c58e140b0ae3ef",
+    "figure3_control_comparisons.png": "64ba657d2b38d18073dad64256c9859829b327a165d9b75debc0e2d97d3352dd",
+    "figure3_control_comparisons.svg": "aa29c5c451fee6cf6ae0aa10f107fc44db2c878d8da878e6d763b98d5acafcf0",
+    "figure4_matched_choice.png": "15b362bb9872a054b5535f22be1335cbcd8f41911e03dfd35e348b0f7da172dd",
+    "figure4_matched_choice.svg": "16dd68983792e38a4c49fe4419d5f1c7d69a57b778d6acfa2b5d4fe955e1c165",
+    "figure5_failure_cases.png": "2b771a9f67216039469110de98d01f633e8682134311534ea33826d689e50e83",
+    "figure5_failure_cases.svg": "7fc6cf124688e1a2e9cd29af39eb3dc5df17a2ddedb9e888d7640698e6a52a6c",
+    "figure6_history_answers.png": "57e1f7fdb5f84bc68ccbac0a13872de5cca1889705941948deee8ffe7523c939",
+    "figure6_history_answers.svg": "f79a607b3b018ec8fbb96e29a3d0ec7e33798b39eab9f8bee37cb1b6cc2adccf",
+    "figureS10_fact_and_wording.png": "1507ac152295876c1427d9db04e5f60450cdd9f47d154d38452a4c62506c420b",
+    "figureS10_fact_and_wording.svg": "302fd8bd24a1314562b3e6b333a2ff45424cd129c25388b2223e2553c204e845",
     "figureS1_export_and_error.png": "575fd24f109ec977e10eda4cb0e80624046547ccaec77a6c681d673b13f0ea44",
-    "figureS1_export_and_error.svg": "ee4a9266ce7ad824cfd228d9c38b756a33b7d9c359c3aaab55c05aeeba7a7cbf",
-    "figureS2_robustness.png": "a13b0af4acf51cd6378d1ea6dd1627c6c939d6a5c15d9f208e64c951eb5c95dc",
-    "figureS2_robustness.svg": "053eaccff1926fd27079499f678e7bce9d894bb2756d1164073d917b8992252a",
-    "figureS3_equal_feature_counts.png": "d4820304409f97167003b03fc839e7a1fa0bf103c2c9304c1d63e13f6b8ee5c0",
-    "figureS3_equal_feature_counts.svg": "3f33dbead7abc099d0c231e1aee5d59ba91e8edfc90c057e73247677fce4d558",
-    "figureS4_lexical_support.png": "8d438c121cdeaf58d23ee110fed99c47de06356551fd167b69dc1fa1dba96afe",
-    "figureS4_lexical_support.svg": "79d60e0bf0da279fe415f4d48fad3a0a91809560fe62085c87809fa1b19ed308",
+    "figureS1_export_and_error.svg": "f8d87a7d7644d590d1f9287c005a0a2422c5bf10d9fae92047d98be88721b0ec",
+    "figureS2_robustness.png": "8877101e7871b4317c7f0c15df78a609ab32ca0fde7f1e5d66768bfa26f4927b",
+    "figureS2_robustness.svg": "823021f97c0396c350abe67b550e763de6b570d02d7e5a5144f41eaac6729b58",
+    "figureS3_equal_feature_counts.png": "e0bc81e8b718746a13ddc959b641e584296e29eb8bfa1f3278e29168fb3f5259",
+    "figureS3_equal_feature_counts.svg": "9607798e3d8df0b75989cf2ce09ac61e30cf5375dd013af72f4f21f8a913b471",
+    "figureS4_lexical_support.png": "39882043d106ec0da330f1f934ef5d0392c71ba36626241421530e924c4f41a7",
+    "figureS4_lexical_support.svg": "62f7b0318021416eb516fcd55d3d73f29b50624a040359cc39a7ffe0762e26e0",
     "figureS5_answer_audit.png": "93747edf5dd77b2a55ad62f9214c142c488354d6b05b9dda8865758c4670d5dd",
-    "figureS5_answer_audit.svg": "684c29059def5aab9a9a7b63b61bf82ae9e70ccf9f2ea346bd66f39ac77fa208",
-    "figureS6_graph_location_sensitivity.png": "124be01b7737434a41e49fdc42166e9061ee34eac56fdf3bdef2900670b7dd6d",
-    "figureS6_graph_location_sensitivity.svg": "a3d13d1614d5c921f49cbfb4f55c1aacad5219e55b289856cc85a52b5d1c59fc",
-    "figureS7_qwen17_completion.png": "4ea716b0792a05bbf484f8a922ea81823362cbaa3f97b63b704f7d828c6e072d",
-    "figureS7_qwen17_completion.svg": "9138e50454042799ecf39cd6df578051370230a650d4925de8ea9682af756aaf",
-    "figureS8_feature_overlap_workflow.png": "43a6b7dabdeab7089e6c4e356985827525ea82f438bee0cc2b76d0fcec05cd4d",
-    "figureS8_feature_overlap_workflow.svg": "64155d3988f12e60bc9585dfac1a1654750cce2113e098b68d1648230c335584",
-    "figureS9_answer_spelling.png": "e3c648a9a097df02e123f6cbb8f8905ba4ce8c829810b8ca0e16225389c69a13",
-    "figureS9_answer_spelling.svg": "bd9b10d57fd319da9e891f4aeccd4fdd028c30d3b56770271ec9a434471271d1",
+    "figureS5_answer_audit.svg": "2371bb9b3f28023cf2eb0c7b3102f3af6ea80fc89f8a261f6fa573aafcf4e15c",
+    "figureS6_graph_location_sensitivity.png": "aba19966579ce2651f9c5e3f067ca481f2b85ee3b2a4a0e560b275abef62cd90",
+    "figureS6_graph_location_sensitivity.svg": "e9517f6e192376edb6177142977f7fe8c0fe532b814e709ce0a2763d17e6fc3c",
+    "figureS7_qwen17_completion.png": "b81487c3d7c0f207f8e42b651fd79531b3d2cfe5745dce236a59c237ecffe443",
+    "figureS7_qwen17_completion.svg": "96bf86dbf8758d411e9cc67ab1c27514a8f0cb6827cfd214b84488ca2ef63743",
+    "figureS8_feature_overlap_workflow.png": "c3fb52c43f3ec0f60dd41ca9694ea188e39be62b5ae1da88d0dc113c37d4272c",
+    "figureS8_feature_overlap_workflow.svg": "0a08b8ca17a1f4c04a46b63f843a66342147193a715c2de87e20a2d7323e1d09",
+    "figureS9_answer_spelling.png": "30c9aa9b9e5693161069909ff6ac8df6652a3e4307ba2b1b25ddb87572c16de7",
+    "figureS9_answer_spelling.svg": "22fbf4917226dcb8196793d2ddc7e364f36674e6a5a3d546b10cff28536c3f1d",
     "tables/failure_sensitivity.csv": "381864d4bda5844f4108ffcb2684f6401af5864c2738ca62b80ef6d3a8a130b4",
     "tables/figure1_coverage.csv": "3a0c4fb1d9b3ad78d6c8cce86e2318ec1f56aab17405c6e53bdc7e693f35407a",
     "tables/figure2_domain_summary.csv": "d0e1bb7c968e5fb10b971eed80a4e4151f348d0e62302042dee98ee97a459319",
@@ -460,38 +470,5 @@
     "tables/statistics_audit.json": "9850331994cdbf1a0a505e5051e0be1ba97cc08f57cba88656528b66050f9c22",
     "tables/table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
     "tables/test_fact_inclusion_audit.csv": "07207aaba65fb98721530e50321820180189185b053cb4528e7f42a0dc39d882"
-  },
-  "legend_edit_history": [
-    {
-      "figures": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "S1",
-        "S2",
-        "S3",
-        "S4",
-        "S5",
-        "S6",
-        "S7",
-        "S8",
-        "S9",
-        "S10"
-      ],
-      "artwork_regenerated": false,
-      "measurements_reestimated": false,
-      "catalog_sha256": "d3389aaf5e2a403ce27284aa8637855a35d9aff98d9eaef65a9e9f4675ddb3c9"
-    },
-    {
-      "figures": [
-        "S2"
-      ],
-      "artwork_regenerated": false,
-      "measurements_reestimated": false,
-      "catalog_sha256": "ad078847c465fad64e0c750cf61669647ff0aa170ba41efd6ea48f5c5ba50408"
-    }
-  ]
+  }
 }

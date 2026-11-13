@@ -1,6 +1,5 @@
 """Assemble a portable, allowlisted review package. No model calls or raw export copies."""
 from pathlib import Path
-import argparse
 import ast
 import hashlib
 import html
@@ -14,8 +13,8 @@ from paper_web_presentation import enhance_document, figure_markup, with_viewer
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'paper_share'
-REVISION = '2026-11-12'
-EDITION = 'reviewed_supplement'
+REVISION = '2026-11-13'
+EDITION = 'percentage_display'
 SPELLING = ROOT / 'data/model_extension/answer_spelling_20261111'
 FINAL = ROOT / 'data/model_extension/final_corrected_scoring_20261111'
 REVIEW = ROOT / 'data/model_extension/paper_review_20261111'
@@ -72,9 +71,11 @@ def write_figure_guide(figures):
              '10 Qwen3-1.7B, and 12 Qwen3-4B evaluation facts. Figure S9 details the included Qwen3-4B history facts. '
              'Figure 6 shows the historical-date A/B comparisons. Supplement S10 contains the descriptive question-version comparison. '
              'The panels retain their own samples; the history comparisons reuse 16 graphs from two event pairs.')
-    definition = ('Jaccard overlap is the number of shared features divided by the number present in either graph: '
-                  '0 means none are shared and 1 means the feature sets are identical. A difference in overlap '
-                  'subtracts one overlap score from another. Missing comparisons are unavailable, not zero effects. '
+    definition = ('Feature overlap is Jaccard similarity multiplied by 100: shared features divided by the distinct features '
+                  'present in either graph, expressed as a percentage. Zero percent means none are shared and 100% means '
+                  'the feature sets are identical. Differences in overlap are expressed in percentage points, not relative '
+                  'percentage changes. Word-set Jaccard uses the same convention; cosine similarities retain their native units. '
+                  'The source tables retain the original unscaled values. Missing comparisons are unavailable, not zero effects. '
                   'Source filenames retain their archived numbers; the links below map each current figure to its source tables. '
                   'All figures are 180 mm wide with text of at least 7 points at that size.')
     lines = ['# Figures and legends', '', intro, '', definition, '']
@@ -126,7 +127,7 @@ def write_figure_guide(figures):
     (OUT/'figures/index.html').write_text(with_viewer(gallery, '../'), encoding='utf-8')
 
 
-def main(include_learning=False):
+def main():
     OUT.mkdir(exist_ok=True)
     # Archive only superseded presentation files, never source measurements.
     from review_figure_catalog import STEM_MAP
@@ -287,8 +288,10 @@ def main(include_learning=False):
              'build_reviewed_paper_figures', 'review_figure_catalog', 'paper_web_presentation']
     selected = set()
     todo = list(seeds)
+    # The educational companion is local-only by the author's choice. Keep its
+    # source/test dependency closure out of subsequent public paper packages.
     tests = [p for p in (ROOT/'tests').glob('*.py') if 'traceback' not in p.name
-             and (include_learning or p.name != 'test_paper_learning_module.py')]
+             and not p.name.startswith('test_paper_learning_')]
     for p in tests:
         copy(p, f'code/tests/{p.name}')
     def dependencies(p):
@@ -390,6 +393,4 @@ def main(include_learning=False):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--include-learning', action='store_true', help='Include the completed learning-module edition.')
-    main(include_learning=parser.parse_args().include_learning)
+    main()

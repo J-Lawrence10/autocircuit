@@ -1,6 +1,6 @@
 # AutoCircuit: current attribution-graph paper
 
-## Working paper, 2026-11-12
+## Working paper, 2026-11-13
 
 [Read the paper online](https://j-lawrence10.github.io/autocircuit/manuscript/ATTRIBUTION_GRAPH_THREE_MODEL_DRAFT.html) | [Website and figures](https://j-lawrence10.github.io/autocircuit/) | [Review package](neuronpedia_pipeline/paper_share/)
 

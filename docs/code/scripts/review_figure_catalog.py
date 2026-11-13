@@ -35,14 +35,15 @@ LEGENDS = {
     'figure2_fact_signal': (
         'A, Individual evaluation facts for Gemma-2-2B (n=8), Qwen3-1.7B (n=10), and Qwen3-4B (n=12). Each value is the starting '
         'question’s Jaccard overlap with its factual rewording minus its mean overlap with other-fact rewordings in the same model, '
-        'subject, and evaluation set. Blue circles, green squares, and orange triangles denote chemistry, geography, and history, '
+        'subject, and evaluation set, multiplied by 100 and expressed in percentage points (pp). Blue circles, green squares, and orange triangles denote chemistry, geography, and history, '
         'respectively; black diamonds show model means. B, Means within each model and subject, shown as diamonds using the same '
         'subject colors. Bars in both panels are descriptive 95% percentile bootstrap intervals from 10,000 fact-level resamples. '
         'The two Qwen3-4B history facts use each other as comparators; their subject mean is shown without an interval. '
         'n counts evaluation facts. Dashed lines mark zero difference. Model–subject groups without an estimate are not plotted.'),
     'figure3_control_comparisons': (
         'A, Invented name controls retaining the starting question’s wording. B, Reworded invented name controls. Each point is '
-        'the starting question’s Jaccard overlap with its factual rewording minus its overlap with the indicated control. Controls '
+        'the starting question’s Jaccard overlap with its factual rewording minus its overlap with the indicated control, '
+        'expressed in percentage points (100 times the native difference). Controls '
         'are included when their predicted next token and the starting question’s predicted token share a broad category: '
         'letters/numbers, whitespace, or punctuation/symbols. Blue, purple, and orange denote Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B, '
         'respectively. Circles represent evaluation facts, diamonds are means, and bars are descriptive 95% fact-bootstrap intervals. '
@@ -50,10 +51,12 @@ LEGENDS = {
         'factual rewording and control.'),
     'figure4_matched_choice': (
         'Qwen3-4B comparisons from six country pairs and 48 graphs. A, Mean Jaccard overlap for questions about the same or '
-        'different countries with the same or different correct A/B answer letters. Numbers and color intensity give overlap on '
-        'a 0–1 scale. B, Same-country minus different-country overlap, calculated separately for matching and changed answer letters. '
+        'different countries with the same or different correct A/B answer letters. Numbers and color intensity give overlap as '
+        'a percentage (100 times Jaccard), from 0% for no shared features to 100% for identical feature sets. '
+        'B, Same-country minus different-country overlap, calculated separately for matching and changed answer letters. '
         'C, The average country contrast, obtained by averaging the two conditions in B, and the average letter contrast, obtained '
-        'by averaging same-letter minus different-letter overlap across country relationships. In B and C, circles represent country '
+        'by averaging same-letter minus different-letter overlap across country relationships. B and C express differences in '
+        'percentage points (pp), not relative percentage increases. In B and C, circles represent country '
         'pairs, lines connect estimates from the same pair, and black diamonds show means. Blue and orange identify the labeled '
         'conditions. The bar on the primary country contrast in C is a 95% block-bootstrap interval, resampling country pairs '
         '(n=6); no interval is plotted for the descriptive letter contrast. Dashed lines mark zero. Panels B and C have different '
@@ -62,7 +65,7 @@ LEGENDS = {
         'Qwen3-4B selected cases from one country pair, with 16 graphs and eight selected error cases using shared controls. '
         'A, Correct next-token counts for questions naming the country directly or referring to its list position. Blue and green '
         'bars denote A/B and capital-name responses; labels give correct predictions out of four prompts per condition. '
-        'B–C, Jaccard overlap of each error graph with a correct-answer graph for the intended country (blue) or a correct-answer '
+        'B–C, Jaccard overlap, expressed as a percentage, of each error graph with a correct-answer graph for the intended country (blue) or a correct-answer '
         'graph producing the same response as the error (orange), for A/B responses (B) and capital names (C). List order and '
         'answer mapping are held fixed within each comparison. Filled circles use all retained features; open squares average '
         '200 equal-feature-count subsamples. Lines connect the two controls for the same error. The comparisons are descriptive; '
@@ -76,7 +79,7 @@ LEGENDS = {
         'C, Eight graph pairs differing in question/context order while event and A/B date assignment remain fixed. Each point '
         'is one graph pair; n counts pairs in each response category. Blue circles and squares denote the Declaration of '
         'Independence and Treaty of Paris; orange diamonds and triangles denote Sputnik 1 and Explorer 1. Jaccard overlap ranges '
-        'from 0 (no shared features) to 1 (identical feature sets). Panels B and C reuse the same 16 graphs; no inferential '
+        'from 0% (no shared features) to 100% (identical feature sets), using 100 times the native Jaccard score. Panels B and C reuse the same 16 graphs; no inferential '
         'intervals or tests are plotted.'),
     'figureS1_export_and_error': (
         'A, Percentage of graph files containing a node ID assigned to conflicting node identities. Bar labels show affected '
@@ -88,7 +91,7 @@ LEGENDS = {
         'use raw-file audits; Qwen3-4B values use converted graphs. The plotted percentage measures reconstruction-error '
         'influence, not the frequency of incorrect answers.'),
     'figureS2_robustness': (
-        'Mean same-fact minus other-fact Jaccard overlap under four analysis settings, shown separately for each model. '
+        'Mean same-fact minus other-fact Jaccard overlap, expressed in percentage points, under four analysis settings, shown separately for each model. '
         'The settings are the main analysis, inclusion of reconstruction-error nodes, restriction to starting-question and '
         'factual-rewording exports without detected '
         'node-ID conflicts, and replacement of the average other-fact overlap with the largest other-fact overlap. '
@@ -97,7 +100,7 @@ LEGENDS = {
         'in the clean-export setting (n=2); Qwen3-1.7B and Qwen3-4B use ten and twelve facts, respectively, in every setting. '
         'Dashed lines mark zero difference.'),
     'figureS3_equal_feature_counts': (
-        'Same-fact minus average other-fact Jaccard overlap using all retained features, equal feature counts K, or half '
+        'Same-fact minus average other-fact Jaccard overlap, expressed in percentage points (pp), using all retained features, equal feature counts K, or half '
         'that count (K/2, rounded down). Within each model, subject, and evaluation set, K is the smallest feature count '
         'among the included factual graphs. Features are sampled independently from each graph without replacement, with '
         'each sampled graph reused across comparisons within a repetition. Subsampled values average 200 repetitions. '
@@ -108,8 +111,8 @@ LEGENDS = {
         'Each point represents an evaluation fact: n=8 for Gemma-2-2B, n=10 for Qwen3-1.7B, and n=12 for Qwen3-4B. '
         'The horizontal axis shows word overlap between the starting question and its factual rewording; the vertical axis '
         'shows the largest word overlap with an other-fact rewording in the same model, subject, and evaluation set. '
-        'Overlap is Jaccard similarity between sets of letter/number words, ignoring case and retaining common words. '
-        'The dashed diagonal marks equal overlap; the shaded band spans ±0.05 around it. Panel labels give the number of '
+        'Overlap is Jaccard similarity between sets of letter/number words, expressed as a percentage, ignoring case and retaining common words. '
+        'The dashed diagonal marks equal overlap; the shaded band spans ±5 percentage points around it, equivalent to ±0.05 on the native Jaccard scale. Panel labels give the number of '
         'facts with a qualifying matched control under the predefined rules, divided by the number evaluated. Points may overlap.'),
     'figureS5_answer_audit': (
         'A, Counts of factual-prompt graphs classified by their predicted next token: complete accepted answer (green), '
@@ -127,14 +130,14 @@ LEGENDS = {
         'contrast with changed letters. Each line is one country pair (n=6); black diamonds show means. B, Error-graph '
         'overlap with a correct same-response graph minus overlap with a correct intended-country graph. Lines show '
         'selected errors, with four A/B cases (blue) and four capital-name cases (orange); colored diamonds show format '
-        'means. Error comparisons share control graphs. All differences use Jaccard overlap. Dashed lines mark zero; '
+        'means. Error comparisons share control graphs. All differences use Jaccard overlap and are expressed in percentage points. Dashed lines mark zero; '
         'no confidence intervals or hypothesis tests are plotted.'),
     'figureS7_qwen17_completion': (
         'Qwen3-1.7B graph availability and evaluation-fact overlap by subject. A, Available graph counts; labels give '
         'available/planned graphs, including development and evaluation prompts (91 available in total). Blue, green, '
         'and orange denote chemistry, geography, and history. B, Each circle represents one evaluation fact: five '
         'chemistry and five geography facts. Values are same-fact rewording overlap minus mean other-fact rewording '
-        'overlap within the same subject and evaluation set. Diamonds show means; bars are descriptive 95% fact-bootstrap '
+        'overlap within the same subject and evaluation set, expressed in percentage points. Diamonds show means; bars are descriptive 95% fact-bootstrap '
         'intervals. The dashed line marks zero difference. History has no complete four-prompt sets and therefore no '
         'overlap estimate in B; its 29 unavailable graph requests exceeded the hosted input limit.'),
     'figureS8_feature_overlap_workflow': (
@@ -144,20 +147,21 @@ LEGENDS = {
         'collapsed. For each starting question, Jaccard overlap with its factual rewording is compared with mean overlap '
         'across all other included factual rewordings in the same model, subject, and evaluation set. Invented name '
         'controls form a separate comparison. Gold and zorium are development examples; the feature letters and the '
-        'scores 0.50, 0.30, and +0.20 are illustrative, not measured results. Facts, rather than graph pairs or '
+        'overlaps of 50% and 30%, and their difference of +20 percentage points (pp), are illustrative, not measured results. '
+        'Percentages equal 100 times Jaccard; differences between them are percentage points, not relative percentage increases. Facts, rather than graph pairs or '
         'subsampling repetitions, are the summary units.'),
     'figureS9_answer_spelling': (
         'Qwen3-4B comparisons for the two history facts included in Figure 2. A, Jaccard overlap of each starting question '
         'with its own rewording (blue circles) or the other history fact’s rewording (orange squares). Lines connect the '
-        'two comparisons for each fact, and labels give the overlap values. B, Same-fact minus other-fact overlap using '
+        'two comparisons for each fact, and labels give overlap as a percentage. B, Same-fact minus other-fact overlap, expressed in percentage points, using '
         'all features (black circles), equal counts K (blue squares), or half counts K/2, rounded down (green triangles). K is the '
         'smallest feature count among the included history factual graphs. Subsampled values average 200 repetitions; '
         'the dashed line marks zero. The two facts use each other as comparators, and no confidence intervals are plotted. '
         'Maria and María are accepted spellings of the same ship name.'),
     'figureS10_fact_and_wording': (
         'Question-version comparisons in Gemma-2-2B and Qwen3-4B, with 27 graphs per model: three facts, three versions '
-        'per fact, and three subjects. A, Feature-set Jaccard overlap differences. B, Differences in cosine similarity '
-        'between feature vectors weighted by exported influence. Each value subtracts mean similarity for pairs differing '
+        'per fact, and three subjects. A, Feature-set Jaccard overlap differences expressed in percentage points. B, Differences in cosine similarity '
+        'between feature vectors weighted by exported influence, retained in native cosine units. Each value subtracts mean similarity for pairs differing '
         'in both fact and version from mean similarity for pairs sharing the indicated factor, within a subject. '
         'Version labels are original, alternative 1, and alternative 2; they do not specify identical wording across facts. '
         'Blue circles, green squares, and orange triangles are chemistry, geography, and history estimates. Black diamonds '

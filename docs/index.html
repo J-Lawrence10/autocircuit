@@ -57,11 +57,13 @@ exclusions</a></li>
 </nav>
 <h1 id="attribution-graph-paper-review-package">Attribution graph paper
 review package</h1>
-<p>Review edition updated 12 November 2026 with the approved supporting
-sections A1–A8, descriptive figure legends, and final corrected scoring
-throughout the manuscript, figures, and sample accounting. The main
+<p>Review edition updated 13 November 2026 to express Jaccard overlap as
+a percentage and differences in percentage points. This changes
+presentation only, not the data, calculations, statistical tests, or
+conclusions. The manuscript includes the approved supporting sections
+A1–A8, descriptive figure legends, and final corrected scoring. The main
 comparison includes 8 Gemma-2-2B, 10 Qwen3-1.7B, and 12 Qwen3-4B
-evaluation facts. The package is available on the <a
+evaluation facts. The sharing folder is maintained on the <a
 href="https://github.com/J-Lawrence10/autocircuit/tree/main/neuronpedia_pipeline/paper_share">GitHub
 main branch</a>. This is a working paper for PI and collaborator review,
 not a peer-reviewed publication or a submission-ready release. Different
@@ -129,35 +131,37 @@ GitHub renders the Markdown and PNG files directly; the downloaded
 folder also works locally in a browser.</p>
 <h2 id="main-findings-and-boundaries">Main findings and boundaries</h2>
 <ul>
-<li>Mean same-fact minus other-fact overlap is 0.170 for Gemma-2-2B (8
-evaluation facts), 0.089 for Qwen3-1.7B (10), and 0.218 for Qwen3-4B
-(12; descriptive 95% interval 0.150–0.307). All included facts have
-positive differences. Repeated facts and different subject coverage
-prevent a model ranking.</li>
-<li>The two Qwen3-4B history facts have differences of 0.601 and 0.395,
-both positive with equal feature counts. They are each other’s
-comparison partners, so the result describes those questions rather than
-independent replications across history.</li>
+<li>Mean same-fact minus other-fact overlap is 17.0 percentage points
+for Gemma-2-2B (8 evaluation facts), 8.9 for Qwen3-1.7B (10), and 21.8
+for Qwen3-4B (12; descriptive 95% interval 15.0–30.7 percentage points).
+All included facts have positive differences. Repeated facts and
+different subject coverage prevent a model ranking.</li>
+<li>The two Qwen3-4B history facts have differences of 60.1 and 39.5
+percentage points, both positive with equal feature counts. They are
+each other’s comparison partners, so the result describes those
+questions rather than independent replications across history.</li>
 <li>In Qwen3-1.7B, eight of ten evaluation questions share more features
 with the same-pattern invented name control than with their factual
 rewording. All ten favor the factual rewording over the reworded
-control. Matching broad next-token categories gives differences of
--0.0109 (n=9) and +0.1059 (n=10). The controls do not isolate factual
-meaning from wording and the expected answer.</li>
+control. Matching broad next-token categories gives differences of -1.09
+percentage points (n=9) and +10.59 percentage points (n=10). The
+controls do not isolate factual meaning from wording and the expected
+answer.</li>
 <li>In the stronger Qwen3-4B study, the same-country overlap difference
-is 0.0628 with the same A/B answer and -0.0022 with a changed answer.
-All 48 predictions across six country pairs are correct. Near zero does
-not establish absent factual knowledge.</li>
+is 6.28 percentage points with the same A/B answer and -0.22 percentage
+points with a changed answer. All 48 predictions across six country
+pairs are correct. Near zero does not establish absent factual
+knowledge.</li>
 <li>All eight selected error comparisons favor the correct response
 giving the same answer over the correct response for the intended
 country. These dependent cases do not estimate general failure frequency
 or prove an error mechanism.</li>
 <li>In 16 historical-date graphs, swapping the dates assigned to A/B
 produced five comparisons retaining the letter but selecting different
-years (Jaccard 0.795–0.911) and three changing the letter to retain the
-same correct year (0.512–0.532). All 11 correct and five incorrect
-predictions remain included. These are descriptive comparisons from two
-event pairs; the full required-letter pattern is not uniformly
+years (feature overlap 79.5–91.1%) and three changing the letter to
+retain the same correct year (51.2–53.2%). All 11 correct and five
+incorrect predictions remain included. These are descriptive comparisons
+from two event pairs; the full required-letter pattern is not uniformly
 reproduced.</li>
 <li>Average feature-sharing differences remain positive after equalizing
 feature counts. The Qwen3-4B answer-related differences also remain
@@ -252,6 +256,10 @@ is retained as a design reference, not as a substitute for the current
 Figure 1 in the figure gallery.</p>
 <h2 id="reproducibility-and-exclusions">Reproducibility and
 exclusions</h2>
+<p>Feature overlap is 100 times Jaccard similarity; differences are
+percentage points, not relative percent changes. Source CSV and JSON
+files retain native, unscaled measurements for reproducibility. Cosine
+similarities, probabilities, and p-values are not multiplied by 100.</p>
 <p>The code snapshots preserve project-relative paths. They are for
 method inspection and use with the full authorized research archive;
 this compact folder does <strong>not</strong> reproduce the complete

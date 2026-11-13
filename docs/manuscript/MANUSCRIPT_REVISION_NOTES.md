@@ -1,5 +1,13 @@
 # Manuscript clarity and logical flow revision
 
+## Percentage presentation approved, 13 November 2026
+
+The author approved displaying Jaccard overlap as a percentage and differences in overlap as percentage points. Updated the Abstract, Methods, Results, supporting analyses, manuscript tables, findings summary, and outline accordingly. Methods 2.2 retains the original Jaccard formula and explicitly defines the display conversion as multiplication by 100. For example, same-country overlaps of 0.8005 and 0.4853 are displayed as 80.05% and 48.53%, a difference of 31.52 percentage points. The prespecified mean contrast is displayed as 3.03 percentage points, with a 95% block-bootstrap interval of 2.65–3.38; its statistical identity is unchanged.
+
+Word-set Jaccard scores use the same percentage display, so the unchanged 0.05 word-matching tolerance is expressed as 5 percentage points. The distinction between raw overlap percentages, percentage-point differences, and relative percentage increases is stated explicitly. Cosine similarities, p-values, counts, graph-generation settings, reconstruction-error percentages, and original-unit verification tolerances are not rescaled. Scientific source tables retain their original ratios, and historical protocol and revision records retain their original wording. Figure labels and legends are regenerated from the presentation code and synchronized separately.
+
+This is a presentation update, not a new experiment, statistical re-estimation, or scientific claim. It follows the verified 12 November public release. The author authorized publishing the updated paper and figures to GitHub main and the paper website, while keeping the learning module local and excluded from the public package. Deployment verification is recorded separately. Previous review editions remain archived.
+
 ## A8 approved and reviewed supplement authorized for release, 12 November 2026
 
 Integrated the approved A8 organization around available materials, figure/package generation, scoped saved-data reproduction, and an analysis-record inventory. Historical 82-test/23-margin/342-graph reproduction remains explicitly distinct from later checks of the expanded and corrected datasets. Credentials and private configuration are excluded for security; third-party data and document redistribution remain subject to permissions review. Caption checking is correctly distinguished from writing changes. The temporary sentence that the latest local text awaits release is omitted from this authorized release edition.

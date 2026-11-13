@@ -92,12 +92,26 @@ def test_approved_title_narrative_and_abstract_preservation():
     methods = text.split('### 2.7 ', 1)[1].split('### 2.8 ', 1)[0]
     assert 'Primary mean: 0.0303' not in methods
     assert 'Paired mean difference: 0.0650' not in methods
+    assert 'Primary mean: 3.03' not in methods
+    assert 'Paired mean difference: 6.50' not in methods
     main = text.split('## Supporting analyses', 1)[0]
     assert '![Figure S10:' not in main
     assert '![Figure S10:' in text.split('### A4 ', 1)[1]
     assert '### A8 Data, code, and reproducibility records' in text
     abstract = text.split('## Abstract\n\n', 1)[1].split('\n\n## 1.', 1)[0].strip()
-    assert hashlib.sha256(abstract.encode()).hexdigest() == '32f6ffd09ab8d8c733e9f348ae7a949377d3faf6f6ec1005c7b3a60a540d0673'
+    # Preserve the approved scientific wording byte-for-byte after reversing
+    # only the three explicitly authorized display-unit substitutions.
+    changes = {
+        '3.03 percentage points (95% block-bootstrap interval 2.65–3.38)':
+            '0.0303 (95% block-bootstrap interval 0.0265–0.0338)',
+        '6.28 percentage points when': '0.0628 when',
+        '(-0.22 percentage points)': '(-0.0022)',
+    }
+    restored = abstract
+    for displayed, original in changes.items():
+        assert displayed in abstract
+        restored = restored.replace(displayed, original)
+    assert hashlib.sha256(restored.encode()).hexdigest() == '32f6ffd09ab8d8c733e9f348ae7a949377d3faf6f6ec1005c7b3a60a540d0673'
     assert '\u2014' not in main
 
 

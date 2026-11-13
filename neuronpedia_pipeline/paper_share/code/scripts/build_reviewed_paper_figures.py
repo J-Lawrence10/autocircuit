@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch
 from matplotlib.text import Text
+from matplotlib.ticker import FuncFormatter
 import numpy as np
 
 from review_figure_catalog import ROOT, OUT, FIG, BASE, HISTORY, catalog
@@ -29,6 +30,21 @@ DM = dict(zip(DOMAINS, ['o', 's', '^']))
 PRIMARY = 'feature_jaccard__margin_other_factual_mean'
 SOURCES, QA, USED = {}, {}, defaultdict(list)
 CAT = {r['stem']: r for r in catalog()}
+OVERLAP_LABEL = 'Feature overlap (%)'
+DIFFERENCE_LABEL = 'Difference in feature overlap\n(percentage points)'
+
+
+def percent_axis(ax, axis='y', label=None):
+    """Display 100 times native Jaccard coordinates; never rescale saved data.
+
+    Multiplying both raw overlap and its differences by 100 changes only units:
+    raw overlap is percent, and subtractions are percentage points. Cosine
+    metrics, counts, p-values, and quantities already in percent do not use this.
+    """
+    target = ax.xaxis if axis == 'x' else ax.yaxis
+    target.set_major_formatter(FuncFormatter(lambda value, _: f'{100*value:g}'))
+    if label:
+        (ax.set_xlabel if axis == 'x' else ax.set_ylabel)(label)
 
 
 def sha(path):
@@ -193,7 +209,7 @@ def primary():
             axes[0].scatter(x, float(r[PRIMARY]), color=DC[r['domain']], marker=DM[r['domain']], s=23)
         stat = next(r for r in summaries if r['model'] == m)
         ci(axes[0], i, stat)
-        axes[0].text(i, .69, f'n={stat["n"]}\n{float(stat["mean"]):.3f}', ha='center', va='top', fontsize=7.5)
+        axes[0].text(i, .69, f'n={stat["n"]}\n{100*float(stat["mean"]):.2f} pp', ha='center', va='top', fontsize=7.5)
         for j, d in enumerate(DOMAINS):
             found = [r for r in domains if r['model'] == m and r['domain'] == d]
             if not found:
@@ -209,10 +225,10 @@ def primary():
     for ax in axes:
         zero(ax)
         ax.set(xticks=range(3), xticklabels=['Gemma\n2-2B', 'Qwen3\n1.7B', 'Qwen3\n4B'], ylim=(-.025, .73))
-        ax.set_ylabel('Same-fact minus other-fact overlap')
+        percent_axis(ax, label=DIFFERENCE_LABEL)
     panel(axes[0], 'a', 'Each evaluation fact')
     panel(axes[1], 'b', 'Average by subject')
-    fig.text(.09, .86, 'Positive values mean greater overlap with the same fact, reworded (Jaccard difference).', fontsize=7.5)
+    fig.text(.09, .86, 'Same-fact minus other-fact overlap; pp = percentage points.', fontsize=7.5)
     handles = [Line2D([], [], color=DC[d], marker=DM[d], ls='', label=d.title()) for d in DOMAINS]
     fig.legend(handles=handles, loc='lower center', bbox_to_anchor=(.5, .09), ncol=3, frameon=False)
     fig.text(.09, .055, 'Diamonds: means. Bars: descriptive 95% intervals. Qwen3-4B history: two dependent facts,\nshown without a subject interval. Unavailable groups are not zero effects.', fontsize=7)
@@ -236,7 +252,7 @@ def controls():
             ax.text(i, .295, 'n='+r['n'], ha='center', fontsize=7.5)
         zero(ax)
         ax.set(xticks=range(3), xticklabels=['Gemma\n2-2B', 'Qwen3\n1.7B', 'Qwen3\n4B'], ylim=(-.12, .33), xlim=(-.4, 2.4))
-        ax.set_ylabel('Factual rewording minus\ninvented name control overlap')
+        percent_axis(ax, label=DIFFERENCE_LABEL)
         panel(ax, 'a' if ax is axes[0] else 'b', label)
     fig.text(.10, .10, 'Above zero: greater overlap with the factual rewording. Diamonds: means; bars: 95% intervals.\nControls match broad next-token type, not the exact answer. Samples differ by comparison.', fontsize=7)
     finish(fig, stem)
@@ -256,12 +272,13 @@ def matched():
     im = a.imshow(matrix, vmin=0, vmax=1, cmap='Blues', aspect='auto')
     for i in range(2):
         for j in range(2):
-            a.text(j, i, f'{matrix[i,j]:.3f}', ha='center', va='center', fontsize=10,
+            a.text(j, i, f'{100*matrix[i,j]:.2f}%', ha='center', va='center', fontsize=10,
                    color='white' if matrix[i,j]>.65 else INK, weight='bold')
     a.set(xticks=[0, 1], xticklabels=['Same letter', 'Different letter'], yticks=[0, 1], yticklabels=['Same\ncountry', 'Different\ncountries'])
     panel(a, 'a', 'Feature overlap in each comparison')
     cb = fig.colorbar(im, ax=a, orientation='horizontal', pad=.24, fraction=.09, ticks=[0, .5, 1])
-    cb.set_label('Jaccard: 0 = no shared features; 1 = identical sets', fontsize=7)
+    cb.ax.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f'{100*value:g}'))
+    cb.set_label('Feature overlap (%): 0 = none; 100 = identical sets', fontsize=7)
     info.axis('off')
     info.text(0, .98, 'Model tested: Qwen3-4B', va='top', weight='bold', fontsize=9)
     info.text(0, .77, 'Six country pairs\n48 / 48 correct A/B predictions\n\nSame word and token counts\nwithin each country pair.\n\nCompare different wordings\nin all four conditions.', va='top', fontsize=8, linespacing=1.4)
@@ -274,17 +291,17 @@ def matched():
             ax.scatter(np.linspace(i-.07, i+.07, len(values)), values, color=[BLUE, ORANGE][i], s=20, zorder=3)
             v = mean(values)
             ax.scatter(i, v, color=INK, marker='D', s=30, zorder=4)
-            ax.annotate(f'{v:.4f}', (i, v), xytext=(0, 12), textcoords='offset points', ha='center', fontsize=8, weight='bold')
+            ax.annotate(f'{100*v:.2f} pp', (i, v), xytext=(0, 12), textcoords='offset points', ha='center', fontsize=8, weight='bold')
         zero(ax)
         ax.set_xlim(-.35, 1.35)
-        ax.set_ylabel('Difference in feature overlap')
+        percent_axis(ax, label=DIFFERENCE_LABEL)
     b.set(xticks=[0, 1], xticklabels=['Same answer\nletter', 'Different answer\nletters'], ylim=(-.015, .10))
     c.set(xticks=[0, 1], xticklabels=['Average same-country\noverlap difference', 'Average same-letter\noverlap difference'], ylim=(-.01, .35))
     assert abs(primary_result['mean_fact_effect']-mean(float(r['fact_effect']) for r in data)) < 1e-12
     ci(c, 0, dict(mean=primary_result['mean_fact_effect'], ci_low=primary_result['ci95'][0], ci_high=primary_result['ci95'][1]))
     panel(b, 'b', 'Same-country minus other-country')
     panel(c, 'c', 'Average country and letter contrasts')
-    fig.text(.10, .055, 'Each line: one country pair. Diamonds: means. Only the primary country mean in c has a 95% interval.\nPanels b and c use different scales. These are overlap differences, not accuracy or variance explained.', fontsize=7)
+    fig.text(.10, .055, 'Each line: one country pair. Diamonds: means. Only the primary country mean in c has a 95% interval.\nPanels b and c use different scales; pp = percentage points, not accuracy or variance explained.', fontsize=7)
     finish(fig, stem)
 
 
@@ -317,7 +334,8 @@ def failures():
             for j, r in enumerate(pair):
                 ax.scatter(i+(j-.5)*.24, float(r['jaccard']), s=24, color=[BLUE, ORANGE][j])
                 ax.scatter(i+(j-.5)*.24, float(r['equal_count']), s=24, marker='s', facecolors='white', edgecolors=[BLUE, ORANGE][j])
-        ax.set(ylim=(0, 1), xticks=range(4), xticklabels=['France\nfirst', 'France\nsecond', 'Germany\nfirst', 'Germany\nsecond'], ylabel='Feature overlap (Jaccard)')
+        ax.set(ylim=(0, 1), xticks=range(4), xticklabels=['France\nfirst', 'France\nsecond', 'Germany\nfirst', 'Germany\nsecond'])
+        percent_axis(ax, label=OVERLAP_LABEL)
         ax.grid(axis='y', color=GRID, lw=.5)
         panel(ax, letter, name)
     handles = [Line2D([], [], marker='o', color=BLUE, ls='', label='Correct answer for the intended country'),
@@ -337,7 +355,7 @@ def history():
     fig.text(.055, .875, 'a  Real prompts separate the letter from the selected year', fontsize=8.5, weight='bold')
     for i, example in enumerate(examples):
         y = .55 if i == 0 else .02
-        a.text(0, y+.47, f'{example["group"]}  |  Jaccard overlap {example["jaccard"]:.3f}', fontsize=8, weight='bold')
+        a.text(0, y+.47, f'{example["group"]}  |  Feature overlap {100*example["jaccard"]:.1f}%', fontsize=8, weight='bold')
         for j, prompt in enumerate(example['prompts']):
             x = .01 if j == 0 else .53
             a.add_patch(FancyBboxPatch((x, y), .45, .43, boxstyle='round,pad=.008', facecolor='#F3F7FA', edgecolor=GRID))
@@ -355,7 +373,8 @@ def history():
         for r in subset:
             color, marker = styles[r['event_label']]
             ax.scatter(float(r['plot_x']), float(r['jaccard']), color=color, marker=marker, s=28)
-        ax.set(xticks=[0, 1], xlim=(-.35, 1.35), ylim=(0, 1.05), ylabel='Feature overlap (Jaccard)')
+        ax.set(xticks=[0, 1], xlim=(-.35, 1.35), ylim=(0, 1.05))
+        percent_axis(ax, label=OVERLAP_LABEL)
         labels = ['Same letter\nDifferent year', 'Different letter\nSame year'] if name == 'b' else ['Same predicted\nletter', 'Different predicted\nletters']
         ax.set_xticklabels(labels)
         ax.grid(axis='y', color=GRID, lw=.5)
@@ -407,7 +426,8 @@ def robustness():
         ax.set(xticks=range(4), xticklabels=labels, ylim=(-.025, .365), xlim=(-.5, 3.5))
         ax.tick_params(axis='x', labelsize=7, rotation=30)
         zero(ax)
-    axes[0].set_ylabel('Same-fact minus other-fact overlap')
+        percent_axis(ax)
+    axes[0].set_ylabel(DIFFERENCE_LABEL)
     fig.text(.09, .07, 'Diamonds: means. Bars: descriptive 95% question-bootstrap intervals.\nThe clean-export Gemma comparison contains only two facts.', fontsize=7)
     finish(fig, stem)
 
@@ -424,12 +444,13 @@ def equal_counts():
         for i, k in enumerate(['full_set', 'equal_count', 'half_count']):
             r = next(r for r in stats if model_name(r['model']) == m and r['comparison'] == k)
             ci(ax, i, r)
-            ax.text(i, .67, f'{float(r["mean"]):.3f}', ha='center', fontsize=7)
+            ax.text(i, .67, f'{100*float(r["mean"]):.1f} pp', ha='center', fontsize=7)
         ax.set_title(f'{m} (n={len(subset)})', fontsize=8)
         ax.set(xticks=range(3), xticklabels=['Full\nset', 'Equal\ncounts K', 'Half\ncounts K/2'], ylim=(-.045, .71), xlim=(-.35, 2.35))
         zero(ax)
-    axes[0].set_ylabel('Same-fact minus other-fact overlap')
-    fig.text(.09, .075, 'Lines: individual facts. Diamonds: means. Bars: descriptive 95% intervals across facts.\nEach subsampled value averages 200 draws; these draws are not additional observations.', fontsize=7)
+        percent_axis(ax)
+    axes[0].set_ylabel(DIFFERENCE_LABEL)
+    fig.text(.09, .075, 'Lines: individual facts. Diamonds: means. Bars: descriptive 95% intervals; pp = percentage points.\nEach subsampled value averages 200 draws; these draws are not additional observations.', fontsize=7)
     finish(fig, stem)
 
 
@@ -445,10 +466,12 @@ def lexical():
         x = np.linspace(0, 1, 100)
         ax.plot(x, x, ls='--', color=MUTED, lw=.8)
         ax.fill_between(x, x-.05, x+.05, color=GRID, alpha=.7)
-        ax.set(xlim=(0, 1), ylim=(0, 1), xlabel='Word overlap with\nsame-fact rewording')
+        ax.set(xlim=(0, 1), ylim=(0, 1))
+        percent_axis(ax, 'x', 'Word overlap with\nsame-fact rewording (%)')
+        percent_axis(ax)
         ax.set_title(f'{m}\n0/{len(a)} have a matched control', fontsize=8)
-    axes[0].set_ylabel('Highest word overlap with another fact')
-    fig.text(.09, .08, 'Axes: word-set Jaccard. Band: within 0.05 of equal overlap. Points may overlap.\nNo qualifying match is available; this is not a measured zero feature-overlap effect.', fontsize=7)
+    axes[0].set_ylabel('Highest word overlap\nwith another fact (%)')
+    fig.text(.09, .08, 'Axes: word-set Jaccard as percent. Band: within 5 percentage points of equal overlap.\nPoints may overlap. No qualifying match is available; this is not a measured zero feature-overlap effect.', fontsize=7)
     finish(fig, stem)
 
 
@@ -524,8 +547,7 @@ def location():
         ax.set_xticks(range(4),labels)
         ax.tick_params(axis='x', labelsize=7)
         zero(ax)
-    axes[0].set_ylabel('Same-letter minus changed-letter\ncountry contrast (Jaccard)')
-    axes[1].set_ylabel('Same-response minus intended-country\noverlap in selected errors')
+        percent_axis(ax, label=DIFFERENCE_LABEL)
     panel(axes[0],'a','Answer-letter difference remains')
     panel(axes[1],'b','Same-response overlap remains higher')
     fig.legend(handles=[Line2D([],[],color=BLUE,marker='o',label='A/B responses'),Line2D([],[],color=ORANGE,marker='o',label='Capital names')],loc='lower center',bbox_to_anchor=(.65,.06),frameon=False,ncol=2)
@@ -552,7 +574,8 @@ def completion():
     for ax in axes:
         ax.set(yticks=range(3),yticklabels=[d.title() for d in DOMAINS],ylim=(2.5,-.5))
     axes[0].set(xlim=(0,50),xlabel='Available raw graphs')
-    axes[1].set(xlim=(-.005,.13),xlabel='Same-fact minus other-fact overlap')
+    axes[1].set_xlim(-.005,.13)
+    percent_axis(axes[1], 'x', DIFFERENCE_LABEL)
     axes[1].axvline(0,color=MUTED,ls='--',lw=.8)
     panel(axes[0],'a','Collection by subject')
     panel(axes[1],'b','Five facts per included subject')
@@ -569,8 +592,8 @@ def workflow():
         ('2  Export attribution graphs','Neuronpedia runs the model remotely.\nSave raw graphs, settings, and checksums.\n\nNo local model inference.'),
         ('3  Apply inclusion rules','All four graphs available.\nBoth factual top next tokens give\na complete accepted answer.\nAnother included fact is available\nin the same model, subject, and set.\nRegistered spellings are accepted.'),
         ('4  Keep unique learned features','Identity = family + layer + feature ID.\nCollapse repeated token positions.\nKeep layers distinct.\n\nOmit embeddings, output/error nodes,\nand missing or duplicated node IDs.'),
-        ('5  Calculate one difference per fact','Jaccard = shared / all distinct features.\n\nCompare the starting question with its\nown rewording, then average overlap with\nALL other included factual rewordings.\nSubtract the other-fact mean.'),
-        ('6  Summarize across facts','Illustrative feature sets:\n{a, b, c} and {a, b, d} → 2 / 4 = 0.50.\nIllustrative other-fact mean = 0.30.\nDifference: 0.50 − 0.30 = +0.20.\n\nMeans, descriptive bootstrap intervals,\nand within-subject permutations.')]
+        ('5  Calculate one difference per fact','Jaccard = shared / all distinct features.\nMultiply by 100 to show percent.\nCompare the starting question with its\nown rewording, then average overlap with\nALL other included factual rewordings.\nSubtract to get percentage points.'),
+        ('6  Summarize across facts','Illustrative feature sets:\n{a, b, c} and {a, b, d} → 2 / 4 = 50%.\nIllustrative other-fact mean = 30%.\nDifference: 50% − 30% = +20 pp.\npp = percentage points.\nMeans, descriptive bootstrap intervals,\nand within-subject permutations.')]
     for ax,(heading,body) in zip(axes.flat,contents):
         ax.set(xlim=(0,1),ylim=(0,1));ax.axis('off')
         card(ax,.025,.04,.95,.88,heading,body,size=7.5)
@@ -591,12 +614,14 @@ def history_facts():
         axes[0].plot([other,own],[i,i],color='#AAB5BD',lw=1.2)
         for val,col,marker,offset in [(own,BLUE,'o',9),(other,ORANGE,'s',-16)]:
             axes[0].scatter(val,i,color=col,marker=marker,s=25)
-            axes[0].annotate(f'{val:.3f}',(val,i),xytext=(0 if marker=='o' else 10,offset),textcoords='offset points',ha='center' if marker=='o' else 'left',fontsize=7)
+            axes[0].annotate(f'{100*val:.1f}%',(val,i),xytext=(0 if marker=='o' else 10,offset),textcoords='offset points',ha='center' if marker=='o' else 'left',fontsize=7)
         for j,(name,col,marker) in enumerate([('Full set',INK,'o'),('Equal count (K)',BLUE,'s'),('Half count (K/2)',GREEN,'^')]):
             val=float(next(r for r in samples if r['fact']==fact and r['comparison']==name)['margin'])
             axes[1].scatter(i+(j-1)*.16,val,color=col,marker=marker,s=27,label=name if i==0 else None)
-    axes[0].set(yticks=[0,1],yticklabels=labels,ylim=(1.5,-.5),xlim=(0,1),xlabel='Feature overlap (Jaccard)')
-    axes[1].set(xticks=[0,1],xticklabels=labels,ylim=(-.025,.67),xlim=(-.4,1.4),ylabel='Same-fact minus other-fact overlap')
+    axes[0].set(yticks=[0,1],yticklabels=labels,ylim=(1.5,-.5),xlim=(0,1))
+    percent_axis(axes[0], 'x', OVERLAP_LABEL)
+    axes[1].set(xticks=[0,1],xticklabels=labels,ylim=(-.025,.67),xlim=(-.4,1.4))
+    percent_axis(axes[1], label=DIFFERENCE_LABEL)
     zero(axes[1])
     panel(axes[0],'a','Same-fact and other-fact overlap')
     panel(axes[1],'b','Equal-feature-count check')
@@ -622,7 +647,11 @@ def versions():
                 v=mean(float(r['effect_value']) for r in a);means.append(v)
                 ax.scatter(x,v,color=INK,marker='D',s=25)
             ax.plot([mi*3,mi*3+1],means,color=INK,lw=.8)
-        ax.set(xticks=[0,1,3,4],xticklabels=['Same\nfact','Same\nversion label','Same\nfact','Same\nversion label'],xlim=(-.4,4.4),ylabel='Difference from both-different baseline')
+        ax.set(xticks=[0,1,3,4],xticklabels=['Same\nfact','Same\nversion label','Same\nfact','Same\nversion label'],xlim=(-.4,4.4))
+        if metric == 'feature_jaccard':
+            percent_axis(ax, label=DIFFERENCE_LABEL)
+        else:
+            ax.set_ylabel('Difference in cosine similarity\n(native units)')
         zero(ax);panel(ax,letter,heading)
         ax.text(.2,-.28,'Gemma-2-2B',transform=ax.transAxes,ha='center',fontsize=7.5)
         ax.text(.8,-.28,'Qwen3-4B',transform=ax.transAxes,ha='center',fontsize=7.5)
@@ -651,11 +680,16 @@ def main():
         r['source_tables']=sorted(set(USED[r['stem']]))
     for p in [Path(__file__),ROOT/'scripts/review_figure_catalog.py',BASE/'figure_manifest.json',HISTORY/'figure_manifest.json']:
         record(p)
-    manifest=dict(date='2026-11-11',presentation='Approved end-to-end review; print-sized figures',
+    manifest=dict(date='2026-11-13',presentation='Print-sized figures; Jaccard percentages and percentage-point contrasts',
+        presentation_units=dict(stored_jaccard='native 0–1 scale, unchanged', displayed_overlap='percent (100 × Jaccard)',
+            displayed_difference='percentage points (100 × native contrast)', lexical_overlap='percent (100 × word-set Jaccard)',
+            cosine_metrics='native units, unchanged', counts_and_p_values='unchanged',
+            method='Tick formatting and annotation conversion only; plotted data coordinates and saved measurements unchanged'),
         figures=[r for r in rows_catalog if not r['label'].startswith('S')],
         supplements=[r for r in rows_catalog if r['label'].startswith('S')],
         source_hashes=SOURCES,checks=['Source measurements unchanged','Six main figures and ten supplements',
-        'Current sample counts read from tables','Every figure is 180 mm wide','All visible text at least 7 pt'],
+        'Current sample counts read from tables','Every figure is 180 mm wide','All visible text at least 7 pt',
+        'Jaccard display scaled by 100; source measurements and statistics unchanged'],
         layout_checks=QA,output_hashes={p.relative_to(FIG).as_posix():sha(p) for p in FIG.rglob('*') if p.is_file() and p.name not in ['figure_manifest.json','VISUAL_QA.md']})
     (FIG/'figure_manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
     print(json.dumps(dict(figures=len(QA),main=len(manifest['figures']),supplements=len(manifest['supplements']),

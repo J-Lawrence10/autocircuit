@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Joseph Lawrence" />
   <meta name="author" content="Konstantinos Krampis" />
-  <meta name="dcterms.date" content="2026-11-12" />
+  <meta name="dcterms.date" content="2026-11-13" />
   <title>Feature sharing in attribution graphs tracks predicted responses</title>
   <style>
     /* Default styles provided by pandoc.
@@ -35,7 +35,7 @@
 responses</h1>
 <p class="author">Joseph Lawrence</p>
 <p class="author">Konstantinos Krampis</p>
-<p class="date">12 November 2026</p>
+<p class="date">13 November 2026</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -150,8 +150,10 @@ availability</a></li>
 </ul>
 </nav>
 <p><strong>Working manuscript. Not peer reviewed.</strong> Review
-edition updated 12 November 2026 using the final available samples,
-corrected answer scoring, and approved supporting sections.</p>
+edition updated 13 November 2026 using the final available samples,
+corrected answer scoring, and approved supporting sections. Jaccard
+overlap is displayed as a percentage and overlap differences as
+percentage points; the underlying analyses are unchanged.</p>
 <h2 id="abstract">Abstract</h2>
 <p>Attribution graphs are used to investigate how language models
 produce predictions. We asked whether feature sharing between graphs
@@ -165,14 +167,15 @@ response, we tested Qwen3-4B with questions about six country pairs.
 These questions used the same words and tokens within each pair while
 varying the queried country and which A/B letter represented the correct
 capital. All 48 predicted letters were correct. The prespecified mean
-difference between same-country and different-country overlap was 0.0303
-(95% block-bootstrap interval 0.0265–0.0338). The same-country overlap
-advantage was 0.0628 when answer letters matched but near zero (-0.0022)
-when different letters represented the correct answers. In eight
-selected error comparisons from one country pair, wrong-answer graphs
-shared more features with correct predictions giving the same response
-than with correct predictions for the intended country. An analysis of
-16 historical-date graphs from two event pairs, including five incorrect
+difference between same-country and different-country overlap was 3.03
+percentage points (95% block-bootstrap interval 2.65–3.38). The
+same-country overlap advantage was 6.28 percentage points when answer
+letters matched but near zero (-0.22 percentage points) when different
+letters represented the correct answers. In eight selected error
+comparisons from one country pair, wrong-answer graphs shared more
+features with correct predictions giving the same response than with
+correct predictions for the intended country. An analysis of 16
+historical-date graphs from two event pairs, including five incorrect
 predictions, also found similar graphs when an unchanged response letter
 selected different years. Together, these findings show that graph
 similarity can track the predicted response without establishing correct
@@ -208,10 +211,9 @@ the model’s required output.</p>
 questions about the same fact would share more attribution-graph
 features than questions about different facts. We tested this
 association in Gemma-2-2B, Qwen3-1.7B, and Qwen3-4B. We measured feature
-sharing using Jaccard similarity, our measure of feature overlap: the
-proportion of all distinct features across two graphs that appears in
-both. It compares the features present, not the connections between
-them.</p>
+sharing using Jaccard similarity, displayed as the percentage of all
+distinct features across two graphs that appears in both. It compares
+the features present, not the connections between them.</p>
 <p>We then used Qwen3-4B to examine this association with stronger
 controls for shared words and answers. For multiple-choice questions
 using the same two countries, we kept the words and their counts the
@@ -353,9 +355,14 @@ and lack of a comparison partner are distinct exclusion reasons.</p>
 <p>We measured feature sharing between questions using Jaccard
 similarity, our measure of feature overlap. This is the number of shared
 features divided by the total number of distinct features across both
-graphs. The score ranges from zero, when no features are shared, to one,
-when both graphs contain the same features. It compares the features
-present, not the connections between them.</p>
+graphs. We display this ratio multiplied by 100: 0% means no features
+are shared, and 100% means both graphs contain the same features. It
+compares the features present, not the connections between them. Overlap
+differences and their intervals are displayed in percentage points, not
+as relative percentage increases. For example, 80% overlap minus 50%
+overlap is a difference of 30 percentage points. These units describe
+shared feature membership, not answer accuracy or the percentage of
+reasoning explained.</p>
 <p>For each graph, we identified distinct learned features using the
 tuple <code>(feature family, layer, feature ID)</code>. Matching
 numerical IDs in different layers or feature families remained distinct.
@@ -373,11 +380,17 @@ overlap minus the average of these other-fact overlaps. A positive
 difference therefore indicated greater feature sharing with the
 same-fact rewording. Figure S8 summarizes the workflow.</p>
 <p>Let T_i and P_i denote the feature sets from the graphs for a
-starting question and its factual rewording, respectively. Their
-same-fact overlap minus the average other-fact overlap is:</p>
+starting question and its factual rewording, respectively. With Jaccard
+retained as a ratio in the calculation, their same-fact overlap minus
+the average other-fact overlap is:</p>
 <p><code>M_i = Jaccard(T_i, P_i) - mean_{j ≠ i} Jaccard(T_i, P_j)</code>,</p>
 <p>where j includes every other included fact in the same model, subject
-area, and development or evaluation set.</p>
+area, and development or evaluation set. We display
+<code>100 × M_i</code> in percentage points. Saved analysis tables
+retain the original ratios; this display conversion does not change the
+estimates, tests, or inclusion rules. Word-set Jaccard scores use the
+same percentage display, whereas cosine similarities remain in their
+original units.</p>
 <p>A fact was included only when all four question and control graphs
 were available. For both factual prompts, the model’s
 highest-probability next token had to give the complete accepted answer
@@ -397,10 +410,10 @@ graph features, and development/evaluation assignments were unchanged;
 other accents, synonyms, and partial answers were not accepted
 automatically.</p>
 <p>Zero means equal overlap; negative values mean more shared features
-in the other-fact comparison. The outcome is a difference between
-Jaccard scores, not a percentage increase. Other designs below specify
-their own subtraction; weighted cosine comparisons are called
-differences in weighted similarity rather than feature overlap.</p>
+in the other-fact comparison. The outcome is a difference in percentage
+points, not a percentage increase. Other designs below specify their own
+subtraction; weighted cosine comparisons are called differences in
+weighted similarity rather than feature overlap.</p>
 <p>For each model, we summarized the evaluation-fact differences by
 their mean and a descriptive 95% percentile bootstrap interval, using
 10,000 resamples of the calculated fact-level differences with
@@ -446,9 +459,9 @@ checks</h3>
 recorded overlap calculations. File checksums covered all 385 graphs in
 the question/control and fact/wording datasets. We compared counts of
 distinct features with the saved audits and reproduced the recorded
-overlap differences for each fact to an absolute tolerance of 10⁻¹².
-Section 2.8 and the reproducibility records describe the Qwen3-1.7B
-verification.</p>
+overlap differences for each fact to an absolute tolerance of 10⁻¹² in
+the original ratio units. Section 2.8 and the reproducibility records
+describe the Qwen3-1.7B verification.</p>
 <p><strong>Feature counts.</strong> We tested whether same-fact overlap
 remained higher when the graphs contained equal numbers of features.
 Within each model and subject area, we set K to the smallest feature
@@ -472,16 +485,16 @@ each model and evaluation subject area, we applied three alternative
 matching rules. The first retained other-fact questions whose
 word-overlap score with the starting question was at least as high as
 the same-fact pair’s score. The second required those scores to differ
-by no more than 0.05. The third used the same 0.05 limit and also
-required the other-fact rewording’s graph to contain between 80% and
-125% as many features as the factual rewording’s graph. These rules
-matched word-overlap scores and, in the third check, graph feature
-counts; they did not require identical words or features. We averaged
-all qualifying other-fact comparisons under each rule. When none
-qualified, we reported the comparison as not estimable, rather than
-zero. Matching thresholds were not relaxed after inspection. We
-separately recorded whether each comparison shared the expected answer;
-answer matching was not an inclusion requirement.</p>
+by no more than 5 percentage points. The third used the same
+5-percentage-point limit and also required the other-fact rewording’s
+graph to contain between 80% and 125% as many features as the factual
+rewording’s graph. These rules matched word-overlap scores and, in the
+third check, graph feature counts; they did not require identical words
+or features. We averaged all qualifying other-fact comparisons under
+each rule. When none qualified, we reported the comparison as not
+estimable, rather than zero. Matching thresholds were not relaxed after
+inspection. We separately recorded whether each comparison shared the
+expected answer; answer matching was not an inclusion requirement.</p>
 <p><strong>Tokenizer audit.</strong> We checked whether the predicted
 next token contained the expected answer or only a compatible beginning.
 We recorded the versions and file checksums of the official Qwen
@@ -712,9 +725,10 @@ Reworded questions about the same fact share more features</h3>
 <p>Across all three models, every included evaluation question had
 greater Jaccard overlap with its own rewording than its average overlap
 with rewordings of other facts (Figure 2a). Mean differences in feature
-overlap were 0.170 for Gemma-2-2B (descriptive 95% interval [0.085,
-0.276], n=8), 0.0894 for Qwen3-1.7B ([0.0820, 0.0976], n=10), and 0.218
-for Qwen3-4B ([0.150, 0.307], n=12). Exact sign-flip p-values were
+overlap were 17.0 percentage points for Gemma-2-2B (descriptive 95%
+interval [8.5, 27.6], n=8), 8.94 for Qwen3-1.7B ([8.20, 9.76], n=10),
+and 21.8 for Qwen3-4B ([15.0, 30.7], n=12); all differences and
+intervals are in percentage points. Exact sign-flip p-values were
 0.00390625, 0.0009765625, and 0.000244140625; fact-label permutation
 p-values were 0.00139, 0.0000694, and 0.0000347, respectively. The
 pattern was consistent within each model. Differences in subject
@@ -722,18 +736,19 @@ coverage and reuse of facts across models prevent interpreting these
 effect sizes as a model ranking.</p>
 <p>For Qwen3-1.7B, the pattern was present in both subjects available
 for evaluation. All five chemistry and all five geography evaluation
-facts had positive overlap differences, with subject means of 0.0854 and
-0.0935 (Figure 2b). History could not be evaluated for this model
-because no history fact had a complete set of factual and control graphs
-(Supplementary Figure S7a). Detailed analyses are provided in Supporting
-analysis A5.</p>
+facts had positive overlap differences, with subject means of 8.54 and
+9.35 percentage points (Figure 2b). History could not be evaluated for
+this model because no history fact had a complete set of factual and
+control graphs (Supplementary Figure S7a). Detailed analyses are
+provided in Supporting analysis A5.</p>
 <p>Qwen3-4B included five chemistry, five geography, and two history
 facts (Figure 2b). The history questions asked about Columbus’s flagship
 and the assassinated Archduke Franz Ferdinand. Their same-fact minus
-other-fact overlap differences were 0.601 and 0.395, respectively,
-averaging 0.498 (Supplementary Figure S9a). Each used the other as its
-comparison partner, so this result describes the two questions rather
-than independent replications across history.</p>
+other-fact overlap differences were 60.1 and 39.5 percentage points,
+respectively, averaging 49.8 percentage points (Supplementary Figure
+S9a). Each used the other as its comparison partner, so this result
+describes the two questions rather than independent replications across
+history.</p>
 <p>Higher overlap could reflect more than the fact being asked about:
 reworded questions may also share words and the expected answer. We
 therefore examined whether these similarities could explain the
@@ -746,10 +761,11 @@ features in the analyzed samples.</strong> A, Individual evaluation
 facts for Gemma-2-2B (n=8), Qwen3-1.7B (n=10), and Qwen3-4B (n=12). Each
 value is the starting question’s Jaccard overlap with its factual
 rewording minus its mean overlap with other-fact rewordings in the same
-model, subject, and evaluation set. Blue circles, green squares, and
-orange triangles denote chemistry, geography, and history, respectively;
-black diamonds show model means. B, Means within each model and subject,
-shown as diamonds using the same subject colors. Bars in both panels are
+model, subject, and evaluation set, multiplied by 100 and expressed in
+percentage points (pp). Blue circles, green squares, and orange
+triangles denote chemistry, geography, and history, respectively; black
+diamonds show model means. B, Means within each model and subject, shown
+as diamonds using the same subject colors. Bars in both panels are
 descriptive 95% percentile bootstrap intervals from 10,000 fact-level
 resamples. The two Qwen3-4B history facts use each other as comparators;
 their subject mean is shown without an interval. n counts evaluation
@@ -762,30 +778,30 @@ Same-fact questions share words and expected answers</h3>
 other-fact questions that matched each same-fact pair’s word overlap.
 None met any of the three word-matching or joint word/feature-count
 rules: 0/8 Gemma, 0/10 Qwen3-1.7B, and 0/12 Qwen3-4B. Even the most
-word-overlapping other-fact prompt scored at least 0.1806 below the
-same-fact rewording across these samples (Supplement Figure S4). The gap
-was not a borderline threshold result.</p>
+word-overlapping other-fact prompt scored at least 18.06 percentage
+points below the same-fact rewording across these samples (Supplement
+Figure S4). The gap was not a borderline threshold result.</p>
 <p>Answer identity was coupled to factual identity as well: none of the
 108 directed other-fact comparisons shared the expected answer, whereas
 same-fact pairs did. This comparison changes the fact, word overlap, and
 expected answer together. It establishes their combined association with
 shared features, leaving their separate contributions unresolved.</p>
 <p>When controls were matched only by broad next-token category, overlap
-differences relative to same-pattern invented name controls were -0.069
-(Gemma, n=2), -0.0109 (Qwen3-1.7B, n=9), and +0.096 (Qwen3-4B, n=10).
-Differences relative to reworded invented name controls were positive in
-all three models (Figure 3). Qwen3-4B’s history controls predicted
-commas instead of names, so ten of its twelve facts met this additional
-matching requirement. For Qwen3-1.7B, the mean was +0.1059 across ten
-reworded-control comparisons. Before output-type matching, eight of its
-ten evaluation questions shared more features with the same-pattern
-invented name control than with their factual rewording; seven of nine
-did so in the matched subset. All ten favored the factual rewording over
-the reworded invented name control. These contrasting results motivate a
-follow-up that preserves the available words while varying the requested
-country and the answer letter. The descriptive question-version
-comparison is reported in Supporting analysis A4 (Supplementary Figure
-S10).</p>
+differences relative to same-pattern invented name controls were -6.9
+percentage points (Gemma, n=2), -1.09 (Qwen3-1.7B, n=9), and +9.6
+(Qwen3-4B, n=10). Differences relative to reworded invented name
+controls were positive in all three models (Figure 3). Qwen3-4B’s
+history controls predicted commas instead of names, so ten of its twelve
+facts met this additional matching requirement. For Qwen3-1.7B, the mean
+was +10.59 percentage points across ten reworded-control comparisons.
+Before output-type matching, eight of its ten evaluation questions
+shared more features with the same-pattern invented name control than
+with their factual rewording; seven of nine did so in the matched
+subset. All ten favored the factual rewording over the reworded invented
+name control. These contrasting results motivate a follow-up that
+preserves the available words while varying the requested country and
+the answer letter. The descriptive question-version comparison is
+reported in Supporting analysis A4 (Supplementary Figure S10).</p>
 <figure class="paper-figure" id="figure-3" aria-labelledby="figure-3-label">
 <div class="figure-toolbar"><span class="figure-label" id="figure-3-label">Figure 3</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure3_control_comparisons.svg" data-figure-open aria-label="Enlarge Figure 3">Enlarge figure</a><a href="../figures/figure3_control_comparisons.svg" download>SVG</a><a href="../figures/figure3_control_comparisons.png" download>PNG</a></div></div>
 <a class="figure-artwork" href="../figures/figure3_control_comparisons.svg" data-figure-open aria-label="Enlarge Figure 3: Figure 3: The invented name comparison changes the observed overlap difference"><img src="../figures/figure3_control_comparisons.svg" alt="Figure 3: The invented name comparison changes the observed overlap difference" loading="lazy" decoding="async" /></a>
@@ -793,7 +809,8 @@ S10).</p>
 overlap difference.</strong> A, Invented name controls retaining the
 starting question’s wording. B, Reworded invented name controls. Each
 point is the starting question’s Jaccard overlap with its factual
-rewording minus its overlap with the indicated control. Controls are
+rewording minus its overlap with the indicated control, expressed in
+percentage points (100 times the native difference). Controls are
 included when their predicted next token and the starting question’s
 predicted token share a broad category: letters/numbers, whitespace, or
 punctuation/symbols. Blue, purple, and orange denote Gemma-2-2B,
@@ -814,12 +831,13 @@ Comparing same-country with different-country overlap within each answer
 condition separated the two components of the average. All 48 predicted
 labels were correct, and all exports passed the recorded identifier and
 checksum checks.</p>
-<p>The same-country minus different-country overlap was 0.0628 with the
-same answer letter and -0.0022 with a changed letter. Their average, the
-prespecified primary outcome, was 0.0303 (95% block-bootstrap interval
-0.0265–0.0338), positive in each of six country-pair blocks. The exact
-conditional correspondence p-value was 0.000244141, or 0.000732422 after
-the prespecified three-opportunity adjustment. The positive average was
+<p>The same-country minus different-country overlap was 6.28 percentage
+points with the same answer letter and -0.22 percentage points with a
+changed letter. Their average, the prespecified primary outcome, was
+3.03 percentage points (95% block-bootstrap interval 2.65–3.38),
+positive in each of six country-pair blocks. The exact conditional
+correspondence p-value was 0.000244141, or 0.000732422 after the
+prespecified three-opportunity adjustment. The positive average was
 concentrated in the same-letter component. The changed-letter estimate
 was near zero; this was not an equivalence test.</p>
 <p>When the model had to answer with different letters, questions asking
@@ -829,27 +847,28 @@ same, but the greater feature overlap observed with a shared answer
 letter did not persist.</p>
 <p>Attribution graphs shared substantially more features when the
 required answer letter matched. For questions about the same country,
-mean overlap across wordings was 0.8005 with the same answer letter and
-0.4853 with different letters, a difference of 0.3152 (Figure 4a).
-Questions about different countries showed the same pattern, with
-overlaps of 0.7377 and 0.4874, respectively. Averaging across these
-comparisons gave a letter-associated difference of 0.2827, positive in
-all six country pairs. All 48 predictions were correct. Thus,
-substantial differences in graph feature overlap accompanied changes in
-the required response letter, even when the country and correct capital
-remained unchanged. This is a separate descriptive overlap contrast, not
-a fraction of variance or reasoning explained.</p>
+mean overlap across wordings was 80.05% with the same answer letter and
+48.53% with different letters, a difference of 31.52 percentage points
+(Figure 4a). Questions about different countries showed the same
+pattern, with overlaps of 73.77% and 48.74%, respectively. Averaging
+across these comparisons gave a letter-associated difference of 28.27
+percentage points, positive in all six country pairs. All 48 predictions
+were correct. Thus, substantial differences in graph feature overlap
+accompanied changes in the required response letter, even when the
+country and correct capital remained unchanged. This is a separate
+descriptive overlap contrast, not a fraction of variance or reasoning
+explained.</p>
 <p>The exploratory direct paired difference between the same-letter and
-changed-letter fact components was 0.0650 Jaccard units across six
-blocks (95% block-bootstrap interval 0.0582–0.0715; Student-t interval
-0.0553–0.0746; two-sided block sign-flip p=0.03125). All six differences
-were positive. The difference remained 0.0720 after excluding
-final-position feature nodes, 0.0688 after excluding the last quarter of
-observed feature layers, and 0.0732 after both filters (Supplement
-Figure S6). The association therefore extends beyond the removed node
-sets. These comparisons establish an answer-associated pattern in this
-task; word order, answer mapping, country roles, and output-conditioned
-graph construction remain possible contributors.</p>
+changed-letter fact components was 6.50 percentage points across six
+blocks (95% block-bootstrap interval 5.82–7.15; Student-t interval
+5.53–7.46; two-sided block sign-flip p=0.03125). All six differences
+were positive. The difference remained 7.20 percentage points after
+excluding final-position feature nodes, 6.88 after excluding the last
+quarter of observed feature layers, and 7.32 after both filters
+(Supplement Figure S6). The association therefore extends beyond the
+removed node sets. These comparisons establish an answer-associated
+pattern in this task; word order, answer mapping, country roles, and
+output-conditioned graph construction remain possible contributors.</p>
 <figure class="paper-figure" id="figure-4" aria-labelledby="figure-4-label">
 <div class="figure-toolbar"><span class="figure-label" id="figure-4-label">Figure 4</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figure4_matched_choice.svg" data-figure-open aria-label="Enlarge Figure 4">Enlarge figure</a><a href="../figures/figure4_matched_choice.svg" download>SVG</a><a href="../figures/figure4_matched_choice.png" download>PNG</a></div></div>
 <a class="figure-artwork" href="../figures/figure4_matched_choice.svg" data-figure-open aria-label="Enlarge Figure 4: Figure 4: Same-fact overlap is higher when the answer letter stays the same"><img src="../figures/figure4_matched_choice.svg" alt="Figure 4: Same-fact overlap is higher when the answer letter stays the same" loading="lazy" decoding="async" /></a>
@@ -857,18 +876,21 @@ graph construction remain possible contributors.</p>
 stays the same.</strong> Qwen3-4B comparisons from six country pairs and
 48 graphs. A, Mean Jaccard overlap for questions about the same or
 different countries with the same or different correct A/B answer
-letters. Numbers and color intensity give overlap on a 0–1 scale. B,
-Same-country minus different-country overlap, calculated separately for
-matching and changed answer letters. C, The average country contrast,
-obtained by averaging the two conditions in B, and the average letter
-contrast, obtained by averaging same-letter minus different-letter
-overlap across country relationships. In B and C, circles represent
-country pairs, lines connect estimates from the same pair, and black
-diamonds show means. Blue and orange identify the labeled conditions.
-The bar on the primary country contrast in C is a 95% block-bootstrap
-interval, resampling country pairs (n=6); no interval is plotted for the
-descriptive letter contrast. Dashed lines mark zero. Panels B and C have
-different vertical scales.</p></figcaption>
+letters. Numbers and color intensity give overlap as a percentage (100
+times Jaccard), from 0% for no shared features to 100% for identical
+feature sets. B, Same-country minus different-country overlap,
+calculated separately for matching and changed answer letters. C, The
+average country contrast, obtained by averaging the two conditions in B,
+and the average letter contrast, obtained by averaging same-letter minus
+different-letter overlap across country relationships. B and C express
+differences in percentage points (pp), not relative percentage
+increases. In B and C, circles represent country pairs, lines connect
+estimates from the same pair, and black diamonds show means. Blue and
+orange identify the labeled conditions. The bar on the primary country
+contrast in C is a 95% block-bootstrap interval, resampling country
+pairs (n=6); no interval is plotted for the descriptive letter contrast.
+Dashed lines mark zero. Panels B and C have different vertical
+scales.</p></figcaption>
 </figure>
 <h3
 id="error-graphs-show-greater-overlap-with-answer-matched-controls">3.4
@@ -899,22 +921,22 @@ archived preview answers. We compared each error graph with two
 correct-answer graphs: one for the intended country and one producing
 the same answer as the error. Every comparison favored the graph sharing
 the error’s answer (Figure 5b,c). The mean same-output minus
-same-country Jaccard difference was 0.1983 for A/B responses and 0.2649
-for capital-name responses. Equalizing feature counts retained
-differences of 0.1851 and 0.2361, respectively, and influence-weighted
-cosine similarity preserved the direction in all eight comparisons.
-These comparisons shared control graphs and concerned only France and
-Germany, so they describe the selected cases rather than eight
-independent replications.</p>
+same-country Jaccard difference was 19.83 percentage points for A/B
+responses and 26.49 for capital-name responses. Equalizing feature
+counts retained differences of 18.51 and 23.61 percentage points,
+respectively, and influence-weighted cosine similarity preserved the
+direction in all eight comparisons. These comparisons shared control
+graphs and concerned only France and Germany, so they describe the
+selected cases rather than eight independent replications.</p>
 <p>The greater overlap with the same-answer control remained in all
 eight selected comparisons after removing feature nodes at the final
 input-token position, in the last quarter of observed feature layers, or
-both. Removing both groups gave mean differences of 0.2053 for labels
-and 0.2608 for capital names (Supplementary Figure S6b). The pattern
-therefore extended beyond those positions and layers. These checks
-changed the graphs used for comparison, not the model itself; the
-retained graphs were still constructed to explain the predicted
-answer.</p>
+both. Removing both groups gave mean differences of 20.53 percentage
+points for labels and 26.08 for capital names (Supplementary Figure
+S6b). The pattern therefore extended beyond those positions and layers.
+These checks changed the graphs used for comparison, not the model
+itself; the retained graphs were still constructed to explain the
+predicted answer.</p>
 <p>Across these selected cases, sharing the predicted answer
 corresponded to greater feature overlap than sharing the intended
 country. Because the errors were selected for inspection, these
@@ -934,15 +956,15 @@ from one country pair, with 16 graphs and eight selected error cases
 using shared controls. A, Correct next-token counts for questions naming
 the country directly or referring to its list position. Blue and green
 bars denote A/B and capital-name responses; labels give correct
-predictions out of four prompts per condition. B–C, Jaccard overlap of
-each error graph with a correct-answer graph for the intended country
-(blue) or a correct-answer graph producing the same response as the
-error (orange), for A/B responses (B) and capital names (C). List order
-and answer mapping are held fixed within each comparison. Filled circles
-use all retained features; open squares average 200 equal-feature-count
-subsamples. Lines connect the two controls for the same error. The
-comparisons are descriptive; no confidence intervals or hypothesis tests
-are plotted.</p></figcaption>
+predictions out of four prompts per condition. B–C, Jaccard overlap,
+expressed as a percentage, of each error graph with a correct-answer
+graph for the intended country (blue) or a correct-answer graph
+producing the same response as the error (orange), for A/B responses (B)
+and capital names (C). List order and answer mapping are held fixed
+within each comparison. Filled circles use all retained features; open
+squares average 200 equal-feature-count subsamples. Lines connect the
+two controls for the same error. The comparisons are descriptive; no
+confidence intervals or hypothesis tests are plotted.</p></figcaption>
 </figure>
 <h3
 id="greater-same-fact-feature-sharing-persists-after-matching-feature-counts">3.5
@@ -958,9 +980,9 @@ same-fact-minus-other-fact overlap remained positive for all three
 models at both sample sizes (Supplementary Figure S3).</p>
 <p>K is the smallest number of distinct features among the included
 starting and reworded factual graphs within each model and subject area.
-K/2 is half that number, rounded down. Table entries are mean
-same-fact-minus-other-fact Jaccard differences, not raw overlap
-scores.</p>
+K/2 is half that number, rounded down. Table entries and intervals are
+mean same-fact-minus-other-fact Jaccard differences in percentage
+points, not raw overlap percentages.</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -983,23 +1005,23 @@ K</th>
 <tbody>
 <tr>
 <td>Gemma-2-2B</td>
-<td style="text-align: right;">0.170</td>
-<td style="text-align: right;">0.149 [0.066, 0.257]</td>
-<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">17.0</td>
+<td style="text-align: right;">14.9 [6.6, 25.7]</td>
+<td style="text-align: right;">5.8</td>
 <td style="text-align: right;">7/8</td>
 </tr>
 <tr>
 <td>Qwen3-1.7B</td>
-<td style="text-align: right;">0.089</td>
-<td style="text-align: right;">0.084 [0.076, 0.092]</td>
-<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">8.9</td>
+<td style="text-align: right;">8.4 [7.6, 9.2]</td>
+<td style="text-align: right;">3.3</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Qwen3-4B</td>
-<td style="text-align: right;">0.218</td>
-<td style="text-align: right;">0.181 [0.110, 0.267]</td>
-<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">21.8</td>
+<td style="text-align: right;">18.1 [11.0, 26.7]</td>
+<td style="text-align: right;">7.2</td>
 <td style="text-align: right;">12/12</td>
 </tr>
 </tbody>
@@ -1009,14 +1031,15 @@ sampling repetitions at both feature counts. After averaging across
 repetitions, seven of eight Gemma questions, all ten Qwen3-1.7B
 questions, and all twelve Qwen3-4B questions had positive differences at
 K. Gemma’s tungsten question reversed direction, with average
-differences of −0.0187 at K and −0.0080 at K/2. Thus, the positive model
-averages persisted after matching feature counts, although not every
-individual question retained a positive difference (Supplementary Figure
-S3). The intervals summarize uncertainty across questions; the 200
-repetitions are not additional independent observations.</p>
+differences of −1.87 percentage points at K and −0.80 at K/2. Thus, the
+positive model averages persisted after matching feature counts,
+although not every individual question retained a positive difference
+(Supplementary Figure S3). The intervals summarize uncertainty across
+questions; the 200 repetitions are not additional independent
+observations.</p>
 <p>The two Qwen3-4B history facts also retained positive differences at
-both feature counts. Their averages were 0.543 and 0.370 at K, and 0.210
-and 0.151 at K/2 (Supplementary Figure S9b).</p>
+both feature counts. Their averages were 54.3 and 37.0 percentage points
+at K, and 21.0 and 15.1 at K/2 (Supplementary Figure S9b).</p>
 <p>Subsampling can retain a shared feature in one graph while removing
 it from another. Consequently, the reduction in Jaccard overlap cannot
 be interpreted as the percentage of the original association explained
@@ -1033,22 +1056,22 @@ model selected a different year. We analyzed all 16 Qwen3-4B graphs from
 two event pairs, including 11 correct and five incorrect predictions. In
 the Declaration of Independence example, swapping the dates assigned to
 A and B left the predicted letter unchanged at A but changed the
-selected year from 1776 to 1783. Jaccard overlap was 0.795. With the
+selected year from 1776 to 1783. Jaccard overlap was 79.5%. With the
 context placed before the question, the model instead changed from A to
-B and retained the correct year, 1776; overlap was 0.512 (Figure
+B and retained the correct year, 1776; overlap was 51.2% (Figure
 6a).</p>
 <p>Across all eight comparisons that swapped the A/B date assignments,
 the five pairs retaining the same predicted letter had Jaccard overlaps
-of 0.795–0.911. Each pair contained predictions for different years: one
+of 79.5–91.1%. Each pair contained predictions for different years: one
 correct and one incorrect. In contrast, the three pairs that changed the
 predicted letter retained the same correct year and had overlaps of
-0.512–0.532 (Figure 6b). Preserving the selected year therefore did not
+51.2–53.2% (Figure 6b). Preserving the selected year therefore did not
 guarantee greater feature sharing than changing it.</p>
 <p>Changing question/context order showed the same association with the
 predicted letter. With the event and A/B date assignments held fixed,
 the five comparisons retaining the same letter had overlaps of
-0.766–0.808, whereas the three comparisons changing the letter had
-overlaps of 0.527–0.602 (Figure 6c). Feature overlap thus tracked the
+76.6–80.8%, whereas the three comparisons changing the letter had
+overlaps of 52.7–60.2% (Figure 6c). Feature overlap thus tracked the
 predicted letter without guaranteeing that the same year was selected or
 that the answer was correct. Supporting analysis A7 reports the
 event-pair summaries and required-letter contrasts.</p>
@@ -1069,9 +1092,10 @@ question/context order while event and A/B date assignment remain fixed.
 Each point is one graph pair; n counts pairs in each response category.
 Blue circles and squares denote the Declaration of Independence and
 Treaty of Paris; orange diamonds and triangles denote Sputnik 1 and
-Explorer 1. Jaccard overlap ranges from 0 (no shared features) to 1
-(identical feature sets). Panels B and C reuse the same 16 graphs; no
-inferential intervals or tests are plotted.</p></figcaption>
+Explorer 1. Jaccard overlap ranges from 0% (no shared features) to 100%
+(identical feature sets), using 100 times the native Jaccard score.
+Panels B and C reuse the same 16 graphs; no inferential intervals or
+tests are plotted.</p></figcaption>
 </figure>
 <h2 id="discussion">4. Discussion</h2>
 <h3 id="what-the-comparisons-establish">4.1 What the comparisons
@@ -1202,27 +1226,28 @@ graphs and met the accepted-answer criteria in Section 2.2, so both were
 included in the main analysis.</p>
 <p>Both history questions shared more features with their own rewording
 than with the other history question. For Columbus, Jaccard overlap with
-the factual rewording was 0.624, compared with 0.023 for the Franz
+the factual rewording was 62.4%, compared with 2.3% for the Franz
 Ferdinand rewording. For Franz Ferdinand, the corresponding overlaps
-were 0.427 and 0.032 (Supplementary Figure S9a). The Columbus example
+were 42.7% and 3.2% (Supplementary Figure S9a). The Columbus example
 therefore shows that high feature overlap does not require identical
 output-token text. The same-fact minus other-fact overlap remained
-positive after equalizing feature counts: 0.543 for Columbus and 0.370
-for Franz Ferdinand. Using half as many features in each graph gave
-differences of 0.210 and 0.151, respectively (Supplementary Figure S9b).
-Each estimate averages 200 random subsamples of the existing graphs, not
-additional independent observations.</p>
+positive after equalizing feature counts: 54.3 percentage points for
+Columbus and 37.0 for Franz Ferdinand. Using half as many features in
+each graph gave differences of 21.0 and 15.1 percentage points,
+respectively (Supplementary Figure S9b). Each estimate averages 200
+random subsamples of the existing graphs, not additional independent
+observations.</p>
 <p>For both history questions, the starting prompt shared more features
 with its factual rewording than with either invented name control. The
-overlap differences were 0.537 and 0.556 for Columbus, and 0.384 and
-0.385 for Franz Ferdinand, for the starting-pattern and reworded
-controls, respectively. All four controls predicted a comma, whereas the
-factual prompts predicted names. Because the controls predicted a
-different kind of output, neither fact entered the output-type-matched
-comparison in Figure 3, which uses ten Qwen3-4B facts. Both remained in
-the main comparison in Figure 2. These control comparisons do not
-separate factual content from differences in wording and predicted
-outputs.</p>
+overlap differences were 53.7 and 55.6 percentage points for Columbus,
+and 38.4 and 38.5 for Franz Ferdinand, for the starting-pattern and
+reworded controls, respectively. All four controls predicted a comma,
+whereas the factual prompts predicted names. Because the controls
+predicted a different kind of output, neither fact entered the
+output-type-matched comparison in Figure 3, which uses ten Qwen3-4B
+facts. Both remained in the main comparison in Figure 2. These control
+comparisons do not separate factual content from differences in wording
+and predicted outputs.</p>
 <figure class="paper-figure" id="figure-s9" aria-labelledby="figure-s9-label">
 <div class="figure-toolbar"><span class="figure-label" id="figure-s9-label">Figure S9</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS9_answer_spelling.svg" data-figure-open aria-label="Enlarge Figure S9">Enlarge figure</a><a href="../figures/figureS9_answer_spelling.svg" download>SVG</a><a href="../figures/figureS9_answer_spelling.png" download>PNG</a></div></div>
 <a class="figure-artwork" href="../figures/figureS9_answer_spelling.svg" data-figure-open aria-label="Enlarge Figure S9: Figure S9: History rewordings share more features than questions about another fact"><img src="../figures/figureS9_answer_spelling.svg" alt="Figure S9: History rewordings share more features than questions about another fact" loading="lazy" decoding="async" /></a>
@@ -1231,14 +1256,14 @@ questions about another fact.</strong> Qwen3-4B comparisons for the two
 history facts included in Figure 2. A, Jaccard overlap of each starting
 question with its own rewording (blue circles) or the other history
 fact’s rewording (orange squares). Lines connect the two comparisons for
-each fact, and labels give the overlap values. B, Same-fact minus
-other-fact overlap using all features (black circles), equal counts K
-(blue squares), or half counts K/2, rounded down (green triangles). K is
-the smallest feature count among the included history factual graphs.
-Subsampled values average 200 repetitions; the dashed line marks zero.
-The two facts use each other as comparators, and no confidence intervals
-are plotted. Maria and María are accepted spellings of the same ship
-name.</p></figcaption>
+each fact, and labels give overlap as a percentage. B, Same-fact minus
+other-fact overlap, expressed in percentage points, using all features
+(black circles), equal counts K (blue squares), or half counts K/2,
+rounded down (green triangles). K is the smallest feature count among
+the included history factual graphs. Subsampled values average 200
+repetitions; the dashed line marks zero. The two facts use each other as
+comparators, and no confidence intervals are plotted. Maria and María
+are accepted spellings of the same ship name.</p></figcaption>
 </figure>
 <p>We checked the saved token IDs against the archived tokenizer, which
 converts token IDs into text. All 50 Qwen3-1.7B factual prompts matched
@@ -1274,13 +1299,13 @@ breaks, rather than answer text.</p>
 <p>We then repeated the overlap analysis only for groups in which all
 nine questions passed this matching rule. Each group contained three
 facts asked in three versions; only Qwen3-4B geography qualified. In
-that group, the same-fact overlap difference was 0.1014, and the
-difference for questions sharing a version label was 0.1063. Version
-labels identified the original question or one of its two rewordings;
-they did not guarantee identical wording across facts. These similar
-estimates do not establish that fact identity or wording contributes
-more to feature overlap, and we did not formally test that
-comparison.</p>
+that group, the same-fact overlap difference was 10.14 percentage
+points, and the difference for questions sharing a version label was
+10.63 percentage points. Version labels identified the original question
+or one of its two rewordings; they did not guarantee identical wording
+across facts. These similar estimates do not establish that fact
+identity or wording contributes more to feature overlap, and we did not
+formally test that comparison.</p>
 <figure class="paper-figure" id="figure-s5" aria-labelledby="figure-s5-label">
 <div class="figure-toolbar"><span class="figure-label" id="figure-s5-label">Figure S5</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS5_answer_audit.svg" data-figure-open aria-label="Enlarge Figure S5">Enlarge figure</a><a href="../figures/figureS5_answer_audit.svg" download>SVG</a><a href="../figures/figureS5_answer_audit.png" download>PNG</a></div></div>
 <a class="figure-artwork" href="../figures/figureS5_answer_audit.svg" data-figure-open aria-label="Enlarge Figure S5: Figure S5: A matching first token does not always verify the whole answer"><img src="../figures/figureS5_answer_audit.svg" alt="Figure S5: A matching first token does not always verify the whole answer" loading="lazy" decoding="async" /></a>
@@ -1358,8 +1383,8 @@ retained only facts whose starting-question and factual-rewording graph
 files had no detected identifier conflicts, then rebuilt the other-fact
 comparisons. Only two Gemma facts qualified, corresponding to four
 factual-question graphs: a starting question and a rewording for each
-fact. Their mean same-fact overlap difference remained positive at
-0.086, compared with 0.170 in the eight-fact main analysis
+fact. Their mean same-fact overlap difference remained positive at 8.6
+percentage points, compared with 17.0 in the eight-fact main analysis
 (Supplementary Figure S2). The two-fact subset was a supporting check,
 not a replacement for the main analysis. Because the facts being
 compared also changed, the smaller mean cannot be attributed solely to
@@ -1371,11 +1396,12 @@ outcome of that rule, not a selected sample-size cutoff.</p>
 <p>Including reconstruction-error components in the overlap calculation
 also preserved the average pattern. These components were grouped by
 error type and layer rather than treated as learned features. Mean
-same-fact overlap differences changed only slightly: from 0.1704 to
-0.1692 for Gemma, 0.0894 to 0.0887 for Qwen3-1.7B, and 0.2183 to 0.2153
-for Qwen3-4B. Positive mean differences also remained when we compared
-each starting question with its most similar other-fact rewording
-instead of the average other-fact overlap (Supplementary Figure S2).</p>
+same-fact overlap differences changed only slightly: from 17.04 to 16.92
+percentage points for Gemma, 8.94 to 8.87 for Qwen3-1.7B, and 21.83 to
+21.53 for Qwen3-4B. Positive mean differences also remained when we
+compared each starting question with its most similar other-fact
+rewording instead of the average other-fact overlap (Supplementary
+Figure S2).</p>
 <p>Together, these checks show that greater average feature sharing
 between same-fact questions persists under the tested analysis choices.
 The restricted Gemma comparison provides evidence from only two facts,
@@ -1389,12 +1415,12 @@ accuracy.</p>
 <a class="figure-artwork" href="../figures/figureS2_robustness.svg" data-figure-open aria-label="Enlarge Figure S2: Figure S2: Average feature-overlap differences stay positive in the displayed checks"><img src="../figures/figureS2_robustness.svg" alt="Figure S2: Average feature-overlap differences stay positive in the displayed checks" loading="lazy" decoding="async" /></a>
 <figcaption class="figure-caption"><p><strong>Figure S2. Average feature-overlap differences stay positive
 in the displayed checks.</strong> Mean same-fact minus other-fact
-Jaccard overlap under four analysis settings, shown separately for each
-model. The settings are the main analysis, inclusion of
-reconstruction-error nodes, restriction to starting-question and
-factual-rewording exports without detected node-ID conflicts, and
-replacement of the average other-fact overlap with the largest
-other-fact overlap. Diamonds are means; bars are descriptive 95%
+Jaccard overlap, expressed in percentage points, under four analysis
+settings, shown separately for each model. The settings are the main
+analysis, inclusion of reconstruction-error nodes, restriction to
+starting-question and factual-rewording exports without detected node-ID
+conflicts, and replacement of the average other-fact overlap with the
+largest other-fact overlap. Diamonds are means; bars are descriptive 95%
 bootstrap intervals resampling evaluation facts. Labels give n, the
 number of included facts after rebuilding comparison groups for each
 setting. Gemma-2-2B uses eight facts except in the clean-export setting
@@ -1464,17 +1490,18 @@ compared pairs asking about the same fact in different versions and
 pairs asking about different facts with the same version label. Both
 comparisons used pairs differing in both fact and version as their
 baseline.</p>
-<p>The average same-fact and same-version Jaccard differences were 0.074
-and 0.118 for Gemma, respectively, and 0.101 and 0.064 for Qwen3-4B
-(Supplementary Figure S10). Weighting features by their exported
-influence gave the same ordering: corresponding cosine-similarity
-differences were 0.090 and 0.114 for Gemma, and 0.105 and 0.075 for
-Qwen3-4B. However, a shared version label did not guarantee identical
-wording across facts. The analysis also included questions whose
-predicted next tokens did not match the expected answers. Only Qwen3-4B
-geography met that matching rule for all nine questions; in that group,
-the same-fact and same-version Jaccard differences were similar, at
-0.1014 and 0.1063 (Supporting analysis A1). These comparisons therefore
+<p>The average same-fact and same-version Jaccard differences were 7.4
+and 11.8 percentage points for Gemma, respectively, and 10.1 and 6.4 for
+Qwen3-4B (Supplementary Figure S10). Weighting features by their
+exported influence gave the same ordering: corresponding
+cosine-similarity differences, in their original units, were 0.090 and
+0.114 for Gemma, and 0.105 and 0.075 for Qwen3-4B. However, a shared
+version label did not guarantee identical wording across facts. The
+analysis also included questions whose predicted next tokens did not
+match the expected answers. Only Qwen3-4B geography met that matching
+rule for all nine questions; in that group, the same-fact and
+same-version Jaccard differences were similar, at 10.14 and 10.63
+percentage points (Supporting analysis A1). These comparisons therefore
 do not establish that fact identity contributes more to feature overlap
 than wording, or vice versa.</p>
 <figure class="paper-figure" id="figure-s10" aria-labelledby="figure-s10-label">
@@ -1483,9 +1510,10 @@ than wording, or vice versa.</p>
 <figcaption class="figure-caption"><p><strong>Figure S10. Feature overlap varies across facts and question
 versions.</strong> Question-version comparisons in Gemma-2-2B and
 Qwen3-4B, with 27 graphs per model: three facts, three versions per
-fact, and three subjects. A, Feature-set Jaccard overlap differences. B,
-Differences in cosine similarity between feature vectors weighted by
-exported influence. Each value subtracts mean similarity for pairs
+fact, and three subjects. A, Feature-set Jaccard overlap differences
+expressed in percentage points. B, Differences in cosine similarity
+between feature vectors weighted by exported influence, retained in
+native cosine units. Each value subtracts mean similarity for pairs
 differing in both fact and version from mean similarity for pairs
 sharing the indicated factor, within a subject. Version labels are
 original, alternative 1, and alternative 2; they do not specify
@@ -1514,10 +1542,11 @@ horizontal axis shows word overlap between the starting question and its
 factual rewording; the vertical axis shows the largest word overlap with
 an other-fact rewording in the same model, subject, and evaluation set.
 Overlap is Jaccard similarity between sets of letter/number words,
-ignoring case and retaining common words. The dashed diagonal marks
-equal overlap; the shaded band spans ±0.05 around it. Panel labels give
-the number of facts with a qualifying matched control under the
-predefined rules, divided by the number evaluated. Points may
+expressed as a percentage, ignoring case and retaining common words. The
+dashed diagonal marks equal overlap; the shaded band spans ±5 percentage
+points around it, equivalent to ±0.05 on the native Jaccard scale. Panel
+labels give the number of facts with a qualifying matched control under
+the predefined rules, divided by the number evaluated. Points may
 overlap.</p></figcaption>
 </figure>
 <p>To examine differences in representation size, we repeated the
@@ -1542,16 +1571,17 @@ limitation described above.</p>
 <a class="figure-artwork" href="../figures/figureS3_equal_feature_counts.svg" data-figure-open aria-label="Enlarge Figure S3: Figure S3: Average overlap differences stay positive with equal numbers of features"><img src="../figures/figureS3_equal_feature_counts.svg" alt="Figure S3: Average overlap differences stay positive with equal numbers of features" loading="lazy" decoding="async" /></a>
 <figcaption class="figure-caption"><p><strong>Figure S3. Average overlap differences stay positive with
 equal numbers of features.</strong> Same-fact minus average other-fact
-Jaccard overlap using all retained features, equal feature counts K, or
-half that count (K/2, rounded down). Within each model, subject, and
-evaluation set, K is the smallest feature count among the included
-factual graphs. Features are sampled independently from each graph
-without replacement, with each sampled graph reused across comparisons
-within a repetition. Subsampled values average 200 repetitions. Lines
-connect values for individual facts; black diamonds are model means.
-Bars are descriptive 95% bootstrap intervals resampling facts, not the
-200 repetitions. Sample sizes are eight Gemma-2-2B, ten Qwen3-1.7B, and
-twelve Qwen3-4B evaluation facts. Dashed lines mark zero difference.</p></figcaption>
+Jaccard overlap, expressed in percentage points (pp), using all retained
+features, equal feature counts K, or half that count (K/2, rounded
+down). Within each model, subject, and evaluation set, K is the smallest
+feature count among the included factual graphs. Features are sampled
+independently from each graph without replacement, with each sampled
+graph reused across comparisons within a repetition. Subsampled values
+average 200 repetitions. Lines connect values for individual facts;
+black diamonds are model means. Bars are descriptive 95% bootstrap
+intervals resampling facts, not the 200 repetitions. Sample sizes are
+eight Gemma-2-2B, ten Qwen3-1.7B, and twelve Qwen3-4B evaluation facts.
+Dashed lines mark zero difference.</p></figcaption>
 </figure>
 <p>Finally, we asked whether the answer-related overlap patterns were
 confined to features at the final input-token position or in the last
@@ -1581,8 +1611,9 @@ Error-graph overlap with a correct same-response graph minus overlap
 with a correct intended-country graph. Lines show selected errors, with
 four A/B cases (blue) and four capital-name cases (orange); colored
 diamonds show format means. Error comparisons share control graphs. All
-differences use Jaccard overlap. Dashed lines mark zero; no confidence
-intervals or hypothesis tests are plotted.</p></figcaption>
+differences use Jaccard overlap and are expressed in percentage points.
+Dashed lines mark zero; no confidence intervals or hypothesis tests are
+plotted.</p></figcaption>
 </figure>
 <h3 id="a5-qwen3-1.7b-results-in-chemistry-and-geography">A5 Qwen3-1.7B
 results in chemistry and geography</h3>
@@ -1603,24 +1634,24 @@ completed Qwen3-4B history analyses are reported separately in Section
 3.6 and Supporting analyses A1 and A7.</p>
 <p>The evaluation sample contained five chemistry and five geography
 facts. All ten had positive same-fact minus average other-fact overlap
-differences, with subject means of 0.0854 and 0.0935, respectively
-(Supplementary Figure S7). Development results were kept separate: mean
-differences were 0.0723 for chemistry, based on four facts, and 0.0771
-for geography, based on five.</p>
-<p>Across the ten evaluation facts, the mean difference was 0.0894, with
-a descriptive 95% fact-bootstrap interval of [0.0820, 0.0976]. The
-one-sided sign-flip test gave p=0.0009766, and the fact-label
-permutation within each subject area gave p=0.0000694 across 14,400
-assignments. These analyses are exploratory, as described in Section
-2.8. Facts reuse comparison questions, so the bootstrap and sign-flip
-procedures do not eliminate dependence between their differences. The
-permutation test assumes exchangeable factual pairings within each
-subject; it does not control differences in shared words or expected
-answers. Supporting methods A5.1 specifies these procedures and the Holm
-correction applied to 15 secondary tests.</p>
-<p>The table reports differences in Jaccard overlap. Positive values
-favor the factual rewording; negative values favor the comparator named
-in the row.</p>
+differences, with subject means of 8.54 and 9.35 percentage points,
+respectively (Supplementary Figure S7). Development results were kept
+separate: mean differences were 7.23 percentage points for chemistry,
+based on four facts, and 7.71 for geography, based on five.</p>
+<p>Across the ten evaluation facts, the mean difference was 8.94
+percentage points, with a descriptive 95% fact-bootstrap interval of
+[8.20, 9.76]. The one-sided sign-flip test gave p=0.0009766, and the
+fact-label permutation within each subject area gave p=0.0000694 across
+14,400 assignments. These analyses are exploratory, as described in
+Section 2.8. Facts reuse comparison questions, so the bootstrap and
+sign-flip procedures do not eliminate dependence between their
+differences. The permutation test assumes exchangeable factual pairings
+within each subject; it does not control differences in shared words or
+expected answers. Supporting methods A5.1 specifies these procedures and
+the Holm correction applied to 15 secondary tests.</p>
+<p>The table reports differences in Jaccard overlap and their intervals
+in percentage points. Positive values favor the factual rewording;
+negative values favor the comparator named in the row.</p>
 <table>
 <colgroup>
 <col style="width: 20%" />
@@ -1639,57 +1670,57 @@ in the row.</p>
 <tbody>
 <tr>
 <td>Same-fact minus average other-fact overlap</td>
-<td style="text-align: right;">0.0894</td>
-<td style="text-align: right;">[0.0820, 0.0976]</td>
+<td style="text-align: right;">8.94</td>
+<td style="text-align: right;">[8.20, 9.76]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Same-fact minus most similar other-fact overlap</td>
-<td style="text-align: right;">0.0780</td>
-<td style="text-align: right;">[0.0686, 0.0879]</td>
+<td style="text-align: right;">7.80</td>
+<td style="text-align: right;">[6.86, 8.79]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Same-fact minus average other-fact overlap, including reconstruction
 errors</td>
-<td style="text-align: right;">0.0887</td>
-<td style="text-align: right;">[0.0814, 0.0968]</td>
+<td style="text-align: right;">8.87</td>
+<td style="text-align: right;">[8.14, 9.68]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Same-fact minus same-pattern invented name overlap</td>
-<td style="text-align: right;">-0.0114</td>
-<td style="text-align: right;">[-0.0203, -0.0011]</td>
+<td style="text-align: right;">-1.14</td>
+<td style="text-align: right;">[-2.03, -0.11]</td>
 <td style="text-align: right;">2/10</td>
 </tr>
 <tr>
 <td>Same-fact minus reworded invented name overlap</td>
-<td style="text-align: right;">0.1059</td>
-<td style="text-align: right;">[0.0917, 0.1200]</td>
+<td style="text-align: right;">10.59</td>
+<td style="text-align: right;">[9.17, 12.00]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Same-pattern control, matched by broad output type</td>
-<td style="text-align: right;">-0.0109</td>
-<td style="text-align: right;">[-0.0208, 0.0005]</td>
+<td style="text-align: right;">-1.09</td>
+<td style="text-align: right;">[-2.08, 0.05]</td>
 <td style="text-align: right;">2/9</td>
 </tr>
 <tr>
 <td>Reworded control, matched by broad output type</td>
-<td style="text-align: right;">0.1059</td>
-<td style="text-align: right;">[0.0918, 0.1194]</td>
+<td style="text-align: right;">10.59</td>
+<td style="text-align: right;">[9.18, 11.94]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Equal feature counts, at the subject minimum K</td>
-<td style="text-align: right;">0.0835</td>
-<td style="text-align: right;">[0.0759, 0.0916]</td>
+<td style="text-align: right;">8.35</td>
+<td style="text-align: right;">[7.59, 9.16]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 <tr>
 <td>Equal feature counts, at half K</td>
-<td style="text-align: right;">0.0331</td>
-<td style="text-align: right;">[0.0303, 0.0361]</td>
+<td style="text-align: right;">3.31</td>
+<td style="text-align: right;">[3.03, 3.61]</td>
 <td style="text-align: right;">10/10</td>
 </tr>
 </tbody>
@@ -1708,8 +1739,9 @@ reported difference averaged 200 subsamples. Every fact’s average
 difference and every repetition’s overall mean remained positive at both
 sizes; the 200 repetitions were not additional independent facts.
 Removing one already-calculated fact difference at a time left means
-between 0.0863 and 0.0917. This last check retained the original
-comparison pools rather than rebuilding them after each removal.</p>
+between 8.63 and 9.17 percentage points. This last check retained the
+original comparison pools rather than rebuilding them after each
+removal.</p>
 <p>Weighting features by their exported influence also gave a positive
 same-fact minus other-fact cosine-similarity difference: 0.0741, with an
 interval of [0.0641, 0.0854] and all ten facts positive. The weighted
@@ -1729,10 +1761,10 @@ graph structure.</p>
 unresolved. None of the ten evaluation facts had a qualifying other-fact
 comparator under any of the three word-matching rules. Word overlap with
 the same-fact rewording exceeded the largest other-fact word overlap by
-0.1806–0.2667. All ten same-fact pairs shared the expected answer,
-whereas none of the 40 directed other-fact comparisons did. These audits
-document gaps in the controls; they did not change inclusion decisions
-or the primary estimates.</p>
+18.06–26.67 percentage points. All ten same-fact pairs shared the
+expected answer, whereas none of the 40 directed other-fact comparisons
+did. These audits document gaps in the controls; they did not change
+inclusion decisions or the primary estimates.</p>
 <figure class="paper-figure" id="figure-s7" aria-labelledby="figure-s7-label">
 <div class="figure-toolbar"><span class="figure-label" id="figure-s7-label">Figure S7</span><div class="figure-actions"><a class="figure-enlarge" href="../figures/figureS7_qwen17_completion.svg" data-figure-open aria-label="Enlarge Figure S7">Enlarge figure</a><a href="../figures/figureS7_qwen17_completion.svg" download>SVG</a><a href="../figures/figureS7_qwen17_completion.png" download>PNG</a></div></div>
 <a class="figure-artwork" href="../figures/figureS7_qwen17_completion.svg" data-figure-open aria-label="Enlarge Figure S7: Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete"><img src="../figures/figureS7_qwen17_completion.svg" alt="Figure S7: Qwen3-1.7B includes chemistry and geography; history sets are incomplete" loading="lazy" decoding="async" /></a>
@@ -1744,11 +1776,11 @@ prompts (91 available in total). Blue, green, and orange denote
 chemistry, geography, and history. B, Each circle represents one
 evaluation fact: five chemistry and five geography facts. Values are
 same-fact rewording overlap minus mean other-fact rewording overlap
-within the same subject and evaluation set. Diamonds show means; bars
-are descriptive 95% fact-bootstrap intervals. The dashed line marks zero
-difference. History has no complete four-prompt sets and therefore no
-overlap estimate in B; its 29 unavailable graph requests exceeded the
-hosted input limit.</p></figcaption>
+within the same subject and evaluation set, expressed in percentage
+points. Diamonds show means; bars are descriptive 95% fact-bootstrap
+intervals. The dashed line marks zero difference. History has no
+complete four-prompt sets and therefore no overlap estimate in B; its 29
+unavailable graph requests exceeded the hosted input limit.</p></figcaption>
 </figure>
 <h4 id="a5.1-additional-methods-and-verification">A5.1 Additional
 methods and verification</h4>
@@ -1816,11 +1848,11 @@ difference at a time without rebuilding its comparison pool.</p>
 <p><strong>Audit scope and chronology.</strong> Verification included
 raw-file hashes, agreement with archived feature representations, and
 reconstruction of previously calculated per-fact Jaccard and
-influence-weighted contrasts to absolute tolerance 1e-12. Earlier subset
-estimates remain in the archive and are not counted as additional
-evidence. The combined 91-graph dataset supplies ten evaluation facts;
-these are different units from the graph-file and token-audit
-denominators below.</p>
+influence-weighted contrasts to absolute tolerance 1e-12 in their
+original analysis units. Earlier subset estimates remain in the archive
+and are not counted as additional evidence. The combined 91-graph
+dataset supplies ten evaluation facts; these are different units from
+the graph-file and token-audit denominators below.</p>
 <p>Retrospective saved-data audits used the export, word-matching, and
 tokenizer procedures in Section 2.4. Export checks covered all 91
 graphs; word-matching checks covered the ten included evaluation facts;
@@ -1868,9 +1900,12 @@ collapsed. For each starting question, Jaccard overlap with its factual
 rewording is compared with mean overlap across all other included
 factual rewordings in the same model, subject, and evaluation set.
 Invented name controls form a separate comparison. Gold and zorium are
-development examples; the feature letters and the scores 0.50, 0.30, and
-+0.20 are illustrative, not measured results. Facts, rather than graph
-pairs or subsampling repetitions, are the summary units.</p></figcaption>
+development examples; the feature letters and the overlaps of 50% and
+30%, and their difference of +20 percentage points (pp), are
+illustrative, not measured results. Percentages equal 100 times Jaccard;
+differences between them are percentage points, not relative percentage
+increases. Facts, rather than graph pairs or subsampling repetitions,
+are the summary units.</p></figcaption>
 </figure>
 <h3 id="a7-historical-date-comparisons">A7 Historical-date
 comparisons</h3>
@@ -1892,13 +1927,14 @@ model’s response.</p>
 context and four reversed that order. Comparing every question-first
 graph with every context-first graph produced 16 comparisons per event
 pair. Mean Jaccard overlap was higher when predicted letters matched:
-0.7396 versus 0.5075 for the document-history pair, and 0.7758 versus
-0.5614 for the spaceflight pair. Each mean summarized eight graph pairs.
+73.96% versus 50.75% for the document-history pair, and 77.58% versus
+56.14% for the spaceflight pair. Each mean summarized eight graph pairs.
 These comparisons reused the same graphs and were not eight independent
 facts.</p>
 <p>We also grouped those comparisons by whether they asked about the
 same event and required the same correct answer letter. Each cell below
-averages four comparisons between the two question/context orders.</p>
+gives mean feature overlap (%) across four comparisons between the two
+question/context orders.</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -1922,37 +1958,39 @@ letter</th>
 <tbody>
 <tr>
 <td>Declaration of Independence / Treaty of Paris</td>
-<td style="text-align: right;">0.7207</td>
-<td style="text-align: right;">0.6533</td>
-<td style="text-align: right;">0.5595</td>
-<td style="text-align: right;">0.5608</td>
+<td style="text-align: right;">72.07%</td>
+<td style="text-align: right;">65.33%</td>
+<td style="text-align: right;">55.95%</td>
+<td style="text-align: right;">56.08%</td>
 </tr>
 <tr>
 <td>Sputnik 1 / Explorer 1</td>
-<td style="text-align: right;">0.6915</td>
-<td style="text-align: right;">0.6472</td>
-<td style="text-align: right;">0.6795</td>
-<td style="text-align: right;">0.6562</td>
+<td style="text-align: right;">69.15%</td>
+<td style="text-align: right;">64.72%</td>
+<td style="text-align: right;">67.95%</td>
+<td style="text-align: right;">65.62%</td>
 </tr>
 </tbody>
 </table>
 <p>Grouping by the required letter did not produce the same consistent
-pattern as grouping by the predicted letter. Average overlap was 0.1268
-higher for matching required letters in the document-history pair, but
-only 0.0015 higher in the spaceflight pair. In contrast, matching
-predicted letters accompanied higher overlap in both event pairs.</p>
+pattern as grouping by the predicted letter. Average overlap was 12.68
+percentage points higher for matching required letters in the
+document-history pair, but only 0.15 percentage points higher in the
+spaceflight pair. In contrast, matching predicted letters accompanied
+higher overlap in both event pairs.</p>
 <p>To compare these results with the geography analysis, we calculated
 same-event minus different-event overlap separately when required
 letters matched and when they differed. Subtracting the changed-letter
-contrast from the matching-letter contrast gave differences of 0.0686
-for document history and 0.0210 for spaceflight. Both remained positive
-with influence-weighted cosine similarity, with each graph-location
-filter described in A4, and when averaging 200 equal-feature-count
-subsamples at K and half K. Here, K was the smallest feature count among
-the eight graphs in each event pair. These checks concern the
-required-letter contrasts; they are not additional filtered tests of the
-predicted-letter grouping. The subsampling result refers to the average
-across repetitions, not to every repetition being positive.</p>
+contrast from the matching-letter contrast gave differences of 6.86
+percentage points for document history and 2.10 for spaceflight. Both
+remained positive with influence-weighted cosine similarity, with each
+graph-location filter described in A4, and when averaging 200
+equal-feature-count subsamples at K and half K. Here, K was the smallest
+feature count among the eight graphs in each event pair. These checks
+concern the required-letter contrasts; they are not additional filtered
+tests of the predicted-letter grouping. The subsampling result refers to
+the average across repetitions, not to every repetition being
+positive.</p>
 <p>The source data retain all 56 unordered graph comparisons: 28 within
 each event pair, including comparisons within and across
 question/context orders. They also retain comparison categories with no

@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-11T13:12:55.857644</dc:date>
+    <dc:date>2026-11-13T09:41:56.754930</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 30.720071 107.828715 30.720071 110.940974
 L 30.720071 148.288077 
 Q 30.720071 151.400336 33.819997 151.400336 
 z
-" clip-path="url(#p7ee92f9b44)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p4848a73c3e)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 33.819997 200.307257 
@@ -53,7 +53,7 @@ Q 30.720071 156.735636 30.720071 159.847895
 L 30.720071 197.194998 
 Q 30.720071 200.307257 33.819997 200.307257 
 z
-" clip-path="url(#p7ee92f9b44)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p4848a73c3e)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 33.819997 249.214178 
@@ -66,7 +66,7 @@ Q 30.720071 205.642557 30.720071 208.754816
 L 30.720071 246.101919 
 Q 30.720071 249.214178 33.819997 249.214178 
 z
-" clip-path="url(#p7ee92f9b44)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p4848a73c3e)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(28.062992 84.183391)">Models tested: Gemma-2-2B, Qwen3-1.7B,</text>
@@ -116,7 +116,7 @@ Q 278.714129 106.717194 278.714129 109.829453
 L 278.714129 169.406975 
 Q 278.714129 172.519233 281.814054 172.519233 
 z
-" clip-path="url(#p6038841cf8)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pef4bb1a533)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 281.814054 250.325699 
@@ -129,7 +129,7 @@ Q 278.714129 184.52366 278.714129 187.635918
 L 278.714129 247.21344 
 Q 278.714129 250.325699 281.814054 250.325699 
 z
-" clip-path="url(#p6038841cf8)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#pef4bb1a533)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_12">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(276.057049 84.183391)">Model tested: Qwen3-4B</text>
@@ -181,7 +181,7 @@ Q 30.720071 362.367008 30.720071 365.479267
 L 30.720071 431.725914 
 Q 30.720071 434.838173 33.819997 434.838173 
 z
-" clip-path="url(#p3b7de4c4ea)" style="fill: #fff2e7; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p8b3163bc9e)" style="fill: #fff2e7; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 33.819997 491.52574 
@@ -194,7 +194,7 @@ Q 30.720071 443.508036 30.720071 446.620295
 L 30.720071 488.413482 
 Q 30.720071 491.52574 33.819997 491.52574 
 z
-" clip-path="url(#p3b7de4c4ea)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p8b3163bc9e)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 33.819997 547.101787 
@@ -207,7 +207,7 @@ Q 30.720071 499.084083 30.720071 502.196341
 L 30.720071 543.989528 
 Q 30.720071 547.101787 33.819997 547.101787 
 z
-" clip-path="url(#p3b7de4c4ea)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p8b3163bc9e)" style="fill: #f0f5f8; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_19">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(28.062992 339.833205)">Model tested: Qwen3-4B</text>
@@ -250,7 +250,7 @@ Q 278.714129 362.367008 278.714129 365.479267
 L 278.714129 429.502873 
 Q 278.714129 432.615131 281.814054 432.615131 
 z
-" clip-path="url(#p6228609ada)" style="fill: #eff7f3; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p865f0b2415)" style="fill: #eff7f3; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
     <path d="M 281.814054 512.644638 
@@ -263,7 +263,7 @@ Q 278.714129 442.396515 278.714129 445.508774
 L 278.714129 509.53238 
 Q 278.714129 512.644638 281.814054 512.644638 
 z
-" clip-path="url(#p6228609ada)" style="fill: #fff2e7; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
+" clip-path="url(#p865f0b2415)" style="fill: #fff2e7; stroke: #d6e0e6; stroke-width: 0.7; stroke-linejoin: miter"/>
    </g>
    <g id="text_27">
     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; fill: #203544" transform="translate(276.057049 339.833205)">Model tested: Qwen3-4B</text>
@@ -312,16 +312,16 @@ L 385.168682 435.636312
   </g>
  </g>
  <defs>
-  <clipPath id="p7ee92f9b44">
+  <clipPath id="p4848a73c3e">
    <rect x="28.062992" y="75.15" width="221.423265" height="222.304186"/>
   </clipPath>
-  <clipPath id="p6038841cf8">
+  <clipPath id="pef4bb1a533">
    <rect x="276.057049" y="75.15" width="221.423265" height="222.304186"/>
   </clipPath>
-  <clipPath id="p3b7de4c4ea">
+  <clipPath id="p8b3163bc9e">
    <rect x="28.062992" y="330.799814" width="221.423265" height="222.304186"/>
   </clipPath>
-  <clipPath id="p6228609ada">
+  <clipPath id="p865f0b2415">
    <rect x="276.057049" y="330.799814" width="221.423265" height="222.304186"/>
   </clipPath>
  </defs>

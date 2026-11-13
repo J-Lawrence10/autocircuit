@@ -1,6 +1,11 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-13",
   "purpose": "PI-facing evidence and claim summary with one current sample per model; no new model requests or statistical analysis",
+  "presentation_units": {
+    "jaccard_difference": "percentage_points",
+    "display_multiplier": 100,
+    "source_values_changed": false
+  },
   "source_hashes": {
     "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure2_summary.csv": "d0a372f29e22e2fa1cef750f450cd173a772883d2ddc9d01a43d932d5e478ece",
     "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\figure5_block_contrasts.csv": "4d8811307ef6c25949a5b2be25cd88db7eb80d8b216961d9cef51ea15cd55079",
@@ -9,13 +14,13 @@
     "data\\model_extension\\final_corrected_scoring_20261111\\paper_figures\\tables\\table_history_pilot.csv": "b950a3bd2d5233a28c9557b71a3d16d726e51660338a346e4fed2746a220c634",
     "data\\model_extension\\history_pilot_graphs_20261110\\analysis\\results.json": "d5e850178804cfe410628d9cfc49901c5cf9c9a1728e5cf021e2ef6c0b88b1a3",
     "data\\model_extension\\qwen17_completion_20261106\\analysis\\results.json": "7b7c6ecf14c027c868a8eb6553c1b1f66bf2acf4397dd4318ec7d0fee11d477b",
-    "docs\\papers\\INTEGRATED_PAPER_OUTLINE.md": "8da33f99897d701f78d4df1b5760fa27a657fa44e29b0b9f68b1afbc956c4560",
+    "docs\\papers\\INTEGRATED_PAPER_OUTLINE.md": "99cccb1d9c8ebaf85e23da6100291b557c83e8d884eb96b138def0bc426c8b7c",
     "scripts\\figure_plain_language.py": "c118e1b17ade1504a62f8c085c4c5f8ef520497bb36532143fd236a878065928"
   },
-  "script_sha256": "fb403fce868ff737917afe09cc25ba0a193c0a7aa2255dbe30852128e3a9bf6b",
+  "script_sha256": "8b0821c799c96804d4bebd7350251cd31231a41a3ce556d6efdcd82bfad12420",
   "output_hashes": {
-    "paper_claims_map.png": "519a52ab591f07dc3fb0d5f2b83b28beb304c44267de686a9a0cc8894bc03ad0",
-    "paper_claims_map.svg": "72990553e6cf4bf86670d4e7c857acadac84b443af18669c0cf6999bf5fefa3a"
+    "paper_claims_map.png": "6b5dc8c704a3ba0e14f605c4b591d1fd7267eb6909a54f93477d3097e80a9136",
+    "paper_claims_map.svg": "e2d5aa402267c56b636a0ae96ee8802bf13869b6241719f7f9e92bf78f4253f4"
   },
   "checks": [
     "Current evaluation-fact counts 8/10/12; model means 0.170/0.089/0.218",

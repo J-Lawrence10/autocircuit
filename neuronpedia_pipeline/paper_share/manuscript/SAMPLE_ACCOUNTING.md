@@ -38,7 +38,7 @@ Qwen3-4B has all 147 planned graphs: 120 four-version graphs and 27 fact-by-word
 
 ## History and output-type-matched controls
 
-Two of five Qwen3-4B history evaluation facts are included and three are excluded because the predicted next token does not provide the complete accepted answer. All 20 history evaluation graphs are available. The included questions concern Columbus's flagship and Franz Ferdinand. Each uses the other as its comparator, giving differences of 0.601 and 0.395. Both facts' invented name controls predict punctuation, so the output-type-matched control comparison includes ten Qwen3-4B facts for each control type, rather than the twelve in the primary analysis.
+Two of five Qwen3-4B history evaluation facts are included and three are excluded because the predicted next token does not provide the complete accepted answer. All 20 history evaluation graphs are available. The included questions concern Columbus's flagship and Franz Ferdinand. Each uses the other as its comparator, giving feature-overlap differences of 60.1 and 39.5 percentage points. Both facts' invented name controls predict punctuation, so the output-type-matched control comparison includes ten Qwen3-4B facts for each control type, rather than the twelve in the primary analysis.
 
 ## Separate Qwen3-4B comparisons
 

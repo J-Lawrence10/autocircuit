@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-11T13:15:44.955835</dc:date>
+    <dc:date>2026-11-13T09:46:26.071606</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 39.168 173.376 39.168 183.456
 L 39.168 486.864 
 Q 39.168 496.944 51.408 496.944 
 z
-" clip-path="url(#p45563e877d)" style="fill: #f0f5f7"/>
+" clip-path="url(#p2472dac69d)" style="fill: #f0f5f7"/>
    </g>
    <g id="patch_3">
     <path d="M 436.968 496.944 
@@ -53,7 +53,7 @@ Q 424.728 173.376 424.728 183.456
 L 424.728 486.864 
 Q 424.728 496.944 436.968 496.944 
 z
-" clip-path="url(#p45563e877d)" style="fill: #f0f5f7"/>
+" clip-path="url(#p2472dac69d)" style="fill: #f0f5f7"/>
    </g>
    <g id="patch_4">
     <path d="M 822.528 496.944 
@@ -66,7 +66,7 @@ Q 810.288 173.376 810.288 183.456
 L 810.288 486.864 
 Q 810.288 496.944 822.528 496.944 
 z
-" clip-path="url(#p45563e877d)" style="fill: #f0f5f7"/>
+" clip-path="url(#p2472dac69d)" style="fill: #f0f5f7"/>
    </g>
    <g id="patch_5">
     <path d="M 51.408 658.224 
@@ -79,37 +79,37 @@ Q 39.168 506.016 39.168 516.096
 L 39.168 648.144 
 Q 39.168 658.224 51.408 658.224 
 z
-" clip-path="url(#p45563e877d)" style="fill: #f3f6fa; stroke: #d5e0e5; stroke-width: 0.9; stroke-linejoin: miter"/>
+" clip-path="url(#p2472dac69d)" style="fill: #f3f6fa; stroke: #d5e0e5; stroke-width: 0.9; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 226.44 664.255266 
 Q 226.44 674.35063 226.44 682.99255 
-" clip-path="url(#p45563e877d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 229.44 676.99255 
 L 226.44 682.99255 
 L 223.44 676.99255 
 z
-" clip-path="url(#p45563e877d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_7">
     <path d="M 612 664.255266 
 Q 612 674.35063 612 682.99255 
-" clip-path="url(#p45563e877d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 615 676.99255 
 L 612 682.99255 
 L 609 676.99255 
 z
-" clip-path="url(#p45563e877d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_8">
     <path d="M 997.56 664.255266 
 Q 997.56 674.35063 997.56 682.99255 
-" clip-path="url(#p45563e877d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: none; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 1000.56 676.99255 
 L 997.56 682.99255 
 L 994.56 676.99255 
 z
-" clip-path="url(#p45563e877d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p2472dac69d)" style="fill: #247867; stroke: #247867; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_9">
     <path d="M 51.408 809.424 
@@ -122,12 +122,12 @@ Q 39.168 692.496 39.168 702.576
 L 39.168 799.344 
 Q 39.168 809.424 51.408 809.424 
 z
-" clip-path="url(#p45563e877d)" style="fill: #eaf4f0"/>
+" clip-path="url(#p2472dac69d)" style="fill: #eaf4f0"/>
    </g>
    <g id="line2d_1">
     <path d="M 48.96 937.44 
 L 1175.04 937.44 
-" clip-path="url(#p45563e877d)" style="fill: none; stroke: #d5e0e5; stroke-linecap: square"/>
+" clip-path="url(#p2472dac69d)" style="fill: none; stroke: #d5e0e5; stroke-linecap: square"/>
    </g>
    <g id="text_1">
     <text style="font-weight: 700; font-size: 24px; font-family: 'DejaVu Sans'; fill: #193747" transform="translate(48.96 48.47625)">Do similar attribution graphs reflect the fact being asked about,</text>
@@ -138,7 +138,7 @@ L 1175.04 937.44
    </g>
    <g id="text_3">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #506774" transform="translate(1100.582187 37.838438)">PI DISCUSSION</text>
-    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #506774" transform="translate(1078.48375 50.555938)">11 November 2026</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #506774" transform="translate(1078.48375 50.555938)">13 November 2026</text>
    </g>
    <g id="text_4">
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="48.96" y="144.190125" transform="rotate(-0 48.96 144.190125)">Feature overlap measures shared learned components in saved graphs. It does not measure answer accuracy.</text>
@@ -180,19 +180,19 @@ L 1175.04 937.44
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="68.544" y="352.846125" transform="rotate(-0 68.544 352.846125)">Gemma-2-2B</text>
    </g>
    <g id="text_16">
-    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="352.846125" transform="rotate(-0 384.336 352.846125)">+0.170   (n=8)</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="352.846125" transform="rotate(-0 384.336 352.846125)">+17.0 pp   (n=8)</text>
    </g>
    <g id="text_17">
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="68.544" y="381.070125" transform="rotate(-0 68.544 381.070125)">Qwen3-1.7B</text>
    </g>
    <g id="text_18">
-    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="381.070125" transform="rotate(-0 384.336 381.070125)">+0.089   (n=10)</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="381.070125" transform="rotate(-0 384.336 381.070125)">+8.9 pp   (n=10)</text>
    </g>
    <g id="text_19">
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="68.544" y="409.294125" transform="rotate(-0 68.544 409.294125)">Qwen3-4B</text>
    </g>
    <g id="text_20">
-    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="409.294125" transform="rotate(-0 384.336 409.294125)">+0.218   (n=12)</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="384.336" y="409.294125" transform="rotate(-0 384.336 409.294125)">+21.8 pp   (n=12)</text>
    </g>
    <g id="text_21">
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #193747" transform="translate(68.544 449.862281)">The fact, wording, and expected answer</text>
@@ -205,13 +205,13 @@ L 1175.04 937.44
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="454.104" y="363.934125" transform="rotate(-0 454.104 363.934125)">Same A/B answer</text>
    </g>
    <g id="text_24">
-    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="769.896" y="364.461187" transform="rotate(-0 769.896 364.461187)">+0.0628</text>
+    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="769.896" y="364.461187" transform="rotate(-0 769.896 364.461187)">+6.28 pp</text>
    </g>
    <g id="text_25">
     <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #193747" x="454.104" y="406.270125" transform="rotate(-0 454.104 406.270125)">Changed A/B answer</text>
    </g>
    <g id="text_26">
-    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="769.896" y="406.797187" transform="rotate(-0 769.896 406.797187)">-0.0022</text>
+    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #256b91" x="769.896" y="406.797187" transform="rotate(-0 769.896 406.797187)">-0.22 pp</text>
    </g>
    <g id="text_27">
     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #506774" transform="translate(454.104 450.490359)">Same words and token counts within each pair;</text>
@@ -297,7 +297,7 @@ L 1175.04 937.44
     <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #193747" transform="translate(820.08 888.461109)">Near-zero does not establish absent knowledge.</text>
    </g>
    <g id="text_49">
-    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #506774" x="48.96" y="961.414594" transform="rotate(-0 48.96 961.414594)">Values are differences in Jaccard overlap, not percentages. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #506774" x="48.96" y="961.414594" transform="rotate(-0 48.96 961.414594)">pp = percentage points of Jaccard feature overlap, not relative percent changes. n counts evaluation facts. Arrows connect evidence to interpretation, not causes.</text>
    </g>
    <g id="text_50">
     <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #506774" x="48.96" y="983.210672" transform="rotate(-0 48.96 983.210672)">Sources: Figures 2 and 4–6; Supplements S3/S6/S7/S9; final corrected scoring. One primary sample per model.</text>
@@ -305,7 +305,7 @@ L 1175.04 937.44
   </g>
  </g>
  <defs>
-  <clipPath id="p45563e877d">
+  <clipPath id="p2472dac69d">
    <rect x="0" y="0" width="1224" height="1008"/>
   </clipPath>
  </defs>
